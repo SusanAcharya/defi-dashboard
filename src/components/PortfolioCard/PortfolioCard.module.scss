@@ -1,0 +1,163 @@
+@import '@/styles/mixins.scss';
+
+.portfolioCard {
+  background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+  border: 3px solid rgba(212, 175, 55, 0.3); // Thicker gold border
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.9),
+    inset 0 2px 0 rgba(212, 175, 55, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.6),
+    0 0 50px rgba(212, 175, 55, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  // Add crime scene tape effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(212, 175, 55, 0.8) 0px,
+      rgba(212, 175, 55, 0.8) 20px,
+      rgba(0, 0, 0, 0.8) 20px,
+      rgba(0, 0, 0, 0.8) 40px
+    );
+    z-index: 2;
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+    gap: $spacing-lg;
+    position: relative;
+    z-index: 1;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__profile {
+    @include flex-center;
+    gap: $spacing-md;
+  }
+
+  &__avatar {
+    width: 60px; // Mobile-first: smaller
+    height: 60px;
+    border-radius: $radius-full;
+    object-fit: cover;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    flex-shrink: 0;
+    position: relative;
+
+    @include desktop {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  &__info {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__username {
+    color: $color-accent-yellow;
+    font-size: $font-size-lg; // Mobile-first: smaller
+    font-weight: $font-weight-semibold;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+    letter-spacing: 1px;
+    animation: pulse-glow 3s ease-in-out infinite;
+
+    @include desktop {
+      font-size: $font-size-xl;
+    }
+  }
+
+  &__alias {
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+  }
+
+  &__networth {
+    @include flex-column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+
+    @include mobile {
+      align-items: flex-start;
+      width: 100%;
+    }
+  }
+
+  &__label {
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__value {
+    color: $color-accent-yellow;
+    font-size: $font-size-xl; // Mobile-first: smaller
+    font-weight: $font-weight-bold;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+    letter-spacing: 2px;
+
+    @include desktop {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  &__change {
+    background: linear-gradient(135deg, #4a7c59 0%, #3a5c47 100%);
+    color: $color-text-primary;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    border: 1px solid rgba(74, 124, 89, 0.3);
+    box-shadow: 0 2px 6px rgba(74, 124, 89, 0.3);
+  }
+
+  &__divider {
+    height: 1px;
+    background: $color-divider;
+    margin: $spacing-md 0;
+  }
+
+  &__metrics {
+    display: grid;
+    grid-template-columns: 1fr; // Mobile-first: single column
+    gap: $spacing-sm; // Mobile-first: smaller gap
+
+    @include desktop {
+      grid-template-columns: repeat(3, 1fr);
+      gap: $spacing-md;
+    }
+  }
+
+  &__metric {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__metricLabel {
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+  }
+
+  &__metricValue {
+    color: $color-accent-yellow;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+  }
+}
+

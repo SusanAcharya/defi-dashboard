@@ -1,0 +1,37 @@
+@import '@/styles/mixins.scss';
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: transparent; // Let body gradient show through
+  position: relative;
+
+  &__content {
+    display: flex;
+    flex: 1;
+    margin-top: 60px; // Smaller header on mobile
+    padding-bottom: 0; // No padding on mobile (bottom nav handles spacing)
+
+    @include desktop {
+      margin-top: 80px;
+      padding-bottom: 0;
+    }
+  }
+
+  &__main {
+    flex: 1;
+    width: 100%;
+    padding: $spacing-md; // Mobile-first: smaller padding
+    padding-bottom: 90px; // Space for bottom nav
+
+    @include desktop {
+      margin-left: 350px; // Account for fixed sidebar width
+      width: calc(100% - 250px); // Fill remaining space
+      max-width: calc(#{$max-width-desktop} - 250px); // Account for sidebar in max-width
+      padding: $spacing-lg;
+      padding-bottom: $spacing-lg;
+    }
+  }
+}
+

@@ -1,0 +1,298 @@
+@import '@/styles/mixins.scss';
+
+.swap {
+  width: 100%; // Mobile-first: full width
+  margin: 0 auto;
+
+  @include desktop {
+    max-width: 600px;
+  }
+
+  &__container {
+    @include flex-column;
+    gap: $spacing-md; // Mobile-first: smaller gap
+
+    @include desktop {
+      gap: $spacing-lg;
+    }
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-sm; // Mobile-first: smaller margin
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+
+    @include desktop {
+      margin-bottom: $spacing-md;
+    }
+
+    h2 {
+      font-size: $font-size-lg; // Mobile-first: smaller title
+
+      @include desktop {
+        font-size: $font-size-2xl;
+      }
+    }
+  }
+
+  &__history {
+    @include button-reset;
+    color: $color-accent-blue;
+    font-size: $font-size-xs; // Mobile-first: smaller text
+    text-decoration: underline;
+    padding: $spacing-xs;
+    -webkit-tap-highlight-color: transparent;
+
+    @include desktop {
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__box {
+    @include flex-column;
+    gap: $spacing-md;
+    padding: $spacing-md; // Mobile-first: smaller padding
+    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: $radius-md; // Mobile-first: smaller radius
+    box-shadow: 
+      0 4px 15px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+
+    @include desktop {
+      padding: $spacing-lg;
+      border-radius: $radius-lg;
+    }
+  }
+
+  &__input {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__inputHeader {
+    @include flex-between;
+    color: $color-text-secondary;
+    font-size: $font-size-xs; // Mobile-first: smaller text
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+
+    @include desktop {
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__balance {
+    color: $color-accent-blue;
+    cursor: pointer;
+    padding: $spacing-xs;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+
+    @include desktop {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__inputContent {
+    display: flex;
+    flex-direction: column; // Mobile-first: stack vertically
+    gap: $spacing-sm;
+
+    @include desktop {
+      flex-direction: row;
+      gap: $spacing-md;
+      align-items: center;
+    }
+  }
+
+  &__amount {
+    width: 100%; // Mobile-first: full width
+    background: $color-bg-tertiary;
+    border: 2px solid $color-border;
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    color: $color-text-primary;
+    font-size: $font-size-lg; // Mobile-first: smaller font
+    font-weight: $font-weight-semibold;
+    min-height: 52px; // Touch target size
+    -webkit-tap-highlight-color: transparent;
+
+    @include desktop {
+      flex: 1;
+      font-size: $font-size-xl;
+      min-height: auto;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent-yellow; // Gold accent
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+  }
+
+  &__tokenButton {
+    @include button-reset;
+    padding: $spacing-md; // Mobile-first: adequate padding
+    background: linear-gradient(135deg, rgba(37, 37, 37, 0.9) 0%, rgba(26, 26, 26, 1) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-base;
+    width: 100%; // Mobile-first: full width
+    min-height: 52px; // Touch target size
+    transition: all $transition-fast;
+    -webkit-tap-highlight-color: transparent;
+    text-align: center;
+
+    @include desktop {
+      padding: $spacing-md $spacing-lg;
+      width: auto;
+      min-width: 120px;
+      min-height: auto;
+    }
+
+    &:active {
+      background: linear-gradient(135deg, rgba(37, 37, 37, 1) 0%, rgba(26, 26, 26, 1) 100%);
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: scale(0.98);
+    }
+
+    @include desktop {
+      &:hover {
+        background: $color-bg-card;
+        border-color: $color-accent-yellow;
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      }
+    }
+  }
+
+  &__swapButton {
+    @include button-reset;
+    width: 56px; // Mobile-first: larger touch target
+    height: 56px;
+    margin: $spacing-sm auto; // Mobile-first: more margin
+    background: linear-gradient(135deg, rgba(37, 37, 37, 0.9) 0%, rgba(26, 26, 26, 1) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: $radius-full;
+    color: $color-text-primary;
+    font-size: $font-size-2xl; // Mobile-first: larger icon
+    @include flex-center;
+    transition: all $transition-fast;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+
+    @include desktop {
+      width: 48px;
+      height: 48px;
+      font-size: $font-size-xl;
+      margin: 0 auto;
+    }
+
+    &:active {
+      background: linear-gradient(135deg, rgba(37, 37, 37, 1) 0%, rgba(26, 26, 26, 1) 100%);
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: rotate(180deg) scale(0.95);
+    }
+
+    @include desktop {
+      &:hover {
+        background: $color-bg-card;
+        border-color: $color-accent-yellow;
+        transform: rotate(180deg);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      }
+    }
+  }
+
+  &__details {
+    @include flex-column;
+    gap: $spacing-xs; // Mobile-first: smaller gap
+    padding: $spacing-sm; // Mobile-first: smaller padding
+    background: rgba(37, 37, 37, 0.6);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: $radius-md;
+
+    @include desktop {
+      gap: $spacing-sm;
+      padding: $spacing-md;
+    }
+  }
+
+  &__detail {
+    @include flex-between;
+    color: $color-text-secondary;
+    font-size: $font-size-xs; // Mobile-first: smaller text
+    padding: $spacing-xs 0;
+
+    @include desktop {
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__tokenList {
+    @include flex-column;
+    gap: $spacing-xs; // Mobile-first: smaller gap
+    max-height: 60vh; // Mobile-first: use viewport height
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+
+    @include desktop {
+      gap: $spacing-sm;
+      max-height: 400px;
+    }
+  }
+
+  &__tokenItem {
+    @include button-reset;
+    @include flex-between;
+    padding: $spacing-md;
+    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+    min-height: 60px; // Mobile-first: larger touch target
+    -webkit-tap-highlight-color: transparent;
+
+    @include desktop {
+      min-height: auto;
+    }
+
+    &:active {
+      background: linear-gradient(135deg, rgba(37, 37, 37, 1) 0%, rgba(26, 26, 26, 1) 100%);
+      border-color: rgba(212, 175, 55, 0.3);
+      transform: scale(0.98);
+    }
+
+    @include desktop {
+      &:hover {
+        background: $color-bg-tertiary;
+        border-color: rgba(212, 175, 55, 0.3);
+      }
+    }
+  }
+
+  &__tokenInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__tokenSymbol {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &__tokenName {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+

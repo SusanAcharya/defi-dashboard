@@ -1,0 +1,121 @@
+@import './variables.scss';
+
+// Responsive breakpoints - Mobile First
+// Default styles are for mobile, then enhance for larger screens
+
+@mixin mobile {
+  // Mobile is default, this is for mobile-specific overrides if needed
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-mobile + 1px}) and (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-tablet + 1px}) {
+    @content;
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Card styles - Mobile First with gritty mafia theme
+@mixin card {
+  background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+  border-radius: $radius-md; // Mobile-first: smaller radius
+  padding: $spacing-md; // Mobile-first: smaller padding
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(212, 175, 55, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(212, 175, 55, 0.1);
+  border: 2px solid rgba(212, 175, 55, 0.2); // Gold border
+  position: relative;
+  overflow: hidden;
+
+  // Add gritty texture
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 0, 0, 0.1) 10px,
+        rgba(0, 0, 0, 0.1) 20px
+      ),
+      radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // Add moving gradient overlay
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    animation: float 25s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // Ensure content is above overlays
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @include desktop {
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+  }
+}
+
+// Text truncate
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Button reset
+@mixin button-reset {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+

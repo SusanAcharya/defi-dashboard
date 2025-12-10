@@ -1,0 +1,111 @@
+@import '@/styles/mixins.scss';
+
+.send {
+  width: 100%; // Mobile-first: full width
+  margin: 0 auto;
+
+  @include desktop {
+    max-width: 600px;
+  }
+
+  &__form {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+
+  &__field {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__field label {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__tokenButton {
+    @include button-reset;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+    text-align: left;
+    transition: all $transition-fast;
+
+    &:hover {
+      border-color: $color-accent-blue;
+    }
+  }
+
+  &__input {
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent-blue;
+    }
+  }
+
+  &__balance {
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+  }
+
+  &__recipient {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__fee {
+    @include flex-between;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__tokenList {
+    @include flex-column;
+    gap: $spacing-sm;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  &__tokenItem {
+    @include button-reset;
+    @include flex-between;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+    }
+  }
+
+  &__tokenInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__tokenSymbol {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &__tokenName {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+

@@ -1,0 +1,71 @@
+@import '@/styles/mixins.scss';
+
+.bottomNav {
+  // Mobile-first: Visible by default, sticky at bottom
+  display: flex;
+  position: fixed; // Sticky positioning
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+  backdrop-filter: blur(15px);
+  border-top: 3px solid rgba(212, 175, 55, 0.3); // Thicker gold accent
+  padding: $spacing-sm $spacing-md;
+  z-index: 1000; // High z-index to stay on top
+  @include flex-between;
+  box-shadow: 
+    0 -4px 20px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(212, 175, 55, 0.2),
+    0 0 30px rgba(212, 175, 55, 0.1);
+  overflow: hidden;
+
+  // Add gritty scan effect
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    animation: gritty-scan 12s linear infinite;
+    pointer-events: none;
+  }
+
+  @include desktop {
+    display: none; // Hide on desktop
+  }
+
+  &__item {
+    @include button-reset;
+    @include flex-column;
+    @include flex-center;
+    gap: $spacing-xs;
+    flex: 1;
+    padding: $spacing-sm;
+    color: $color-text-secondary;
+    transition: color $transition-fast;
+    min-height: 56px; // Touch target size
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+      color: $color-text-primary;
+      transform: scale(0.95);
+    }
+
+    &.bottomNav__item_active {
+      color: $color-accent-yellow; // Gold for active
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    }
+  }
+
+  &__icon {
+    font-size: $font-size-xl; // Mobile-first: larger icons
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+  }
+}
+

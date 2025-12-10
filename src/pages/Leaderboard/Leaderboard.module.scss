@@ -1,0 +1,188 @@
+@import '@/styles/mixins.scss';
+
+.leaderboard {
+  &__tabs {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    flex-wrap: wrap;
+  }
+
+  &__tab {
+    @include button-reset;
+    padding: $spacing-sm $spacing-md;
+    background: $color-bg-secondary;
+    color: $color-text-secondary;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+      color: $color-text-primary;
+    }
+
+    &_active {
+      background: $color-accent-blue;
+      color: $color-text-primary;
+    }
+  }
+
+  &__list {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__row {
+    @include flex-between;
+    padding: $spacing-md;
+    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+    border-radius: $radius-md;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 
+      0 4px 15px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+    transition: all $transition-fast;
+    position: relative;
+    overflow: hidden;
+
+    // Add rank badge effect
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: rgba(212, 175, 55, 0.3);
+    }
+
+    &:active {
+      background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
+      border-color: rgba(212, 175, 55, 0.4);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(212, 175, 55, 0.3);
+    }
+
+    @include desktop {
+      &:hover {
+        background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
+        border-color: rgba(212, 175, 55, 0.4);
+        box-shadow: 
+          0 6px 20px rgba(0, 0, 0, 0.9),
+          0 0 20px rgba(212, 175, 55, 0.3);
+        transform: translateX(3px);
+      }
+    }
+
+    &:first-child {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(201, 169, 97, 0.15) 100%);
+      border: 3px solid rgba(212, 175, 55, 0.5);
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.4),
+        inset 0 2px 0 rgba(212, 175, 55, 0.3),
+        0 0 40px rgba(212, 175, 55, 0.3);
+      animation: subtle-glow 3s ease-in-out infinite;
+
+      &::before {
+        width: 6px;
+        background: rgba(212, 175, 55, 0.8);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+      }
+    }
+  }
+
+  &__rank {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-accent-yellow;
+    min-width: 60px;
+  }
+
+  &__user {
+    flex: 1;
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__wallet {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+  }
+
+  &__alias {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__emeralds {
+    @include flex-center;
+    gap: $spacing-sm;
+  }
+
+  &__emeraldIcon {
+    font-size: $font-size-lg;
+  }
+
+  &__emeraldCount {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-accent-yellow;
+  }
+
+  &__profile {
+    @include flex-center;
+    gap: $spacing-lg;
+    padding: $spacing-lg;
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  &__profileAvatar {
+    width: 80px; // Mobile-first: smaller
+    height: 80px;
+    border-radius: $radius-full;
+    object-fit: cover;
+    border: 3px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    flex-shrink: 0;
+    position: relative;
+
+    @include desktop {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  &__profileInfo {
+    @include flex-column;
+    gap: $spacing-sm;
+    flex: 1;
+  }
+
+  &__profileName {
+    font-size: $font-size-xl; // Mobile-first: smaller
+    font-weight: $font-weight-bold;
+    color: $color-accent-yellow;
+
+    @include desktop {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  &__profileAlias {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+  }
+
+  &__profileRank,
+  &__profileEmeralds {
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+  }
+}
+

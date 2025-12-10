@@ -1,0 +1,177 @@
+// Colors - Dark Gritty Mafia/Gangster Theme
+$color-bg-primary: #0a0a0a; // Almost black
+$color-bg-secondary: #1a1a1a; // Dark charcoal
+$color-bg-tertiary: #252525; // Slightly lighter charcoal
+$color-bg-card: #1d1d1d; // Dark card background
+$color-bg-bottom: #0f0f0f; // Darker bottom
+
+// Text colors - gritty and muted
+$color-text-primary: #e8e8e8; // Off-white, less harsh
+$color-text-secondary: #a0a0a0; // Muted gray
+$color-text-muted: #666666; // Dark gray
+
+// Accent colors - mafia/gangster vibe
+$color-accent-yellow: #d4af37; // Gold, more muted
+$color-accent-gold: #c9a961; // Darker gold
+$color-accent-blue: #3d5a80; // Darker blue
+$color-accent-green: #4a7c59; // Darker, muted green
+$color-accent-red: #8b2635; // Dark blood red
+$color-accent-light-blue: #5a7a9a; // Muted blue
+$color-accent-bronze: #8b6914; // Bronze accent
+
+$color-border: #404040;
+$color-divider: #505050;
+
+// Typography - Jersey 25 font
+$font-family-primary: 'Jersey 25', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+
+// Layout
+$max-width-desktop: 1280px;
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+
+// Border radius
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-xl: 1rem;
+$radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+$shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+
+// Transitions
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
+$transition-slow: 350ms ease;
+
+// Gradients - Gritty mafia theme
+$gradient-bg-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+$gradient-bg-card: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+$gradient-accent-gold: linear-gradient(135deg, #d4af37 0%, #c9a961 50%, #8b6914 100%);
+$gradient-accent-red: linear-gradient(135deg, #8b2635 0%, #6b1a25 50%, #4a0f18 100%);
+
+// Pulsing gradient backgrounds
+$gradient-pulse-1: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 25%, #0a0a1a 50%, #1a1a0a 75%, #0a0a0a 100%);
+$gradient-pulse-2: linear-gradient(135deg, #1a0a0a 0%, #0a0a0a 25%, #1a1a0a 50%, #0a0a1a 75%, #1a0a0a 100%);
+$gradient-pulse-3: linear-gradient(135deg, #0a0a1a 0%, #1a1a0a 25%, #0a0a0a 50%, #1a0a0a 75%, #0a0a1a 100%);
+
+// Animation keyframes
+@keyframes subtle-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gritty-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes smoke-drift {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateX(100px) translateY(-100px) rotate(360deg);
+    opacity: 0.05;
+  }
+}
+
+@keyframes blood-drip {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+}
+

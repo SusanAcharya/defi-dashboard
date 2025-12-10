@@ -1,0 +1,17 @@
+@import '@/styles/mixins.scss';
+
+.home {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr; // Mobile-first: single column
+    gap: $spacing-md; // Mobile-first: smaller gap
+    margin-bottom: $spacing-md;
+
+    @include desktop {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-lg;
+      margin-bottom: $spacing-lg;
+    }
+  }
+}
+

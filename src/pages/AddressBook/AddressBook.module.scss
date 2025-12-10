@@ -1,0 +1,95 @@
+@import '@/styles/mixins.scss';
+
+.addressBook {
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__list {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__item {
+    @include flex-between;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+    }
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__name {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+  }
+
+  &__address {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-family: monospace;
+  }
+
+  &__notes {
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__form {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+
+  &__field {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__field label {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__input,
+  &__textarea {
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent-blue;
+    }
+  }
+
+  &__textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+}
+

@@ -1,0 +1,94 @@
+@import '@/styles/mixins.scss';
+
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); // Mobile-first: 5 columns
+  gap: $spacing-sm; // Mobile-first: smaller gap
+  margin-bottom: $spacing-md;
+  overflow-x: auto;
+  padding-bottom: $spacing-sm;
+  -webkit-overflow-scrolling: touch;
+
+  @include desktop {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+
+  &__item {
+    @include button-reset;
+    @include flex-column;
+    @include flex-center;
+    gap: $spacing-xs; // Mobile-first: smaller gap
+    padding: $spacing-sm; // Mobile-first: smaller padding
+    background: linear-gradient(135deg, #1d1d1d 0%, #252525 100%);
+    border-radius: $radius-md;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 
+      0 4px 15px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+    transition: all $transition-fast;
+    cursor: pointer;
+    min-height: 70px; // Touch target
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+
+    // Add corner accent
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border-top: 2px solid rgba(212, 175, 55, 0.5);
+      border-left: 2px solid rgba(212, 175, 55, 0.5);
+    }
+
+    &:active {
+      background: linear-gradient(135deg, #252525 0%, #2a2a2a 100%);
+      border-color: rgba(212, 175, 55, 0.4);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(212, 175, 55, 0.3);
+      transform: scale(0.95);
+    }
+
+    @include desktop {
+      padding: $spacing-md;
+      gap: $spacing-sm;
+      min-height: auto;
+
+      &:hover {
+        background: linear-gradient(135deg, #252525 0%, #2a2a2a 100%);
+        border-color: rgba(212, 175, 55, 0.4);
+        box-shadow: 
+          0 6px 20px rgba(0, 0, 0, 0.9),
+          0 0 20px rgba(212, 175, 55, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__icon {
+    font-size: $font-size-xl; // Mobile-first: smaller icons
+
+    @include desktop {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  &__label {
+    color: $color-text-primary;
+    font-size: $font-size-xs; // Mobile-first: smaller text
+    font-weight: $font-weight-medium;
+
+    @include desktop {
+      font-size: $font-size-sm;
+    }
+  }
+}
+

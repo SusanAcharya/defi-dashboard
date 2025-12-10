@@ -1,0 +1,113 @@
+@import '@/styles/mixins.scss';
+
+.notifications {
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-lg;
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+      align-items: flex-start;
+    }
+  }
+
+  &__telegram {
+    @include flex-center;
+    gap: $spacing-md;
+  }
+
+  &__toggle {
+    @include button-reset;
+    padding: $spacing-xs $spacing-md;
+    background: $color-bg-tertiary;
+    color: $color-text-secondary;
+    border-radius: $radius-md;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast;
+
+    &_active {
+      background: $gradient-accent-gold; // Gold gradient
+      color: $color-text-primary;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+    }
+  }
+
+  &__filters {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    flex-wrap: wrap;
+  }
+
+  &__filter {
+    @include button-reset;
+    padding: $spacing-sm $spacing-md;
+    background: $color-bg-secondary;
+    color: $color-text-secondary;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+      color: $color-text-primary;
+    }
+  }
+
+  &__list {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__item {
+    @include flex-between;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+    }
+
+    &_unread {
+      border-left: 3px solid $color-accent-yellow; // Gold accent
+      box-shadow: -3px 0 10px rgba(212, 175, 55, 0.3);
+    }
+  }
+
+  &__content {
+    flex: 1;
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__category {
+    color: $color-accent-yellow; // Gold category
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+  }
+
+  &__title {
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-base;
+  }
+
+  &__description {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__time {
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+    white-space: nowrap;
+  }
+}
+

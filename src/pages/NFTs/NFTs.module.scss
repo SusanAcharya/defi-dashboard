@@ -1,0 +1,164 @@
+@import '@/styles/mixins.scss';
+
+.nfts {
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-lg;
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+      align-items: flex-start;
+    }
+  }
+
+  &__alerts {
+    @include flex-center;
+    gap: $spacing-md;
+  }
+
+  &__toggle {
+    @include button-reset;
+    padding: $spacing-xs $spacing-md;
+    background: $color-bg-tertiary;
+    color: $color-text-secondary;
+    border-radius: $radius-md;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast;
+
+    &_active {
+      background: $color-accent-green;
+      color: $color-text-primary;
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr; // Mobile-first: single column
+    gap: $spacing-md; // Mobile-first: smaller gap
+
+    @include desktop {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: $spacing-lg;
+    }
+  }
+
+  &__card {
+    background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+    border-radius: $radius-lg;
+    border: 3px solid rgba(212, 175, 55, 0.25);
+    overflow: hidden;
+    @include flex-column;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.8),
+      inset 0 2px 0 rgba(212, 175, 55, 0.15),
+      0 0 30px rgba(212, 175, 55, 0.15);
+    position: relative;
+
+    // Add frame effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: $radius-lg;
+      pointer-events: none;
+      z-index: 1;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 200px;
+    background: $color-bg-tertiary;
+    @include flex-center;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__placeholder {
+    font-size: 64px;
+  }
+
+  &__info {
+    padding: $spacing-md;
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__collection {
+    color: $color-accent-blue;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+  }
+
+  &__name {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+  }
+
+  &__metrics {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__metric {
+    @include flex-between;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__tracker {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__trackerList {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__trackerItem {
+    @include flex-between;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+  }
+
+  &__trackerInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__trackerCollection {
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+  }
+
+  &__trackerPrice {
+    color: $color-accent-yellow;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__trackerChange {
+    color: $color-accent-green;
+    font-weight: $font-weight-medium;
+  }
+}
+

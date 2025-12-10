@@ -1,0 +1,115 @@
+@import '@/styles/mixins.scss';
+
+.defi {
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr; // Mobile-first: single column
+    gap: $spacing-md; // Mobile-first: smaller gap
+
+    @include desktop {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: $spacing-lg;
+    }
+  }
+
+  &__card {
+    background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+    border-radius: $radius-lg;
+    border: 3px solid rgba(212, 175, 55, 0.25);
+    padding: $spacing-lg;
+    @include flex-column;
+    gap: $spacing-md;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.8),
+      inset 0 2px 0 rgba(212, 175, 55, 0.15),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(212, 175, 55, 0.15);
+    position: relative;
+    overflow: hidden;
+
+    // Add diagonal stripe effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(212, 175, 55, 0.03) 30px,
+        rgba(212, 175, 55, 0.03) 60px
+      );
+      animation: float 30s linear infinite;
+      pointer-events: none;
+    }
+
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__header {
+    @include flex-between;
+  }
+
+  &__protocol {
+    @include flex-center;
+    gap: $spacing-md;
+  }
+
+  &__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-md;
+    background: $color-bg-tertiary;
+  }
+
+  &__name {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+  }
+
+  &__type {
+    color: $color-text-secondary;
+    font-size: $font-size-xs;
+    text-transform: uppercase;
+  }
+
+  &__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__metric {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__metricLabel {
+    color: $color-text-secondary;
+    font-size: $font-size-xs;
+  }
+
+  &__metricValue {
+    color: $color-accent-yellow;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    margin-top: $spacing-sm;
+  }
+}
+

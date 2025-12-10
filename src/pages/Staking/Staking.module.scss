@@ -1,0 +1,205 @@
+@import '@/styles/mixins.scss';
+
+.staking {
+  &__banner {
+    text-align: center;
+    padding: $spacing-lg; // Mobile-first: smaller padding
+    background: $gradient-accent-gold; // Gold gradient for mafia vibe
+    border-radius: $radius-md; // Mobile-first: smaller radius
+    color: $color-text-primary;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @include desktop {
+      padding: $spacing-xl;
+      border-radius: $radius-lg;
+    }
+
+    h2 {
+      font-size: $font-size-2xl; // Mobile-first: smaller
+      margin-bottom: $spacing-sm;
+
+      @include desktop {
+        font-size: $font-size-3xl;
+      }
+    }
+
+    p {
+      font-size: $font-size-base; // Mobile-first: smaller
+      opacity: 0.9;
+
+      @include desktop {
+        font-size: $font-size-lg;
+      }
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr; // Mobile-first: single column
+    gap: $spacing-md; // Mobile-first: smaller gap
+
+    @include desktop {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: $spacing-lg;
+    }
+  }
+
+  &__card {
+    background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+    border-radius: $radius-lg;
+    border: 3px solid rgba(212, 175, 55, 0.25);
+    padding: $spacing-lg;
+    @include flex-column;
+    gap: $spacing-md;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.8),
+      inset 0 2px 0 rgba(212, 175, 55, 0.15),
+      0 0 30px rgba(212, 175, 55, 0.15);
+    position: relative;
+    overflow: hidden;
+
+    // Add stack of money effect
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(212, 175, 55, 0.6) 0px,
+        rgba(212, 175, 55, 0.6) 15px,
+        rgba(0, 0, 0, 0.8) 15px,
+        rgba(0, 0, 0, 0.8) 30px
+      );
+    }
+  }
+
+  &__header {
+    @include flex-between;
+  }
+
+  &__poolInfo {
+    @include flex-center;
+    gap: $spacing-md;
+  }
+
+  &__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-md;
+    background: $color-bg-tertiary;
+  }
+
+  &__name {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+  }
+
+  &__token {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__apr {
+    @include flex-column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+  }
+
+  &__aprLabel {
+    color: $color-text-secondary;
+    font-size: $font-size-xs;
+  }
+
+  &__aprValue {
+    color: $color-accent-green;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+  }
+
+  &__metrics {
+    @include flex-column;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    background: $color-bg-tertiary;
+    border-radius: $radius-md;
+  }
+
+  &__metric {
+    @include flex-between;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__form {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+
+  &__field {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__field label {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__input {
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent-blue;
+    }
+  }
+
+  &__earnings {
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__earningsLabel {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__earningsValue {
+    color: $color-accent-green;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+  }
+}
+

@@ -1,0 +1,27 @@
+@import '@/styles/mixins.scss';
+
+.card {
+  @include card;
+  margin-bottom: $spacing-md; // Mobile-first: smaller margin
+
+  @include desktop {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__title {
+    color: $color-accent-yellow; // Gold for titles
+    font-size: $font-size-base; // Mobile-first: smaller title
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-sm;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+
+    @include desktop {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-md;
+    }
+  }
+}
+

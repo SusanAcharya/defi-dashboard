@@ -1,0 +1,42 @@
+@import '@/styles/mixins.scss';
+
+.portfolioExposure {
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr; // Mobile-first: single column
+    gap: $spacing-md; // Mobile-first: smaller gap
+    align-items: center;
+
+    @include desktop {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-lg;
+    }
+  }
+
+  &__chart {
+    width: 100%;
+    height: 200px;
+  }
+
+  &__legend {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__legendItem {
+    @include flex-between;
+    gap: $spacing-md;
+  }
+
+  &__legendColor {
+    font-weight: $font-weight-medium;
+    font-size: $font-size-base;
+  }
+
+  &__legendValue {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+  }
+}
+

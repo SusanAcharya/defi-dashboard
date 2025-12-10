@@ -1,0 +1,99 @@
+@import '@/styles/mixins.scss';
+
+.airdrops {
+  &__total {
+    font-size: $font-size-lg; // Mobile-first: smaller
+    font-weight: $font-weight-semibold;
+    color: $color-accent-yellow;
+    margin-bottom: $spacing-md; // Mobile-first: smaller margin
+
+    @include desktop {
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-lg;
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr; // Mobile-first: single column
+    gap: $spacing-md; // Mobile-first: smaller gap
+
+    @include desktop {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: $spacing-lg;
+    }
+  }
+
+  &__card {
+    background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+    border-radius: $radius-lg;
+    border: 3px solid rgba(212, 175, 55, 0.25);
+    padding: $spacing-lg;
+    @include flex-column;
+    gap: $spacing-md;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.8),
+      inset 0 2px 0 rgba(212, 175, 55, 0.15),
+      0 0 30px rgba(212, 175, 55, 0.15);
+    position: relative;
+    overflow: hidden;
+
+    // Add money bag pattern
+    &::after {
+      content: '💰';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 40px;
+      opacity: 0.1;
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+  }
+
+  &__info {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__name {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+  }
+
+  &__description {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__value {
+    color: $color-accent-green;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+  }
+
+  &__launch {
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+  }
+
+  &__farming {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__checklist {
+    list-style: none;
+    @include flex-column;
+    gap: $spacing-sm;
+    padding-left: 0;
+
+    li {
+      padding: $spacing-sm;
+      background: $color-bg-secondary;
+      border-radius: $radius-md;
+      color: $color-text-primary;
+    }
+  }
+}
+

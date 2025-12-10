@@ -1,0 +1,88 @@
+@import '@/styles/mixins.scss';
+
+.settings {
+  width: 100%; // Mobile-first: full width
+  margin: 0 auto;
+
+  @include desktop {
+    max-width: 800px;
+  }
+
+  &__section {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+
+  &__item {
+    @include flex-between;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+    }
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+      align-items: flex-start;
+    }
+  }
+
+  &__label {
+    flex: 1;
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__title {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+  }
+
+  &__description {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__toggle {
+    @include button-reset;
+    padding: $spacing-xs $spacing-md;
+    background: $color-bg-tertiary;
+    color: $color-text-secondary;
+    border-radius: $radius-md;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast;
+    min-width: 60px;
+
+    &_active {
+      background: $color-accent-green;
+      color: $color-text-primary;
+    }
+  }
+
+  &__select {
+    padding: $spacing-sm $spacing-md;
+    background: $color-bg-tertiary;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    cursor: pointer;
+    min-width: 150px;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent-blue;
+    }
+  }
+
+  &__danger {
+    text-align: center;
+    padding: $spacing-lg;
+  }
+}
+

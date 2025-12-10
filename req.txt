@@ -1,0 +1,490 @@
+# **📘 Vantage — Frontend Development Document**
+
+**Tech Stack:** React.js, SCSS, TypeScript (recommended), Zustand/Redux (for state), React Query (data fetching)
+**Platforms:** Mobile (responsive) + Desktop
+**Design Style:** Minimal FinTech UI with strong usability
+
+---
+
+# **1. Project Overview**
+
+**Vantage** is a real-time StarkNet wallet intelligence dashboard + gamified rewards layer.
+The frontend will:
+
+* Display wallet analytics
+* Show real-time events
+* Enable swapping/sending
+* Track DeFi positions
+* Surface airdrop opportunities
+* Run a leaderboard system
+* Show NFT discovery & alerts
+
+Frontend reads all required data from APIs / backend services (not included in this doc).
+
+---
+
+# **2. Frontend Architecture**
+
+### **2.1 Framework & Libraries**
+
+* **React.js**
+* **SCSS Modules** (per-component styling)
+* **React Router** (page navigation)
+* **React Query** (live data & server state)
+* **Zustand** or Redux Toolkit (global UI state: wallet, theme, toasts)
+* **Chart.js or Recharts** (PNL graphs)
+* **Framer Motion** (micro animations, optional)
+
+### **2.2 Layout System**
+
+* **Responsive grid** using CSS flex/grid
+* **Mobile-first** approach
+* Max width for desktop: **1280px**
+
+### **2.3 Shared Components**
+
+* Header/Navbar
+* Wallet Connect Modal
+* Token Selector Modal
+* Table Components
+* Tabs / Filters
+* Toast Notifications
+* Cards & Panels
+* Pagination
+* Icons
+
+---
+
+# **3. Pages to Build (High-Level)**
+
+1. Home Dashboard
+2. Notifications
+3. Portfolio
+4. DeFi Positions
+5. Swap
+6. Send Token
+7. Address Book
+8. Transfer History
+9. Airdrop Center
+10. Staking Page
+11. Leaderboard
+12. NFT Explorer
+13. Settings
+
+Each includes **mobile & desktop layouts**.
+
+---
+
+# **4. Detailed Page-by-Page Development Requirements**
+
+---
+
+# **4.1 Home Dashboard**
+
+### **Description**
+
+Main page showing wallet state, quick actions, and real-time event feed.
+
+### **UI Elements**
+
+* Top bar: wallet short address + settings icon
+* Portfolio card:
+
+  * Total value
+  * 24h PNL
+  * Mini sparkline chart
+* Quick actions (horizontal on mobile, grid on desktop):
+
+  * Swap
+  * Send
+  * Stake
+  * Airdrops
+  * Leaderboard
+* Live Activity Feed (list):
+
+  * Swap detected
+  * Incoming token
+  * Contract interaction
+  * Airdrop alert
+
+### **Components Needed**
+
+* `<PortfolioCard/>`
+* `<QuickActions/>`
+* `<ActivityFeed/>`
+
+---
+
+# **4.2 Notifications Page**
+
+### **Description**
+
+Shows all real-time wallet activity, including Telegram alert toggles.
+
+### **UI Elements**
+
+* Telegram toggle (ON/OFF)
+* Notification list
+* Categories: Swap, Transfer, Contract Interaction, Airdrop
+* Detail view modal/page
+
+### **Components**
+
+* `<NotificationItem/>`
+* `<NotificationDetail/>`
+
+---
+
+# **4.3 Portfolio View**
+
+### **Description**
+
+Displays token balances with live prices and PNL chart.
+
+### **UI Elements**
+
+* Total portfolio value
+* PNL timeframe tabs
+* Token list:
+
+  * Name
+  * Balance
+  * USD value
+  * 24h % change
+
+### **Components**
+
+* `<TokenList/>`
+* `<PNLChart/>`
+
+---
+
+# **4.4 DeFi Positions**
+
+### **Description**
+
+Shows user positions across DeFi protocols (staking, LPs, lending).
+
+### **UI Elements**
+
+* Protocol cards:
+
+  * Logo
+  * Position value
+  * APR
+  * Claimable rewards
+
+### **Components**
+
+* `<DefiCard/>`
+* `<DefiList/>`
+
+---
+
+# **4.5 Swap Interface**
+
+### **Description**
+
+Built-in token swap UI similar to Uniswap/CowSwap.
+
+### **UI Elements**
+
+* From token selector
+* Amount input
+* To token selector
+* Estimated received
+* Price impact
+* Slippage
+* Network fee preview
+* Confirm swap button
+* Swap history link
+
+### **Components**
+
+* `<SwapBox/>`
+* `<TokenSelectorModal/>`
+* `<SwapHistory/>`
+
+---
+
+# **4.6 Send Token Page**
+
+### **Description**
+
+Send tokens to addresses.
+
+### **UI Elements**
+
+* Token dropdown
+* Amount input
+* Recipient address input
+* Address book button
+* Network fee preview
+* Send button
+
+### **Components**
+
+* `<SendForm/>`
+* `<AddressBookButton/>`
+
+---
+
+# **4.7 Address Book**
+
+### **Description**
+
+User-saved contact addresses.
+
+### **UI Elements**
+
+* List of contacts
+* Add contact button
+* Edit/Delete
+* Contact detail modal
+
+### **Components**
+
+* `<AddressList/>`
+* `<AddressItem/>`
+* `<AddAddressModal/>`
+
+---
+
+# **4.8 Transfer History**
+
+### **Description**
+
+Full history of transfers.
+
+### **UI Elements**
+
+* Filter: incoming/outgoing
+* Each row shows:
+
+  * Icon
+  * Token
+  * Amount
+  * Status
+  * Timestamp
+* View details modal
+
+### **Components**
+
+* `<TransferHistoryList/>`
+* `<TransferDetailModal/>`
+
+---
+
+# **4.9 Airdrop Center**
+
+### **Description**
+
+Detects eligible and upcoming airdrops.
+
+### **UI Elements**
+
+* Eligible airdrops section
+* “Claim Now” button
+* Unclaimed value
+* Upcoming airdrop list
+* “Airdrop Farming Opportunities”
+
+### **Components**
+
+* `<AirdropCard/>`
+* `<AirdropFarmChecklist/>`
+
+---
+
+# **4.10 Staking Page (High-Yield APR)**
+
+### **Description**
+
+Displays staking pools and lets users stake/unstake.
+
+### **UI Elements**
+
+* APR banner
+* List of staking pools
+* Stake modal:
+
+  * Amount input
+  * Expected earnings
+
+### **Components**
+
+* `<StakingPoolCard/>`
+* `<StakeModal/>`
+
+---
+
+# **4.11 Leaderboard Page**
+
+### **Description**
+
+Ranks users based on Emeralds earned via app activity.
+
+### **UI Elements**
+
+* Tabs: Global / Friends / Top 100 / My Rank
+* Leaderboard list:
+
+  * Rank
+  * User wallet
+  * Emerald count
+* Player profile panel
+
+### **Components**
+
+* `<LeaderboardList/>`
+* `<LeaderboardRow/>`
+* `<PlayerProfile/>`
+
+---
+
+# **4.12 NFT Discovery**
+
+### **Description**
+
+Surface NFT mint alerts and floor price changes.
+
+### **UI Elements**
+
+* NFT mint feed
+* Floor price tracker
+* Alerts toggle
+* NFT detail view:
+
+  * Collection
+  * Mint price
+  * Supply
+  * Launch countdown
+
+### **Components**
+
+* `<NFTCard/>`
+* `<NFTAlertToggle/>`
+* `<NFTDetail/>`
+
+---
+
+# **4.13 Settings Page**
+
+### **Description**
+
+User preferences.
+
+### **UI Elements**
+
+* Telegram Alerts
+* Push Notifications
+* Currency Preference
+* Theme (Light/Dark)
+* Connected wallets
+* Language
+* Logout / Disconnect
+
+### **Components**
+
+* `<Toggle/>`
+* `<Dropdown/>`
+* `<SettingsSection/>`
+
+---
+
+# **5. Routing Structure**
+
+```
+/ (Home)
+/notifications
+/portfolio
+/defi
+/swap
+/send
+/address-book
+/transfers
+/airdrops
+/staking
+/leaderboard
+/nfts
+/settings
+```
+
+---
+
+# **6. State Management Requirements**
+
+### Must store:
+
+* Connected wallet address
+* Token balances
+* Portfolio value
+* Notifications
+* Swap form state
+* Leaderboard stats
+* Settings (theme, currency)
+
+### Split into:
+
+* **UI state** (drawer open, modals) — Zustand
+* **Data state** (portfolio, notifications) — React Query
+
+---
+
+# **7. SCSS Structure**
+
+```
+/styles
+  /base
+  /components
+  /layout
+  /pages
+  variables.scss
+  mixins.scss
+```
+
+Use **BEM naming** for clarity.
+
+---
+
+# **8. Mobile vs Desktop UI Notes**
+
+### Mobile:
+
+* 1-column layout
+* Bottom navigation bar
+* Swipeable panels
+* Full-screen modals
+
+### Desktop:
+
+* Left sidebar navigation
+* Multi-column layouts
+* Hover interactions
+* Wider tables
+
+---
+
+# **9. Deliverables Summary**
+
+You must develop:
+
+### **🔹 Frontend Pages**
+
+13 pages with responsive layouts
+
+### **🔹 Shared Components**
+
+15–20 components
+
+### **🔹 Styling**
+
+SCSS modules, theme system, animations
+
+### **🔹 Integration Layer**
+
+API interfaces (wallet, prices, notifications, swap quotes, staking data)
+
+### **🔹 State Management**
+
+Zustand + React Query setup

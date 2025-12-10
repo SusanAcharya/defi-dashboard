@@ -1,0 +1,73 @@
+@import '@/styles/mixins.scss';
+
+.toast {
+  position: fixed;
+  top: 100px;
+  right: $spacing-lg;
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-md $spacing-lg;
+  @include flex-between;
+  gap: $spacing-md;
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: $shadow-lg;
+  z-index: 2000;
+  animation: slideInRight $transition-base;
+
+  @include mobile {
+    right: $spacing-md;
+    left: $spacing-md;
+    min-width: auto;
+    max-width: 100%;
+  }
+
+  &_success {
+    border-left: 4px solid $color-accent-green;
+  }
+
+  &_error {
+    border-left: 4px solid $color-accent-red;
+  }
+
+  &_info {
+    border-left: 4px solid $color-accent-blue;
+  }
+
+  &_warning {
+    border-left: 4px solid $color-accent-yellow;
+  }
+
+  &__message {
+    flex: 1;
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+  }
+
+  &__close {
+    @include button-reset;
+    color: $color-text-secondary;
+    font-size: $font-size-lg;
+    width: 24px;
+    height: 24px;
+    @include flex-center;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-text-primary;
+    }
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+

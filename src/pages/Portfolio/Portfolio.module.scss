@@ -1,0 +1,155 @@
+@import '@/styles/mixins.scss';
+
+.portfolio {
+  &__header {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__value {
+    font-size: $font-size-2xl; // Mobile-first: smaller
+    font-weight: $font-weight-bold;
+    color: $color-accent-yellow;
+    margin: $spacing-sm 0;
+
+    @include desktop {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__change {
+    font-size: $font-size-lg;
+    color: $color-accent-green;
+    font-weight: $font-weight-medium;
+  }
+
+  &__timeframes {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    flex-wrap: wrap;
+  }
+
+  &__timeframe {
+    @include button-reset;
+    padding: $spacing-sm $spacing-md;
+    background: $color-bg-secondary;
+    color: $color-text-secondary;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+      color: $color-text-primary;
+    }
+
+    &_active {
+      background: $gradient-accent-gold; // Gold gradient
+      color: $color-text-primary;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &__chart {
+    margin-top: $spacing-lg;
+  }
+
+  &__tokens {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__token {
+    @include flex-between;
+    padding: $spacing-md;
+    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+    border-radius: $radius-md;
+    border: 2px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 
+      0 4px 15px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+    transition: all $transition-fast;
+    position: relative;
+    overflow: hidden;
+
+    // Add corner accent
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 15px;
+      height: 15px;
+      border-top: 2px solid rgba(212, 175, 55, 0.4);
+      border-right: 2px solid rgba(212, 175, 55, 0.4);
+    }
+
+    &:active {
+      background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
+      border-color: rgba(212, 175, 55, 0.3);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.9),
+        0 0 15px rgba(212, 175, 55, 0.2);
+    }
+
+    @include desktop {
+      &:hover {
+        background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
+        border-color: rgba(212, 175, 55, 0.3);
+        box-shadow: 
+          0 6px 20px rgba(0, 0, 0, 0.9),
+          0 0 15px rgba(212, 175, 55, 0.2);
+        transform: translateX(-3px);
+      }
+    }
+  }
+
+  &__tokenInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+  }
+
+  &__tokenSymbol {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+  }
+
+  &__tokenName {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__tokenBalance {
+    @include flex-column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+  }
+
+  &__tokenValue {
+    color: $color-accent-yellow;
+    font-weight: $font-weight-medium;
+  }
+
+  &__tokenChange {
+    font-weight: $font-weight-medium;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    min-width: 80px;
+    text-align: center;
+
+    &_positive {
+      color: $color-accent-green;
+      background: rgba(74, 222, 128, 0.1);
+    }
+
+    &_negative {
+      color: $color-accent-red;
+      background: rgba(239, 68, 68, 0.1);
+    }
+  }
+}
+

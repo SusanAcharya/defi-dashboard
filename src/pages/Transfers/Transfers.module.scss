@@ -1,0 +1,125 @@
+@import '@/styles/mixins.scss';
+
+.transfers {
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-lg;
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+      align-items: flex-start;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__filter {
+    @include button-reset;
+    padding: $spacing-sm $spacing-md;
+    background: $color-bg-secondary;
+    color: $color-text-secondary;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+      color: $color-text-primary;
+    }
+
+    &_active {
+      background: $gradient-accent-gold; // Gold gradient
+      color: $color-text-primary;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+    }
+  }
+
+  &__list {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__item {
+    @include flex-center;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: $color-bg-secondary;
+    border-radius: $radius-md;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-bg-tertiary;
+    }
+  }
+
+  &__icon {
+    font-size: $font-size-2xl;
+    width: 48px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__token {
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+  }
+
+  &__amount {
+    color: $color-accent-yellow;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+  }
+
+  &__address {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-family: monospace;
+  }
+
+  &__meta {
+    @include flex-column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+  }
+
+  &__status {
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    text-transform: capitalize;
+
+    &_completed {
+      background: rgba(74, 222, 128, 0.2);
+      color: $color-accent-green;
+    }
+
+    &_pending {
+      background: rgba(255, 215, 0, 0.2);
+      color: $color-accent-yellow;
+    }
+
+    &_failed {
+      background: rgba(239, 68, 68, 0.2);
+      color: $color-accent-red;
+    }
+  }
+
+  &__time {
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+  }
+}
+
