@@ -1,0 +1,119 @@
+@use '@/styles/mixins.scss' as *;
+
+.wallet {
+  &__section {
+    margin-bottom: $spacing-xl;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__sectionTitle {
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-md;
+  }
+
+  &__connectedWallet {
+    @include flex-between;
+    padding: $spacing-md;
+    background: rgba(26, 26, 46, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: $radius-md;
+    gap: $spacing-md;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__walletInfo {
+    @include flex-center;
+    gap: $spacing-md;
+    flex: 1;
+  }
+
+  &__walletIcon {
+    font-size: $font-size-2xl;
+  }
+
+  &__walletDetails {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__walletName {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__walletAddress {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-family: monospace;
+  }
+
+  &__noWallet {
+    padding: $spacing-lg;
+    text-align: center;
+    color: $color-text-secondary;
+  }
+
+  &__wallets {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__walletOption {
+    @include button-reset;
+    @include flex-center;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: rgba(26, 26, 46, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+    cursor: pointer;
+    text-align: left;
+
+    &:active {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: scale(0.98);
+    }
+
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(139, 92, 246, 0.5);
+      }
+    }
+  }
+
+  &__walletOptionIcon {
+    font-size: $font-size-2xl;
+    flex-shrink: 0;
+  }
+
+  &__walletOptionInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+  }
+
+  &__walletOptionName {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__walletOptionDescription {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+

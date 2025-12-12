@@ -21,6 +21,9 @@ interface UIState {
   selectedNFT: string | null;
   selectedNotification: string | null;
   
+  // Privacy toggle
+  showFinancialNumbers: boolean;
+  
   // Actions
   setWalletConnectModalOpen: (open: boolean) => void;
   setTokenSelectorModalOpen: (open: boolean) => void;
@@ -36,6 +39,7 @@ interface UIState {
   setSelectedTransfer: (transfer: string | null) => void;
   setSelectedNFT: (nft: string | null) => void;
   setSelectedNotification: (notification: string | null) => void;
+  toggleFinancialNumbers: () => void;
   closeAllModals: () => void;
 }
 
@@ -54,6 +58,7 @@ export const useUIStore = create<UIState>((set) => ({
   selectedTransfer: null,
   selectedNFT: null,
   selectedNotification: null,
+  showFinancialNumbers: true, // Default to showing numbers
   
   setWalletConnectModalOpen: (open) => set({ walletConnectModalOpen: open }),
   setTokenSelectorModalOpen: (open) => set({ tokenSelectorModalOpen: open }),
@@ -69,6 +74,7 @@ export const useUIStore = create<UIState>((set) => ({
   setSelectedTransfer: (transfer) => set({ selectedTransfer: transfer }),
   setSelectedNFT: (nft) => set({ selectedNFT: nft }),
   setSelectedNotification: (notification) => set({ selectedNotification: notification }),
+  toggleFinancialNumbers: () => set((state) => ({ showFinancialNumbers: !state.showFinancialNumbers })),
   closeAllModals: () => set({
     walletConnectModalOpen: false,
     tokenSelectorModalOpen: false,

@@ -19,7 +19,7 @@ export const Swap: React.FC = () => {
     setFromAmount,
     swapTokens,
   } = useSwapStore();
-  const { tokenSelectorModalOpen, setTokenSelectorModalOpen } = useUIStore();
+  const { tokenSelectorModalOpen, setTokenSelectorModalOpen, showFinancialNumbers } = useUIStore();
   const [selectingFor, setSelectingFor] = useState<'from' | 'to'>('from');
 
   const { data: tokens } = useQuery({
@@ -125,15 +125,15 @@ export const Swap: React.FC = () => {
               <div className={styles.swap__details}>
                 <div className={styles.swap__detail}>
                   <span>Price Impact</span>
-                  <span>{formatPercentage(quote.priceImpact)}</span>
+                  <span>{formatPercentage(quote.priceImpact, 2, showFinancialNumbers)}</span>
                 </div>
                 <div className={styles.swap__detail}>
                   <span>Slippage</span>
-                  <span>{slippage}%</span>
+                  <span>{showFinancialNumbers ? `${slippage}%` : '•••'}</span>
                 </div>
                 <div className={styles.swap__detail}>
                   <span>Network Fee</span>
-                  <span>{formatNumber(quote.networkFee)} ETH</span>
+                  <span>{formatNumber(quote.networkFee, 2, showFinancialNumbers)} ETH</span>
                 </div>
               </div>
             )}

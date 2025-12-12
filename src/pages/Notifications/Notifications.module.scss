@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .notifications {
   &__header {
@@ -20,17 +20,21 @@
   &__toggle {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: $color-bg-tertiary;
+    background: rgba(26, 26, 46, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: $color-text-secondary;
+    border: 1px solid rgba(139, 92, 246, 0.3); // Purple border
     border-radius: $radius-md;
     font-weight: $font-weight-medium;
     transition: all $transition-fast;
+    white-space: nowrap;
 
     &_active {
-      background: $gradient-accent-gold; // Gold gradient
+      background: $gradient-accent-purple; // Purple gradient
       color: $color-text-primary;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+      border: 1px solid rgba(139, 92, 246, 0.7);
+      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4), 0 0 15px rgba(139, 92, 246, 0.3);
     }
   }
 
@@ -44,15 +48,21 @@
   &__filter {
     @include button-reset;
     padding: $spacing-sm $spacing-md;
-    background: $color-bg-secondary;
+    background: rgba(26, 26, 46, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: $color-text-secondary;
+    border: 1px solid rgba(139, 92, 246, 0.3); // Purple border
     border-radius: $radius-md;
     font-size: $font-size-sm;
     transition: all $transition-fast;
 
-    &:hover {
-      background: $color-bg-tertiary;
-      color: $color-text-primary;
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.1);
+        color: $color-text-primary;
+        border-color: rgba(139, 92, 246, 0.5);
+      }
     }
   }
 
@@ -62,20 +72,22 @@
   }
 
   &__item {
+    @include card; // Use card mixin for grid pattern and purple borders
     @include flex-between;
     gap: $spacing-md;
     padding: $spacing-md;
-    background: $color-bg-secondary;
-    border-radius: $radius-md;
-    transition: background $transition-fast;
+    transition: all $transition-fast;
 
-    &:hover {
-      background: $color-bg-tertiary;
+    @include desktop {
+      &:hover {
+        background: rgba(26, 26, 46, 0.8);
+        border-color: rgba(139, 92, 246, 0.6);
+      }
     }
 
     &_unread {
-      border-left: 3px solid $color-accent-yellow; // Gold accent
-      box-shadow: -3px 0 10px rgba(212, 175, 55, 0.3);
+      border-left: 3px solid rgba(139, 92, 246, 0.7); // Purple accent
+      box-shadow: -3px 0 10px rgba(139, 92, 246, 0.4);
     }
   }
 
@@ -86,11 +98,10 @@
   }
 
   &__category {
-    color: $color-accent-yellow; // Gold category
+    color: $color-accent-purple; // Purple category
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     text-transform: uppercase;
-    text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
   }
 
   &__title {
@@ -108,6 +119,42 @@
     color: $color-text-muted;
     font-size: $font-size-xs;
     white-space: nowrap;
+  }
+
+  &__preferences {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__preferenceItem {
+    @include flex-between;
+    padding: $spacing-md;
+    background: rgba(26, 26, 46, 0.4);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: $radius-md;
+    gap: $spacing-md;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__preferenceLabel {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+  }
+
+  &__preferenceTitle {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__preferenceDescription {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
   }
 }
 

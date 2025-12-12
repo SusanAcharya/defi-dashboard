@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .swap {
   width: 100%; // Mobile-first: full width
@@ -28,6 +28,7 @@
     }
 
     h2 {
+      color: #ffffff; // White text
       font-size: $font-size-lg; // Mobile-first: smaller title
 
       @include desktop {
@@ -50,19 +51,13 @@
   }
 
   &__box {
+    @include card; // Use card mixin for grid pattern and neon blue borders
     @include flex-column;
     gap: $spacing-md;
     padding: $spacing-md; // Mobile-first: smaller padding
-    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
-    border: 2px solid rgba(212, 175, 55, 0.2);
-    border-radius: $radius-md; // Mobile-first: smaller radius
-    box-shadow: 
-      0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(212, 175, 55, 0.1);
 
     @include desktop {
       padding: $spacing-lg;
-      border-radius: $radius-lg;
     }
   }
 
@@ -73,7 +68,7 @@
 
   &__inputHeader {
     @include flex-between;
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-xs; // Mobile-first: smaller text
     flex-wrap: wrap;
     gap: $spacing-xs;
@@ -115,11 +110,13 @@
 
   &__amount {
     width: 100%; // Mobile-first: full width
-    background: $color-bg-tertiary;
-    border: 2px solid $color-border;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(0, 212, 255, 0.5); // Neon blue border
     border-radius: $radius-md;
     padding: $spacing-md;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-lg; // Mobile-first: smaller font
     font-weight: $font-weight-semibold;
     min-height: 52px; // Touch target size
@@ -133,18 +130,20 @@
 
     &:focus {
       outline: none;
-      border-color: $color-accent-yellow; // Gold accent
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+      border-color: rgba(0, 212, 255, 0.7); // Neon blue accent
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.5); // Shinier glow
     }
   }
 
   &__tokenButton {
     @include button-reset;
     padding: $spacing-md; // Mobile-first: adequate padding
-    background: linear-gradient(135deg, rgba(37, 37, 37, 0.9) 0%, rgba(26, 26, 26, 1) 100%);
-    border: 2px solid rgba(212, 175, 55, 0.3);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(0, 212, 255, 0.7); // Shinier neon blue border
     border-radius: $radius-md;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-weight: $font-weight-medium;
     font-size: $font-size-base;
     width: 100%; // Mobile-first: full width
@@ -152,6 +151,7 @@
     transition: all $transition-fast;
     -webkit-tap-highlight-color: transparent;
     text-align: center;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 
     @include desktop {
       padding: $spacing-md $spacing-lg;
@@ -161,16 +161,16 @@
     }
 
     &:active {
-      background: linear-gradient(135deg, rgba(37, 37, 37, 1) 0%, rgba(26, 26, 26, 1) 100%);
-      border-color: rgba(212, 175, 55, 0.5);
+      background: rgba(0, 212, 255, 0.1);
+      border-color: rgba(0, 212, 255, 0.9);
       transform: scale(0.98);
     }
 
     @include desktop {
       &:hover {
-        background: $color-bg-card;
-        border-color: $color-accent-yellow;
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        background: rgba(0, 212, 255, 0.15);
+        border-color: rgba(0, 212, 255, 0.9);
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); // Shinier glow
       }
     }
   }
@@ -180,15 +180,17 @@
     width: 56px; // Mobile-first: larger touch target
     height: 56px;
     margin: $spacing-sm auto; // Mobile-first: more margin
-    background: linear-gradient(135deg, rgba(37, 37, 37, 0.9) 0%, rgba(26, 26, 26, 1) 100%);
-    border: 2px solid rgba(212, 175, 55, 0.3);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(0, 212, 255, 0.7); // Shinier neon blue border
     border-radius: $radius-full;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-2xl; // Mobile-first: larger icon
     @include flex-center;
     transition: all $transition-fast;
     -webkit-tap-highlight-color: transparent;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 
     @include desktop {
       width: 48px;
@@ -198,17 +200,17 @@
     }
 
     &:active {
-      background: linear-gradient(135deg, rgba(37, 37, 37, 1) 0%, rgba(26, 26, 26, 1) 100%);
-      border-color: rgba(212, 175, 55, 0.5);
+      background: rgba(0, 212, 255, 0.1);
+      border-color: rgba(0, 212, 255, 0.9);
       transform: rotate(180deg) scale(0.95);
     }
 
     @include desktop {
       &:hover {
-        background: $color-bg-card;
-        border-color: $color-accent-yellow;
+        background: rgba(0, 212, 255, 0.15);
+        border-color: rgba(0, 212, 255, 0.9);
         transform: rotate(180deg);
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); // Shinier glow
       }
     }
   }
@@ -217,8 +219,10 @@
     @include flex-column;
     gap: $spacing-xs; // Mobile-first: smaller gap
     padding: $spacing-sm; // Mobile-first: smaller padding
-    background: rgba(37, 37, 37, 0.6);
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
     border-radius: $radius-md;
 
     @include desktop {
@@ -229,7 +233,7 @@
 
   &__detail {
     @include flex-between;
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-xs; // Mobile-first: smaller text
     padding: $spacing-xs 0;
 
@@ -255,8 +259,10 @@
     @include button-reset;
     @include flex-between;
     padding: $spacing-md;
-    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
     border-radius: $radius-md;
     transition: all $transition-fast;
     min-height: 60px; // Mobile-first: larger touch target
@@ -267,15 +273,15 @@
     }
 
     &:active {
-      background: linear-gradient(135deg, rgba(37, 37, 37, 1) 0%, rgba(26, 26, 26, 1) 100%);
-      border-color: rgba(212, 175, 55, 0.3);
+      background: rgba(0, 212, 255, 0.1);
+      border-color: rgba(0, 212, 255, 0.5);
       transform: scale(0.98);
     }
 
     @include desktop {
       &:hover {
-        background: $color-bg-tertiary;
-        border-color: rgba(212, 175, 55, 0.3);
+        background: rgba(0, 212, 255, 0.1);
+        border-color: rgba(0, 212, 255, 0.5);
       }
     }
   }
@@ -287,11 +293,11 @@
 
   &__tokenSymbol {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: #ffffff; // White text
   }
 
   &__tokenName {
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-sm;
   }
 }

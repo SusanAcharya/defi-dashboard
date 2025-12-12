@@ -11,4 +11,5 @@ export { Staking } from './Staking/Staking';
 export { Leaderboard } from './Leaderboard/Leaderboard';
 export { NFTs } from './NFTs/NFTs';
 export { Settings } from './Settings/Settings';
+export { Wallet } from './Wallet/Wallet';
 

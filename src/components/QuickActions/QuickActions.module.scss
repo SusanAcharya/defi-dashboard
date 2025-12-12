@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .quickActions {
   display: grid;
@@ -21,63 +21,62 @@
     @include button-reset;
     @include flex-column;
     @include flex-center;
-    gap: $spacing-xs; // Mobile-first: smaller gap
-    padding: $spacing-sm; // Mobile-first: smaller padding
-    background: linear-gradient(135deg, #1d1d1d 0%, #252525 100%);
-    border-radius: $radius-md;
-    border: 2px solid rgba(212, 175, 55, 0.2);
+    gap: $spacing-xs;
+    padding: $spacing-md $spacing-lg; // More padding for rectangular shape
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 0; // Sharp corners - rectangular like image
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+      0 0 15px rgba(0, 212, 255, 0.3),
+      inset 0 1px 0 rgba(0, 212, 255, 0.2); // Subtle inner glow
     transition: all $transition-fast;
     cursor: pointer;
-    min-height: 70px; // Touch target
+    min-height: 80px; // Taller for rectangular shape
     -webkit-tap-highlight-color: transparent;
     position: relative;
     overflow: hidden;
 
-    // Add corner accent
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 20px;
-      height: 20px;
-      border-top: 2px solid rgba(212, 175, 55, 0.5);
-      border-left: 2px solid rgba(212, 175, 55, 0.5);
-    }
-
     &:active {
-      background: linear-gradient(135deg, #252525 0%, #2a2a2a 100%);
-      border-color: rgba(212, 175, 55, 0.4);
+      background: rgba(0, 212, 255, 0.1);
+      border-color: rgba(0, 212, 255, 0.9);
       box-shadow: 
-        0 6px 20px rgba(0, 0, 0, 0.9),
-        0 0 20px rgba(212, 175, 55, 0.3);
-      transform: scale(0.95);
+        0 3px 15px rgba(0, 0, 0, 0.9),
+        0 0 50px rgba(0, 212, 255, 0.5);
+      transform: scale(0.98);
     }
 
     @include desktop {
-      padding: $spacing-md;
-      gap: $spacing-sm;
-      min-height: auto;
+      padding: $spacing-lg $spacing-xl;
+      min-height: 100px;
 
       &:hover {
-        background: linear-gradient(135deg, #252525 0%, #2a2a2a 100%);
-        border-color: rgba(212, 175, 55, 0.4);
+        background: rgba(0, 212, 255, 0.1);
+        border-color: rgba(0, 212, 255, 0.1);
         box-shadow: 
-          0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 20px rgba(212, 175, 55, 0.3);
+          0 8px 30px rgba(0, 0, 0, 0.9),
+          0 0 40px rgba(0, 212, 255, 0.3);
         transform: translateY(-2px);
       }
     }
   }
 
   &__icon {
-    font-size: $font-size-xl; // Mobile-first: smaller icons
+    font-size: $font-size-xl; 
 
     @include desktop {
       font-size: $font-size-2xl;
+    }
+  }
+
+  &__iconImage {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+
+    @include desktop {
+      width: 40px;
+      height: 40px;
     }
   }
 

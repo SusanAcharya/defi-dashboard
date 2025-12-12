@@ -1,10 +1,10 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .airdrops {
   &__total {
     font-size: $font-size-lg; // Mobile-first: smaller
     font-weight: $font-weight-semibold;
-    color: $color-accent-yellow;
+    color: #00d4ff; // Neon blue
     margin-bottom: $spacing-md; // Mobile-first: smaller margin
 
     @include desktop {
@@ -25,29 +25,12 @@
   }
 
   &__card {
-    background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
-    border-radius: $radius-lg;
-    border: 3px solid rgba(212, 175, 55, 0.25);
-    padding: $spacing-lg;
+    @include card; // Use card mixin for grid pattern and neon blue borders
     @include flex-column;
     gap: $spacing-md;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.8),
-      inset 0 2px 0 rgba(212, 175, 55, 0.15),
-      0 0 30px rgba(212, 175, 55, 0.15);
+    padding: $spacing-lg;
     position: relative;
     overflow: hidden;
-
-    // Add money bag pattern
-    &::after {
-      content: '💰';
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 40px;
-      opacity: 0.1;
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
   }
 
   &__info {
@@ -57,12 +40,12 @@
 
   &__name {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-lg;
   }
 
   &__description {
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-sm;
   }
 
@@ -73,7 +56,7 @@
   }
 
   &__launch {
-    color: $color-text-muted;
+    color: #808090; // Muted gray
     font-size: $font-size-sm;
   }
 
@@ -90,9 +73,12 @@
 
     li {
       padding: $spacing-sm;
-      background: $color-bg-secondary;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
       border-radius: $radius-md;
-      color: $color-text-primary;
+      color: #ffffff; // White text
     }
   }
 }

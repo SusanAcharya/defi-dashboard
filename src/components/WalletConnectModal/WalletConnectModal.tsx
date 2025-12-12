@@ -9,8 +9,9 @@ export const WalletConnectModal: React.FC = () => {
   const { connectWallet } = useWalletStore();
 
   const handleConnect = () => {
-    // Mock wallet connection - replace with actual wallet connection logic
-    const mockAddress = '0x1234567890123456789012345678901234567890';
+    // Mock wallet connection - replace with actual Starknet wallet connection logic (Argent X / Braavos)
+    // Starknet addresses are 66 characters: 0x + 64 hex characters
+    const mockAddress = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
     connectWallet(mockAddress);
     setWalletConnectModalOpen(false);
   };

@@ -27,7 +27,7 @@ export const useWalletStore = create<WalletState>((set) => ({
   connectWallet: (address) => set({
     wallet: {
       address,
-      shortAddress: `${address.slice(0, 6)}...${address.slice(-4)}`,
+      shortAddress: `${address.slice(0, 4)}...${address.slice(-4)}`,
     },
     isConnected: true,
   }),

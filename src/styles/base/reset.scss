@@ -1,3 +1,5 @@
+@use '../variables.scss' as *;
+
 * {
   margin: 0;
   padding: 0;
@@ -16,61 +18,24 @@ html {
 
 body {
   font-family: $font-family-primary;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 25%, #0a0a1a 50%, #1a1a0a 75%, #0a0a0a 100%);
-  background-size: 400% 400%;
-  animation: pulse-gradient 15s ease infinite;
+  // Purple/Blue gradient background (like Pawtato/ATO Board)
+  background: linear-gradient(
+    135deg,
+    #0a0a14 0%,      // Deep dark purple-blue
+    #1a1a2e 25%,     // Dark purple-blue
+    #252540 50%,     // Medium purple-blue
+    #1a1a2e 75%,     // Dark purple-blue
+    #0a0a14 100%     // Deep dark purple-blue
+  );
   background-attachment: fixed;
+  background-size: 100% 100%;
   color: $color-text-primary;
   line-height: 1.5;
   overflow-x: hidden;
-  // Mobile: prevent pull-to-refresh on overscroll
   overscroll-behavior-y: contain;
   position: relative;
-
-  // Add gritty texture overlay with scan lines
-  &::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(139, 38, 53, 0.05) 0%, transparent 50%),
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.15) 2px,
-        rgba(0, 0, 0, 0.15) 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 100px,
-        rgba(0, 0, 0, 0.03) 100px,
-        rgba(0, 0, 0, 0.03) 101px
-      );
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  // Add scanning line effect
-  &::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
-    animation: gritty-scan 8s linear infinite;
-    pointer-events: none;
-    z-index: 0;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-  }
 }
+
 
 #root {
   min-height: 100vh;

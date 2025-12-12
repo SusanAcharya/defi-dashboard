@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .bottomNav {
   // Mobile-first: Visible by default, sticky at bottom
@@ -7,19 +7,20 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+  background: rgba(26, 26, 46, 0.8); // Transparent purple-blue
   backdrop-filter: blur(15px);
-  border-top: 3px solid rgba(212, 175, 55, 0.3); // Thicker gold accent
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 2px solid rgba(139, 92, 246, 0.6); // Purple accent
   padding: $spacing-sm $spacing-md;
   z-index: 1000; // High z-index to stay on top
   @include flex-between;
   box-shadow: 
     0 -4px 20px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(212, 175, 55, 0.2),
-    0 0 30px rgba(212, 175, 55, 0.1);
+    inset 0 1px 0 rgba(139, 92, 246, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.2); // Purple glow
   overflow: hidden;
 
-  // Add gritty scan effect
+  // Add subtle scan effect
   &::before {
     content: '';
     position: absolute;
@@ -27,7 +28,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
     animation: gritty-scan 12s linear infinite;
     pointer-events: none;
   }
@@ -54,8 +55,8 @@
     }
 
     &.bottomNav__item_active {
-      color: $color-accent-yellow; // Gold for active
-      text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+      color: #00d4ff; // Neon blue for active
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
     }
   }
 
@@ -63,8 +64,20 @@
     font-size: $font-size-xl; // Mobile-first: larger icons
   }
 
+  &__iconImage {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: brightness(0.7); // Make icons slightly dimmer for inactive state
+    transition: filter $transition-fast;
+
+    .bottomNav__item_active & {
+      filter: brightness(1.3) saturate(1.3); // Brighter and more saturated for active state
+    }
+  }
+
   &__label {
-    font-size: $font-size-xs;
+    font-size: $font-size-sm; // Larger
     font-weight: $font-weight-medium;
   }
 }

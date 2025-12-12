@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .defi {
   &__list {
@@ -13,38 +13,12 @@
   }
 
   &__card {
-    background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
-    border-radius: $radius-lg;
-    border: 3px solid rgba(212, 175, 55, 0.25);
-    padding: $spacing-lg;
+    @include card; // Use card mixin for grid pattern and neon blue borders
     @include flex-column;
     gap: $spacing-md;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.8),
-      inset 0 2px 0 rgba(212, 175, 55, 0.15),
-      inset 0 -2px 0 rgba(0, 0, 0, 0.5),
-      0 0 30px rgba(212, 175, 55, 0.15);
+    padding: $spacing-lg;
     position: relative;
     overflow: hidden;
-
-    // Add diagonal stripe effect
-    &::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 30px,
-        rgba(212, 175, 55, 0.03) 30px,
-        rgba(212, 175, 55, 0.03) 60px
-      );
-      animation: float 30s linear infinite;
-      pointer-events: none;
-    }
 
     > * {
       position: relative;
@@ -65,12 +39,15 @@
     width: 48px;
     height: 48px;
     border-radius: $radius-md;
-    background: $color-bg-tertiary;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
   }
 
   &__name {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-lg;
   }
 
@@ -96,12 +73,12 @@
   }
 
   &__metricLabel {
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-xs;
   }
 
   &__metricValue {
-    color: $color-accent-yellow;
+    color: #00d4ff; // Neon blue
     font-size: $font-size-base;
     font-weight: $font-weight-semibold;
   }

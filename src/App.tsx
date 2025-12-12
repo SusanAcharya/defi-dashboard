@@ -15,6 +15,7 @@ import {
   Leaderboard,
   NFTs,
   Settings,
+  Wallet,
 } from './pages';
 import './styles/index.scss';
 
@@ -30,7 +31,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true }}>
         <AnimatedBackground />
         <Layout>
           <Routes>
@@ -47,6 +48,7 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/nfts" element={<NFTs />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/wallet" element={<Wallet />} />
           </Routes>
         </Layout>
         <WalletConnectModal />

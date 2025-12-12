@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .transfers {
   &__header {
@@ -20,22 +20,26 @@
   &__filter {
     @include button-reset;
     padding: $spacing-sm $spacing-md;
-    background: $color-bg-secondary;
-    color: $color-text-secondary;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #b0b0b0; // Light gray
+    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
     border-radius: $radius-md;
     font-size: $font-size-sm;
     transition: all $transition-fast;
 
     &:hover {
-      background: $color-bg-tertiary;
-      color: $color-text-primary;
+      background: rgba(0, 212, 255, 0.1);
+      color: #ffffff; // White text
+      border-color: rgba(0, 212, 255, 0.5);
     }
 
     &_active {
-      background: $gradient-accent-gold; // Gold gradient
-      color: $color-text-primary;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+      background: $gradient-accent-blue; // Neon blue gradient
+      color: #ffffff; // White text
+      border: 1px solid rgba(0, 212, 255, 0.7);
+      box-shadow: 0 2px 8px rgba(0, 212, 255, 0.4), 0 0 15px rgba(0, 212, 255, 0.3); // Shinier glow
     }
   }
 
@@ -45,15 +49,15 @@
   }
 
   &__item {
+    @include card; // Use card mixin for grid pattern and neon blue borders
     @include flex-center;
     gap: $spacing-md;
     padding: $spacing-md;
-    background: $color-bg-secondary;
-    border-radius: $radius-md;
-    transition: background $transition-fast;
+    transition: all $transition-fast;
 
     &:hover {
-      background: $color-bg-tertiary;
+      background: rgba(0, 0, 0, 0.5);
+      border-color: rgba(0, 212, 255, 0.8);
     }
   }
 
@@ -72,18 +76,18 @@
 
   &__token {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-base;
   }
 
   &__amount {
-    color: $color-accent-yellow;
+    color: #00d4ff; // Neon blue
     font-size: $font-size-lg;
     font-weight: $font-weight-medium;
   }
 
   &__address {
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-sm;
     font-family: monospace;
   }
@@ -107,8 +111,8 @@
     }
 
     &_pending {
-      background: rgba(255, 215, 0, 0.2);
-      color: $color-accent-yellow;
+      background: rgba(255, 204, 0, 0.2);
+      color: #ffcc00; // Neon yellow
     }
 
     &_failed {
@@ -118,7 +122,7 @@
   }
 
   &__time {
-    color: $color-text-muted;
+    color: #808090; // Muted gray
     font-size: $font-size-xs;
   }
 }

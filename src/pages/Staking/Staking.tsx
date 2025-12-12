@@ -7,7 +7,7 @@ import { useUIStore } from '@/store/uiStore';
 import styles from './Staking.module.scss';
 
 export const Staking: React.FC = () => {
-  const { stakeModalOpen, setStakeModalOpen } = useUIStore();
+  const { stakeModalOpen, setStakeModalOpen, showFinancialNumbers } = useUIStore();
   const [selectedPool, setSelectedPool] = useState<any>(null);
   const [stakeAmount, setStakeAmount] = useState('');
 
@@ -52,18 +52,18 @@ export const Staking: React.FC = () => {
                 <div className={styles.staking__apr}>
                   <div className={styles.staking__aprLabel}>APR</div>
                   <div className={styles.staking__aprValue}>
-                    {formatPercentage(pool.apr)}
+                    {formatPercentage(pool.apr, 2, showFinancialNumbers)}
                   </div>
                 </div>
               </div>
               <div className={styles.staking__metrics}>
                 <div className={styles.staking__metric}>
                   <span>Total Staked</span>
-                  <span>{formatCurrency(pool.totalStaked)}</span>
+                  <span>{formatCurrency(pool.totalStaked, 'USD', showFinancialNumbers)}</span>
                 </div>
                 <div className={styles.staking__metric}>
                   <span>Your Staked</span>
-                  <span>{formatNumber(pool.userStaked)} {pool.token}</span>
+                  <span>{formatNumber(pool.userStaked, 2, showFinancialNumbers)} {pool.token}</span>
                 </div>
               </div>
               <div className={styles.staking__actions}>
@@ -112,7 +112,9 @@ export const Staking: React.FC = () => {
               </div>
               <div className={styles.staking__earningsValue}>
                 {formatCurrency(
-                  (parseFloat(stakeAmount) * selectedPool.apr) / 100
+                  (parseFloat(stakeAmount) * selectedPool.apr) / 100,
+                  'USD',
+                  showFinancialNumbers
                 )}
               </div>
             </div>

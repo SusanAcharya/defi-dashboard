@@ -1,32 +1,80 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .portfolioCard {
-  background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
-  border: 3px solid rgba(212, 175, 55, 0.3); // Thicker gold border
+  background: rgba(26, 26, 46, 0.6); // Same as other cards - purple-blue
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(139, 92, 246, 0.5); // Purple border
   box-shadow: 
     0 10px 40px rgba(0, 0, 0, 0.9),
-    inset 0 2px 0 rgba(212, 175, 55, 0.2),
+    inset 0 2px 0 rgba(139, 92, 246, 0.3), // Purple accent
     inset 0 -2px 0 rgba(0, 0, 0, 0.6),
-    0 0 50px rgba(212, 175, 55, 0.2);
+    0 0 40px rgba(139, 92, 246, 0.3), // Purple glow
+    0 0 60px rgba(139, 92, 246, 0.2); // Additional outer glow
   position: relative;
   overflow: hidden;
 
-  // Add crime scene tape effect
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(139, 92, 246, 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px; // Grid size
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4; // Grid opacity
+  }
+
+  // Add purple accent line (above grid)
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: repeating-linear-gradient(
-      90deg,
-      rgba(212, 175, 55, 0.8) 0px,
-      rgba(212, 175, 55, 0.8) 20px,
-      rgba(0, 0, 0, 0.8) 20px,
-      rgba(0, 0, 0, 0.8) 40px
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(139, 92, 246, 0.6), 
+      rgba(139, 92, 246, 0.8), 
+      rgba(139, 92, 246, 0.6), 
+      transparent
     );
     z-index: 2;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5), 0 0 25px rgba(139, 92, 246, 0.3); // Purple glow
+  }
+
+  // Ensure content is above grid
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__alias {
+    color: $color-text-secondary; // Light gray-purple
+    font-size: $font-size-base;
+    margin-bottom: $spacing-sm;
+    position: relative;
+    z-index: 1;
+
+    @include desktop {
+      display: none; // Hide on desktop, show in profile section instead
+    }
+  }
+
+  &__aliasDesktop {
+    color: #b0b0b0; // Light gray (MOBSTAKER style)
+    font-size: $font-size-base;
+    display: none; // Hidden on mobile
+
+    @include desktop {
+      display: block; // Show on desktop in profile section
+    }
   }
 
   &__header {
@@ -38,13 +86,32 @@
 
     @include mobile {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      gap: $spacing-md;
     }
   }
 
   &__profile {
+    @include flex-column;
     @include flex-center;
-    gap: $spacing-md;
+    gap: $spacing-sm;
+    align-items: center;
+
+    @include desktop {
+      @include flex-center;
+      flex-direction: row;
+      gap: $spacing-md;
+    }
+  }
+
+  &__info {
+    @include flex-column;
+    gap: $spacing-xs;
+    align-items: center;
+
+    @include desktop {
+      align-items: flex-start;
+    }
   }
 
   &__avatar {
@@ -52,8 +119,7 @@
     height: 60px;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    border: 2px solid rgba(139, 92, 246, 0.5); // Purple border
     flex-shrink: 0;
     position: relative;
 
@@ -63,67 +129,131 @@
     }
   }
 
-  &__info {
-    @include flex-column;
-    gap: $spacing-xs;
-  }
-
-  &__username {
-    color: $color-accent-yellow;
-    font-size: $font-size-lg; // Mobile-first: smaller
-    font-weight: $font-weight-semibold;
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
-    letter-spacing: 1px;
-    animation: pulse-glow 3s ease-in-out infinite;
+  &__usernameRow {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    justify-content: center;
 
     @include desktop {
-      font-size: $font-size-xl;
+      justify-content: flex-start;
     }
   }
 
-  &__alias {
-    color: $color-text-primary;
-    font-size: $font-size-sm;
+  &__username {
+    color: $color-text-primary; // White
+    font-size: $font-size-xl; // Mobile-first: larger
+    font-weight: $font-weight-bold;
+    letter-spacing: 2px;
+    text-align: center;
+    // Removed glow
+
+    @include desktop {
+      font-size: $font-size-2xl; // Even larger on desktop
+      text-align: left;
+    }
   }
 
   &__networth {
     @include flex-column;
     align-items: flex-end;
     gap: $spacing-xs;
+    width: 100%;
+
 
     @include mobile {
-      align-items: flex-start;
-      width: 100%;
+      align-items: center;
     }
   }
 
+  &__networthRow {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    width: 100%;
+
+    @include mobile {
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    @include desktop {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+
+  &__eyeButton {
+    @include button-reset;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(139, 92, 246, 0.5); // Purple border
+    border-radius: $radius-sm;
+    padding: $spacing-xs;
+    cursor: pointer;
+    transition: all $transition-fast;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px; // Smaller width
+    min-height: 28px; // Smaller height
+    width: 28px;
+    height: 28px;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+    flex-shrink: 0;
+
+    &:active {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.7);
+      transform: scale(0.95);
+    }
+
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.15);
+        border-color: rgba(139, 92, 246, 0.7);
+        box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+      }
+    }
+  }
+
+  &__eyeIcon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   &__label {
-    color: $color-text-primary;
+    color: $color-text-secondary; // Light gray-purple
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
   }
 
   &__value {
-    color: $color-accent-yellow;
-    font-size: $font-size-xl; // Mobile-first: smaller
+    color: $color-text-primary; // White
+    // Removed glow/shine
+    font-size: $font-size-2xl; // Mobile-first: larger for numbers
     font-weight: $font-weight-bold;
-    text-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
     letter-spacing: 2px;
 
     @include desktop {
-      font-size: $font-size-2xl;
+      font-size: $font-size-3xl; // Even larger on desktop
     }
   }
 
   &__change {
-    background: linear-gradient(135deg, #4a7c59 0%, #3a5c47 100%);
-    color: $color-text-primary;
+    background: transparent; // No background, just green text
+    color: $color-positive; // Green color for positive change
     padding: $spacing-xs $spacing-sm;
     border-radius: $radius-sm;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    border: 1px solid rgba(74, 124, 89, 0.3);
-    box-shadow: 0 2px 6px rgba(74, 124, 89, 0.3);
+    font-size: $font-size-base; // Larger for numbers
+    font-weight: $font-weight-bold;
+    border: none; // No border
+    box-shadow: none; // No shadow
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   &__divider {
@@ -134,11 +264,10 @@
 
   &__metrics {
     display: grid;
-    grid-template-columns: 1fr; // Mobile-first: single column
+    grid-template-columns: repeat(3, 1fr); // Mobile: 3 columns
     gap: $spacing-sm; // Mobile-first: smaller gap
 
     @include desktop {
-      grid-template-columns: repeat(3, 1fr);
       gap: $spacing-md;
     }
   }
@@ -146,18 +275,27 @@
   &__metric {
     @include flex-column;
     gap: $spacing-xs;
+    align-items: center; // Center items horizontally
+    text-align: center; // Center text
   }
 
   &__metricLabel {
-    color: $color-text-primary;
+    color: $color-text-secondary; // Light gray-purple
     font-size: $font-size-sm;
+    text-align: center; // Center label
   }
 
   &__metricValue {
-    color: $color-accent-yellow;
-    font-size: $font-size-lg;
-    font-weight: $font-weight-semibold;
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+    color: $color-text-primary; // White
+    // Removed glow/shine
+    font-size: $font-size-xl; // Larger for numbers
+    font-weight: $font-weight-bold;
+    letter-spacing: 1px;
+    text-align: center; // Center value
+
+    @include desktop {
+      font-size: $font-size-2xl; // Even larger on desktop
+    }
   }
 }
 

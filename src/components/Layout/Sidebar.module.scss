@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .sidebar {
   // Mobile-first: Hidden by default, shown as drawer
@@ -7,38 +7,17 @@
   @include desktop {
     display: block;
     width: 250px;
-    background: linear-gradient(90deg, rgba(10, 10, 10, 0.98) 0%, rgba(26, 26, 26, 0.95) 100%);
-    backdrop-filter: blur(15px);
-    border-right: 3px solid rgba(212, 175, 55, 0.3); // Thicker gold accent
-    height: calc(100vh - 80px);
+    background: rgba(10, 10, 20, 0.95); // Dark background
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1); // Subtle border
+    height: calc(100vh - 60px);
     position: fixed;
     left: 0;
     top: 80px;
     overflow-y: auto;
     z-index: 50;
-    box-shadow: 
-      4px 0 20px rgba(0, 0, 0, 0.8),
-      inset -1px 0 0 rgba(212, 175, 55, 0.2),
-      0 0 30px rgba(212, 175, 55, 0.1);
-
-    // Add gritty texture
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 50px,
-        rgba(0, 0, 0, 0.1) 50px,
-        rgba(0, 0, 0, 0.1) 51px
-      );
-      pointer-events: none;
-      opacity: 0.3;
-    }
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
   }
 
   &__nav {
@@ -51,44 +30,61 @@
     @include button-reset;
     @include flex-center;
     gap: $spacing-md;
-    padding: $spacing-md;
-    border-radius: $radius-md;
-    color: $color-text-secondary;
+    padding: $spacing-md $spacing-lg;
+    border-radius: 0; // No border radius for clean look
+    color: #b0b0b0; // Light gray for inactive items
     text-align: left;
     transition: all $transition-fast;
     width: 100%;
     min-height: 48px; // Touch target size
+    background: transparent;
+    border: none;
+    justify-content: flex-start;
 
     &:active {
-      background: $color-bg-tertiary;
-      color: $color-text-primary;
+      background: transparent;
+      color: #b0b0b0;
     }
 
     @include desktop {
       &:hover {
-        background: $color-bg-tertiary;
-        color: $color-text-primary;
+        background: transparent;
+        color: #d0d0d0; // Slightly lighter on hover
       }
     }
 
     &.sidebar__item_active {
-      background: rgba(212, 175, 55, 0.15); // Gold tint
-      color: $color-accent-yellow; // Gold text
+      background: transparent;
+      color: #ffd700; // Golden-yellow for active item
       font-weight: $font-weight-medium;
-      border-left: 3px solid $color-accent-yellow;
-      text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+      border: none;
+      text-shadow: none;
     }
   }
 
   &__icon {
-    font-size: $font-size-lg;
-    width: 24px;
+    font-size: $font-size-xl;
+    width: 28px;
     text-align: center;
+    flex-shrink: 0;
+  }
+
+  &__iconImage {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: brightness(0.7); // Make icons slightly dimmer for inactive state
+
+    .sidebar__item_active & {
+      filter: brightness(1.2) saturate(1.2); // Brighter and more saturated for active state
+    }
   }
 
   &__label {
     flex: 1;
     font-size: $font-size-base;
+    font-weight: $font-weight-normal;
   }
 }
 

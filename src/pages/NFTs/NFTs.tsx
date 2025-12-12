@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency, formatTimestamp } from '@/utils/format';
+import { useUIStore } from '@/store/uiStore';
 import { Card, Button } from '@/components';
 import styles from './NFTs.module.scss';
 
 export const NFTs: React.FC = () => {
   const [alertsEnabled, setAlertsEnabled] = useState(true);
+  const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
   const { data: nfts, isLoading } = useQuery({
     queryKey: ['nfts'],
     queryFn: api.getNFTs,
@@ -52,12 +54,12 @@ export const NFTs: React.FC = () => {
                 <div className={styles.nfts__metrics}>
                   <div className={styles.nfts__metric}>
                     <span>Floor Price</span>
-                    <span>{formatCurrency(nft.floorPrice)}</span>
+                    <span>{formatCurrency(nft.floorPrice, 'USD', showFinancialNumbers)}</span>
                   </div>
                   {nft.mintPrice && (
                     <div className={styles.nfts__metric}>
                       <span>Mint Price</span>
-                      <span>{formatCurrency(nft.mintPrice)}</span>
+                      <span>{formatCurrency(nft.mintPrice, 'USD', showFinancialNumbers)}</span>
                     </div>
                   )}
                   {nft.supply && (
@@ -96,7 +98,7 @@ export const NFTs: React.FC = () => {
                     {nft.collection}
                   </div>
                   <div className={styles.nfts__trackerPrice}>
-                    {formatCurrency(nft.floorPrice)}
+                    {formatCurrency(nft.floorPrice, 'USD', showFinancialNumbers)}
                   </div>
                 </div>
                 <div className={styles.nfts__trackerChange}>+2.5%</div>

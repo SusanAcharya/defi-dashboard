@@ -1,6 +1,7 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .home {
+
   &__grid {
     display: grid;
     grid-template-columns: 1fr; // Mobile-first: single column
@@ -13,5 +14,66 @@
       margin-bottom: $spacing-lg;
     }
   }
-}
 
+  &__mobileNav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // 3 columns on mobile
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+    padding: $spacing-md 0;
+
+    @include desktop {
+      display: none; // Hide on desktop
+    }
+  }
+
+  &__mobileNavButton {
+    @include button-reset;
+    @include flex-column;
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    aspect-ratio: 1; // Make it circular/square
+    border-radius: 50%; // Circular
+    background: rgba(26, 26, 46, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 
+      0 4px 15px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(139, 92, 246, 0.1);
+    transition: all $transition-fast;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+
+    &:active {
+      background: rgba(26, 26, 46, 0.8);
+      border-color: rgba(139, 92, 246, 0.5);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.9),
+        0 0 15px rgba(139, 92, 246, 0.3);
+      transform: scale(0.95);
+    }
+  }
+
+  &__mobileNavIcon {
+    font-size: $font-size-2xl;
+    line-height: 1;
+  }
+
+  &__mobileNavIconImage {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  &__mobileNavLabel {
+    color: $color-text-primary;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    text-align: center;
+    line-height: 1.2;
+  }
+}

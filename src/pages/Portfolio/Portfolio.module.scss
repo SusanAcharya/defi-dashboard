@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .portfolio {
   &__header {
@@ -6,20 +6,25 @@
   }
 
   &__value {
-    font-size: $font-size-2xl; // Mobile-first: smaller
+    font-size: $font-size-2xl; // Mobile-first: large for numbers
     font-weight: $font-weight-bold;
-    color: $color-accent-yellow;
+    color: $color-text-primary;
     margin: $spacing-sm 0;
+    word-break: break-word;
 
     @include desktop {
-      font-size: $font-size-3xl;
+      font-size: $font-size-3xl; // Even larger on desktop
     }
   }
 
   &__change {
-    font-size: $font-size-lg;
-    color: $color-accent-green;
+    font-size: $font-size-base;
+    color: $color-positive; // Green
     font-weight: $font-weight-medium;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
   }
 
   &__timeframes {
@@ -27,33 +32,94 @@
     gap: $spacing-sm;
     margin-bottom: $spacing-lg;
     flex-wrap: wrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: $spacing-xs;
+
+    @include mobile {
+      gap: $spacing-xs;
+      margin-bottom: $spacing-md;
+    }
   }
 
   &__timeframe {
     @include button-reset;
     padding: $spacing-sm $spacing-md;
-    background: $color-bg-secondary;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(139, 92, 246, 0.3); // Purple border
     color: $color-text-secondary;
     border-radius: $radius-md;
     font-size: $font-size-sm;
     transition: all $transition-fast;
+    white-space: nowrap;
+    flex-shrink: 0;
 
-    &:hover {
-      background: $color-bg-tertiary;
-      color: $color-text-primary;
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-xs;
+    }
+
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.1);
+        color: $color-text-primary;
+        border-color: rgba(139, 92, 246, 0.5);
+      }
     }
 
     &_active {
-      background: $gradient-accent-gold; // Gold gradient
+      background: $gradient-accent-purple; // Purple gradient
       color: $color-text-primary;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(139, 92, 246, 0.5);
+      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4), 0 0 15px rgba(139, 92, 246, 0.3);
     }
   }
 
   &__chart {
+    @include card; // Use card mixin for grid pattern and purple borders
     margin-top: $spacing-lg;
+    padding: $spacing-md;
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @include mobile {
+      margin-top: $spacing-md;
+      padding: $spacing-sm;
+    }
+
+    // Cracked glass effect
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+      box-shadow: 
+        -1px -1px 0 rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8);
+      z-index: 10;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+      box-shadow: 
+        -1px -1px 0 rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8);
+      z-index: 10;
+    }
   }
 
   &__tokens {
@@ -64,15 +130,24 @@
   &__token {
     @include flex-between;
     padding: $spacing-md;
-    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+    background: rgba(26, 26, 46, 0.6); // Semi-transparent purple-blue
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border-radius: $radius-md;
-    border: 2px solid rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.3); // Purple border
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+      inset 0 1px 0 rgba(139, 92, 246, 0.1);
     transition: all $transition-fast;
     position: relative;
     overflow: hidden;
+
+    @include mobile {
+      padding: $spacing-sm;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-sm;
+    }
 
     // Add corner accent
     &::before {
@@ -82,25 +157,25 @@
       right: 0;
       width: 15px;
       height: 15px;
-      border-top: 2px solid rgba(212, 175, 55, 0.4);
-      border-right: 2px solid rgba(212, 175, 55, 0.4);
+      border-top: 2px solid rgba(139, 92, 246, 0.4); // Purple
+      border-right: 2px solid rgba(139, 92, 246, 0.4); // Purple
     }
 
     &:active {
-      background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-      border-color: rgba(212, 175, 55, 0.3);
+      background: rgba(26, 26, 46, 0.8);
+      border-color: rgba(139, 92, 246, 0.5);
       box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.9),
-        0 0 15px rgba(212, 175, 55, 0.2);
+        0 0 15px rgba(139, 92, 246, 0.3);
     }
 
     @include desktop {
       &:hover {
-        background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-        border-color: rgba(212, 175, 55, 0.3);
+        background: rgba(26, 26, 46, 0.8);
+        border-color: rgba(139, 92, 246, 0.5);
         box-shadow: 
           0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 15px rgba(212, 175, 55, 0.2);
+          0 0 15px rgba(139, 92, 246, 0.3);
         transform: translateX(-3px);
       }
     }
@@ -116,39 +191,57 @@
     font-weight: $font-weight-semibold;
     color: $color-text-primary;
     font-size: $font-size-base;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
   }
 
   &__tokenName {
     color: $color-text-secondary;
     font-size: $font-size-sm;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
   }
 
   &__tokenBalance {
     @include flex-column;
     align-items: flex-end;
     gap: $spacing-xs;
+
+    @include mobile {
+      align-items: flex-start;
+      width: 100%;
+    }
   }
 
   &__tokenValue {
-    color: $color-accent-yellow;
+    color: $color-text-primary;
     font-weight: $font-weight-medium;
+    font-size: $font-size-lg; // Larger for numbers
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
   }
 
   &__tokenChange {
     font-weight: $font-weight-medium;
-    padding: $spacing-xs $spacing-sm;
-    border-radius: $radius-sm;
-    min-width: 80px;
-    text-align: center;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
 
     &_positive {
-      color: $color-accent-green;
-      background: rgba(74, 222, 128, 0.1);
+      color: $color-positive;
     }
 
     &_negative {
-      color: $color-accent-red;
-      background: rgba(239, 68, 68, 0.1);
+      color: $color-negative;
     }
   }
 }

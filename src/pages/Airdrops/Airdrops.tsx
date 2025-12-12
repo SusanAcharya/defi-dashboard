@@ -2,10 +2,12 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency, formatTimestamp } from '@/utils/format';
+import { useUIStore } from '@/store/uiStore';
 import { Card, Button } from '@/components';
 import styles from './Airdrops.module.scss';
 
 export const Airdrops: React.FC = () => {
+  const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
   const { data: airdrops, isLoading } = useQuery({
     queryKey: ['airdrops'],
     queryFn: api.getAirdrops,
@@ -26,7 +28,9 @@ export const Airdrops: React.FC = () => {
           <div className={styles.airdrops__total}>
             Total Unclaimed Value:{' '}
             {formatCurrency(
-              eligible.reduce((sum, a) => sum + a.unclaimedValue, 0)
+              eligible.reduce((sum, a) => sum + a.unclaimedValue, 0),
+              'USD',
+              showFinancialNumbers
             )}
           </div>
           <div className={styles.airdrops__list}>
@@ -38,7 +42,7 @@ export const Airdrops: React.FC = () => {
                     {airdrop.description}
                   </div>
                   <div className={styles.airdrops__value}>
-                    {formatCurrency(airdrop.unclaimedValue)}
+                    {formatCurrency(airdrop.unclaimedValue, 'USD', showFinancialNumbers)}
                   </div>
                 </div>
                 <Button variant="primary">Claim Now</Button>

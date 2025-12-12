@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .settings {
   width: 100%; // Mobile-first: full width
@@ -14,14 +14,14 @@
   }
 
   &__item {
+    @include card; // Use card mixin for grid pattern and neon blue borders
     @include flex-between;
     padding: $spacing-md;
-    background: $color-bg-secondary;
-    border-radius: $radius-md;
-    transition: background $transition-fast;
+    transition: all $transition-fast;
 
     &:hover {
-      background: $color-bg-tertiary;
+      background: rgba(0, 0, 0, 0.5);
+      border-color: rgba(0, 212, 255, 0.8);
     }
 
     @include mobile {
@@ -39,44 +39,52 @@
 
   &__title {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-base;
   }
 
   &__description {
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-sm;
   }
 
   &__toggle {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: $color-bg-tertiary;
-    color: $color-text-secondary;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #b0b0b0; // Light gray
+    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
     border-radius: $radius-md;
     font-weight: $font-weight-medium;
     transition: all $transition-fast;
     min-width: 60px;
 
     &_active {
-      background: $color-accent-green;
-      color: $color-text-primary;
+      background: $gradient-accent-green; // Neon green
+      color: #ffffff; // White text
+      border-color: rgba(0, 255, 136, 0.7);
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
     }
   }
 
   &__select {
     padding: $spacing-sm $spacing-md;
-    background: $color-bg-tertiary;
-    border: 1px solid $color-border;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 212, 255, 0.5); // Neon blue border
     border-radius: $radius-md;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-base;
     cursor: pointer;
     min-width: 150px;
 
     &:focus {
       outline: none;
-      border-color: $color-accent-blue;
+      border-color: rgba(0, 212, 255, 0.7);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
     }
   }
 

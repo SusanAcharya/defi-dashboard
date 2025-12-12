@@ -2,10 +2,12 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency, formatPercentage } from '@/utils/format';
+import { useUIStore } from '@/store/uiStore';
 import { Card, Button } from '@/components';
 import styles from './DeFi.module.scss';
 
 export const DeFi: React.FC = () => {
+  const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
   const { data: positions, isLoading } = useQuery({
     queryKey: ['defi-positions'],
     queryFn: api.getDefiPositions,
@@ -34,19 +36,19 @@ export const DeFi: React.FC = () => {
                 <div className={styles.defi__metric}>
                   <div className={styles.defi__metricLabel}>Position Value</div>
                   <div className={styles.defi__metricValue}>
-                    {formatCurrency(position.positionValue)}
+                    {formatCurrency(position.positionValue, 'USD', showFinancialNumbers)}
                   </div>
                 </div>
                 <div className={styles.defi__metric}>
                   <div className={styles.defi__metricLabel}>APR</div>
                   <div className={styles.defi__metricValue}>
-                    {formatPercentage(position.apr)}
+                    {formatPercentage(position.apr, 2, showFinancialNumbers)}
                   </div>
                 </div>
                 <div className={styles.defi__metric}>
                   <div className={styles.defi__metricLabel}>Claimable Rewards</div>
                   <div className={styles.defi__metricValue}>
-                    {formatCurrency(position.claimableRewards)}
+                    {formatCurrency(position.claimableRewards, 'USD', showFinancialNumbers)}
                   </div>
                 </div>
               </div>

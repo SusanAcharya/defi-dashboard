@@ -1,42 +1,127 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .portfolioExposure {
-  &__content {
-    display: grid;
-    grid-template-columns: 1fr; // Mobile-first: single column
-    gap: $spacing-md; // Mobile-first: smaller gap
+  position: relative;
+
+  // Cracked glass effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+    box-shadow: 
+      -2px -2px 0 rgba(0, 0, 0, 0.8),
+      2px 2px 0 rgba(0, 0, 0, 0.8);
+    z-index: 10;
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+
+  &__trend {
+    color: $color-positive; // Green
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+
+  &__list {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__item {
+    display: flex;
     align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 46, 0.4);
+    border-radius: $radius-md;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  &__itemIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-sm;
+    background: rgba(139, 92, 246, 0.2);
+    @include flex-center;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    flex-shrink: 0;
+  }
+
+  &__itemInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__itemName {
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__itemValue {
+    color: $color-text-secondary;
+    font-size: $font-size-xs;
+  }
+
+  &__itemAllocation {
+    @include flex-column;
+    gap: $spacing-xs;
+    align-items: flex-end;
+    min-width: 100px;
+  }
+
+  &__itemBar {
+    width: 100px;
+    height: 6px;
+    background: rgba(139, 92, 246, 0.2);
+    border-radius: $radius-sm;
+    overflow: hidden;
+  }
+
+  &__itemBarFill {
+    height: 100%;
+    border-radius: $radius-sm;
+    transition: width $transition-fast;
+  }
+
+  &__itemPercentage {
+    color: $color-text-secondary;
+    font-size: $font-size-xs;
+    white-space: nowrap;
+  }
+
+  &__itemMenu {
+    @include button-reset;
+    color: $color-text-secondary;
+    font-size: $font-size-lg;
+    cursor: pointer;
+    padding: $spacing-xs;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity $transition-fast;
+
+    &:active {
+      opacity: 1;
+    }
 
     @include desktop {
-      grid-template-columns: 1fr 1fr;
-      gap: $spacing-lg;
+      &:hover {
+        opacity: 1;
+      }
     }
-  }
-
-  &__chart {
-    width: 100%;
-    height: 200px;
-  }
-
-  &__legend {
-    @include flex-column;
-    gap: $spacing-md;
-  }
-
-  &__legendItem {
-    @include flex-between;
-    gap: $spacing-md;
-  }
-
-  &__legendColor {
-    font-weight: $font-weight-medium;
-    font-size: $font-size-base;
-  }
-
-  &__legendValue {
-    color: $color-text-primary;
-    font-size: $font-size-base;
-    font-weight: $font-weight-medium;
   }
 }
 

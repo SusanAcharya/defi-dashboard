@@ -24,11 +24,15 @@ export const Notifications: React.FC = () => {
 
   return (
     <div className={styles.notifications}>
-      <Card>
-        <div className={styles.notifications__header}>
-          <h2>Notifications</h2>
-          <div className={styles.notifications__telegram}>
-            <span>Telegram Alerts</span>
+      <Card title="NOTIFICATION PREFERENCES">
+        <div className={styles.notifications__preferences}>
+          <div className={styles.notifications__preferenceItem}>
+            <div className={styles.notifications__preferenceLabel}>
+              <div className={styles.notifications__preferenceTitle}>Telegram Alerts</div>
+              <div className={styles.notifications__preferenceDescription}>
+                Receive notifications via Telegram
+              </div>
+            </div>
             <button
               className={`${styles.notifications__toggle} ${
                 settings.telegramAlerts ? styles.notifications__toggle_active : ''
@@ -36,6 +40,22 @@ export const Notifications: React.FC = () => {
               onClick={toggleTelegram}
             >
               {settings.telegramAlerts ? 'ON' : 'OFF'}
+            </button>
+          </div>
+          <div className={styles.notifications__preferenceItem}>
+            <div className={styles.notifications__preferenceLabel}>
+              <div className={styles.notifications__preferenceTitle}>Push Notifications</div>
+              <div className={styles.notifications__preferenceDescription}>
+                Receive browser push notifications
+              </div>
+            </div>
+            <button
+              className={`${styles.notifications__toggle} ${
+                settings.pushNotifications ? styles.notifications__toggle_active : ''
+              }`}
+              onClick={() => updateSettings({ pushNotifications: !settings.pushNotifications })}
+            >
+              {settings.pushNotifications ? 'ON' : 'OFF'}
             </button>
           </div>
         </div>

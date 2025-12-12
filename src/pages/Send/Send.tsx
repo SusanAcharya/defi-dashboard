@@ -10,7 +10,7 @@ export const Send: React.FC = () => {
   const [selectedToken, setSelectedToken] = useState<any>(null);
   const [amount, setAmount] = useState('');
   const [recipient, setRecipient] = useState('');
-  const { tokenSelectorModalOpen, setTokenSelectorModalOpen, setAddressBookModalOpen } = useUIStore();
+  const { tokenSelectorModalOpen, setTokenSelectorModalOpen, setAddressBookModalOpen, showFinancialNumbers } = useUIStore();
 
   const { data: tokens } = useQuery({
     queryKey: ['tokens'],
@@ -75,7 +75,7 @@ export const Send: React.FC = () => {
 
           <div className={styles.send__fee}>
             <span>Network Fee</span>
-            <span>{formatNumber(0.001)} ETH</span>
+            <span>{formatNumber(0.001, 2, showFinancialNumbers)} ETH</span>
           </div>
 
           <Button

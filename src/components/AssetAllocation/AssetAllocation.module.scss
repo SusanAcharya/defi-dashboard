@@ -1,43 +1,126 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .assetAllocation {
-  &__list {
-    @include flex-column;
+  position: relative;
+
+  // Cracked glass effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+    box-shadow: 
+      -2px -2px 0 rgba(0, 0, 0, 0.8),
+      2px 2px 0 rgba(0, 0, 0, 0.8),
+      -4px -4px 0 rgba(0, 0, 0, 0.6),
+      4px 4px 0 rgba(0, 0, 0, 0.6);
+    z-index: 10;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+    box-shadow: 
+      -1px -1px 0 rgba(0, 0, 0, 0.8),
+      1px 1px 0 rgba(0, 0, 0, 0.8);
+    z-index: 10;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
     gap: $spacing-md;
+    align-items: center;
+    justify-content: center;
+
+
   }
 
-  &__item {
-    @include flex-column;
+  &__chart {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 250px; // Limit max width
+    margin: 0 auto; // Center the chart
+
+    @include desktop {
+      height: 300px; // Increased size on desktop
+      max-width: 300px; // Larger on desktop
+    }
+  }
+
+  &__chartContainer {
+    @include desktop {
+      max-width: 300px;
+    }
+  }
+
+  // Override ResponsiveContainer height on desktop
+  @include desktop {
+    :global(.recharts-responsive-container) {
+      height: 300px !important;
+    }
+  }
+
+  &__legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  &__legendItem {
+    @include flex-center;
     gap: $spacing-sm;
+    align-items: center;
   }
 
-  &__info {
-    @include flex-between;
+  &__legendColor {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
   }
 
-  &__name {
-    font-weight: $font-weight-medium;
-    font-size: $font-size-base;
-  }
-
-  &__percentage {
+  &__legendLabel {
     color: $color-text-primary;
     font-size: $font-size-base;
     font-weight: $font-weight-medium;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    
+    &::after {
+      content: attr(data-percentage);
+      color: $color-text-secondary;
+      font-weight: $font-weight-normal;
+      margin-left: auto;
+    }
   }
 
-  &__bar {
-    width: 100%;
-    height: 8px;
-    background: $color-bg-secondary;
-    border-radius: $radius-full;
-    overflow: hidden;
-  }
-
-  &__fill {
-    height: 100%;
-    border-radius: $radius-full;
-    transition: width $transition-base;
+  // Style pie chart labels - removed shine
+  :global(.recharts-pie-label-text) {
+    fill: #ffffff !important;
+    font-weight: bold !important;
+    font-size: 11px !important;
+    // Removed text-shadow shine
   }
 }
+
 

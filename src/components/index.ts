@@ -11,6 +11,8 @@ export { QuickActions } from './QuickActions/QuickActions';
 export { ActivityFeed } from './ActivityFeed/ActivityFeed';
 export { AssetAllocation } from './AssetAllocation/AssetAllocation';
 export { PortfolioExposure } from './PortfolioExposure/PortfolioExposure';
+export { PriceChart } from './PriceChart/PriceChart';
 export { WalletConnectModal } from './WalletConnectModal/WalletConnectModal';
 export { AnimatedBackground } from './AnimatedBackground/AnimatedBackground';
+export { Badge } from './Badge/Badge';
 

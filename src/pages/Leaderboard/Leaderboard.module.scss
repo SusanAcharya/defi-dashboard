@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .leaderboard {
   &__tabs {
@@ -11,15 +11,19 @@
   &__tab {
     @include button-reset;
     padding: $spacing-sm $spacing-md;
-    background: $color-bg-secondary;
-    color: $color-text-secondary;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+    color: #b0b0b0; // Light gray
     border-radius: $radius-md;
     font-size: $font-size-sm;
     transition: all $transition-fast;
 
     &:hover {
-      background: $color-bg-tertiary;
-      color: $color-text-primary;
+      background: rgba(0, 212, 255, 0.1);
+      border-color: rgba(0, 212, 255, 0.5);
+      color: #ffffff; // White text
     }
 
     &_active {
@@ -36,12 +40,14 @@
   &__row {
     @include flex-between;
     padding: $spacing-md;
-    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+    background: rgba(0, 0, 0, 0.4); // Transparent like Capo's Ledger
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: $radius-md;
-    border: 2px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.3);
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+      inset 0 1px 0 rgba(0, 212, 255, 0.1);
     transition: all $transition-fast;
     position: relative;
     overflow: hidden;
@@ -54,49 +60,64 @@
       top: 0;
       bottom: 0;
       width: 4px;
-      background: rgba(212, 175, 55, 0.3);
+      background: rgba(0, 212, 255, 0.3);
     }
 
     &:active {
       background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-      border-color: rgba(212, 175, 55, 0.4);
-      box-shadow: 
-        0 6px 20px rgba(0, 0, 0, 0.9),
-        0 0 20px rgba(212, 175, 55, 0.3);
+        border-color: rgba(0, 212, 255, 0.4); // Neon blue
+        box-shadow: 
+          0 6px 20px rgba(0, 0, 0, 0.9),
+          0 0 20px rgba(0, 212, 255, 0.3); // Neon blue glow
     }
 
     @include desktop {
       &:hover {
-        background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-        border-color: rgba(212, 175, 55, 0.4);
+        background: rgba(0, 0, 0, 0.5); // Transparent like Capo's Ledger
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-color: rgba(0, 212, 255, 0.4);
         box-shadow: 
           0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 20px rgba(212, 175, 55, 0.3);
+          0 0 20px rgba(0, 212, 255, 0.3);
         transform: translateX(3px);
       }
     }
 
     &:first-child {
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(201, 169, 97, 0.15) 100%);
-      border: 3px solid rgba(212, 175, 55, 0.5);
+      background: rgba(0, 212, 255, 0.2); // Transparent neon blue tint
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 2px solid rgba(0, 207, 255, 0.5);
       box-shadow: 
-        0 8px 32px rgba(212, 175, 55, 0.4),
-        inset 0 2px 0 rgba(212, 175, 55, 0.3),
-        0 0 40px rgba(212, 175, 55, 0.3);
-      animation: subtle-glow 3s ease-in-out infinite;
+        0 8px 32px rgba(0, 207, 255, 0.4),
+        inset 0 2px 0 rgba(0, 207, 255, 0.3),
+        0 0 40px rgba(0, 207, 255, 0.4);
+      position: relative;
+
+      // Add crown effect
+      &::after {
+        content: '👑';
+        position: absolute;
+        top: -15px;
+        right: 10px;
+        font-size: 24px;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        animation: float 2s ease-in-out infinite;
+      }
 
       &::before {
         width: 6px;
-        background: rgba(212, 175, 55, 0.8);
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        background: rgba(0, 212, 255, 0.8); // Neon blue
+        box-shadow: 0 0 20px rgba(0, 207, 255, 0.8);
       }
     }
   }
 
   &__rank {
-    font-size: $font-size-xl;
+    font-size: $font-size-2xl; // Larger for numbers
     font-weight: $font-weight-bold;
-    color: $color-accent-yellow;
+    color: #00d4ff; // Neon blue
     min-width: 60px;
   }
 
@@ -113,8 +134,8 @@
   }
 
   &__alias {
-    color: $color-text-secondary;
-    font-size: $font-size-sm;
+    color: #b0b0b0; // Light gray
+    font-size: $font-size-base; // Larger
   }
 
   &__emeralds {
@@ -127,9 +148,9 @@
   }
 
   &__emeraldCount {
-    font-size: $font-size-lg;
+    font-size: $font-size-xl; // Larger for numbers
     font-weight: $font-weight-semibold;
-    color: $color-accent-yellow;
+    color: #00d4ff; // Neon blue
   }
 
   &__profile {
@@ -147,8 +168,8 @@
     height: 80px;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 3px solid rgba(212, 175, 55, 0.4);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    border: 3px solid rgba(0, 212, 255, 0.4); // Neon blue
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); // Neon blue glow
     flex-shrink: 0;
     position: relative;
 
@@ -167,7 +188,7 @@
   &__profileName {
     font-size: $font-size-xl; // Mobile-first: smaller
     font-weight: $font-weight-bold;
-    color: $color-accent-yellow;
+    color: #00d4ff; // Neon blue
 
     @include desktop {
       font-size: $font-size-2xl;
@@ -181,7 +202,7 @@
 
   &__profileRank,
   &__profileEmeralds {
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-base;
   }
 }

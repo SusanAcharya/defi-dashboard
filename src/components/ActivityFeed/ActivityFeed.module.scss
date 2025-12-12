@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .activityFeed {
   &__list {
@@ -10,12 +10,14 @@
     @include flex-center;
     gap: $spacing-md;
     padding: $spacing-md;
-    background: linear-gradient(135deg, rgba(37, 37, 37, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
-    border-radius: $radius-md;
-    border: 2px solid rgba(212, 175, 55, 0.2);
+      background: rgba(0, 0, 0, 0.4); // Transparent like Capo's Ledger
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: $radius-md;
+      border: 1px solid rgba(0, 212, 255, 0.3);
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(212, 175, 55, 0.1);
+      inset 0 1px 0 rgba(0, 212, 255, 0.1);
     transition: all $transition-fast;
     animation: slide-in 0.3s ease-out;
     position: relative;
@@ -36,30 +38,36 @@
 
     &:active {
       background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-      border-color: rgba(212, 175, 55, 0.4);
+      border-color: rgba(0, 212, 255, 0.4); // Neon blue
       box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.9),
-        0 0 20px rgba(212, 175, 55, 0.3);
+          0 0 20px rgba(0, 212, 255, 0.3); // Neon blue glow
       transform: scale(0.98);
     }
 
     @include desktop {
       &:hover {
         background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-        border-color: rgba(212, 175, 55, 0.4);
+        border-color: rgba(0, 212, 255, 0.4);
         box-shadow: 
           0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 20px rgba(212, 175, 55, 0.3);
+          0 0 20px rgba(0, 212, 255, 0.3);
         transform: translateY(-2px);
       }
     }
   }
 
   &__icon {
-    font-size: $font-size-xl;
-    width: 40px;
+    font-size: $font-size-2xl; // Larger icons
+    width: 50px; // Bigger icon area
+    height: 50px;
     text-align: center;
     flex-shrink: 0;
+    @include flex-center;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.12) 0%, rgba(0, 168, 204, 0.1) 100%); // Neon blue gradient
+      border-radius: $radius-md;
+      border: 2px solid rgba(0, 212, 255, 0.4); // Neon blue
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.2), inset 0 1px 0 rgba(0, 212, 255, 0.2); // Neon blue
   }
 
   &__content {

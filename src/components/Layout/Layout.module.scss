@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .layout {
   min-height: 100vh;
@@ -10,11 +10,12 @@
   &__content {
     display: flex;
     flex: 1;
-    margin-top: 60px; // Smaller header on mobile
+    margin-top: 0; // Reduced gap - no margin
+    padding-top: $spacing-sm; // Small padding instead
     padding-bottom: 0; // No padding on mobile (bottom nav handles spacing)
 
     @include desktop {
-      margin-top: 80px;
+      padding-top: $spacing-md; // Small padding on desktop
       padding-bottom: 0;
     }
   }

@@ -12,6 +12,8 @@ export interface Token {
   price: number;
   change24h: number;
   logo?: string;
+  address?: string;
+  liquidity?: number;
 }
 
 export interface Portfolio {

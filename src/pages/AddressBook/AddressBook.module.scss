@@ -1,4 +1,4 @@
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 
 .addressBook {
   &__header {
@@ -12,14 +12,14 @@
   }
 
   &__item {
+    @include card; // Use card mixin for grid pattern and neon blue borders
     @include flex-between;
     padding: $spacing-md;
-    background: $color-bg-secondary;
-    border-radius: $radius-md;
-    transition: background $transition-fast;
+    transition: all $transition-fast;
 
     &:hover {
-      background: $color-bg-tertiary;
+      background: rgba(0, 0, 0, 0.5);
+      border-color: rgba(0, 212, 255, 0.8);
     }
 
     @include mobile {
@@ -36,7 +36,7 @@
 
   &__name {
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-base;
   }
 
@@ -67,7 +67,7 @@
   }
 
   &__field label {
-    color: $color-text-secondary;
+    color: #b0b0b0; // Light gray
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
   }
@@ -75,15 +75,18 @@
   &__input,
   &__textarea {
     padding: $spacing-md;
-    background: $color-bg-secondary;
-    border: 1px solid $color-border;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 212, 255, 0.5); // Neon blue border
     border-radius: $radius-md;
-    color: $color-text-primary;
+    color: #ffffff; // White text
     font-size: $font-size-base;
 
     &:focus {
       outline: none;
-      border-color: $color-accent-blue;
+      border-color: rgba(0, 212, 255, 0.7);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
     }
   }
 

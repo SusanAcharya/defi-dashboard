@@ -1,4 +1,4 @@
-@import './variables.scss';
+@use './variables.scss' as *;
 
 // Responsive breakpoints - Mobile First
 // Default styles are for mobile, then enhance for larger screens
@@ -40,21 +40,38 @@
   flex-direction: column;
 }
 
-// Card styles - Mobile First with gritty mafia theme
+// Card styles - Mobile First with transparent glass morphism and grid pattern
 @mixin card {
-  background: linear-gradient(135deg, #1d1d1d 0%, #252525 50%, #1a1a1a 100%);
+  background: rgba(26, 26, 46, 0.6); // Transparent dark purple-blue overlay
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: $radius-md; // Mobile-first: smaller radius
   padding: $spacing-md; // Mobile-first: smaller padding
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(212, 175, 55, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(212, 175, 55, 0.1);
-  border: 2px solid rgba(212, 175, 55, 0.2); // Gold border
+    0 4px 16px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(139, 92, 246, 0.3); // Purple accent
+  border: 2px solid rgba(139, 92, 246, 0.5); // Purple border
   position: relative;
   overflow: hidden;
 
-  // Add gritty texture
+  // Grid pattern overlay (keep the same grid style)
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(139, 92, 246, 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px; // Grid size
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4; // Grid opacity
+  }
+
+  // Add subtle texture
   &::before {
     content: '';
     position: absolute;
@@ -67,25 +84,10 @@
         45deg,
         transparent,
         transparent 10px,
-        rgba(0, 0, 0, 0.1) 10px,
-        rgba(0, 0, 0, 0.1) 20px
-      ),
-      radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  // Add moving gradient overlay
-  &::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-    animation: float 25s ease-in-out infinite;
+        rgba(0, 0, 0, 0.05) 10px,
+        rgba(0, 0, 0, 0.05) 20px
+      );
+    opacity: 0.5;
     pointer-events: none;
     z-index: 0;
   }
