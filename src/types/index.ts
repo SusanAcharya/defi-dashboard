@@ -126,3 +126,86 @@ export interface Settings {
   language: string;
 }
 
+export interface LiquidityPool {
+  id: string;
+  pair: string;
+  protocol: string;
+  poolType: string;
+  fee: string;
+  tvl: number;
+  volume24h: number;
+  volume7d: number;
+  fee24h: number;
+  fee7d: number;
+  apr24h: number;
+  apr7d: number;
+  rewards?: string;
+  verified?: boolean;
+  hasRewards?: boolean;
+}
+
+export interface HotBowl {
+  id: string;
+  pair: string;
+  apr: number;
+  category: 'high-apr' | 'stablecoin' | 'blue-chip' | 'memecoin';
+}
+
+export interface LendingOption {
+  id: string;
+  protocol: string;
+  token: string;
+  supplyApr: number;
+  borrowApr: number;
+  totalSupply: number;
+  totalBorrow: number;
+  logo?: string;
+}
+
+export interface StakingStrategy {
+  id: string;
+  name: string;
+  provider: string;
+  apy: number;
+  risk: 'low' | 'medium' | 'high';
+  tvl: number;
+  logo?: string;
+  verified?: boolean;
+  bonus?: string;
+}
+
+export interface PoolDetail extends LiquidityPool {
+  poolAddress: string;
+  currentPrice: string;
+  lpBreakdown: {
+    asset: string;
+    coinAmount: number;
+    value: number;
+    percentage: number;
+  }[];
+  tvlChange24h: number;
+  volumeChange24h: number;
+  feeChange24h: number;
+  aprChange24h: number;
+}
+
+export interface PoolTransaction {
+  id: string;
+  type: 'buy' | 'sell' | 'add-liquidity' | 'remove-liquidity';
+  tokenIn: string;
+  tokenOut: string;
+  amountIn: number;
+  amountOut: number;
+  usdValue: number;
+  timestamp: number;
+  address: string;
+}
+
+export interface PoolChartData {
+  date: string;
+  tvl?: number;
+  volume?: number;
+  fee?: number;
+  apr?: number;
+}
+

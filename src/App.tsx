@@ -16,6 +16,9 @@ import {
   NFTs,
   Settings,
   Wallet,
+  Explore,
+  PoolDetail,
+  LiveChart,
 } from './pages';
 import './styles/index.scss';
 
@@ -31,7 +34,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter future={{ v7_startTransition: true }}>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AnimatedBackground />
         <Layout>
           <Routes>
@@ -49,6 +52,9 @@ function App() {
             <Route path="/nfts" element={<NFTs />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/wallet" element={<Wallet />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/pool/:poolId" element={<PoolDetail />} />
+            <Route path="/live-chart" element={<LiveChart />} />
           </Routes>
         </Layout>
         <WalletConnectModal />

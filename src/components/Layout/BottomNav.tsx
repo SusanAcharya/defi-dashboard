@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import swapIcon from '@/assets/icons/swap.png';
 import leaderboardIcon from '@/assets/icons/leaderboard.png';
 import homeIcon from '@/assets/icons/home.png';
 import notificationIcon from '@/assets/icons/notification.png';
@@ -8,8 +7,8 @@ import styles from './BottomNav.module.scss';
 
 const mobileNavItems = [
   { path: '/', label: 'Home', icon: null, iconImage: homeIcon },
+  { path: '/explore', label: 'Explore', icon: '🔍', iconImage: null },
   { path: '/portfolio', label: 'Portfolio', icon: '💼', iconImage: null },
-  { path: '/swap', label: 'Swap', icon: null, iconImage: swapIcon },
   { path: '/leaderboard', label: 'Leaderboard', icon: null, iconImage: leaderboardIcon },
   { path: '/notifications', label: 'Notifications', icon: null, iconImage: notificationIcon },
 ];

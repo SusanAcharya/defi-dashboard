@@ -14,6 +14,8 @@ import styles from './Sidebar.module.scss';
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: '📊', iconImage: null },
+  { path: '/explore', label: 'Explore', icon: '🔍', iconImage: null },
+  { path: '/live-chart', label: 'Live Chart', icon: '📈', iconImage: null },
   { path: '/notifications', label: 'Notifications', icon: null, iconImage: notificationIcon },
   { path: '/portfolio', label: 'Portfolio', icon: '💼', iconImage: null },
   { path: '/defi', label: 'DeFi', icon: null, iconImage: defiIcon },

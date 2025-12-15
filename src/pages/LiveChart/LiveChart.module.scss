@@ -1,0 +1,8 @@
+@use '@/styles/mixins.scss' as *;
+@use '@/styles/variables.scss' as *;
+
+.liveChart {
+  @include flex-column;
+  gap: $spacing-lg;
+}
+

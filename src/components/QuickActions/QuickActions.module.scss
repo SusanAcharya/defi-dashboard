@@ -2,7 +2,7 @@
 
 .quickActions {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); // Mobile-first: 5 columns
+  grid-template-columns: repeat(4, 1fr); // Mobile-first: 4 columns
   gap: $spacing-sm; // Mobile-first: smaller gap
   margin-bottom: $spacing-md;
   overflow-x: auto;

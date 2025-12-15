@@ -174,7 +174,7 @@
     
     @include mobile {
       // Add padding for better mobile scrolling
-      margin: 0 -$spacing-md;
+      margin: 0 (-$spacing-md);
       padding: 0 $spacing-md;
     }
   }
