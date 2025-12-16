@@ -209,3 +209,18 @@ export interface PoolChartData {
   apr?: number;
 }
 
+export interface HistoryEntry {
+  id: string;
+  wallet: string;
+  activity: string;
+  activityType: 'swap' | 'transfer' | 'contract' | 'airdrop' | 'staking' | 'lending' | 'nft';
+  gasFee: number;
+  gasFeeUSD: number;
+  timestamp: number;
+  txHash: string;
+  status: 'completed' | 'pending' | 'failed';
+  protocol?: string;
+  token?: string;
+  amount?: number;
+}
+

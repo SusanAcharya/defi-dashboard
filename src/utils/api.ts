@@ -21,6 +21,7 @@ import {
   PoolDetail,
   PoolTransaction,
   PoolChartData,
+  HistoryEntry,
 } from '@/types';
 
 // Mock delay for simulating API calls
@@ -284,6 +285,132 @@ export const api = {
       });
     }
     return data;
+  },
+
+  // History
+  async getHistory(timeframe: '7d' | '30d' = '7d'): Promise<HistoryEntry[]> {
+    await delay(500);
+    const days = timeframe === '7d' ? 7 : 30;
+    const now = Date.now();
+    
+    const history: HistoryEntry[] = [
+      { 
+        id: '1', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Swap 1 ETH for 2000 USDC',
+        activityType: 'swap' as const,
+        gasFee: 0.0012,
+        gasFeeUSD: 2.4,
+        timestamp: now - 3600000, // 1 hour ago
+        txHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+        status: 'completed',
+        protocol: 'JediSwap',
+        token: 'ETH',
+        amount: 1
+      },
+      { 
+        id: '2', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Transfer 100 STRK',
+        activityType: 'transfer' as const,
+        gasFee: 0.0008,
+        gasFeeUSD: 1.6,
+        timestamp: now - 7200000, // 2 hours ago
+        txHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+        status: 'completed',
+        token: 'STRK',
+        amount: 100
+      },
+      { 
+        id: '3', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Deposit 5000 USDC to zkLend',
+        activityType: 'lending' as const,
+        gasFee: 0.0015,
+        gasFeeUSD: 3.0,
+        timestamp: now - 10800000, // 3 hours ago
+        txHash: '0x9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba',
+        status: 'completed',
+        protocol: 'zkLend',
+        token: 'USDC',
+        amount: 5000
+      },
+      { 
+        id: '4', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Stake 1000 STRK',
+        activityType: 'staking' as const,
+        gasFee: 0.0010,
+        gasFeeUSD: 2.0,
+        timestamp: now - 14400000, // 4 hours ago
+        txHash: '0xfedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321',
+        status: 'completed',
+        protocol: 'Starknet',
+        token: 'STRK',
+        amount: 1000
+      },
+      { 
+        id: '5', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Mint StarkPunk #1234',
+        activityType: 'nft' as const,
+        gasFee: 0.0020,
+        gasFeeUSD: 4.0,
+        timestamp: now - 18000000, // 5 hours ago
+        txHash: '0x1111111111111111111111111111111111111111111111111111111111111111',
+        status: 'completed',
+        protocol: 'StarkPunks',
+        token: 'ETH',
+        amount: 0.1
+      },
+      { 
+        id: '6', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Add Liquidity USDC/USDT',
+        activityType: 'contract' as const,
+        gasFee: 0.0018,
+        gasFeeUSD: 3.6,
+        timestamp: now - 21600000, // 6 hours ago
+        txHash: '0x2222222222222222222222222222222222222222222222222222222222222222',
+        status: 'completed',
+        protocol: 'JediSwap',
+        token: 'USDC',
+        amount: 10000
+      },
+      { 
+        id: '7', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Claim Starknet Airdrop',
+        activityType: 'airdrop' as const,
+        gasFee: 0.0005,
+        gasFeeUSD: 1.0,
+        timestamp: now - 86400000, // 1 day ago
+        txHash: '0x3333333333333333333333333333333333333333333333333333333333333333',
+        status: 'completed',
+        protocol: 'Starknet',
+        token: 'STRK',
+        amount: 1000
+      },
+      { 
+        id: '8', 
+        wallet: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
+        activity: 'Swap 5 ETH for 10000 USDC',
+        activityType: 'swap' as const,
+        gasFee: 0.0015,
+        gasFeeUSD: 3.0,
+        timestamp: now - 172800000, // 2 days ago
+        txHash: '0x4444444444444444444444444444444444444444444444444444444444444444',
+        status: 'completed',
+        protocol: '10KSwap',
+        token: 'ETH',
+        amount: 5
+      },
+    ];
+    
+    return history.filter(entry => {
+      const daysAgo = (now - entry.timestamp) / (1000 * 60 * 60 * 24);
+      return daysAgo <= days;
+    });
   },
 };
 

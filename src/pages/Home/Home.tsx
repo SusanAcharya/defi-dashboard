@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { PortfolioCard, QuickActions, ActivityFeed, AssetAllocation, PortfolioExposure } from '@/components';
 import airdropIcon from '@/assets/icons/airdrop.png';
 import sendIcon from '@/assets/icons/send.png';
+import leaderboardIcon from '@/assets/icons/leaderboard.png';
 import nftsIcon from '@/assets/icons/nfts.png';
 import styles from './Home.module.scss';
 
@@ -10,6 +11,7 @@ const mobileNavItems = [
   { path: '/airdrops', label: 'Airdrops', icon: null, iconImage: airdropIcon },
   { path: '/send', label: 'Send', icon: null, iconImage: sendIcon },
   { path: '/transfers', label: 'Transfers', icon: '📋', iconImage: null },
+  { path: '/leaderboard', label: 'Leaderboard', icon: null, iconImage: leaderboardIcon },
   { path: '/nfts', label: 'NFTs', icon: null, iconImage: nftsIcon },
 ];
 

@@ -19,6 +19,7 @@ import {
   Explore,
   PoolDetail,
   LiveChart,
+  History,
 } from './pages';
 import './styles/index.scss';
 
@@ -55,6 +56,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/pool/:poolId" element={<PoolDetail />} />
             <Route path="/live-chart" element={<LiveChart />} />
+            <Route path="/history" element={<History />} />
           </Routes>
         </Layout>
         <WalletConnectModal />
