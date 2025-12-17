@@ -28,27 +28,51 @@ import {
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const api = {
-  // Portfolio
-  async getPortfolio(): Promise<Portfolio> {
+  // Portfolio - can be for specific wallet or combined
+  async getPortfolio(walletAddress?: string | null): Promise<Portfolio> {
     await delay(500);
+    // If walletAddress is provided, return data for that specific wallet
+    // If null/undefined, return combined data for all "my wallets"
+    const baseValue = walletAddress ? 50000000 : 125000000;
     return {
-      totalValue: 125000000, // Starknet portfolio value
-      totalAssets: 125000000,
+      totalValue: baseValue,
+      totalAssets: baseValue * 1.0,
       totalDebt: 0,
-      nftValue: 5000000, // Starknet NFTs
-      pnl24h: 888888,
+      nftValue: baseValue * 0.04,
+      pnl24h: baseValue * 0.007,
       pnl24hPercent: 0.89,
     };
   },
+  
+  // Get portfolio chart data for a specific wallet or combined
+  async getPortfolioChartData(walletAddress?: string | null, timeframe: string = '30D'): Promise<Array<{ date: string; value: number }>> {
+    await delay(300);
+    const baseValue = walletAddress ? 50000000 : 125000000;
+    const data = [];
+    const days = timeframe === '1D' ? 1 : timeframe === '7D' ? 7 : timeframe === '30D' ? 30 : timeframe === '90D' ? 90 : timeframe === '1Y' ? 365 : 730;
+    
+    for (let i = days - 1; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const value = baseValue * (1 + (Math.random() - 0.5) * 0.1);
+      data.push({
+        date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        value: Math.round(value),
+      });
+    }
+    return data;
+  },
 
-  async getTokens(): Promise<Token[]> {
+  async getTokens(walletAddress?: string | null): Promise<Token[]> {
     await delay(500);
+    // Return tokens for specific wallet or combined
+    const multiplier = walletAddress ? 0.4 : 1;
     return [
       // Starknet native token
-      { id: '1', symbol: 'STRK', name: 'Starknet', balance: '1000', usdValue: 1200000000, price: 1.2, change24h: 2.5, address: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d', liquidity: 50000000 },
+      { id: '1', symbol: 'STRK', name: 'Starknet', balance: (1000 * multiplier).toFixed(2), usdValue: 1200000000 * multiplier, price: 1.2, change24h: 2.5, address: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d', liquidity: 50000000 },
       // Bridged tokens on Starknet
-      { id: '2', symbol: 'ETH', name: 'Ethereum', balance: '10.5', usdValue: 21000000, price: 2000, change24h: 1.8, address: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7', liquidity: 15000000 },
-      { id: '3', symbol: 'USDC', name: 'USD Coin', balance: '50000', usdValue: 50000000, price: 1, change24h: 0.037, address: '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8', liquidity: 8000000 },
+      { id: '2', symbol: 'ETH', name: 'Ethereum', balance: (10.5 * multiplier).toFixed(2), usdValue: 21000000 * multiplier, price: 2000, change24h: 1.8, address: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7', liquidity: 15000000 },
+      { id: '3', symbol: 'USDC', name: 'USD Coin', balance: (50000 * multiplier).toFixed(2), usdValue: 50000000 * multiplier, price: 1, change24h: 0.037, address: '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8', liquidity: 8000000 },
       { id: '4', symbol: 'USDT', name: 'Tether USD', balance: '0', usdValue: 30000000, price: 1, change24h: 0.01, address: '0x068f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8', liquidity: 5000000 },
       // Starknet ecosystem tokens
       { id: '5', symbol: 'DEEP', name: 'DeepBook Token', balance: '0', usdValue: 99290000, price: 0.04, change24h: -4.35, address: '0x03d90e2b8e9b6e7e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0', liquidity: 972000 },
@@ -80,13 +104,14 @@ export const api = {
   },
 
   // DeFi - Starknet protocols
-  async getDefiPositions(): Promise<DefiPosition[]> {
+  async getDefiPositions(walletAddress?: string | null): Promise<DefiPosition[]> {
     await delay(500);
+    const multiplier = walletAddress ? 0.4 : 1;
     return [
-      { id: '1', protocol: 'JediSwap', positionValue: 50000, apr: 12.5, claimableRewards: 500, type: 'lp' },
-      { id: '2', protocol: '10KSwap', positionValue: 30000, apr: 8.2, claimableRewards: 200, type: 'lp' },
-      { id: '3', protocol: 'Ekubo', positionValue: 25000, apr: 15.3, claimableRewards: 300, type: 'lp' },
-      { id: '4', protocol: 'zkLend', positionValue: 40000, apr: 6.8, claimableRewards: 150, type: 'lending' },
+      { id: '1', protocol: 'JediSwap', positionValue: 50000 * multiplier, apr: 12.5, claimableRewards: 500 * multiplier, type: 'lp' },
+      { id: '2', protocol: '10KSwap', positionValue: 30000 * multiplier, apr: 8.2, claimableRewards: 200 * multiplier, type: 'lp' },
+      { id: '3', protocol: 'Ekubo', positionValue: 25000 * multiplier, apr: 15.3, claimableRewards: 300 * multiplier, type: 'lp' },
+      { id: '4', protocol: 'zkLend', positionValue: 40000 * multiplier, apr: 6.8, claimableRewards: 150 * multiplier, type: 'lending' },
     ];
   },
 

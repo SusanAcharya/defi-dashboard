@@ -16,11 +16,13 @@ export const Toast: React.FC<ToastProps> = ({
   onClose,
 }) => {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, duration);
+    if (duration > 0) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, duration);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, [duration, onClose]);
 
   return createPortal(

@@ -1,6 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '../Card/Card';
+import { Toast } from '../Toast/Toast';
 import { api } from '@/utils/api';
 import { formatCurrency, formatPercentage } from '@/utils/format';
 import { useUIStore } from '@/store/uiStore';
@@ -10,14 +12,21 @@ import styles from './PriceChart.module.scss';
 const ITEMS_PER_PAGE = 5;
 
 export const PriceChart: React.FC = () => {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<'all' | 'top-gainers'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  const handleCloseToast = useCallback(() => {
+    setShowToast(false);
+  }, []);
   
   const { data: tokens } = useQuery({
     queryKey: ['tokens'],
-    queryFn: api.getTokens,
+    queryFn: () => api.getTokens(),
   });
 
   // Filter and sort tokens
@@ -62,6 +71,8 @@ export const PriceChart: React.FC = () => {
 
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address);
+    setToastMessage('Contract address copied to clipboard');
+    setShowToast(true);
   };
 
   return (
@@ -155,7 +166,11 @@ export const PriceChart: React.FC = () => {
               const liquidity = getLiquidity(token);
               
               return (
-                <tr key={token.id} className={styles.priceChart__tableRow}>
+                <tr 
+                  key={token.id} 
+                  className={styles.priceChart__tableRow}
+                  onClick={() => navigate(`/token/${token.id}`)}
+                >
                   <td className={styles.priceChart__rank}>{rank}</td>
                   <td>
                     <div className={styles.priceChart__coin}>
@@ -170,7 +185,10 @@ export const PriceChart: React.FC = () => {
                           {token.address && (
                             <button
                               className={styles.priceChart__copyButton}
-                              onClick={() => handleCopyAddress(token.address || '')}
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent row click navigation
+                                handleCopyAddress(token.address || '');
+                              }}
                               aria-label="Copy address"
                               title="Copy contract address"
                             >
@@ -208,6 +226,14 @@ export const PriceChart: React.FC = () => {
           </tbody>
         </table>
       </div>
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          type="success"
+          duration={3000}
+          onClose={handleCloseToast}
+        />
+      )}
     </Card>
   );
 };

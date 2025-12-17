@@ -1,19 +1,35 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/utils/api';
+import { useWalletStore } from '@/store/walletStore';
 import { Card } from '../Card/Card';
 import styles from './PortfolioExposure.module.scss';
 
-// Starknet DeFi protocols
-const data = [
-  { name: 'JediSwap', value: 7500, color: '#8b5cf6' }, // Purple
-  { name: '10KSwap', value: 7500, color: '#6366f1' }, // Indigo blue
-  { name: 'Ekubo', value: 580, color: '#a855f7' }, // Light purple
-  { name: 'zkLend', value: 7500, color: '#7c3aed' }, // Dark purple
-  { name: 'STRK Staking', value: 20, color: '#10b981' }, // Green
-  { name: 'Stablecoins', value: 5000, color: '#6366f1' }, // Indigo blue
-  { name: 'Nostra Finance', value: 7500, color: '#ef4444' }, // Red
-];
-
 export const PortfolioExposure: React.FC = () => {
+  const { selectedWalletAddress } = useWalletStore();
+  
+  // Get DeFi positions for selected wallet or combined
+  const { data: defiPositions } = useQuery({
+    queryKey: ['defiPositions', selectedWalletAddress],
+    queryFn: ({ queryKey }) => api.getDefiPositions(queryKey[1] as string | null),
+  });
+
+  // Convert DeFi positions to exposure data
+  const data = defiPositions?.map((pos, index) => {
+    const colors = ['#8b5cf6', '#6366f1', '#a855f7', '#7c3aed', '#10b981', '#ef4444'];
+    return {
+      name: pos.protocol,
+      value: pos.positionValue,
+      color: colors[index % colors.length],
+    };
+  }) || [
+    { name: 'JediSwap', value: 7500, color: '#8b5cf6' },
+    { name: '10KSwap', value: 7500, color: '#6366f1' },
+    { name: 'Ekubo', value: 580, color: '#a855f7' },
+    { name: 'zkLend', value: 7500, color: '#7c3aed' },
+    { name: 'STRK Staking', value: 20, color: '#10b981' },
+  ];
+
   // Only show first 5 items
   const displayData = data.slice(0, 5);
   const totalValue = displayData.reduce((sum, item) => sum + item.value, 0);

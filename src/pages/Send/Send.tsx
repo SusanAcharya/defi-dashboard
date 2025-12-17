@@ -14,7 +14,7 @@ export const Send: React.FC = () => {
 
   const { data: tokens } = useQuery({
     queryKey: ['tokens'],
-    queryFn: api.getTokens,
+    queryFn: () => api.getTokens(),
   });
 
   const handleSend = () => {

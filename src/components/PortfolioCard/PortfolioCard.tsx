@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency } from '@/utils/format';
 import { useUIStore } from '@/store/uiStore';
+import { useWalletStore } from '@/store/walletStore';
 import { Card } from '../Card/Card';
 import profileImage from '@/assets/profile.png';
 import showIcon from '@/assets/icons/show.png';
@@ -10,35 +11,14 @@ import hideIcon from '@/assets/icons/hide.png';
 import styles from './PortfolioCard.module.scss';
 
 export const PortfolioCard: React.FC = () => {
+  const { selectedWalletAddress } = useWalletStore();
   const { data: portfolio, isLoading } = useQuery({
-    queryKey: ['portfolio'],
-    queryFn: api.getPortfolio,
+    queryKey: ['portfolio', selectedWalletAddress],
+    queryFn: ({ queryKey }) => api.getPortfolio(queryKey[1] as string | null),
   });
 
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
   const toggleFinancialNumbers = useUIStore((state) => state.toggleFinancialNumbers);
-  const { checkedInToday, checkIn, lastCheckIn } = useUIStore();
-
-  // Check if 24 hours have passed since last check-in (check if it's a new day)
-  useEffect(() => {
-    if (lastCheckIn && checkedInToday) {
-      const lastCheckInDate = new Date(lastCheckIn);
-      lastCheckInDate.setHours(0, 0, 0, 0);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      // If last check-in was not today, reset checkedInToday
-      if (lastCheckInDate.getTime() !== today.getTime()) {
-        useUIStore.setState({ checkedInToday: false });
-      }
-    }
-  }, [lastCheckIn, checkedInToday]);
-
-  const handleCheckIn = () => {
-    if (!checkedInToday) {
-      checkIn();
-    }
-  };
 
   if (isLoading) {
     return <Card className={styles.portfolioCard}>Loading...</Card>;
@@ -50,15 +30,6 @@ export const PortfolioCard: React.FC = () => {
     <Card className={styles.portfolioCard}>
       <div className={styles.portfolioCard__topRow}>
         <div className={styles.portfolioCard__alias}>Alias: Thug</div>
-        <button
-          className={`${styles.portfolioCard__checkInButton} ${
-            checkedInToday ? styles.portfolioCard__checkInButton_checked : ''
-          }`}
-          onClick={handleCheckIn}
-          disabled={checkedInToday}
-        >
-          {checkedInToday ? '✓ Checked-in' : 'Check-in'}
-        </button>
       </div>
       <div className={styles.portfolioCard__header}>
         <div className={styles.portfolioCard__profile}>
@@ -84,15 +55,6 @@ export const PortfolioCard: React.FC = () => {
             </div>
             <div className={styles.portfolioCard__aliasDesktopRow}>
               <div className={styles.portfolioCard__aliasDesktop}>Alias: Thug</div>
-              <button
-                className={`${styles.portfolioCard__checkInButtonDesktop} ${
-                  checkedInToday ? styles.portfolioCard__checkInButtonDesktop_checked : ''
-                }`}
-                onClick={handleCheckIn}
-                disabled={checkedInToday}
-              >
-                {checkedInToday ? '✓ Checked-in' : 'Check-in'}
-              </button>
             </div>
           </div>
         </div>

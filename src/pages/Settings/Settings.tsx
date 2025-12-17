@@ -1,25 +1,16 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useWalletStore } from '@/store/walletStore';
-import { Card, Button } from '@/components';
+import { Card } from '@/components';
 import styles from './Settings.module.scss';
 
 export const Settings: React.FC = () => {
   const { 
     settings, 
-    updateSettings, 
-    disconnectWallet,
+    updateSettings,
   } = useWalletStore();
-  
-  const navigate = useNavigate();
 
   const handleToggle = (key: keyof typeof settings) => {
     updateSettings({ [key]: !settings[key] });
-  };
-
-  const handleDisconnect = () => {
-    disconnectWallet();
-    navigate('/');
   };
 
   return (
@@ -126,14 +117,6 @@ export const Settings: React.FC = () => {
               <option value="fr">French</option>
             </select>
           </div>
-        </div>
-      </Card>
-
-      <Card>
-        <div className={styles.settings__danger}>
-          <Button variant="danger" onClick={handleDisconnect}>
-            Disconnect Wallet
-          </Button>
         </div>
       </Card>
     </div>

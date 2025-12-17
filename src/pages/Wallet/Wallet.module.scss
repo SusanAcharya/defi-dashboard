@@ -1,6 +1,70 @@
 @use '@/styles/mixins.scss' as *;
+@use '@/styles/variables.scss' as *;
 
 .wallet {
+  &__addSection {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__addButton {
+    width: 100%;
+    margin-bottom: $spacing-md;
+  }
+
+  &__addForm {
+    @include flex-column;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: rgba(26, 26, 46, 0.4);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: $radius-md;
+    margin-top: $spacing-md;
+  }
+
+  &__formGroup {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__label {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__input {
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 46, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    outline: none;
+    transition: all $transition-fast;
+
+    &:focus {
+      border-color: rgba(139, 92, 246, 0.5);
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+    }
+  }
+
+  &__radioGroup {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    cursor: pointer;
+
+    input[type="radio"] {
+      cursor: pointer;
+    }
+  }
+
+  &__submitButton {
+    width: 100%;
+  }
+
   &__section {
     margin-bottom: $spacing-xl;
 
@@ -16,17 +80,35 @@
     margin-bottom: $spacing-md;
   }
 
-  &__connectedWallet {
+  &__walletList {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__walletItem {
     @include flex-between;
-    padding: $spacing-md;
+    align-items: center;
+    padding: $spacing-lg;
     background: rgba(26, 26, 46, 0.6);
     border: 1px solid rgba(139, 92, 246, 0.3);
     border-radius: $radius-md;
     gap: $spacing-md;
+    transition: all $transition-fast;
+    margin-bottom: $spacing-sm;
+
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(139, 92, 246, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+      }
+    }
 
     @include mobile {
       flex-direction: column;
       align-items: flex-start;
+      padding: $spacing-md;
     }
   }
 
@@ -38,11 +120,14 @@
 
   &__walletIcon {
     font-size: $font-size-2xl;
+    flex-shrink: 0;
   }
 
   &__walletDetails {
     @include flex-column;
     gap: $spacing-xs;
+    flex: 1;
+    min-width: 0;
   }
 
   &__walletName {
@@ -52,68 +137,81 @@
   }
 
   &__walletAddress {
-    color: $color-text-secondary;
+    @include button-reset;
+    color: $color-accent-purple;
     font-size: $font-size-sm;
     font-family: monospace;
-  }
-
-  &__noWallet {
-    padding: $spacing-lg;
-    text-align: center;
-    color: $color-text-secondary;
-  }
-
-  &__wallets {
-    @include flex-column;
-    gap: $spacing-md;
-  }
-
-  &__walletOption {
-    @include button-reset;
-    @include flex-center;
-    gap: $spacing-md;
-    padding: $spacing-md;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: $radius-md;
-    transition: all $transition-fast;
+    word-break: break-all;
     cursor: pointer;
+    transition: all $transition-fast;
     text-align: left;
+    padding: 0;
 
     &:active {
-      background: rgba(139, 92, 246, 0.1);
-      border-color: rgba(139, 92, 246, 0.5);
-      transform: scale(0.98);
+      color: $color-text-primary;
+      opacity: 0.8;
     }
 
     @include desktop {
       &:hover {
-        background: rgba(139, 92, 246, 0.1);
+        color: $color-text-primary;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__walletActions {
+    display: flex;
+    gap: $spacing-sm;
+    align-items: center;
+  }
+
+  &__toggleButton,
+  &__removeButton {
+    @include button-reset;
+    padding: $spacing-xs $spacing-sm;
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: $radius-sm;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:active {
+      background: rgba(139, 92, 246, 0.3);
+      transform: scale(0.95);
+    }
+
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.3);
         border-color: rgba(139, 92, 246, 0.5);
       }
     }
   }
 
-  &__walletOptionIcon {
-    font-size: $font-size-2xl;
-    flex-shrink: 0;
+  &__removeButton {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: $color-negative;
+
+    &:active {
+      background: rgba(239, 68, 68, 0.3);
+    }
+
+    @include desktop {
+      &:hover {
+        background: rgba(239, 68, 68, 0.3);
+        border-color: rgba(239, 68, 68, 0.5);
+      }
+    }
   }
 
-  &__walletOptionInfo {
-    @include flex-column;
-    gap: $spacing-xs;
-    flex: 1;
-  }
-
-  &__walletOptionName {
-    color: $color-text-primary;
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
-  }
-
-  &__walletOptionDescription {
+  &__emptyState {
+    padding: $spacing-lg;
+    text-align: center;
     color: $color-text-secondary;
     font-size: $font-size-sm;
   }
 }
-

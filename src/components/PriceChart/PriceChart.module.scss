@@ -226,6 +226,18 @@
   }
 
   &__tableRow {
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.1);
+      }
+    }
+
+    &:active {
+      background: rgba(139, 92, 246, 0.15);
+    }
     border-bottom: 1px solid rgba(44, 44, 68, 0.5);
     transition: background $transition-fast;
 

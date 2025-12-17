@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWalletStore } from '@/store/walletStore';
 import { useUIStore } from '@/store/uiStore';
-import { Card, Button } from '@/components';
+import { Card } from '@/components';
 import profileImage from '@/assets/profile.png';
 import { formatAddress } from '@/utils/format';
 import styles from './Profile.module.scss';
@@ -11,7 +11,7 @@ export const Profile: React.FC = () => {
   const { 
     username,
     alias,
-    connectedWallets,
+    wallets,
     updateProfile,
     removeWallet,
   } = useWalletStore();
@@ -147,9 +147,9 @@ export const Profile: React.FC = () => {
       </Card>
 
       {/* Connected Wallets */}
-      <Card title="Connected Wallets" className={styles.profile__wallets}>
+      <Card title="My Wallets" className={styles.profile__wallets}>
         <div className={styles.profile__walletList}>
-          {connectedWallets.map((w, index) => (
+          {wallets.filter(w => w.isMine).map((w, index) => (
             <div key={w.address} className={styles.profile__walletItem}>
               <div className={styles.profile__walletInfo}>
                 <div className={styles.profile__walletName}>
@@ -159,7 +159,7 @@ export const Profile: React.FC = () => {
                   {formatAddress(w.address, 4, 4)}
                 </div>
               </div>
-              {connectedWallets.length > 1 && (
+              {wallets.filter(w => w.isMine).length > 1 && (
                 <button
                   className={styles.profile__removeButton}
                   onClick={() => removeWallet(w.address)}
@@ -170,13 +170,11 @@ export const Profile: React.FC = () => {
             </div>
           ))}
         </div>
-        <Button 
-          variant="outline" 
-          onClick={() => navigate('/wallet')}
-          className={styles.profile__addWalletButton}
-        >
-          + Add Wallet
-        </Button>
+        {wallets.filter(w => w.isMine).length === 0 && (
+          <div className={styles.profile__noWallets}>
+            No wallets added yet. <button onClick={() => navigate('/wallet')} className={styles.profile__addWalletLink}>Add your first wallet</button>
+          </div>
+        )}
       </Card>
 
       {/* Referral System */}

@@ -5,16 +5,15 @@ import { api } from '@/utils/api';
 import { formatCurrency, formatPercentage } from '@/utils/format';
 import { useUIStore } from '@/store/uiStore';
 import { useWalletStore } from '@/store/walletStore';
-import { Card } from '@/components';
-import styles from './Portfolio.module.scss';
+import { Card } from '../Card/Card';
+import styles from './PortfolioChart.module.scss';
 
 const timeframes = ['1D', '7D', '30D', '90D', '1Y', 'ALL'];
 
-export const Portfolio: React.FC = () => {
+export const PortfolioChart: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('30D');
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
-  const { wallets, selectedWalletAddress, setSelectedWallet } = useWalletStore();
-  // Show all wallets, not just "my wallets"
+  const { selectedWalletAddress } = useWalletStore();
 
   // Get portfolio data for selected wallet or combined
   const { data: portfolio } = useQuery({
@@ -34,62 +33,27 @@ export const Portfolio: React.FC = () => {
     queryFn: ({ queryKey }) => api.getTokens(queryKey[1] as string | null),
   });
 
-  // Get DeFi positions
-  const { data: defiPositions } = useQuery({
-    queryKey: ['defiPositions', selectedWalletAddress],
-    queryFn: ({ queryKey }) => api.getDefiPositions(queryKey[1] as string | null),
-  });
-
   return (
-    <div className={styles.portfolio}>
-      {/* Wallet Selector */}
-      <Card title="Portfolio View">
-        <div className={styles.portfolio__walletSelector}>
-          <button
-            className={`${styles.portfolio__walletOption} ${
-              selectedWalletAddress === null ? styles.portfolio__walletOption_active : ''
-            }`}
-            onClick={() => setSelectedWallet(null)}
-          >
-            <span className={styles.portfolio__walletOptionLabel}>ALL</span>
-            <span className={styles.portfolio__walletOptionCount}>({wallets.length})</span>
-          </button>
-          {wallets.map((wallet) => (
-            <button
-              key={wallet.address}
-              className={`${styles.portfolio__walletOption} ${
-                selectedWalletAddress === wallet.address ? styles.portfolio__walletOption_active : ''
-              }`}
-              onClick={() => setSelectedWallet(wallet.address)}
-            >
-              <span className={styles.portfolio__walletOptionLabel}>{wallet.name}</span>
-              <span className={styles.portfolio__walletOptionAddress}>
-                {wallet.shortAddress}
-              </span>
-            </button>
-          ))}
-        </div>
-      </Card>
-
+    <div className={styles.portfolioChart}>
       <Card title="VIGOR TRENDS (Historical PPL)">
-        <div className={styles.portfolio__header}>
+        <div className={styles.portfolioChart__header}>
           <div>
-            <div className={styles.portfolio__value}>
+            <div className={styles.portfolioChart__value}>
               {portfolio && formatCurrency(portfolio.totalValue, 'USD', showFinancialNumbers)}
             </div>
             {portfolio && (
-              <div className={styles.portfolio__change}>
+              <div className={styles.portfolioChart__change}>
                 {formatPercentage(portfolio.pnl24hPercent, 2, showFinancialNumbers)} (24h)
               </div>
             )}
           </div>
         </div>
-        <div className={styles.portfolio__timeframes}>
+        <div className={styles.portfolioChart__timeframes}>
           {timeframes.map((tf) => (
             <button
               key={tf}
-              className={`${styles.portfolio__timeframe} ${
-                selectedTimeframe === tf ? styles.portfolio__timeframe_active : ''
+              className={`${styles.portfolioChart__timeframe} ${
+                selectedTimeframe === tf ? styles.portfolioChart__timeframe_active : ''
               }`}
               onClick={() => setSelectedTimeframe(tf)}
             >
@@ -97,7 +61,7 @@ export const Portfolio: React.FC = () => {
             </button>
           ))}
         </div>
-        <div className={styles.portfolio__chart}>
+        <div className={styles.portfolioChart__chart}>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData || []}>
               <defs>
@@ -160,66 +124,37 @@ export const Portfolio: React.FC = () => {
         {isLoading ? (
           <div>Loading tokens...</div>
         ) : (
-          <div className={styles.portfolio__tokens}>
+          <div className={styles.portfolioChart__tokens}>
             {tokens?.map((token) => (
-              <div key={token.id} className={styles.portfolio__token}>
-                <div className={styles.portfolio__tokenInfo}>
-                  <div className={styles.portfolio__tokenSymbol}>{token.symbol}</div>
-                  <div className={styles.portfolio__tokenName}>{token.name}</div>
+              <div key={token.id} className={styles.portfolioChart__token}>
+                <div className={styles.portfolioChart__tokenInfo}>
+                  <div className={styles.portfolioChart__tokenSymbol}>{token.symbol}</div>
+                  <div className={styles.portfolioChart__tokenName}>{token.name}</div>
                 </div>
-                <div className={styles.portfolio__tokenBalance}>
-                  <div>{token.balance}</div>
-                  <div className={styles.portfolio__tokenValue}>
+                <div className={styles.portfolioChart__tokenBalance}>
+                  <div>{showFinancialNumbers ? token.balance : '••••'}</div>
+                  <div className={styles.portfolioChart__tokenValue}>
                     {formatCurrency(token.usdValue, 'USD', showFinancialNumbers)}
                   </div>
                 </div>
                 <div
-                  className={`${styles.portfolio__tokenChange} ${
+                  className={`${styles.portfolioChart__tokenChange} ${
                     token.change24h >= 0
-                      ? styles.portfolio__tokenChange_positive
-                      : styles.portfolio__tokenChange_negative
+                      ? styles.portfolioChart__tokenChange_positive
+                      : styles.portfolioChart__tokenChange_negative
                   }`}
                 >
-                  {formatPercentage(token.change24h, 2, showFinancialNumbers)} (24h)
+                  {showFinancialNumbers 
+                    ? `${formatPercentage(token.change24h, 2, true)} (24h)`
+                    : '••• (24h)'
+                  }
                 </div>
               </div>
             ))}
           </div>
         )}
       </Card>
-
-      {defiPositions && defiPositions.length > 0 && (
-        <Card title="Protocol Positions">
-          <div className={styles.portfolio__defiPositions}>
-            {defiPositions.map((position) => (
-              <div key={position.id} className={styles.portfolio__defiPosition}>
-                <div className={styles.portfolio__defiInfo}>
-                  <div className={styles.portfolio__defiProtocol}>{position.protocol}</div>
-                  <div className={styles.portfolio__defiType}>{position.type.toUpperCase()}</div>
-                </div>
-                <div className={styles.portfolio__defiValue}>
-                  <div className={styles.portfolio__defiValueLabel}>Position Value</div>
-                  <div className={styles.portfolio__defiValueAmount}>
-                    {formatCurrency(position.positionValue, 'USD', showFinancialNumbers)}
-                  </div>
-                </div>
-                <div className={styles.portfolio__defiApr}>
-                  <div className={styles.portfolio__defiAprLabel}>APR</div>
-                  <div className={styles.portfolio__defiAprValue}>
-                    {formatPercentage(position.apr, 2, showFinancialNumbers)}
-                  </div>
-                </div>
-                <div className={styles.portfolio__defiRewards}>
-                  <div className={styles.portfolio__defiRewardsLabel}>Claimable</div>
-                  <div className={styles.portfolio__defiRewardsValue}>
-                    {formatCurrency(position.claimableRewards, 'USD', showFinancialNumbers)}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )}
     </div>
   );
 };
+

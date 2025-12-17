@@ -8,9 +8,9 @@ import styles from './DeFi.module.scss';
 
 export const DeFi: React.FC = () => {
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
-  const { data: positions, isLoading } = useQuery({
+  const { data: positions = [], isLoading } = useQuery({
     queryKey: ['defi-positions'],
-    queryFn: api.getDefiPositions,
+    queryFn: () => api.getDefiPositions(),
   });
 
   if (isLoading) {

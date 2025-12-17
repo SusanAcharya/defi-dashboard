@@ -24,7 +24,7 @@ export const Swap: React.FC = () => {
 
   const { data: tokens } = useQuery({
     queryKey: ['tokens'],
-    queryFn: api.getTokens,
+    queryFn: () => api.getTokens(),
   });
 
   const { data: quote, isLoading: quoteLoading } = useQuery({

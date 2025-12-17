@@ -1,18 +1,13 @@
 import React from 'react';
 import { Modal } from '@/components';
 import { useUIStore } from '@/store/uiStore';
-import { useWalletStore } from '@/store/walletStore';
 import styles from './WalletConnectModal.module.scss';
 
 export const WalletConnectModal: React.FC = () => {
   const { walletConnectModalOpen, setWalletConnectModalOpen } = useUIStore();
-  const { connectWallet } = useWalletStore();
 
   const handleConnect = () => {
-    // Mock wallet connection - replace with actual Starknet wallet connection logic (Argent X / Braavos)
-    // Starknet addresses are 66 characters: 0x + 64 hex characters
-    const mockAddress = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
-    connectWallet(mockAddress);
+    // Wallet connection is no longer needed - users add wallets manually
     setWalletConnectModalOpen(false);
   };
 

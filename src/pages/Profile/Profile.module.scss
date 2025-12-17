@@ -171,6 +171,25 @@
     width: 100%;
   }
 
+  &__noWallets {
+    text-align: center;
+    padding: $spacing-md;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__addWalletLink {
+    @include button-reset;
+    color: $color-accent-purple;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: $font-size-sm;
+
+    &:active {
+      opacity: 0.8;
+    }
+  }
+
   // Referral Section
   &__referral {
     margin-bottom: $spacing-lg;

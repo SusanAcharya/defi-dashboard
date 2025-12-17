@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Layout, WalletConnectModal, AnimatedBackground } from './components';
+import { Layout, AnimatedBackground } from './components';
 import {
   Home,
   Notifications,
@@ -21,6 +21,7 @@ import {
   PoolDetail,
   LiveChart,
   History,
+  TokenDetail,
 } from './pages';
 import './styles/index.scss';
 
@@ -59,9 +60,9 @@ function App() {
             <Route path="/pool/:poolId" element={<PoolDetail />} />
             <Route path="/live-chart" element={<LiveChart />} />
             <Route path="/history" element={<History />} />
+            <Route path="/token/:tokenId" element={<TokenDetail />} />
           </Routes>
         </Layout>
-        <WalletConnectModal />
       </BrowserRouter>
     </QueryClientProvider>
   );

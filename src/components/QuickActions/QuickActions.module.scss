@@ -23,13 +23,14 @@
     @include flex-center;
     gap: $spacing-xs;
     padding: $spacing-md $spacing-lg; // More padding for rectangular shape
+    background: rgba(26, 26, 46, 0.6); // Keep the same background color
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(139, 92, 246, 0.3); // Keep the same border color
     border-radius: 0; // Sharp corners - rectangular like image
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      0 0 15px rgba(0, 212, 255, 0.3),
-      inset 0 1px 0 rgba(0, 212, 255, 0.2); // Subtle inner glow
+      inset 0 1px 0 rgba(139, 92, 246, 0.1);
     transition: all $transition-fast;
     cursor: pointer;
     min-height: 80px; // Taller for rectangular shape
@@ -37,36 +38,47 @@
     position: relative;
     overflow: hidden;
 
-    &:active {
-      background: rgba(0, 212, 255, 0.1);
-      border-color: rgba(0, 212, 255, 0.9);
-      box-shadow: 
-        0 3px 15px rgba(0, 0, 0, 0.9),
-        0 0 50px rgba(0, 212, 255, 0.5);
+    &:active:not(:disabled) {
+      background: rgba(26, 26, 46, 0.8);
+      border-color: rgba(139, 92, 246, 0.5);
       transform: scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    &_checked {
+      // Keep the same background color when checked
+      background: rgba(26, 26, 46, 0.6);
+      border-color: rgba(139, 92, 246, 0.3);
     }
 
     @include desktop {
       padding: $spacing-lg $spacing-xl;
       min-height: 100px;
 
-      &:hover {
-        background: rgba(0, 212, 255, 0.1);
-        border-color: rgba(0, 212, 255, 0.1);
-        box-shadow: 
-          0 8px 30px rgba(0, 0, 0, 0.9),
-          0 0 40px rgba(0, 212, 255, 0.3);
+      &:hover:not(:disabled) {
+        background: rgba(26, 26, 46, 0.8);
+        border-color: rgba(139, 92, 246, 0.5);
         transform: translateY(-2px);
       }
     }
   }
 
   &__icon {
-    font-size: $font-size-xl; 
+    font-size: $font-size-xl;
+    color: $color-text-primary; // Default white color
 
     @include desktop {
       font-size: $font-size-2xl;
     }
+  }
+
+  // Green tick for checked-in state
+  &__item_checked &__icon {
+    color: $color-positive; // Green color for tick
   }
 
   &__iconImage {

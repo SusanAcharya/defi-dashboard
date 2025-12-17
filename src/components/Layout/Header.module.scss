@@ -9,12 +9,12 @@
   padding: $spacing-sm $spacing-md; // Mobile-first: smaller padding
   position: sticky;
   top: 0;
-  z-index: 1000; 
+  z-index: 9999; // High z-index for header, dropdown will be 10000 
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.8),
     inset 0 -1px 0 rgba(139, 92, 246, 0.3),
     0 0 40px rgba(139, 92, 246, 0.2); // Purple glow
-  overflow: hidden;
+  overflow: visible; // Allow dropdown to overflow
 
   // Add subtle scan effect
   &::before {
@@ -36,59 +36,81 @@
   &__container {
     width: 100%;
     @include flex-between;
+    gap: $spacing-sm;
+    min-width: 0; // Allow flex items to shrink
 
     @include desktop {
       max-width: $max-width-desktop;
       margin: 0 auto;
+      gap: $spacing-md;
     }
   }
 
   &__logo {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
+    gap: $spacing-xs; // Smaller gap on mobile
     cursor: pointer;
     transition: all $transition-fast;
+    flex-shrink: 1; // Allow to shrink
+    min-width: 0; // Allow text truncation
+
+    @include mobile {
+      gap: $spacing-xs;
+    }
+
+    @include desktop {
+      gap: $spacing-sm;
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
 
     &:active {
       opacity: 0.9;
       transform: scale(0.98);
     }
-
-    @include desktop {
-      &:hover {
-        transform: scale(1.05);
-      }
-    }
   }
 
   &__logoImage {
-    height: 40px; // Mobile-first: smaller
+    height: 35px; // Mobile-first: smaller for mobile
     width: auto;
     object-fit: contain;
+    flex-shrink: 0; // Don't shrink the image
 
     @include desktop {
-      height: 50px;
+      height: 55px; // Larger on desktop
     }
   }
 
   &__logoText {
-    font-size: $font-size-lg; // Mobile-first: smaller
-    font-weight: $font-weight-bold;
-    color: #ffffff; // White (MOBSTAKER style)
-    letter-spacing: 2px;
+    font-size: $font-size-xs; // Mobile-first: smaller text
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary; // Match other header items
+    letter-spacing: 0.5px;
     white-space: nowrap;
-    text-shadow: 0 0 10px rgba(139, 92, 246, 0.4); // Purple glow
+    display: flex;
+    align-items: center; // Align with logo image
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px; // Limit width on mobile
 
     @include desktop {
-      font-size: $font-size-xl;
-      letter-spacing: 3px;
+      font-size: $font-size-lg;
+      letter-spacing: 1.5px;
+      max-width: none; // No limit on desktop
     }
   }
 
   &__actions {
     @include flex-center;
-    gap: $spacing-sm; // Mobile-first: smaller gap
+    gap: $spacing-xs; // Mobile-first: very small gap
+    flex-shrink: 0; // Don't shrink actions
+    flex-wrap: nowrap; // Prevent wrapping
+
+    @include mobile {
+      gap: 4px; // Even smaller gap on mobile
+    }
 
     @include desktop {
       gap: $spacing-md;
@@ -99,46 +121,182 @@
     display: flex;
     align-items: center;
     gap: $spacing-xs;
-    padding: $spacing-xs $spacing-sm;
+    padding: 4px $spacing-xs; // Smaller padding on mobile
     background: rgba(245, 158, 11, 0.2);
     border: 1px solid rgba(245, 158, 11, 0.4);
-    border-radius: $radius-md;
-    font-size: $font-size-sm;
+    border-radius: $radius-sm;
+    font-size: $font-size-xs; // Smaller font on mobile
     font-weight: $font-weight-bold;
     color: $color-warning;
     white-space: nowrap;
+    flex-shrink: 0;
 
     @include desktop {
       padding: $spacing-sm $spacing-md;
       font-size: $font-size-base;
+      border-radius: $radius-md;
     }
   }
 
-  &__wallet {
-    padding: $spacing-xs $spacing-sm; // Mobile-first: smaller padding
-    background: $color-bg-tertiary;
-    border-radius: $radius-md;
-    font-size: $font-size-xs; // Mobile-first: smaller text
-    color: $color-text-secondary;
+  &__walletDropdown {
+    position: relative;
+    z-index: 10001; // Higher than header to ensure dropdown is on top
+  }
+
+  &__walletDropdownButton {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    gap: 2px; // Very small gap on mobile
+    padding: 4px $spacing-xs; // Smaller padding on mobile
+    background: rgba(26, 26, 46, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: $radius-sm;
+    color: $color-text-primary;
+    font-size: $font-size-xs;
+    cursor: pointer;
+    transition: all $transition-fast;
+    white-space: nowrap;
+    flex-shrink: 0;
+    max-width: 80px; // Limit width on mobile
+    overflow: hidden;
 
     @include desktop {
       padding: $spacing-sm $spacing-md;
       font-size: $font-size-sm;
+      gap: $spacing-xs;
+      border-radius: $radius-md;
+      max-width: none;
     }
+
+    &:active {
+      border-color: rgba(139, 92, 246, 0.5);
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(139, 92, 246, 0.5);
+        background: rgba(139, 92, 246, 0.1);
+      }
+    }
+  }
+
+  &__walletDropdownText {
+    font-weight: $font-weight-medium;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 50px; // Limit text width on mobile
+
+    @include desktop {
+      max-width: none;
+    }
+  }
+
+  &__walletDropdownIcon {
+    font-size: $font-size-xs;
+    opacity: 0.7;
+  }
+
+  &__walletDropdownMenu {
+    position: fixed; // Use fixed positioning to escape any parent overflow constraints
+    top: auto; // Will be calculated via JavaScript or use absolute with proper parent
+    right: auto; // Will be calculated
+    min-width: 200px;
+    max-width: 300px;
+    background: rgba(26, 26, 46, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: $radius-md;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    z-index: 99999; // Extremely high z-index to appear above all other elements
+    max-height: 400px;
+    overflow-y: auto;
+    @include flex-column;
+    gap: $spacing-xs;
+    padding: $spacing-xs;
+
+    @include mobile {
+      min-width: calc(100vw - 32px); // Full width minus padding
+      max-width: calc(100vw - 32px); // Prevent overflow
+      left: 16px !important; // Force left alignment on mobile
+      right: 16px !important; // Force right margin on mobile
+      width: auto; // Auto width to respect left/right
+    }
+  }
+
+  &__walletDropdownItem {
+    @include button-reset;
+    @include flex-between;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-sm;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
+    text-align: left;
+    gap: $spacing-sm;
+
+    &:active {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    &_active {
+      background: rgba(139, 92, 246, 0.2);
+      color: $color-text-primary;
+      font-weight: $font-weight-semibold;
+    }
+
+    @include desktop {
+      &:hover:not(&_active) {
+        background: rgba(139, 92, 246, 0.1);
+        color: $color-text-primary;
+      }
+    }
+  }
+
+  &__walletDropdownItemLabel {
+    flex: 1;
+    font-weight: $font-weight-medium;
+  }
+
+  &__walletDropdownItemAddress {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    font-family: monospace;
+  }
+
+  &__walletDropdownItemCount {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__walletDropdownItemBadge {
+    padding: 2px $spacing-xs;
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: $radius-sm;
+    color: $color-warning;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
   }
 
   &__walletIcon,
   &__settingsIcon {
     @include button-reset;
-    width: 36px; // Mobile-first: smaller
-    height: 36px;
+    width: 32px; // Mobile-first: smaller
+    height: 32px;
     border-radius: $radius-full;
     background: rgba(26, 26, 46, 0.6);
     border: 1px solid rgba(139, 92, 246, 0.3);
     cursor: pointer;
     transition: all $transition-fast;
     @include flex-center;
-    padding: 6px; // Add padding for icon
+    padding: 4px; // Smaller padding on mobile
+    flex-shrink: 0; // Don't shrink icons
 
     @include desktop {
       width: 40px;
@@ -176,12 +334,13 @@
 
   &__profile {
     @include button-reset;
-    width: 36px; // Mobile-first: smaller
-    height: 36px;
+    width: 32px; // Mobile-first: smaller
+    height: 32px;
     border-radius: $radius-full;
     overflow: hidden;
     cursor: pointer;
     transition: opacity $transition-fast;
+    flex-shrink: 0; // Don't shrink profile image
 
     @include desktop {
       width: 40px;
