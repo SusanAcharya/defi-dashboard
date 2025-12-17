@@ -15,6 +15,7 @@ import {
   Leaderboard,
   NFTs,
   Settings,
+  Profile,
   Wallet,
   Explore,
   PoolDetail,
@@ -52,6 +53,7 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/nfts" element={<NFTs />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/wallet" element={<Wallet />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/pool/:poolId" element={<PoolDetail />} />

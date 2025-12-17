@@ -27,8 +27,9 @@ const navItems = [
   { path: '/airdrops', label: 'Airdrops', icon: null, iconImage: airdropIcon },
   { path: '/staking', label: 'Staking', icon: null, iconImage: stakeIcon },
   { path: '/leaderboard', label: 'Leaderboard', icon: null, iconImage: leaderboardIcon },
-  { path: '/nfts', label: 'NFTs', icon: null, iconImage: nftsIcon },
-  { path: '/settings', label: 'Settings', icon: null, iconImage: settingsIcon },
+      { path: '/nfts', label: 'NFTs', icon: null, iconImage: nftsIcon },
+      { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
+      { path: '/settings', label: 'Settings', icon: null, iconImage: settingsIcon },
 ];
 
 export const Sidebar: React.FC = () => {

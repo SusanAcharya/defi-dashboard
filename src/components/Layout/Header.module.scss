@@ -95,6 +95,25 @@
     }
   }
 
+  &__streak {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-sm;
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: $color-warning;
+    white-space: nowrap;
+
+    @include desktop {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-base;
+    }
+  }
+
   &__wallet {
     padding: $spacing-xs $spacing-sm; // Mobile-first: smaller padding
     background: $color-bg-tertiary;

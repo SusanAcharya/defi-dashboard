@@ -11,6 +11,7 @@ export { Staking } from './Staking/Staking';
 export { Leaderboard } from './Leaderboard/Leaderboard';
 export { NFTs } from './NFTs/NFTs';
 export { Settings } from './Settings/Settings';
+export { Profile } from './Profile/Profile';
 export { Wallet } from './Wallet/Wallet';
 export { Explore } from './Explore/Explore';
 export { PoolDetail } from './PoolDetail/PoolDetail';

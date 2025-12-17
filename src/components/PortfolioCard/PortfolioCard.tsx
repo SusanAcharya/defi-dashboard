@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency } from '@/utils/format';
@@ -17,6 +17,28 @@ export const PortfolioCard: React.FC = () => {
 
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
   const toggleFinancialNumbers = useUIStore((state) => state.toggleFinancialNumbers);
+  const { checkedInToday, checkIn, lastCheckIn } = useUIStore();
+
+  // Check if 24 hours have passed since last check-in (check if it's a new day)
+  useEffect(() => {
+    if (lastCheckIn && checkedInToday) {
+      const lastCheckInDate = new Date(lastCheckIn);
+      lastCheckInDate.setHours(0, 0, 0, 0);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      // If last check-in was not today, reset checkedInToday
+      if (lastCheckInDate.getTime() !== today.getTime()) {
+        useUIStore.setState({ checkedInToday: false });
+      }
+    }
+  }, [lastCheckIn, checkedInToday]);
+
+  const handleCheckIn = () => {
+    if (!checkedInToday) {
+      checkIn();
+    }
+  };
 
   if (isLoading) {
     return <Card className={styles.portfolioCard}>Loading...</Card>;
@@ -26,7 +48,18 @@ export const PortfolioCard: React.FC = () => {
 
   return (
     <Card className={styles.portfolioCard}>
-      <div className={styles.portfolioCard__alias}>Alias: Thug</div>
+      <div className={styles.portfolioCard__topRow}>
+        <div className={styles.portfolioCard__alias}>Alias: Thug</div>
+        <button
+          className={`${styles.portfolioCard__checkInButton} ${
+            checkedInToday ? styles.portfolioCard__checkInButton_checked : ''
+          }`}
+          onClick={handleCheckIn}
+          disabled={checkedInToday}
+        >
+          {checkedInToday ? '✓ Checked-in' : 'Check-in'}
+        </button>
+      </div>
       <div className={styles.portfolioCard__header}>
         <div className={styles.portfolioCard__profile}>
           <img 
@@ -49,7 +82,18 @@ export const PortfolioCard: React.FC = () => {
                 />
               </button>
             </div>
-            <div className={styles.portfolioCard__aliasDesktop}>Alias: Thug</div>
+            <div className={styles.portfolioCard__aliasDesktopRow}>
+              <div className={styles.portfolioCard__aliasDesktop}>Alias: Thug</div>
+              <button
+                className={`${styles.portfolioCard__checkInButtonDesktop} ${
+                  checkedInToday ? styles.portfolioCard__checkInButtonDesktop_checked : ''
+                }`}
+                onClick={handleCheckIn}
+                disabled={checkedInToday}
+              >
+                {checkedInToday ? '✓ Checked-in' : 'Check-in'}
+              </button>
+            </div>
           </div>
         </div>
         <div className={styles.portfolioCard__networth}>

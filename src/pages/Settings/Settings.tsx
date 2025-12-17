@@ -5,7 +5,12 @@ import { Card, Button } from '@/components';
 import styles from './Settings.module.scss';
 
 export const Settings: React.FC = () => {
-  const { settings, updateSettings, wallet, disconnectWallet } = useWalletStore();
+  const { 
+    settings, 
+    updateSettings, 
+    disconnectWallet,
+  } = useWalletStore();
+  
   const navigate = useNavigate();
 
   const handleToggle = (key: keyof typeof settings) => {
@@ -19,6 +24,7 @@ export const Settings: React.FC = () => {
 
   return (
     <div className={styles.settings}>
+      {/* Notifications */}
       <Card title="Notifications">
         <div className={styles.settings__section}>
           <div className={styles.settings__item}>
@@ -57,6 +63,7 @@ export const Settings: React.FC = () => {
         </div>
       </Card>
 
+      {/* Preferences */}
       <Card title="Preferences">
         <div className={styles.settings__section}>
           <div className={styles.settings__item}>
@@ -122,19 +129,6 @@ export const Settings: React.FC = () => {
         </div>
       </Card>
 
-      <Card title="Wallet">
-        <div className={styles.settings__section}>
-          <div className={styles.settings__item}>
-            <div className={styles.settings__label}>
-              <div className={styles.settings__title}>Connected Wallet</div>
-              <div className={styles.settings__description}>
-                {wallet?.address || 'No wallet connected'}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
-
       <Card>
         <div className={styles.settings__danger}>
           <Button variant="danger" onClick={handleDisconnect}>
@@ -145,4 +139,3 @@ export const Settings: React.FC = () => {
     </div>
   );
 };
-

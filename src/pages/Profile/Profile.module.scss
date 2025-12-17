@@ -1,96 +1,12 @@
 @use '@/styles/mixins.scss' as *;
+@use '@/styles/variables.scss' as *;
 
-.settings {
+.profile {
   width: 100%; // Mobile-first: full width
   margin: 0 auto;
 
   @include desktop {
     max-width: 800px;
-  }
-
-  &__section {
-    @include flex-column;
-    gap: $spacing-lg;
-  }
-
-  &__item {
-    @include card; // Use card mixin for grid pattern and neon blue borders
-    @include flex-between;
-    padding: $spacing-md;
-    transition: all $transition-fast;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.5);
-      border-color: rgba(0, 212, 255, 0.8);
-    }
-
-    @include mobile {
-      flex-direction: column;
-      gap: $spacing-md;
-      align-items: flex-start;
-    }
-  }
-
-  &__label {
-    flex: 1;
-    @include flex-column;
-    gap: $spacing-xs;
-  }
-
-  &__title {
-    font-weight: $font-weight-semibold;
-    color: #ffffff; // White text
-    font-size: $font-size-base;
-  }
-
-  &__description {
-    color: #b0b0b0; // Light gray
-    font-size: $font-size-sm;
-  }
-
-  &__toggle {
-    @include button-reset;
-    padding: $spacing-xs $spacing-md;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #b0b0b0; // Light gray
-    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
-    border-radius: $radius-md;
-    font-weight: $font-weight-medium;
-    transition: all $transition-fast;
-    min-width: 60px;
-
-    &_active {
-      background: $gradient-accent-green; // Neon green
-      color: #ffffff; // White text
-      border-color: rgba(0, 255, 136, 0.7);
-      box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
-    }
-  }
-
-  &__select {
-    padding: $spacing-sm $spacing-md;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 212, 255, 0.5); // Neon blue border
-    border-radius: $radius-md;
-    color: #ffffff; // White text
-    font-size: $font-size-base;
-    cursor: pointer;
-    min-width: 150px;
-
-    &:focus {
-      outline: none;
-      border-color: rgba(0, 212, 255, 0.7);
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-    }
-  }
-
-  &__danger {
-    text-align: center;
-    padding: $spacing-lg;
   }
 
   // Profile Section

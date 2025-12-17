@@ -55,10 +55,21 @@
     z-index: 1;
   }
 
+  &__topRow {
+    @include flex-between;
+    align-items: center;
+    margin-bottom: $spacing-sm;
+    position: relative;
+    z-index: 1;
+
+    @include desktop {
+      display: none; // Hide on desktop, check-in button is in profile section
+    }
+  }
+
   &__alias {
     color: $color-text-secondary; // Light gray-purple
     font-size: $font-size-base;
-    margin-bottom: $spacing-sm;
     position: relative;
     z-index: 1;
 
@@ -67,13 +78,88 @@
     }
   }
 
-  &__aliasDesktop {
-    color: #b0b0b0; // Light gray (MOBSTAKER style)
-    font-size: $font-size-base;
+  &__checkInButton {
+    @include button-reset;
+    padding: $spacing-xs $spacing-sm;
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: $radius-sm;
+    color: $color-accent-purple;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all $transition-fast;
+    position: relative;
+    z-index: 1;
+
+    &:active:not(&:disabled) {
+      background: rgba(139, 92, 246, 0.3);
+      border-color: rgba(139, 92, 246, 0.6);
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    &_checked {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: $color-positive;
+    }
+
+    @include desktop {
+      display: none; // Hide on desktop, shown in profile section
+    }
+  }
+
+  &__aliasDesktopRow {
     display: none; // Hidden on mobile
 
     @include desktop {
-      display: block; // Show on desktop in profile section
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+    }
+  }
+
+  &__aliasDesktop {
+    color: #b0b0b0; // Light gray (MOBSTAKER style)
+    font-size: $font-size-base;
+  }
+
+  &__checkInButtonDesktop {
+    @include button-reset;
+    padding: $spacing-xs $spacing-sm;
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: $radius-sm;
+    color: $color-accent-purple;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all $transition-fast;
+    display: none; // Hidden on mobile
+
+    @include desktop {
+      display: block;
+    }
+
+    &:hover:not(&:disabled) {
+      background: rgba(139, 92, 246, 0.3);
+      border-color: rgba(139, 92, 246, 0.6);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    &_checked {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: $color-positive;
     }
   }
 
