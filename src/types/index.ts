@@ -121,9 +121,28 @@ export interface NFT {
 export interface Settings {
   telegramAlerts: boolean;
   pushNotifications: boolean;
-  currency: 'USD' | 'EUR' | 'BTC';
-  theme: 'light' | 'dark';
-  language: string;
+  // Notification types
+  notifyTransactions: boolean;
+  notifyReceives: boolean;
+  notifySends: boolean;
+  notifyAirdrops: boolean;
+  notifyStaking: boolean;
+  notifyLending: boolean;
+  notifySwaps: boolean;
+  notifyNFTs: boolean;
+}
+
+export interface WalletNotificationSettings {
+  address: string;
+  enabled: boolean;
+  notifyTransactions: boolean;
+  notifyReceives: boolean;
+  notifySends: boolean;
+  notifyAirdrops: boolean;
+  notifyStaking: boolean;
+  notifyLending: boolean;
+  notifySwaps: boolean;
+  notifyNFTs: boolean;
 }
 
 export interface LiquidityPool {

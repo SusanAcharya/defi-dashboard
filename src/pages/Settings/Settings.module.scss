@@ -423,5 +423,102 @@
       border: 1px solid rgba(44, 44, 68, 0.5);
     }
   }
+
+  // Wallet Notification Settings
+  &__walletCard {
+    @include card;
+    margin-bottom: $spacing-md;
+    overflow: hidden;
+  }
+
+  &__walletHeader {
+    @include button-reset;
+    @include flex-between;
+    align-items: center;
+    width: 100%;
+    padding: $spacing-md;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:active {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    @include desktop {
+      &:hover {
+        background: rgba(139, 92, 246, 0.1);
+      }
+    }
+  }
+
+  &__walletInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+    text-align: left;
+  }
+
+  &__walletName {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__walletAddress {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-family: monospace;
+  }
+
+  &__walletHeaderActions {
+    @include flex-center;
+    gap: $spacing-sm;
+    align-items: center;
+  }
+
+  &__expandIcon {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    transition: transform $transition-fast;
+  }
+
+  &__walletDetails {
+    @include flex-column;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    padding-top: 0;
+    border-top: 1px solid rgba(139, 92, 246, 0.2);
+    background: rgba(26, 26, 46, 0.2);
+  }
+
+  &__walletDetailItem {
+    @include flex-between;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 46, 0.4);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: $radius-sm;
+    transition: all $transition-fast;
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+      align-items: flex-start;
+    }
+
+    @include desktop {
+      &:hover {
+        background: rgba(26, 26, 46, 0.6);
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+    }
+  }
+
+  &__emptyState {
+    text-align: center;
+    padding: $spacing-xl;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
 }
 
