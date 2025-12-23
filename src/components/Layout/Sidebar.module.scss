@@ -7,7 +7,7 @@
   @include desktop {
     display: block;
     width: 250px;
-    background: rgba(10, 10, 20, 0.95); // Dark background
+    background: $color-bg-sidebar; // Dark grey sidebar background
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-right: 1px solid rgba(255, 255, 255, 0.1); // Subtle border
@@ -55,7 +55,7 @@
 
     &.sidebar__item_active {
       background: transparent;
-      color: #ffd700; // Golden-yellow for active item
+      color: $color-accent-primary; // Orange for active item
       font-weight: $font-weight-medium;
       border: none;
       text-shadow: none;

@@ -42,15 +42,15 @@
 
 // Card styles - Mobile First with transparent glass morphism and grid pattern
 @mixin card {
-  background: rgba(26, 26, 46, 0.6); // Transparent dark purple-blue overlay
+  background: rgba(26, 26, 26, 0.7); // Transparent dark grey overlay
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: $radius-md; // Mobile-first: smaller radius
   padding: $spacing-md; // Mobile-first: smaller padding
   box-shadow: 
     0 4px 16px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(139, 92, 246, 0.3); // Purple accent
-  border: 2px solid rgba(139, 92, 246, 0.5); // Purple border
+    inset 0 1px 0 rgba(255, 140, 0, 0.2); // Orange accent
+  border: 1px solid rgba(255, 140, 0, 0.3); // Orange border
   position: relative;
   overflow: hidden;
 
@@ -63,12 +63,12 @@
     right: 0;
     bottom: 0;
     background-image: 
-      linear-gradient(rgba(139, 92, 246, 0.15) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.15) 1px, transparent 1px);
+      linear-gradient(rgba(255, 140, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 140, 0, 0.1) 1px, transparent 1px);
     background-size: 20px 20px; // Grid size
     pointer-events: none;
     z-index: 0;
-    opacity: 0.4; // Grid opacity
+    opacity: 0.3; // Grid opacity
   }
 
   // Add subtle texture

@@ -2,18 +2,18 @@
 @use 'sass:color';
 
 .header {
-  background: rgba(26, 26, 46, 0.8); // Transparent dark purple-blue
+  background: rgba(26, 26, 26, 0.9); // Transparent dark grey
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border-bottom: 2px solid rgba(139, 92, 246, 0.6); // Purple border
+  border-bottom: 2px solid rgba(255, 140, 0, 0.4); // Orange border
   padding: $spacing-sm $spacing-md; // Mobile-first: smaller padding
   position: sticky;
   top: 0;
   z-index: 9999; // High z-index for header, dropdown will be 10000 
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.8),
-    inset 0 -1px 0 rgba(139, 92, 246, 0.3),
-    0 0 40px rgba(139, 92, 246, 0.2); // Purple glow
+    inset 0 -1px 0 rgba(255, 140, 0, 0.2),
+    0 0 20px rgba(255, 140, 0, 0.1); // Orange glow
   overflow: visible; // Allow dropdown to overflow
 
   // Add subtle scan effect
@@ -24,7 +24,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.05), transparent);
     animation: gritty-scan 10s linear infinite;
     pointer-events: none;
   }
@@ -149,8 +149,8 @@
     align-items: center;
     gap: 2px; // Very small gap on mobile
     padding: 4px $spacing-xs; // Smaller padding on mobile
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-sm;
     color: $color-text-primary;
     font-size: $font-size-xs;
@@ -170,14 +170,14 @@
     }
 
     &:active {
-      border-color: rgba(139, 92, 246, 0.5);
-      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(255, 140, 0, 0.5);
+      background: rgba(255, 140, 0, 0.1);
     }
 
     @include desktop {
       &:hover {
-        border-color: rgba(139, 92, 246, 0.5);
-        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(255, 140, 0, 0.1);
       }
     }
   }
@@ -208,7 +208,7 @@
     background: rgba(26, 26, 46, 0.98);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
     z-index: 99999; // Extremely high z-index to appear above all other elements
@@ -241,18 +241,18 @@
     gap: $spacing-sm;
 
     &:active {
-      background: rgba(139, 92, 246, 0.1);
+      background: rgba(255, 140, 0, 0.1);
     }
 
     &_active {
-      background: rgba(139, 92, 246, 0.2);
+      background: rgba(255, 140, 0, 0.2);
       color: $color-text-primary;
       font-weight: $font-weight-semibold;
     }
 
     @include desktop {
       &:hover:not(&_active) {
-        background: rgba(139, 92, 246, 0.1);
+        background: rgba(255, 140, 0, 0.1);
         color: $color-text-primary;
       }
     }
@@ -290,8 +290,8 @@
     width: 32px; // Mobile-first: smaller
     height: 32px;
     border-radius: $radius-full;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     cursor: pointer;
     transition: all $transition-fast;
     @include flex-center;
@@ -305,16 +305,16 @@
     }
 
     &:active {
-      background: rgba(139, 92, 246, 0.1);
-      border-color: rgba(139, 92, 246, 0.5);
+      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(255, 140, 0, 0.5);
       transform: scale(0.95);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(139, 92, 246, 0.1);
-        border-color: rgba(139, 92, 246, 0.5);
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        background: rgba(255, 140, 0, 0.1);
+        border-color: rgba(255, 140, 0, 0.5);
+        box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
       }
     }
   }
@@ -363,8 +363,8 @@
     height: 100%;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 2px solid rgba(139, 92, 246, 0.4); // Purple
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); // Purple glow
+    border: 2px solid rgba(255, 140, 0, 0.4); // Orange
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.4); // Orange glow
   }
 }
 

@@ -4,7 +4,7 @@
   &__total {
     font-size: $font-size-lg; // Mobile-first: smaller
     font-weight: $font-weight-semibold;
-    color: #00d4ff; // Neon blue
+    color: #ff8c00; // Neon blue
     margin-bottom: $spacing-md; // Mobile-first: smaller margin
 
     @include desktop {
@@ -76,7 +76,7 @@
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+      border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
       border-radius: $radius-md;
       color: #ffffff; // White text
     }

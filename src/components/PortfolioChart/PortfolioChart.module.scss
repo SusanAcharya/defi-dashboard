@@ -52,7 +52,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     color: $color-text-secondary;
     border-radius: $radius-md;
     font-size: $font-size-sm;
@@ -67,31 +67,92 @@
 
     @include desktop {
       &:hover {
-        background: rgba(139, 92, 246, 0.1);
+        background: rgba(255, 140, 0, 0.1);
         color: $color-text-primary;
-        border-color: rgba(139, 92, 246, 0.5);
+        border-color: rgba(255, 140, 0, 0.5);
       }
     }
 
     &_active {
       background: $gradient-accent-purple;
       color: $color-text-primary;
-      border: 1px solid rgba(139, 92, 246, 0.5);
-      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4), 0 0 15px rgba(139, 92, 246, 0.3);
+      border: 1px solid rgba(255, 140, 0, 0.5);
+      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
     }
   }
 
   &__chart {
     @include card;
     margin-top: $spacing-lg;
-    padding: $spacing-md;
+    padding: $spacing-lg $spacing-md $spacing-md;
     position: relative;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(255, 140, 0, 0.2);
 
     @include mobile {
       margin-top: $spacing-md;
-      padding: $spacing-sm;
+      padding: $spacing-md $spacing-sm $spacing-sm;
+    }
+
+    // Professional chart container styling
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.3), transparent);
+    }
+  }
+
+  &__tooltip {
+    background: rgba(26, 26, 26, 0.98);
+    border: 1px solid rgba(255, 140, 0, 0.5);
+    border-radius: $radius-md;
+    padding: $spacing-sm $spacing-md;
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(255, 140, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  &__tooltipLabel {
+    color: $color-text-secondary;
+    font-size: $font-size-xs;
+    margin-bottom: $spacing-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__tooltipValue {
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    font-family: $font-family-primary;
+  }
+
+  // Brush styling
+  :global(.recharts-brush) {
+    .recharts-brush-traveller {
+      fill: rgba(255, 140, 0, 0.6);
+      stroke: rgba(255, 140, 0, 0.8);
+      stroke-width: 2;
+    }
+
+    .recharts-brush-slide {
+      fill: rgba(255, 140, 0, 0.15);
+      stroke: rgba(255, 140, 0, 0.4);
+      stroke-width: 1;
+    }
+
+    .recharts-brush-texts {
+      .recharts-brush-texts-text {
+        fill: $color-text-secondary;
+        font-size: 10px;
+      }
     }
   }
 
@@ -106,14 +167,14 @@
     align-items: center;
     gap: $spacing-lg;
     padding: $spacing-lg;
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(26, 26, 26, 0.6);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border-radius: $radius-md;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(139, 92, 246, 0.1);
+      inset 0 1px 0 rgba(255, 140, 0, 0.1);
     transition: all $transition-fast;
     position: relative;
     overflow: hidden;
@@ -131,19 +192,19 @@
       right: 0;
       width: 15px;
       height: 15px;
-      border-top: 2px solid rgba(139, 92, 246, 0.4);
-      border-right: 2px solid rgba(139, 92, 246, 0.4);
+      border-top: 2px solid rgba(255, 140, 0, 0.4);
+      border-right: 2px solid rgba(255, 140, 0, 0.4);
     }
 
     &:active {
-      background: rgba(26, 26, 46, 0.8);
-      border-color: rgba(139, 92, 246, 0.5);
+      background: rgba(26, 26, 26, 0.8);
+      border-color: rgba(255, 140, 0, 0.5);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(26, 26, 46, 0.8);
-        border-color: rgba(139, 92, 246, 0.5);
+        background: rgba(26, 26, 26, 0.8);
+        border-color: rgba(255, 140, 0, 0.5);
         transform: translateX(-3px);
       }
     }

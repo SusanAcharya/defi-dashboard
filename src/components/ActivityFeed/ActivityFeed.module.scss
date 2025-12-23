@@ -14,10 +14,10 @@
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-radius: $radius-md;
-      border: 1px solid rgba(0, 212, 255, 0.3);
+      border: 1px solid rgba(255, 140, 0, 0.3);
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(0, 212, 255, 0.1);
+      inset 0 1px 0 rgba(255, 140, 0, 0.1);
     transition: all $transition-fast;
     animation: slide-in 0.3s ease-out;
     position: relative;
@@ -38,20 +38,20 @@
 
     &:active {
       background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-      border-color: rgba(0, 212, 255, 0.4); // Neon blue
+      border-color: rgba(255, 140, 0, 0.4); // Orange
       box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 20px rgba(0, 212, 255, 0.3); // Neon blue glow
+          0 0 20px rgba(255, 140, 0, 0.3); // Orange glow
       transform: scale(0.98);
     }
 
     @include desktop {
       &:hover {
         background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-        border-color: rgba(0, 212, 255, 0.4);
+        border-color: rgba(255, 140, 0, 0.4);
         box-shadow: 
           0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 20px rgba(0, 212, 255, 0.3);
+          0 0 20px rgba(255, 140, 0, 0.3);
         transform: translateY(-2px);
       }
     }
@@ -64,10 +64,10 @@
     text-align: center;
     flex-shrink: 0;
     @include flex-center;
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.12) 0%, rgba(0, 168, 204, 0.1) 100%); // Neon blue gradient
+      background: linear-gradient(135deg, rgba(255, 140, 0, 0.12) 0%, rgba(255, 165, 0, 0.1) 100%); // Orange gradient
       border-radius: $radius-md;
-      border: 2px solid rgba(0, 212, 255, 0.4); // Neon blue
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.2), inset 0 1px 0 rgba(0, 212, 255, 0.2); // Neon blue
+      border: 2px solid rgba(255, 140, 0, 0.4); // Orange
+      box-shadow: 0 0 15px rgba(255, 140, 0, 0.2), inset 0 1px 0 rgba(255, 140, 0, 0.2); // Orange
   }
 
   &__content {

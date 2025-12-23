@@ -7,8 +7,8 @@
     background: $gradient-accent-blue; // Neon blue gradient
     border-radius: $radius-md; // Mobile-first: smaller radius
     color: #ffffff; // White text
-    border: 2px solid rgba(0, 212, 255, 0.7); // Shinier neon blue border
-    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4), 0 0 30px rgba(0, 212, 255, 0.3); // Shinier glow
+    border: 2px solid rgba(255, 140, 0, 0.7); // Shinier neon blue border
+    box-shadow: 0 4px 20px rgba(255, 140, 0, 0.4), 0 0 30px rgba(255, 140, 0, 0.3); // Shinier glow
     position: relative;
     overflow: hidden;
 
@@ -19,7 +19,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
       animation: float 10s ease-in-out infinite;
     }
 
@@ -118,7 +118,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+    border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
     border-radius: $radius-md;
   }
 
@@ -154,15 +154,15 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 212, 255, 0.5); // Neon blue border
+    border: 1px solid rgba(255, 140, 0, 0.5); // Neon blue border
     border-radius: $radius-md;
     color: #ffffff; // White text
     font-size: $font-size-base;
 
     &:focus {
       outline: none;
-      border-color: rgba(0, 212, 255, 0.7);
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+      border-color: rgba(255, 140, 0, 0.7);
+      box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
     }
   }
 
@@ -171,7 +171,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+    border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
     border-radius: $radius-md;
     @include flex-column;
     gap: $spacing-xs;

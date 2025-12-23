@@ -107,26 +107,26 @@ export const PoolDetail: React.FC = () => {
                 <LineChart data={chartData}>
                   <defs>
                     <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.4} />
-                      <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.4} />
+                      <stop offset="100%" stopColor="#ff8c00" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(139, 92, 246, 0.2)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 140, 0, 0.2)" />
                   <XAxis 
                     dataKey="date" 
-                    stroke="#8b5cf6" 
+                    stroke="#ff8c00" 
                     style={{ fontSize: '12px' }}
                     tick={{ fill: '#b0b0c0' }}
                   />
                   <YAxis 
-                    stroke="#8b5cf6" 
+                    stroke="#ff8c00" 
                     style={{ fontSize: '12px' }}
                     tick={{ fill: '#b0b0c0' }}
                   />
                   <Tooltip
                     contentStyle={{
-                      background: 'rgba(26, 26, 46, 0.95)',
-                      border: '1px solid rgba(139, 92, 246, 0.5)',
+                      background: 'rgba(26, 26, 26, 0.95)',
+                      border: '1px solid rgba(255, 140, 0, 0.5)',
                       borderRadius: '8px',
                       color: '#ffffff',
                     }}
@@ -142,9 +142,9 @@ export const PoolDetail: React.FC = () => {
                   <Line
                     type="monotone"
                     dataKey={selectedMetric.toLowerCase()}
-                    stroke="#8b5cf6"
+                    stroke="#ff8c00"
                     strokeWidth={3}
-                    dot={{ fill: '#8b5cf6', r: 4 }}
+                    dot={{ fill: '#ff8c00', r: 4 }}
                     activeDot={{ r: 6 }}
                   />
                 </LineChart>
@@ -323,7 +323,7 @@ export const PoolDetail: React.FC = () => {
                         className={styles.poolDetail__lpBarSegment}
                         style={{
                           width: `${asset.percentage}%`,
-                          backgroundColor: index === 0 ? '#6366f1' : '#8b5cf6',
+                          backgroundColor: index === 0 ? '#ffa500' : '#ff8c00',
                         }}
                       />
                     ))}

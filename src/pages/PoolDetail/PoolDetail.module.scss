@@ -52,7 +52,7 @@
     color: $color-text-secondary;
     font-size: $font-size-base;
     padding: $spacing-xs $spacing-sm;
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(26, 26, 26, 0.6);
     border-radius: $radius-sm;
   }
 
@@ -103,8 +103,8 @@
   &__metricTab {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-secondary;
     font-size: $font-size-sm;
@@ -113,12 +113,12 @@
     transition: all $transition-fast;
 
     &:active {
-      border-color: rgba(139, 92, 246, 0.5);
+      border-color: rgba(255, 140, 0, 0.5);
     }
 
     &_active {
       background: $gradient-accent-purple;
-      border-color: rgba(139, 92, 246, 0.7);
+      border-color: rgba(255, 140, 0, 0.7);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
     }
@@ -132,8 +132,8 @@
   &__timeframe {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-secondary;
     font-size: $font-size-sm;
@@ -142,12 +142,12 @@
     transition: all $transition-fast;
 
     &:active {
-      border-color: rgba(139, 92, 246, 0.5);
+      border-color: rgba(255, 140, 0, 0.5);
     }
 
     &_active {
       background: $gradient-accent-purple;
-      border-color: rgba(139, 92, 246, 0.7);
+      border-color: rgba(255, 140, 0, 0.7);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
     }
@@ -172,8 +172,8 @@
   &__transactionFilter {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-secondary;
     font-size: $font-size-sm;
@@ -182,12 +182,12 @@
     transition: all $transition-fast;
 
     &:active {
-      border-color: rgba(139, 92, 246, 0.5);
+      border-color: rgba(255, 140, 0, 0.5);
     }
 
     &_active {
       background: $gradient-accent-purple;
-      border-color: rgba(139, 92, 246, 0.7);
+      border-color: rgba(255, 140, 0, 0.7);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
     }
@@ -204,8 +204,8 @@
     min-width: 600px;
 
     thead {
-      background: rgba(139, 92, 246, 0.1);
-      border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+      background: rgba(255, 140, 0, 0.1);
+      border-bottom: 2px solid rgba(255, 140, 0, 0.3);
     }
 
     th {
@@ -225,7 +225,7 @@
 
         @include desktop {
           &:hover {
-            background: rgba(139, 92, 246, 0.05);
+            background: rgba(255, 140, 0, 0.05);
           }
         }
       }
@@ -261,7 +261,7 @@
     }
 
     &_add-liquidity {
-      background: rgba(139, 92, 246, 0.2);
+      background: rgba(255, 140, 0, 0.2);
       color: $color-accent-purple;
     }
 
@@ -286,8 +286,8 @@
   &__action {
     @include button-reset;
     padding: $spacing-xs $spacing-sm;
-    background: rgba(139, 92, 246, 0.2);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-sm;
     color: $color-accent-purple;
     font-size: $font-size-sm;
@@ -295,7 +295,7 @@
     transition: all $transition-fast;
 
     &:active {
-      background: rgba(139, 92, 246, 0.3);
+      background: rgba(255, 140, 0, 0.3);
     }
   }
 
@@ -409,9 +409,9 @@
     @include flex-column;
     gap: $spacing-md;
     padding: $spacing-md;
-    background: rgba(26, 26, 46, 0.4);
+    background: rgba(26, 26, 26, 0.4);
     border-radius: $radius-md;
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(255, 140, 0, 0.2);
   }
 
   &__lpTitle {
@@ -425,7 +425,7 @@
     height: 24px;
     border-radius: $radius-sm;
     overflow: hidden;
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(255, 140, 0, 0.1);
   }
 
   &__lpBarSegment {

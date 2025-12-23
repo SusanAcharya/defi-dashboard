@@ -17,8 +17,8 @@
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     padding: $spacing-xs $spacing-sm;
     flex: 1;
@@ -70,8 +70,8 @@
   &__filter {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-secondary;
     font-family: $font-family-primary;
@@ -87,17 +87,17 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(139, 92, 246, 0.5);
-        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(255, 140, 0, 0.1);
       }
     }
 
     &_active {
       background: $gradient-accent-purple;
-      border-color: rgba(139, 92, 246, 0.7);
+      border-color: rgba(255, 140, 0, 0.7);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
-      box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+      box-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
     }
   }
 
@@ -129,8 +129,8 @@
   &__pageButton {
     @include button-reset;
     padding: $spacing-xs $spacing-sm;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-sm;
     color: $color-text-secondary;
     font-family: $font-family-primary;
@@ -160,8 +160,8 @@
 
     @include desktop {
       &:hover:not(:disabled) {
-        border-color: rgba(139, 92, 246, 0.5);
-        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(255, 140, 0, 0.1);
         color: $color-text-primary;
       }
     }
@@ -231,12 +231,12 @@
 
     @include desktop {
       &:hover {
-        background: rgba(139, 92, 246, 0.1);
+        background: rgba(255, 140, 0, 0.1);
       }
     }
 
     &:active {
-      background: rgba(139, 92, 246, 0.15);
+      background: rgba(255, 140, 0, 0.15);
     }
     border-bottom: 1px solid rgba(44, 44, 68, 0.5);
     transition: background $transition-fast;
@@ -252,7 +252,7 @@
 
     @include desktop {
       &:hover {
-        background: rgba(139, 92, 246, 0.05);
+        background: rgba(255, 140, 0, 0.05);
       }
     }
   }

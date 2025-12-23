@@ -14,15 +14,15 @@
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+      border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
     color: #b0b0b0; // Light gray
     border-radius: $radius-md;
     font-size: $font-size-sm;
     transition: all $transition-fast;
 
     &:hover {
-      background: rgba(0, 212, 255, 0.1);
-      border-color: rgba(0, 212, 255, 0.5);
+      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(255, 140, 0, 0.5);
       color: #ffffff; // White text
     }
 
@@ -44,10 +44,10 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: $radius-md;
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(0, 212, 255, 0.1);
+      inset 0 1px 0 rgba(255, 140, 0, 0.1);
     transition: all $transition-fast;
     position: relative;
     overflow: hidden;
@@ -60,15 +60,15 @@
       top: 0;
       bottom: 0;
       width: 4px;
-      background: rgba(0, 212, 255, 0.3);
+      background: rgba(255, 140, 0, 0.3);
     }
 
     &:active {
       background: linear-gradient(135deg, rgba(37, 37, 37, 0.95) 0%, rgba(26, 26, 26, 1) 100%);
-        border-color: rgba(0, 212, 255, 0.4); // Neon blue
+        border-color: rgba(255, 140, 0, 0.4); // Neon blue
         box-shadow: 
           0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 20px rgba(0, 212, 255, 0.3); // Neon blue glow
+          0 0 20px rgba(255, 140, 0, 0.3); // Neon blue glow
     }
 
     @include desktop {
@@ -76,16 +76,16 @@
         background: rgba(0, 0, 0, 0.5); // Transparent like Capo's Ledger
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        border-color: rgba(0, 212, 255, 0.4);
+        border-color: rgba(255, 140, 0, 0.4);
         box-shadow: 
           0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 20px rgba(0, 212, 255, 0.3);
+          0 0 20px rgba(255, 140, 0, 0.3);
         transform: translateX(3px);
       }
     }
 
     &:first-child {
-      background: rgba(0, 212, 255, 0.2); // Transparent neon blue tint
+      background: rgba(255, 140, 0, 0.2); // Transparent neon blue tint
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 2px solid rgba(0, 207, 255, 0.5);
@@ -108,7 +108,7 @@
 
       &::before {
         width: 6px;
-        background: rgba(0, 212, 255, 0.8); // Neon blue
+        background: rgba(255, 140, 0, 0.8); // Neon blue
         box-shadow: 0 0 20px rgba(0, 207, 255, 0.8);
       }
     }
@@ -117,7 +117,7 @@
   &__rank {
     font-size: $font-size-2xl; // Larger for numbers
     font-weight: $font-weight-bold;
-    color: #00d4ff; // Neon blue
+    color: #ff8c00; // Neon blue
     min-width: 60px;
   }
 
@@ -150,7 +150,7 @@
   &__emeraldCount {
     font-size: $font-size-xl; // Larger for numbers
     font-weight: $font-weight-semibold;
-    color: #00d4ff; // Neon blue
+    color: #ff8c00; // Neon blue
   }
 
   &__profile {
@@ -168,8 +168,8 @@
     height: 80px;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 3px solid rgba(0, 212, 255, 0.4); // Neon blue
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); // Neon blue glow
+    border: 3px solid rgba(255, 140, 0, 0.4); // Neon blue
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.4); // Neon blue glow
     flex-shrink: 0;
     position: relative;
 
@@ -188,7 +188,7 @@
   &__profileName {
     font-size: $font-size-xl; // Mobile-first: smaller
     font-weight: $font-weight-bold;
-    color: #00d4ff; // Neon blue
+    color: #ff8c00; // Neon blue
 
     @include desktop {
       font-size: $font-size-2xl;

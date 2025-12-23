@@ -66,8 +66,8 @@
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     padding: $spacing-sm $spacing-md;
     flex: 1;
@@ -124,8 +124,8 @@
   &__filter {
     @include button-reset;
     padding: $spacing-sm $spacing-md;
-    background: rgba(26, 26, 46, 0.6);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-primary;
     font-family: $font-family-primary;
@@ -135,13 +135,13 @@
     transition: all $transition-fast;
 
     &:active {
-      border-color: rgba(139, 92, 246, 0.5);
+      border-color: rgba(255, 140, 0, 0.5);
     }
 
     @include desktop {
       &:hover {
-        border-color: rgba(139, 92, 246, 0.5);
-        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(255, 140, 0, 0.1);
       }
     }
   }
@@ -163,8 +163,8 @@
     }
 
     thead {
-      background: rgba(139, 92, 246, 0.1);
-      border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+      background: rgba(255, 140, 0, 0.1);
+      border-bottom: 2px solid rgba(255, 140, 0, 0.3);
     }
 
     th {
@@ -193,12 +193,12 @@
         cursor: pointer;
 
         &:active {
-          background: rgba(139, 92, 246, 0.1) !important;
+          background: rgba(255, 140, 0, 0.1) !important;
         }
 
         @include desktop {
           &:hover {
-            background: rgba(139, 92, 246, 0.1) !important;
+            background: rgba(255, 140, 0, 0.1) !important;
             transform: translateX(2px);
           }
         }
@@ -359,15 +359,15 @@
     @include flex-between;
     align-items: center;
     padding: $spacing-sm $spacing-md;
-    background: rgba(26, 26, 46, 0.4);
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    background: rgba(26, 26, 26, 0.4);
+    border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: $radius-md;
     transition: all $transition-fast;
 
     @include desktop {
       &:hover {
-        background: rgba(139, 92, 246, 0.1);
-        border-color: rgba(139, 92, 246, 0.4);
+        background: rgba(255, 140, 0, 0.1);
+        border-color: rgba(255, 140, 0, 0.4);
       }
     }
   }

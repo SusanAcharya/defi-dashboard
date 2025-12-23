@@ -113,7 +113,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 2px solid rgba(0, 212, 255, 0.5); // Neon blue border
+    border: 2px solid rgba(255, 140, 0, 0.5); // Neon blue border
     border-radius: $radius-md;
     padding: $spacing-md;
     color: #ffffff; // White text
@@ -130,8 +130,8 @@
 
     &:focus {
       outline: none;
-      border-color: rgba(0, 212, 255, 0.7); // Neon blue accent
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.5); // Shinier glow
+      border-color: rgba(255, 140, 0, 0.7); // Neon blue accent
+      box-shadow: 0 0 15px rgba(255, 140, 0, 0.5); // Shinier glow
     }
   }
 
@@ -141,7 +141,7 @@
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 2px solid rgba(0, 212, 255, 0.7); // Shinier neon blue border
+    border: 2px solid rgba(255, 140, 0, 0.7); // Shinier neon blue border
     border-radius: $radius-md;
     color: #ffffff; // White text
     font-weight: $font-weight-medium;
@@ -151,7 +151,7 @@
     transition: all $transition-fast;
     -webkit-tap-highlight-color: transparent;
     text-align: center;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
 
     @include desktop {
       padding: $spacing-md $spacing-lg;
@@ -161,16 +161,16 @@
     }
 
     &:active {
-      background: rgba(0, 212, 255, 0.1);
-      border-color: rgba(0, 212, 255, 0.9);
+      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(255, 140, 0, 0.9);
       transform: scale(0.98);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(0, 212, 255, 0.15);
-        border-color: rgba(0, 212, 255, 0.9);
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); // Shinier glow
+        background: rgba(255, 140, 0, 0.15);
+        border-color: rgba(255, 140, 0, 0.9);
+        box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); // Shinier glow
       }
     }
   }
@@ -183,14 +183,14 @@
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 2px solid rgba(0, 212, 255, 0.7); // Shinier neon blue border
+    border: 2px solid rgba(255, 140, 0, 0.7); // Shinier neon blue border
     border-radius: $radius-full;
     color: #ffffff; // White text
     font-size: $font-size-2xl; // Mobile-first: larger icon
     @include flex-center;
     transition: all $transition-fast;
     -webkit-tap-highlight-color: transparent;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
 
     @include desktop {
       width: 48px;
@@ -200,17 +200,17 @@
     }
 
     &:active {
-      background: rgba(0, 212, 255, 0.1);
-      border-color: rgba(0, 212, 255, 0.9);
+      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(255, 140, 0, 0.9);
       transform: rotate(180deg) scale(0.95);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(0, 212, 255, 0.15);
-        border-color: rgba(0, 212, 255, 0.9);
+        background: rgba(255, 140, 0, 0.15);
+        border-color: rgba(255, 140, 0, 0.9);
         transform: rotate(180deg);
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); // Shinier glow
+        box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); // Shinier glow
       }
     }
   }
@@ -222,7 +222,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+    border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
     border-radius: $radius-md;
 
     @include desktop {
@@ -262,7 +262,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+    border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
     border-radius: $radius-md;
     transition: all $transition-fast;
     min-height: 60px; // Mobile-first: larger touch target
@@ -273,15 +273,15 @@
     }
 
     &:active {
-      background: rgba(0, 212, 255, 0.1);
-      border-color: rgba(0, 212, 255, 0.5);
+      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(255, 140, 0, 0.5);
       transform: scale(0.98);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(0, 212, 255, 0.1);
-        border-color: rgba(0, 212, 255, 0.5);
+        background: rgba(255, 140, 0, 0.1);
+        border-color: rgba(255, 140, 0, 0.5);
       }
     }
   }

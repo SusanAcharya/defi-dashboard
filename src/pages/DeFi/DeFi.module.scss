@@ -42,7 +42,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 212, 255, 0.3); // Neon blue border
+    border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
   }
 
   &__name {
@@ -78,7 +78,7 @@
   }
 
   &__metricValue {
-    color: #00d4ff; // Neon blue
+    color: #ff8c00; // Neon blue
     font-size: $font-size-base;
     font-weight: $font-weight-semibold;
   }

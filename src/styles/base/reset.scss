@@ -18,14 +18,14 @@ html {
 
 body {
   font-family: $font-family-primary;
-  // Purple/Blue gradient background (like Pawtato/ATO Board)
+  // Dark grey gradient background
   background: linear-gradient(
     135deg,
-    #0a0a14 0%,      // Deep dark purple-blue
-    #1a1a2e 25%,     // Dark purple-blue
-    #252540 50%,     // Medium purple-blue
-    #1a1a2e 75%,     // Dark purple-blue
-    #0a0a14 100%     // Deep dark purple-blue
+    #0a0a0a 0%,      // Deep black
+    #1a1a1a 25%,     // Dark grey
+    #2a2a2a 50%,     // Medium grey
+    #1a1a1a 75%,     // Dark grey
+    #0a0a0a 100%     // Deep black
   );
   background-attachment: fixed;
   background-size: 100% 100%;

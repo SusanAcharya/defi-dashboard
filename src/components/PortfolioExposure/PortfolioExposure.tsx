@@ -16,18 +16,18 @@ export const PortfolioExposure: React.FC = () => {
 
   // Convert DeFi positions to exposure data
   const data = defiPositions?.map((pos, index) => {
-    const colors = ['#8b5cf6', '#6366f1', '#a855f7', '#7c3aed', '#10b981', '#ef4444'];
+    const colors = ['#ff8c00', '#ffa500', '#ff9500', '#ff7f00', '#228b22', '#ff6347'];
     return {
       name: pos.protocol,
       value: pos.positionValue,
       color: colors[index % colors.length],
     };
   }) || [
-    { name: 'JediSwap', value: 7500, color: '#8b5cf6' },
-    { name: '10KSwap', value: 7500, color: '#6366f1' },
-    { name: 'Ekubo', value: 580, color: '#a855f7' },
-    { name: 'zkLend', value: 7500, color: '#7c3aed' },
-    { name: 'STRK Staking', value: 20, color: '#10b981' },
+    { name: 'JediSwap', value: 7500, color: '#ff8c00' },
+    { name: '10KSwap', value: 7500, color: '#ffa500' },
+    { name: 'Ekubo', value: 580, color: '#ff9500' },
+    { name: 'zkLend', value: 7500, color: '#ff7f00' },
+    { name: 'STRK Staking', value: 20, color: '#228b22' },
   ];
 
   // Only show first 5 items

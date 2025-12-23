@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Brush } from 'recharts';
 import { api } from '@/utils/api';
 import { formatCurrency, formatPercentage } from '@/utils/format';
 import { useUIStore } from '@/store/uiStore';
@@ -39,6 +39,26 @@ export const Portfolio: React.FC = () => {
     queryKey: ['defiPositions', selectedWalletAddress],
     queryFn: ({ queryKey }) => api.getDefiPositions(queryKey[1] as string | null),
   });
+
+  // Determine if we should show brush (for larger timelines)
+  const showBrush = useMemo(() => {
+    return selectedTimeframe === '90D' || selectedTimeframe === '1Y' || selectedTimeframe === 'ALL';
+  }, [selectedTimeframe]);
+
+  // Calculate brush start/end based on data length
+  const brushStartIndex = useMemo(() => {
+    if (!chartData || chartData.length === 0) return 0;
+    // For large datasets, start showing from 70% of the data
+    if (showBrush && chartData.length > 30) {
+      return Math.floor(chartData.length * 0.3);
+    }
+    return 0;
+  }, [chartData, showBrush]);
+
+  const brushEndIndex = useMemo(() => {
+    if (!chartData || chartData.length === 0) return 0;
+    return chartData.length - 1;
+  }, [chartData]);
 
   return (
     <div className={styles.portfolio}>
@@ -98,59 +118,114 @@ export const Portfolio: React.FC = () => {
           ))}
         </div>
         <div className={styles.portfolio__chart}>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData || []}>
+          <ResponsiveContainer width="100%" height={showBrush ? 380 : 350}>
+            <LineChart 
+              data={chartData || []}
+              margin={{ top: 10, right: 20, left: 10, bottom: showBrush ? 60 : 10 }}
+            >
               <defs>
-                <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0} />
+                <linearGradient id="portfolioAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.5} />
+                  <stop offset="50%" stopColor="#ff8c00" stopOpacity={0.2} />
+                  <stop offset="100%" stopColor="#ff8c00" stopOpacity={0} />
                 </linearGradient>
-                <filter id="lineGlow">
-                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <linearGradient id="portfolioLineGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="#ffa500" stopOpacity={1} />
+                </linearGradient>
+                <filter id="portfolioLineGlow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
                   <feMerge>
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(139, 92, 246, 0.2)" />
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke="rgba(255, 140, 0, 0.1)" 
+                vertical={false}
+                horizontal={true}
+              />
               <XAxis 
                 dataKey="date" 
-                stroke="#8b5cf6" 
-                style={{ fontSize: '12px' }}
-                tick={{ fill: '#b0b0c0' }}
+                stroke="rgba(255, 140, 0, 0.3)"
+                tick={{ fill: '#707070', fontSize: 11 }}
+                tickLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                axisLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                interval="preserveStartEnd"
               />
               <YAxis 
-                stroke="#8b5cf6" 
-                style={{ fontSize: '12px' }}
-                tick={{ fill: '#b0b0c0' }}
+                stroke="rgba(255, 140, 0, 0.3)"
+                tick={{ fill: '#707070', fontSize: 11 }}
+                tickLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                axisLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                tickFormatter={(value) => {
+                  if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
+                  if (value >= 1000) return `$${(value / 1000).toFixed(1)}K`;
+                  return `$${value}`;
+                }}
+                width={70}
               />
               <Tooltip
-                contentStyle={{
-                  background: 'rgba(26, 26, 46, 0.95)',
-                  border: '1px solid rgba(139, 92, 246, 0.5)',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)',
+                content={({ active, payload, label }) => {
+                  if (active && payload && payload.length) {
+                    const value = payload[0].value as number;
+                    return (
+                      <div className={styles.portfolio__tooltip}>
+                        <div className={styles.portfolio__tooltipLabel}>{label}</div>
+                        <div className={styles.portfolio__tooltipValue}>
+                          {formatCurrency(value, 'USD', true)}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
                 }}
-                labelStyle={{ color: '#8b5cf6' }}
-                formatter={(value: number) => formatCurrency(value, 'USD', true)}
+                cursor={{ stroke: '#ff8c00', strokeWidth: 1, strokeDasharray: '5 5' }}
               />
               <Area
                 type="monotone"
                 dataKey="value"
-                fill="url(#areaGradient)"
+                fill="url(#portfolioAreaGradient)"
                 stroke="none"
+                isAnimationActive={true}
+                animationDuration={800}
               />
               <Line
                 type="monotone"
                 dataKey="value"
-                stroke="#8b5cf6"
-                strokeWidth={3}
-                dot={{ fill: '#8b5cf6', r: 4, strokeWidth: 2, stroke: '#ffffff' }}
-                activeDot={{ r: 6, fill: '#8b5cf6', stroke: '#ffffff', strokeWidth: 2 }}
-                filter="url(#lineGlow)"
+                stroke="url(#portfolioLineGradient)"
+                strokeWidth={2.5}
+                dot={false}
+                activeDot={{ 
+                  r: 5, 
+                  fill: '#ff8c00', 
+                  stroke: '#ffffff', 
+                  strokeWidth: 2,
+                  style: { filter: 'drop-shadow(0 0 4px rgba(255, 140, 0, 0.8))' }
+                }}
+                filter="url(#portfolioLineGlow)"
+                isAnimationActive={true}
+                animationDuration={800}
               />
+              {showBrush && chartData && chartData.length > 0 && (
+                <Brush
+                  dataKey="date"
+                  height={30}
+                  stroke="rgba(255, 140, 0, 0.5)"
+                  fill="rgba(255, 140, 0, 0.1)"
+                  startIndex={brushStartIndex}
+                  endIndex={brushEndIndex}
+                  tickFormatter={(value) => {
+                    // Format date for brush
+                    if (typeof value === 'string') {
+                      return value.length > 8 ? value.slice(0, 6) : value;
+                    }
+                    return value;
+                  }}
+                />
+              )}
             </LineChart>
           </ResponsiveContainer>
         </div>
