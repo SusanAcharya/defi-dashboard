@@ -59,7 +59,7 @@ export const PortfolioExposure: React.FC = () => {
                     className={styles.portfolioExposure__itemBarFill}
                     style={{ 
                       width: `${percentage}%`,
-                      backgroundColor: item.color
+                      background: `linear-gradient(90deg, ${item.color} 0%, ${item.color}dd 50%, ${item.color} 100%)`
                     }}
                   />
                 </div>

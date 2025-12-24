@@ -107,25 +107,45 @@ export const AssetAllocation: React.FC = () => {
                 data={data}
                 cx="50%"
                 cy="50%"
-                outerRadius="90%"
-                paddingAngle={0}
+                outerRadius="85%"
+                innerRadius="0%"
+                paddingAngle={2}
                 dataKey="value"
                 label={false}
                 labelLine={false}
+                stroke="rgba(0, 0, 0, 0.3)"
+                strokeWidth={2}
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={entry.color}
+                    style={{ 
+                      filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                  />
                 ))}
               </Pie>
               <Tooltip
-                contentStyle={{
-                  background: 'rgba(26, 26, 26, 0.95)',
-                  border: '1px solid rgba(255, 140, 0, 0.5)',
-                  borderRadius: '8px',
-                  color: '#ffffff',
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    const data = payload[0].payload;
+                    return (
+                      <div className={styles.assetAllocation__tooltip}>
+                        <div className={styles.assetAllocation__tooltipName}>{data.name}</div>
+                        <div className={styles.assetAllocation__tooltipValue}>
+                          ${data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </div>
+                        <div className={styles.assetAllocation__tooltipPercentage}>
+                          {data.percentage.toFixed(2)}%
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
                 }}
-                labelStyle={{ color: '#ffffff' }}
-                itemStyle={{ color: '#ffffff' }}
               />
             </PieChart>
           </ResponsiveContainer>

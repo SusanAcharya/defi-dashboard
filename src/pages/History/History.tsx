@@ -83,44 +83,39 @@ export const History: React.FC = () => {
       </Card>
 
       <Card className={styles.history__list}>
-        <div className={styles.history__tableWrapper}>
-          <table className={styles.history__table}>
-            <thead>
-              <tr>
-                <th>Activity</th>
-                <th>Wallet</th>
-                <th>Gas Fee</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history?.map((entry) => (
-                <tr key={entry.id}>
-                  <td>
-                    <div className={styles.history__activity}>
-                      <span className={styles.history__activityIcon}>
-                        {getActivityIcon(entry.activityType)}
-                      </span>
-                      <div className={styles.history__activityInfo}>
-                        <div className={styles.history__activityTitle}>{entry.activity}</div>
-                        {entry.protocol && (
-                          <div className={styles.history__activityProtocol}>{entry.protocol}</div>
-                        )}
-                      </div>
+        {history && history.length > 0 ? (
+          <div className={styles.history__items}>
+            {history.map((entry) => (
+              <div key={entry.id} className={styles.history__item}>
+                <div className={styles.history__itemHeader}>
+                  <div className={styles.history__activity}>
+                    <div className={styles.history__activityIcon}>
+                      {getActivityIcon(entry.activityType)}
                     </div>
-                  </td>
-                  <td>
+                    <div className={styles.history__activityInfo}>
+                      <div className={styles.history__activityTitle}>{entry.activity}</div>
+                      {entry.protocol && (
+                        <div className={styles.history__activityProtocol}>{entry.protocol}</div>
+                      )}
+                    </div>
+                  </div>
+                  <span className={`${styles.history__status} ${styles[`history__status_${entry.status}`]}`}>
+                    {entry.status}
+                  </span>
+                </div>
+                <div className={styles.history__itemDetails}>
+                  <div className={styles.history__detail}>
+                    <span className={styles.history__detailLabel}>Wallet</span>
                     <button
                       className={styles.history__address}
                       onClick={() => handleCopyAddress(entry.wallet)}
                       title={entry.wallet}
                     >
-                      {formatAddress(entry.wallet, 4, 4)}
+                      {formatAddress(entry.wallet, 6, 4)}
                     </button>
-                  </td>
-                  <td>
+                  </div>
+                  <div className={styles.history__detail}>
+                    <span className={styles.history__detailLabel}>Gas Fee</span>
                     <div className={styles.history__gasFee}>
                       <div className={styles.history__gasFeeEth}>
                         {showFinancialNumbers 
@@ -135,27 +130,27 @@ export const History: React.FC = () => {
                         }
                       </div>
                     </div>
-                  </td>
-                  <td>{formatTimestamp(entry.timestamp)}</td>
-                  <td>
-                    <span className={`${styles.history__status} ${styles[`history__status_${entry.status}`]}`}>
-                      {entry.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className={styles.history__viewButton}
-                      onClick={() => handleCopyTxHash(entry.txHash)}
-                      title="View on Explorer"
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                  <div className={styles.history__detail}>
+                    <span className={styles.history__detailLabel}>Time</span>
+                    <span className={styles.history__time}>{formatTimestamp(entry.timestamp)}</span>
+                  </div>
+                </div>
+                <div className={styles.history__itemActions}>
+                  <button
+                    className={styles.history__viewButton}
+                    onClick={() => handleCopyTxHash(entry.txHash)}
+                    title="View on Explorer"
+                  >
+                    View Transaction
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.history__empty}>No transaction history found</div>
+        )}
       </Card>
     </div>
   );

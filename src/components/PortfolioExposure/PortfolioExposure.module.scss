@@ -3,22 +3,6 @@
 .portfolioExposure {
   position: relative;
 
-  // Cracked glass effect
-  &::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
-    box-shadow: 
-      -2px -2px 0 rgba(0, 0, 0, 0.8),
-      2px 2px 0 rgba(0, 0, 0, 0.8);
-    z-index: 10;
-  }
-
   &__header {
     @include flex-between;
     margin-bottom: $spacing-md;
@@ -41,21 +25,73 @@
     align-items: center;
     gap: $spacing-sm;
     padding: $spacing-sm $spacing-md;
-    background: rgba(26, 26, 26, 0.4);
+    // Liquid Glass Effect
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.3) 0%,
+      rgba(20, 20, 20, 0.4) 50%,
+      rgba(26, 26, 26, 0.3) 100%
+    );
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
     border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(255, 140, 0, 0.15);
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all $transition-fast;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 140, 0, 0.03) 0%,
+        transparent 50%,
+        rgba(255, 140, 0, 0.03) 100%
+      );
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(255, 140, 0, 0.3);
+        box-shadow: 
+          0 6px 24px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          0 0 20px rgba(255, 140, 0, 0.1);
+        transform: translateY(-2px);
+
+        .portfolioExposure__itemBarFill {
+          box-shadow: 
+            0 0 12px currentColor,
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
   }
 
   &__itemIcon {
     width: 32px;
     height: 32px;
     border-radius: $radius-sm;
-    background: rgba(255, 140, 0, 0.2);
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     @include flex-center;
     font-size: $font-size-base;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
     flex-shrink: 0;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
   }
 
   &__itemInfo {
@@ -80,21 +116,76 @@
     @include flex-column;
     gap: $spacing-xs;
     align-items: flex-end;
-    min-width: 100px;
+    min-width: 120px;
+
+    @include desktop {
+      min-width: 140px;
+    }
   }
 
   &__itemBar {
-    width: 100px;
-    height: 6px;
-    background: rgba(255, 140, 0, 0.2);
-    border-radius: $radius-sm;
+    width: 120px;
+    height: 8px;
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: $radius-full;
     overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    box-shadow: 
+      inset 0 2px 4px rgba(0, 0, 0, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+
+    @include desktop {
+      width: 140px;
+      height: 10px;
+    }
   }
 
   &__itemBarFill {
     height: 100%;
-    border-radius: $radius-sm;
-    transition: width $transition-fast;
+    border-radius: $radius-full;
+    transition: width $transition-base;
+    position: relative;
+    box-shadow: 
+      0 0 8px currentColor,
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+
+    // Shimmer effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      );
+      animation: shimmer 2s infinite;
+    }
+
+    // Gradient overlay for depth
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.2) 100%
+      );
+      pointer-events: none;
+    }
   }
 
   &__itemPercentage {
@@ -122,6 +213,16 @@
         opacity: 1;
       }
     }
+  }
+}
+
+// Shimmer animation for progress bars
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
   }
 }
 

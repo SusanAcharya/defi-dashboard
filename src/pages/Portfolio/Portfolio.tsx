@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Brush } from 'recharts';
+import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { api } from '@/utils/api';
 import { formatCurrency, formatPercentage } from '@/utils/format';
 import { useUIStore } from '@/store/uiStore';
@@ -12,8 +12,13 @@ const timeframes = ['1D', '7D', '30D', '90D', '1Y', 'ALL'];
 
 export const Portfolio: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('30D');
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [panOffset, setPanOffset] = useState(0);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
+  const dragStartRef = useRef(0);
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
-  const { wallets, selectedWalletAddress, setSelectedWallet } = useWalletStore();
+  const { selectedWalletAddress } = useWalletStore();
   // Show all wallets, not just "my wallets"
 
   // Get portfolio data for selected wallet or combined
@@ -40,57 +45,90 @@ export const Portfolio: React.FC = () => {
     queryFn: ({ queryKey }) => api.getDefiPositions(queryKey[1] as string | null),
   });
 
-  // Determine if we should show brush (for larger timelines)
-  const showBrush = useMemo(() => {
+  // Determine if we should enable zoom (for larger timelines)
+  const enableZoom = useMemo(() => {
     return selectedTimeframe === '90D' || selectedTimeframe === '1Y' || selectedTimeframe === 'ALL';
   }, [selectedTimeframe]);
 
-  // Calculate brush start/end based on data length
-  const brushStartIndex = useMemo(() => {
-    if (!chartData || chartData.length === 0) return 0;
-    // For large datasets, start showing from 70% of the data
-    if (showBrush && chartData.length > 30) {
-      return Math.floor(chartData.length * 0.3);
+  // Calculate visible data range based on zoom and pan
+  const visibleData = useMemo(() => {
+    if (!chartData || chartData.length === 0 || !enableZoom) {
+      return chartData || [];
     }
-    return 0;
-  }, [chartData, showBrush]);
 
-  const brushEndIndex = useMemo(() => {
-    if (!chartData || chartData.length === 0) return 0;
-    return chartData.length - 1;
-  }, [chartData]);
+    const totalPoints = chartData.length;
+    const visiblePoints = Math.max(10, Math.floor(totalPoints / zoomLevel));
+    const maxOffset = Math.max(0, totalPoints - visiblePoints);
+    const clampedOffset = Math.min(maxOffset, Math.max(0, panOffset));
+    
+    const startIndex = Math.floor(clampedOffset);
+    const endIndex = Math.min(startIndex + visiblePoints, totalPoints);
+    
+    return chartData.slice(startIndex, endIndex);
+  }, [chartData, zoomLevel, panOffset, enableZoom]);
+
+  // Handle mouse wheel zoom
+  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    if (!enableZoom || !chartData || chartData.length === 0) return;
+    
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1; // Zoom out or in
+    const newZoomLevel = Math.max(1, Math.min(10, zoomLevel * delta));
+    
+    // Adjust pan offset to zoom towards mouse position
+    const rect = chartContainerRef.current?.getBoundingClientRect();
+    if (rect) {
+      const mouseX = e.clientX - rect.left;
+      const relativeX = mouseX / rect.width;
+      const totalPoints = chartData.length;
+      const visiblePoints = Math.max(10, Math.floor(totalPoints / newZoomLevel));
+      const targetPoint = Math.floor(panOffset + (relativeX * (totalPoints / zoomLevel)));
+      const newOffset = Math.max(0, Math.min(totalPoints - visiblePoints, targetPoint - (relativeX * visiblePoints)));
+      
+      setPanOffset(newOffset);
+    }
+    
+    setZoomLevel(newZoomLevel);
+  }, [enableZoom, chartData, zoomLevel, panOffset]);
+
+  // Handle mouse down for panning
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!enableZoom) return;
+    isDraggingRef.current = true;
+    dragStartRef.current = e.clientX;
+    e.preventDefault();
+  }, [enableZoom]);
+
+  // Handle mouse move for panning
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!enableZoom || !isDraggingRef.current || !chartData || chartData.length === 0) return;
+    
+    const deltaX = e.clientX - dragStartRef.current;
+    const rect = chartContainerRef.current?.getBoundingClientRect();
+    if (rect) {
+      const totalPoints = chartData.length;
+      const visiblePoints = Math.max(10, Math.floor(totalPoints / zoomLevel));
+      const maxOffset = Math.max(0, totalPoints - visiblePoints);
+      const panDelta = (deltaX / rect.width) * (totalPoints / zoomLevel);
+      const newOffset = Math.max(0, Math.min(maxOffset, panOffset - panDelta));
+      setPanOffset(newOffset);
+      dragStartRef.current = e.clientX;
+    }
+  }, [enableZoom, chartData, zoomLevel, panOffset]);
+
+  // Handle mouse up for panning
+  const handleMouseUp = useCallback(() => {
+    isDraggingRef.current = false;
+  }, []);
+
+  // Reset zoom/pan when timeframe changes
+  React.useEffect(() => {
+    setZoomLevel(1);
+    setPanOffset(0);
+  }, [selectedTimeframe]);
 
   return (
     <div className={styles.portfolio}>
-      {/* Wallet Selector */}
-      <Card title="Portfolio View">
-        <div className={styles.portfolio__walletSelector}>
-          <button
-            className={`${styles.portfolio__walletOption} ${
-              selectedWalletAddress === null ? styles.portfolio__walletOption_active : ''
-            }`}
-            onClick={() => setSelectedWallet(null)}
-          >
-            <span className={styles.portfolio__walletOptionLabel}>ALL</span>
-            <span className={styles.portfolio__walletOptionCount}>({wallets.length})</span>
-          </button>
-          {wallets.map((wallet) => (
-            <button
-              key={wallet.address}
-              className={`${styles.portfolio__walletOption} ${
-                selectedWalletAddress === wallet.address ? styles.portfolio__walletOption_active : ''
-              }`}
-              onClick={() => setSelectedWallet(wallet.address)}
-            >
-              <span className={styles.portfolio__walletOptionLabel}>{wallet.name}</span>
-              <span className={styles.portfolio__walletOptionAddress}>
-                {wallet.shortAddress}
-              </span>
-            </button>
-          ))}
-        </div>
-      </Card>
-
       <Card title="VIGOR TRENDS (Historical PPL)">
         <div className={styles.portfolio__header}>
           <div>
@@ -117,11 +155,24 @@ export const Portfolio: React.FC = () => {
             </button>
           ))}
         </div>
-        <div className={styles.portfolio__chart}>
-          <ResponsiveContainer width="100%" height={showBrush ? 380 : 350}>
+        <div 
+          ref={chartContainerRef}
+          className={`${styles.portfolio__chart} ${enableZoom ? styles.portfolio__chart_zoomable : ''}`}
+          onWheel={handleWheel}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
+          {enableZoom && (
+            <div className={styles.portfolio__zoomHint}>
+              Scroll to zoom • Drag to pan
+            </div>
+          )}
+          <ResponsiveContainer width="100%" height={350}>
             <LineChart 
-              data={chartData || []}
-              margin={{ top: 10, right: 20, left: 10, bottom: showBrush ? 60 : 10 }}
+              data={visibleData}
+              margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
             >
               <defs>
                 <linearGradient id="portfolioAreaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -209,23 +260,6 @@ export const Portfolio: React.FC = () => {
                 isAnimationActive={true}
                 animationDuration={800}
               />
-              {showBrush && chartData && chartData.length > 0 && (
-                <Brush
-                  dataKey="date"
-                  height={30}
-                  stroke="rgba(255, 140, 0, 0.5)"
-                  fill="rgba(255, 140, 0, 0.1)"
-                  startIndex={brushStartIndex}
-                  endIndex={brushEndIndex}
-                  tickFormatter={(value) => {
-                    // Format date for brush
-                    if (typeof value === 'string') {
-                      return value.length > 8 ? value.slice(0, 6) : value;
-                    }
-                    return value;
-                  }}
-                />
-              )}
             </LineChart>
           </ResponsiveContainer>
         </div>

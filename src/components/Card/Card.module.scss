@@ -1,35 +1,116 @@
 @use '@/styles/mixins.scss' as *;
 
 .card {
-  @include card;
-  margin-bottom: $spacing-md; // Mobile-first: smaller margin
+  // Liquid Glass Effect
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 26, 0.4) 0%,
+    rgba(20, 20, 20, 0.5) 50%,
+    rgba(26, 26, 26, 0.4) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  border-radius: $radius-lg;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 140, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-base;
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
 
-  // Ensure content is above grid
+  // Liquid glass reflection effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      transparent 30%,
+      rgba(255, 140, 0, 0.1) 50%,
+      transparent 70%
+    );
+    animation: liquid-shimmer 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  // Subtle gradient overlay
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 140, 0, 0.05) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(255, 140, 0, 0.05) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+  }
+
+  // Ensure content is above glass effects
   > * {
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
   @include desktop {
     margin-bottom: $spacing-lg;
+    padding: $spacing-lg;
+
+    &:hover {
+      border-color: rgba(255, 140, 0, 0.4);
+      box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 140, 0, 0.2),
+        0 0 40px rgba(255, 140, 0, 0.15);
+      transform: translateY(-2px);
+    }
   }
 
   &__title {
-    color: #ffffff; // White (MOBSTAKER style)
-    font-size: $font-size-base; // Mobile-first: smaller title
+    color: #ffffff;
+    font-size: $font-size-base;
     font-weight: $font-weight-bold;
     margin-bottom: $spacing-sm;
     letter-spacing: 2px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
     text-transform: uppercase;
-    // Removed glow
 
     @include desktop {
       font-size: $font-size-lg;
       margin-bottom: $spacing-md;
       letter-spacing: 3px;
     }
+  }
+}
+
+// Liquid glass shimmer animation
+@keyframes liquid-shimmer {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+    opacity: 0.6;
   }
 }
 

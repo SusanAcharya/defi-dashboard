@@ -5,6 +5,10 @@
   @include flex-column;
   gap: $spacing-lg;
 
+  @include mobile {
+    gap: $spacing-md;
+  }
+
   &__hotBowls {
     margin-bottom: $spacing-md;
   }
@@ -17,7 +21,20 @@
     display: flex;
     gap: $spacing-sm;
     margin-bottom: $spacing-lg;
-    border-bottom: 1px solid $color-divider;
+    border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include mobile {
+      margin-bottom: $spacing-md;
+      gap: $spacing-xs;
+    }
   }
 
   &__tab {
@@ -32,6 +49,13 @@
     transition: all $transition-fast;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-sm;
+    }
 
     &:active {
       color: $color-text-primary;
@@ -44,7 +68,7 @@
     }
 
     &_active {
-      color: #ffd700; // Golden yellow
+      color: #ffd700;
       border-bottom-color: #ffd700;
       font-weight: $font-weight-bold;
     }
@@ -55,9 +79,14 @@
     gap: $spacing-md;
     margin-bottom: $spacing-lg;
 
+    @include mobile {
+      gap: $spacing-sm;
+      margin-bottom: $spacing-md;
+    }
+
     @include desktop {
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
     }
   }
@@ -67,19 +96,36 @@
     align-items: center;
     gap: $spacing-sm;
     background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     padding: $spacing-sm $spacing-md;
     flex: 1;
+    transition: all $transition-fast;
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+    }
 
     @include desktop {
       max-width: 400px;
+
+      &:focus-within {
+        border-color: rgba(255, 140, 0, 0.5);
+        box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
+      }
     }
   }
 
   &__searchIcon {
     font-size: $font-size-base;
     color: $color-text-secondary;
+    flex-shrink: 0;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
   }
 
   &__searchInput {
@@ -91,27 +137,14 @@
     font-family: $font-family-primary;
     font-size: $font-size-base;
     outline: none;
+    min-width: 0;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
 
     &::placeholder {
       color: $color-text-muted;
-    }
-  }
-
-  &__settingsIcon {
-    @include button-reset;
-    font-size: $font-size-base;
-    color: $color-text-secondary;
-    cursor: pointer;
-    transition: color $transition-fast;
-
-    &:active {
-      color: $color-text-primary;
-    }
-
-    @include desktop {
-      &:hover {
-        color: $color-text-primary;
-      }
     }
   }
 
@@ -119,12 +152,18 @@
     display: flex;
     gap: $spacing-sm;
     flex-wrap: wrap;
+
+    @include mobile {
+      gap: $spacing-xs;
+    }
   }
 
   &__filter {
     @include button-reset;
     padding: $spacing-sm $spacing-md;
     background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-primary;
@@ -133,9 +172,19 @@
     cursor: pointer;
     outline: none;
     transition: all $transition-fast;
+    flex: 1;
+    min-width: 120px;
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-xs;
+      min-width: 100px;
+      flex: 1 1 calc(50% - #{$spacing-xs});
+    }
 
     &:active {
       border-color: rgba(255, 140, 0, 0.5);
+      background: rgba(255, 140, 0, 0.1);
     }
 
     @include desktop {
@@ -146,107 +195,277 @@
     }
   }
 
-  &__tableWrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-    margin-top: $spacing-md;
-  }
-
-  &__table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 800px;
+  &__list {
+    @include flex-column;
+    gap: $spacing-md;
 
     @include mobile {
-      min-width: 700px;
+      gap: $spacing-sm;
     }
+  }
 
-    thead {
-      background: rgba(255, 140, 0, 0.1);
-      border-bottom: 2px solid rgba(255, 140, 0, 0.3);
-    }
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl;
+    color: $color-text-secondary;
+    font-size: $font-size-base;
 
-    th {
-      padding: $spacing-md;
-      text-align: left;
-      color: $color-text-secondary;
+    @include mobile {
+      padding: $spacing-lg;
       font-size: $font-size-sm;
-      font-weight: $font-weight-semibold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    }
+  }
 
-      &:nth-child(n+2) {
-        text-align: right;
-      }
+  &__card {
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    border-radius: $radius-md;
+    padding: $spacing-lg;
+    cursor: pointer;
+    transition: all $transition-fast;
+    position: relative;
+    overflow: hidden;
 
-      @include mobile {
-        padding: $spacing-xs $spacing-sm;
-        font-size: $font-size-xs;
-      }
+    @include mobile {
+      padding: $spacing-md;
     }
 
-    tbody {
-      tr {
-        border-bottom: 1px solid rgba(44, 44, 68, 0.5);
-        transition: background $transition-fast;
-        cursor: pointer;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 15px;
+      height: 15px;
+      border-top: 2px solid rgba(255, 140, 0, 0.4);
+      border-right: 2px solid rgba(255, 140, 0, 0.4);
+    }
 
-        &:active {
-          background: rgba(255, 140, 0, 0.1) !important;
-        }
+    &:active {
+      background: rgba(26, 26, 26, 0.8);
+      border-color: rgba(255, 140, 0, 0.5);
+      transform: scale(0.98);
+    }
 
-        @include desktop {
-          &:hover {
-            background: rgba(255, 140, 0, 0.1) !important;
-            transform: translateX(2px);
-          }
-        }
-
-        td {
-          padding: $spacing-md;
-          color: $color-text-primary;
-          font-size: $font-size-base;
-
-          &:nth-child(n+2) {
-            text-align: right;
-          }
-
-          @include mobile {
-            padding: $spacing-xs $spacing-sm;
-            font-size: $font-size-sm;
-          }
-        }
+    @include desktop {
+      &:hover {
+        background: rgba(26, 26, 26, 0.8);
+        border-color: rgba(255, 140, 0, 0.5);
+        transform: translateX(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 140, 0, 0.2);
       }
     }
   }
 
-  &__poolInfo,
-  &__strategyInfo {
+  &__cardHeader {
+    @include flex-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-md;
+    gap: $spacing-md;
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-sm;
+    }
+  }
+
+  &__cardApr {
+    @include flex-column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+    color: $color-positive;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+    white-space: nowrap;
+
+    @include mobile {
+      align-items: flex-start;
+      font-size: $font-size-base;
+      width: 100%;
+    }
+  }
+
+  &__cardStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: $spacing-md;
+
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-sm;
+    }
+  }
+
+  &__stat {
+    @include flex-column;
+    gap: $spacing-xs;
+
+    @include mobile {
+      gap: 2px;
+    }
+  }
+
+  &__statLabel {
+    color: $color-text-secondary;
+    font-size: $font-size-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    @include mobile {
+      font-size: 0.7rem;
+    }
+  }
+
+  &__statValue {
+    color: $color-text-primary;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-base;
+    font-family: $font-family-primary;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // Pool specific styles
+  &__poolInfo {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__poolMain {
+    @include flex-column;
+    gap: $spacing-xs;
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__poolName {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
+    gap: $spacing-xs;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+    flex-wrap: wrap;
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__poolDetails {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
   }
 
   &__star {
-    font-size: $font-size-base;
+    font-size: $font-size-lg;
+    flex-shrink: 0;
     cursor: pointer;
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
   }
 
-  &__poolName,
+  // Lending specific styles
+  &__lendingInfo {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+  }
+
+  &__lendingToken {
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__lendingProtocol {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
+  }
+
+  // Strategy specific styles
+  &__strategyInfo {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+    flex: 1;
+    min-width: 0;
+
+    @include mobile {
+      gap: $spacing-sm;
+    }
+  }
+
+  &__strategyMain {
+    @include flex-column;
+    gap: $spacing-xs;
+    min-width: 0;
+    flex: 1;
+  }
+
   &__strategyName {
     display: flex;
     align-items: center;
     gap: $spacing-xs;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
+    font-size: $font-size-lg;
+    flex-wrap: wrap;
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
   }
 
-  &__poolDetails,
   &__strategyProvider {
     font-size: $font-size-sm;
     color: $color-text-secondary;
-    margin-top: $spacing-xs;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
+  }
+
+  &__strategyIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    background: $gradient-accent-purple;
+    @include flex-center;
+    font-size: $font-size-xl;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(147, 112, 219, 0.3);
+
+    @include mobile {
+      width: 40px;
+      height: 40px;
+      font-size: $font-size-lg;
+    }
   }
 
   &__verified {
@@ -256,7 +475,7 @@
   }
 
   &__gift {
-    font-size: $font-size-sm;
+    font-size: $font-size-base;
   }
 
   &__apr {
@@ -264,20 +483,12 @@
     font-weight: $font-weight-bold;
   }
 
-  &__strategyIcon {
-    width: 40px;
-    height: 40px;
-    border-radius: $radius-full;
-    background: $gradient-accent-purple;
-    @include flex-center;
-    font-size: $font-size-lg;
-    flex-shrink: 0;
-  }
-
   &__bonus {
     font-size: $font-size-xs;
     color: $color-positive;
-    margin-top: $spacing-xs;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
   }
 
   &__bonusCheck {
@@ -286,14 +497,19 @@
 
   &__risk {
     display: flex;
-    gap: 2px;
+    gap: 3px;
     align-items: center;
   }
 
   &__riskBar {
-    width: 4px;
-    height: 16px;
+    width: 5px;
+    height: 18px;
     border-radius: 2px;
+
+    @include mobile {
+      width: 4px;
+      height: 16px;
+    }
   }
 }
 
@@ -302,20 +518,33 @@
   @include flex-column;
   gap: $spacing-lg;
 
-  @include desktop {
+  @include tablet {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: $spacing-xl;
   }
 
+  @include mobile {
+    gap: $spacing-md;
+  }
+
   &__category {
     @include flex-column;
     gap: $spacing-md;
+
+    @include mobile {
+      gap: $spacing-sm;
+    }
   }
 
   &__categoryHeader {
     @include flex-between;
     align-items: center;
+    margin-bottom: $spacing-sm;
+
+    @include mobile {
+      margin-bottom: $spacing-xs;
+    }
   }
 
   &__categoryTitle {
@@ -325,19 +554,33 @@
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
+
+    @include mobile {
+      font-size: $font-size-base;
+      gap: $spacing-xs;
+    }
   }
 
   &__categoryIcon {
     font-size: $font-size-xl;
+
+    @include mobile {
+      font-size: $font-size-lg;
+    }
   }
 
   &__viewAll {
     @include button-reset;
-    color: $color-accent-purple;
+    color: rgba(255, 140, 0, 0.8);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     cursor: pointer;
     transition: color $transition-fast;
+    white-space: nowrap;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
 
     &:active {
       color: $color-text-primary;
@@ -353,6 +596,10 @@
   &__list {
     @include flex-column;
     gap: $spacing-sm;
+
+    @include mobile {
+      gap: $spacing-xs;
+    }
   }
 
   &__item {
@@ -360,14 +607,26 @@
     align-items: center;
     padding: $spacing-sm $spacing-md;
     background: rgba(26, 26, 26, 0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: $radius-md;
     transition: all $transition-fast;
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+    }
+
+    &:active {
+      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(255, 140, 0, 0.4);
+    }
 
     @include desktop {
       &:hover {
         background: rgba(255, 140, 0, 0.1);
         border-color: rgba(255, 140, 0, 0.4);
+        transform: translateX(-2px);
       }
     }
   }
@@ -376,12 +635,19 @@
     color: $color-text-primary;
     font-weight: $font-weight-medium;
     font-size: $font-size-base;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
   }
 
   &__apr {
     color: $color-positive;
     font-weight: $font-weight-bold;
     font-size: $font-size-base;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
   }
 }
-

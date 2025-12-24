@@ -1,19 +1,46 @@
 @use '@/styles/mixins.scss' as *;
 
 .portfolioCard {
-  background: rgba(26, 26, 26, 0.6); // Same as other cards - purple-blue
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 140, 0, 0.5); // Purple border
+  // Liquid Glass Effect
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 26, 0.4) 0%,
+    rgba(20, 20, 20, 0.5) 50%,
+    rgba(26, 26, 26, 0.4) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  border-radius: $radius-lg;
   box-shadow: 
-    0 10px 40px rgba(0, 0, 0, 0.9),
-    inset 0 2px 0 rgba(255, 140, 0, 0.3), // Purple accent
-    inset 0 -2px 0 rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(255, 140, 0, 0.3), // Purple glow
-    0 0 60px rgba(255, 140, 0, 0.2); // Additional outer glow
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 140, 0, 0.1);
   position: relative;
   overflow: hidden;
+  transition: all $transition-base;
 
+  // Liquid glass reflection effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      transparent 30%,
+      rgba(255, 140, 0, 0.1) 50%,
+      transparent 70%
+    );
+    animation: liquid-shimmer 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  // Subtle gradient overlay
   &::after {
     content: '';
     position: absolute;
@@ -21,38 +48,35 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: 
-      linear-gradient(rgba(255, 140, 0, 0.15) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 140, 0, 0.15) 1px, transparent 1px);
-    background-size: 20px 20px; // Grid size
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4; // Grid opacity
-  }
-
-  // Add purple accent line (above grid)
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(255, 140, 0, 0.6), 
-      rgba(255, 140, 0, 0.8), 
-      rgba(255, 140, 0, 0.6), 
-      transparent
+    background: linear-gradient(
+      180deg,
+      rgba(255, 140, 0, 0.05) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(255, 140, 0, 0.05) 100%
     );
-    z-index: 2;
-    box-shadow: 0 0 15px rgba(255, 140, 0, 0.5), 0 0 25px rgba(255, 140, 0, 0.3); // Purple glow
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
   }
 
-  // Ensure content is above grid
+  @include desktop {
+    &:hover {
+      border-color: rgba(255, 140, 0, 0.4);
+      box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 140, 0, 0.2),
+        0 0 40px rgba(255, 140, 0, 0.15);
+      transform: translateY(-2px);
+    }
+  }
+
+  // Ensure content is above glass effects
   > * {
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
   &__topRow {
@@ -205,9 +229,15 @@
     height: 60px;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 2px solid rgba(255, 140, 0, 0.5); // Purple border
+    border: 2px solid rgba(255, 140, 0, 0.4);
     flex-shrink: 0;
     position: relative;
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 20px rgba(255, 140, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
     @include desktop {
       width: 80px;
@@ -344,14 +374,25 @@
 
   &__divider {
     height: 1px;
-    background: $color-divider;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 140, 0, 0.3),
+      rgba(255, 140, 0, 0.5),
+      rgba(255, 140, 0, 0.3),
+      transparent
+    );
     margin: $spacing-md 0;
+    position: relative;
+    z-index: 2;
   }
 
   &__metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr); // Mobile: 3 columns
     gap: $spacing-sm; // Mobile-first: smaller gap
+    position: relative;
+    z-index: 2;
 
     @include desktop {
       gap: $spacing-md;
@@ -363,6 +404,21 @@
     gap: $spacing-xs;
     align-items: center; // Center items horizontally
     text-align: center; // Center text
+    padding: $spacing-sm;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: $radius-md;
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    transition: all $transition-fast;
+
+    @include desktop {
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 140, 0, 0.2);
+        transform: translateY(-2px);
+      }
+    }
   }
 
   &__metricLabel {
@@ -382,6 +438,18 @@
     @include desktop {
       font-size: $font-size-2xl; // Even larger on desktop
     }
+  }
+}
+
+// Liquid glass shimmer animation
+@keyframes liquid-shimmer {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+    opacity: 0.6;
   }
 }
 

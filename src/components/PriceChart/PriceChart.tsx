@@ -9,7 +9,7 @@ import { useUIStore } from '@/store/uiStore';
 import { Token } from '@/types';
 import styles from './PriceChart.module.scss';
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 20;
 
 export const PriceChart: React.FC = () => {
   const navigate = useNavigate();

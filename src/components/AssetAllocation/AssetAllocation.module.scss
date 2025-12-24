@@ -3,39 +3,6 @@
 .assetAllocation {
   position: relative;
 
-  // Cracked glass effect
-  &::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
-    box-shadow: 
-      -2px -2px 0 rgba(0, 0, 0, 0.8),
-      2px 2px 0 rgba(0, 0, 0, 0.8),
-      -4px -4px 0 rgba(0, 0, 0, 0.6),
-      4px 4px 0 rgba(0, 0, 0, 0.6);
-    z-index: 10;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
-    box-shadow: 
-      -1px -1px 0 rgba(0, 0, 0, 0.8),
-      1px 1px 0 rgba(0, 0, 0, 0.8);
-    z-index: 10;
-  }
-
   &__content {
     display: flex;
     flex-direction: column;
@@ -53,12 +20,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 250px; // Limit max width
-    margin: 0 auto; // Center the chart
+    max-width: 250px;
+    margin: 0 auto;
+    padding: $spacing-md;
 
     @include desktop {
-      height: 300px; // Increased size on desktop
-      max-width: 300px; // Larger on desktop
+      height: 300px;
+      max-width: 300px;
+      padding: $spacing-lg;
     }
   }
 
@@ -89,6 +58,19 @@
     @include flex-center;
     gap: $spacing-sm;
     align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    background: transparent;
+    border: none;
+    transition: all $transition-fast;
+    cursor: pointer;
+
+    @include desktop {
+      &:hover {
+        .assetAllocation__legendColor {
+          transform: scale(1.1);
+        }
+      }
+    }
   }
 
   &__legendColor {
@@ -96,6 +78,7 @@
     height: 20px;
     border-radius: 4px;
     flex-shrink: 0;
+    transition: transform $transition-fast;
   }
 
   &__legendLabel {
@@ -116,12 +99,66 @@
     }
   }
 
-  // Style pie chart labels - removed shine
+  // Enhanced pie chart segments
+  :global(.recharts-sector) {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6)) brightness(1.2);
+      transform: scale(1.05);
+      transform-origin: center;
+    }
+  }
+
+  // Style pie chart labels
   :global(.recharts-pie-label-text) {
     fill: #ffffff !important;
     font-weight: bold !important;
-    font-size: 11px !important;
-    // Removed text-shadow shine
+    font-size: 12px !important;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+  }
+
+  // Enhanced tooltip
+  &__tooltip {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.95) 0%,
+      rgba(20, 20, 20, 0.98) 100%
+    ) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 140, 0, 0.5) !important;
+    border-radius: $radius-md !important;
+    padding: $spacing-sm $spacing-md !important;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(255, 140, 0, 0.3) !important;
+    min-width: 150px;
+  }
+
+  &__tooltipName {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__tooltipValue {
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    font-family: $font-family-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__tooltipPercentage {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
   }
 }
 

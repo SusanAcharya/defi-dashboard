@@ -1,6 +1,13 @@
 @use '@/styles/mixins.scss' as *;
+@use '@/styles/variables.scss' as *;
 
 .home {
+  @include flex-column;
+  gap: $spacing-lg;
+
+  @include mobile {
+    gap: $spacing-md;
+  }
 
   &__grid {
     display: grid;

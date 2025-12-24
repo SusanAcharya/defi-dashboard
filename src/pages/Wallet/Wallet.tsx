@@ -88,22 +88,26 @@ export const Wallet: React.FC = () => {
                 />
               </div>
               <div className={styles.wallet__formGroup}>
-                <label className={styles.wallet__radioGroup}>
-                  <input
-                    type="radio"
-                    checked={newWalletIsMine}
-                    onChange={() => setNewWalletIsMine(true)}
-                  />
-                  <span>My Wallet</span>
-                </label>
-                <label className={styles.wallet__radioGroup}>
-                  <input
-                    type="radio"
-                    checked={!newWalletIsMine}
-                    onChange={() => setNewWalletIsMine(false)}
-                  />
-                  <span>Other's Wallet</span>
-                </label>
+                <div className={styles.wallet__radioContainer}>
+                  <label className={styles.wallet__radioGroup}>
+                    <input
+                      type="radio"
+                      checked={newWalletIsMine}
+                      onChange={() => setNewWalletIsMine(true)}
+                      className={styles.wallet__radio}
+                    />
+                    <span className={styles.wallet__radioLabel}>My Wallet</span>
+                  </label>
+                  <label className={styles.wallet__radioGroup}>
+                    <input
+                      type="radio"
+                      checked={!newWalletIsMine}
+                      onChange={() => setNewWalletIsMine(false)}
+                      className={styles.wallet__radio}
+                    />
+                    <span className={styles.wallet__radioLabel}>Other's Wallet</span>
+                  </label>
+                </div>
               </div>
               <Button
                 variant="primary"
@@ -124,7 +128,9 @@ export const Wallet: React.FC = () => {
               {myWallets.map((wallet) => (
                 <div key={wallet.address} className={styles.wallet__walletItem}>
                   <div className={styles.wallet__walletInfo}>
-                    <div className={styles.wallet__walletIcon}>🔷</div>
+                    <div className={styles.wallet__walletIcon}>
+                      <div className={styles.wallet__iconContainer}>🔷</div>
+                    </div>
                     <div className={styles.wallet__walletDetails}>
                       <div className={styles.wallet__walletName}>{wallet.name}</div>
                       <button
@@ -132,7 +138,7 @@ export const Wallet: React.FC = () => {
                         onClick={() => handleCopyAddress(wallet.address)}
                         title="Click to copy address"
                       >
-                        {formatAddress(wallet.address, 4, 4)}
+                        {formatAddress(wallet.address, 6, 4)}
                       </button>
                     </div>
                   </div>
@@ -170,7 +176,9 @@ export const Wallet: React.FC = () => {
               {otherWallets.map((wallet) => (
                 <div key={wallet.address} className={styles.wallet__walletItem}>
                   <div className={styles.wallet__walletInfo}>
-                    <div className={styles.wallet__walletIcon}>👁️</div>
+                    <div className={styles.wallet__walletIcon}>
+                      <div className={styles.wallet__iconContainer}>👁️</div>
+                    </div>
                     <div className={styles.wallet__walletDetails}>
                       <div className={styles.wallet__walletName}>{wallet.name}</div>
                       <button
@@ -178,7 +186,7 @@ export const Wallet: React.FC = () => {
                         onClick={() => handleCopyAddress(wallet.address)}
                         title="Click to copy address"
                       >
-                        {formatAddress(wallet.address, 4, 4)}
+                        {formatAddress(wallet.address, 6, 4)}
                       </button>
                     </div>
                   </div>

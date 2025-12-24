@@ -1,142 +1,86 @@
 @use '@/styles/mixins.scss' as *;
+@use '@/styles/variables.scss' as *;
 
 .notifications {
-  &__header {
-    @include flex-between;
-    margin-bottom: $spacing-lg;
+  @include flex-column;
+  gap: $spacing-lg;
 
-    @include mobile {
-      flex-direction: column;
-      gap: $spacing-md;
-      align-items: flex-start;
-    }
-  }
-
-  &__telegram {
-    @include flex-center;
+  @include mobile {
     gap: $spacing-md;
-  }
-
-  &__toggle {
-    @include button-reset;
-    padding: $spacing-xs $spacing-md;
-    background: rgba(26, 26, 26, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: $color-text-secondary;
-    border: 1px solid rgba(255, 140, 0, 0.3); // Purple border
-    border-radius: $radius-md;
-    font-weight: $font-weight-medium;
-    transition: all $transition-fast;
-    white-space: nowrap;
-
-    &_active {
-      background: $gradient-accent-purple; // Purple gradient
-      color: $color-text-primary;
-      border: 1px solid rgba(255, 140, 0, 0.7);
-      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
-    }
-  }
-
-  &__filters {
-    display: flex;
-    gap: $spacing-sm;
-    margin-bottom: $spacing-lg;
-    flex-wrap: wrap;
-  }
-
-  &__filter {
-    @include button-reset;
-    padding: $spacing-sm $spacing-md;
-    background: rgba(26, 26, 26, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: $color-text-secondary;
-    border: 1px solid rgba(255, 140, 0, 0.3); // Purple border
-    border-radius: $radius-md;
-    font-size: $font-size-sm;
-    transition: all $transition-fast;
-
-    @include desktop {
-      &:hover {
-        background: rgba(255, 140, 0, 0.1);
-        color: $color-text-primary;
-        border-color: rgba(255, 140, 0, 0.5);
-      }
-    }
-  }
-
-  &__list {
-    @include flex-column;
-    gap: $spacing-md;
-  }
-
-  &__item {
-    @include card; // Use card mixin for grid pattern and purple borders
-    @include flex-between;
-    gap: $spacing-md;
-    padding: $spacing-md;
-    transition: all $transition-fast;
-
-    @include desktop {
-      &:hover {
-        background: rgba(26, 26, 26, 0.8);
-        border-color: rgba(255, 140, 0, 0.6);
-      }
-    }
-
-    &_unread {
-      border-left: 3px solid rgba(255, 140, 0, 0.7); // Purple accent
-      box-shadow: -3px 0 10px rgba(255, 140, 0, 0.4);
-    }
-  }
-
-  &__content {
-    flex: 1;
-    @include flex-column;
-    gap: $spacing-xs;
-  }
-
-  &__category {
-    color: $color-accent-purple; // Purple category
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-    text-transform: uppercase;
-  }
-
-  &__title {
-    color: $color-text-primary;
-    font-weight: $font-weight-medium;
-    font-size: $font-size-base;
-  }
-
-  &__description {
-    color: $color-text-secondary;
-    font-size: $font-size-sm;
-  }
-
-  &__time {
-    color: $color-text-muted;
-    font-size: $font-size-xs;
-    white-space: nowrap;
   }
 
   &__preferences {
     @include flex-column;
     gap: $spacing-md;
+
+    @include mobile {
+      gap: $spacing-sm;
+    }
   }
 
   &__preferenceItem {
     @include flex-between;
-    padding: $spacing-md;
-    background: rgba(26, 26, 26, 0.4);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    padding: $spacing-lg;
+    // Liquid Glass Effect
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.3) 0%,
+      rgba(20, 20, 20, 0.4) 50%,
+      rgba(26, 26, 26, 0.3) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: $radius-md;
-    gap: $spacing-md;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    gap: $spacing-lg;
+    transition: all $transition-base;
+    position: relative;
+    overflow: hidden;
 
     @include mobile {
       flex-direction: column;
       align-items: flex-start;
+      gap: $spacing-md;
+      padding: $spacing-md;
+    }
+
+    // Liquid glass reflection
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.08) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(255, 140, 0, 0.4);
+        box-shadow: 
+          0 12px 48px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 40px rgba(255, 140, 0, 0.15);
+        transform: translateY(-2px);
+      }
     }
   }
 
@@ -148,13 +92,349 @@
 
   &__preferenceTitle {
     color: $color-text-primary;
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
   }
 
   &__preferenceDescription {
     color: $color-text-secondary;
     font-size: $font-size-sm;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
+  }
+
+  &__toggle {
+    @include button-reset;
+    padding: $spacing-sm $spacing-lg;
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: $color-text-secondary;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: $radius-md;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+    transition: all $transition-fast;
+    white-space: nowrap;
+    min-width: 80px;
+
+    @include mobile {
+      padding: $spacing-xs $spacing-md;
+      font-size: $font-size-xs;
+      width: 100%;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &_active {
+      background: $gradient-accent-primary;
+      color: $color-text-primary;
+      border-color: rgba(255, 140, 0, 0.5);
+      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
+    }
+
+    @include desktop {
+      &:hover:not(&_active) {
+        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(255, 140, 0, 0.1);
+        color: $color-text-primary;
+      }
+    }
+  }
+
+  &__filters {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: $spacing-xs;
+
+    @include mobile {
+      gap: $spacing-xs;
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  &__filter {
+    @include button-reset;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: $color-text-secondary;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-xs;
+    }
+
+    &:active {
+      border-color: rgba(255, 140, 0, 0.5);
+      background: rgba(255, 140, 0, 0.1);
+    }
+
+    &_active {
+      background: $gradient-accent-primary;
+      border-color: rgba(255, 140, 0, 0.5);
+      color: $color-text-primary;
+      font-weight: $font-weight-bold;
+      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
+    }
+
+    @include desktop {
+      &:hover:not(&_active) {
+        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(255, 140, 0, 0.1);
+        color: $color-text-primary;
+      }
+    }
+  }
+
+  &__list {
+    @include flex-column;
+    gap: $spacing-md;
+
+    @include mobile {
+      gap: $spacing-sm;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    // Liquid Glass Effect
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.3) 0%,
+      rgba(20, 20, 20, 0.4) 50%,
+      rgba(26, 26, 26, 0.3) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    border-radius: $radius-md;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 140, 0, 0.1);
+    transition: all $transition-base;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    @include mobile {
+      padding: $spacing-md;
+      gap: $spacing-sm;
+    }
+
+    // Liquid glass reflection
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.08) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Gradient overlay
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 140, 0, 0.05) 0%,
+        transparent 50%,
+        rgba(255, 140, 0, 0.05) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &_unread {
+      border-left: 3px solid rgba(255, 140, 0, 0.7);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        -3px 0 15px rgba(255, 140, 0, 0.3);
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(255, 140, 0, 0.4);
+        box-shadow: 
+          0 12px 48px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 40px rgba(255, 140, 0, 0.15);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__icon {
+    font-size: $font-size-2xl;
+    width: 48px;
+    height: 48px;
+    @include flex-center;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: $radius-md;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    box-shadow: 
+      0 4px 16px rgba(255, 140, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+
+    @include mobile {
+      width: 40px;
+      height: 40px;
+      font-size: $font-size-xl;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    @include flex-column;
+    gap: $spacing-xs;
+    min-width: 0;
+  }
+
+  &__header {
+    @include flex-between;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__category {
+    color: rgba(255, 140, 0, 0.9);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__title {
+    color: $color-text-primary;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-xs;
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__description {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    line-height: 1.5;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
+  }
+
+  &__time {
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  &__unreadDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 140, 0, 0.9);
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
+    flex-shrink: 0;
+    margin-top: $spacing-xs;
+    animation: pulse 2s ease-in-out infinite;
+
+    @include mobile {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-2xl;
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+
+    @include mobile {
+      padding: $spacing-xl;
+      font-size: $font-size-sm;
+    }
   }
 }
 
+// Liquid glass shimmer animation
+@keyframes liquid-shimmer {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+    opacity: 0.6;
+  }
+}
+
+// Pulse animation for unread dot
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}

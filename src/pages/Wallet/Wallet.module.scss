@@ -2,8 +2,19 @@
 @use '@/styles/variables.scss' as *;
 
 .wallet {
+  @include flex-column;
+  gap: $spacing-lg;
+
+  @include mobile {
+    gap: $spacing-md;
+  }
+
   &__addSection {
     margin-bottom: $spacing-xl;
+
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
   }
 
   &__addButton {
@@ -13,38 +24,138 @@
 
   &__addForm {
     @include flex-column;
-    gap: $spacing-md;
-    padding: $spacing-md;
-    background: rgba(26, 26, 26, 0.4);
+    gap: $spacing-lg;
+    padding: $spacing-lg;
+    // Liquid Glass Effect
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.3) 0%,
+      rgba(20, 20, 20, 0.4) 50%,
+      rgba(26, 26, 26, 0.3) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: $radius-md;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
     margin-top: $spacing-md;
+    position: relative;
+    overflow: hidden;
+    transition: all $transition-base;
+
+    @include mobile {
+      padding: $spacing-md;
+      gap: $spacing-md;
+    }
+
+    // Liquid glass reflection
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.08) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Gradient overlay
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 140, 0, 0.05) 0%,
+        transparent 50%,
+        rgba(255, 140, 0, 0.05) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(255, 140, 0, 0.4);
+        box-shadow: 
+          0 12px 48px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 40px rgba(255, 140, 0, 0.15);
+      }
+    }
   }
 
   &__formGroup {
     @include flex-column;
-    gap: $spacing-xs;
+    gap: $spacing-sm;
   }
 
   &__label {
     color: $color-text-secondary;
     font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   &__input {
-    padding: $spacing-sm $spacing-md;
+    padding: $spacing-md $spacing-lg;
     background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-primary;
     font-size: $font-size-base;
+    font-family: $font-family-primary;
     outline: none;
     transition: all $transition-fast;
 
+    @include mobile {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+    }
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+
     &:focus {
       border-color: rgba(255, 140, 0, 0.5);
-      box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+      box-shadow: 
+        0 0 0 2px rgba(255, 140, 0, 0.2),
+        0 0 20px rgba(255, 140, 0, 0.2);
+      background: rgba(26, 26, 26, 0.8);
+    }
+  }
+
+  &__radioContainer {
+    display: flex;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+
+    @include mobile {
+      gap: $spacing-md;
     }
   }
 
@@ -55,14 +166,44 @@
     color: $color-text-primary;
     font-size: $font-size-base;
     cursor: pointer;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 26, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    border-radius: $radius-md;
+    transition: all $transition-fast;
 
-    input[type="radio"] {
-      cursor: pointer;
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-sm;
     }
+
+    &:hover {
+      border-color: rgba(255, 140, 0, 0.4);
+      background: rgba(255, 140, 0, 0.1);
+    }
+  }
+
+  &__radio {
+    cursor: pointer;
+    accent-color: rgba(255, 140, 0, 0.8);
+    width: 18px;
+    height: 18px;
+
+    @include mobile {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__radioLabel {
+    user-select: none;
   }
 
   &__submitButton {
     width: 100%;
+    margin-top: $spacing-sm;
   }
 
   &__section {
@@ -71,56 +212,164 @@
     &:last-child {
       margin-bottom: 0;
     }
+
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
   }
 
   &__sectionTitle {
     color: $color-text-primary;
-    font-size: $font-size-lg;
+    font-size: $font-size-xl;
     font-weight: $font-weight-bold;
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-lg;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: $spacing-sm;
+    border-bottom: 2px solid rgba(255, 140, 0, 0.3);
+
+    @include mobile {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-md;
+    }
   }
 
   &__walletList {
     @include flex-column;
     gap: $spacing-md;
+
+    @include mobile {
+      gap: $spacing-sm;
+    }
   }
 
   &__walletItem {
     @include flex-between;
     align-items: center;
     padding: $spacing-lg;
-    background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    // Liquid Glass Effect
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.3) 0%,
+      rgba(20, 20, 20, 0.4) 50%,
+      rgba(26, 26, 26, 0.3) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: $radius-md;
-    gap: $spacing-md;
-    transition: all $transition-fast;
-    margin-bottom: $spacing-sm;
-
-    @include desktop {
-      &:hover {
-        background: rgba(255, 140, 0, 0.1);
-        border-color: rgba(255, 140, 0, 0.5);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
-      }
-    }
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 140, 0, 0.1);
+    gap: $spacing-lg;
+    transition: all $transition-base;
+    position: relative;
+    overflow: hidden;
 
     @include mobile {
       flex-direction: column;
       align-items: flex-start;
       padding: $spacing-md;
+      gap: $spacing-md;
+    }
+
+    // Liquid glass reflection
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.08) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Gradient overlay
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 140, 0, 0.05) 0%,
+        transparent 50%,
+        rgba(255, 140, 0, 0.05) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(255, 140, 0, 0.4);
+        box-shadow: 
+          0 12px 48px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 40px rgba(255, 140, 0, 0.15);
+        transform: translateY(-2px);
+      }
     }
   }
 
   &__walletInfo {
     @include flex-center;
-    gap: $spacing-md;
+    gap: $spacing-lg;
     flex: 1;
+    min-width: 0;
+
+    @include mobile {
+      gap: $spacing-md;
+      width: 100%;
+    }
   }
 
   &__walletIcon {
-    font-size: $font-size-2xl;
     flex-shrink: 0;
+  }
+
+  &__iconContainer {
+    width: 56px;
+    height: 56px;
+    @include flex-center;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: $radius-md;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    box-shadow: 
+      0 4px 16px rgba(255, 140, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    font-size: $font-size-2xl;
+
+    @include mobile {
+      width: 48px;
+      height: 48px;
+      font-size: $font-size-xl;
+    }
   }
 
   &__walletDetails {
@@ -132,13 +381,17 @@
 
   &__walletName {
     color: $color-text-primary;
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
   }
 
   &__walletAddress {
     @include button-reset;
-    color: $color-accent-purple;
+    color: rgba(255, 140, 0, 0.9);
     font-size: $font-size-sm;
     font-family: monospace;
     word-break: break-all;
@@ -146,16 +399,28 @@
     transition: all $transition-fast;
     text-align: left;
     padding: 0;
+    background: rgba(255, 140, 0, 0.05);
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    border: 1px solid rgba(255, 140, 0, 0.2);
+
+    @include mobile {
+      font-size: $font-size-xs;
+      padding: 2px $spacing-xs;
+    }
 
     &:active {
       color: $color-text-primary;
-      opacity: 0.8;
+      background: rgba(255, 140, 0, 0.15);
+      border-color: rgba(255, 140, 0, 0.4);
     }
 
     @include desktop {
       &:hover {
         color: $color-text-primary;
-        text-decoration: underline;
+        background: rgba(255, 140, 0, 0.15);
+        border-color: rgba(255, 140, 0, 0.4);
+        text-decoration: none;
       }
     }
   }
@@ -164,54 +429,107 @@
     display: flex;
     gap: $spacing-sm;
     align-items: center;
+    flex-shrink: 0;
+
+    @include mobile {
+      width: 100%;
+      justify-content: flex-end;
+    }
   }
 
   &__toggleButton,
   &__removeButton {
     @include button-reset;
-    padding: $spacing-xs $spacing-sm;
-    background: rgba(255, 140, 0, 0.2);
+    padding: $spacing-sm $spacing-md;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 140, 0, 0.3);
-    border-radius: $radius-sm;
+    border-radius: $radius-md;
     color: $color-text-primary;
-    font-size: $font-size-base;
+    font-size: $font-size-lg;
     cursor: pointer;
     transition: all $transition-fast;
+    min-width: 44px;
+    height: 44px;
+    @include flex-center;
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+
+    @include mobile {
+      min-width: 40px;
+      height: 40px;
+      font-size: $font-size-base;
+      padding: $spacing-xs $spacing-sm;
+    }
 
     &:active {
-      background: rgba(255, 140, 0, 0.3);
+      background: linear-gradient(135deg, rgba(255, 140, 0, 0.3) 0%, rgba(255, 165, 0, 0.25) 100%);
+      border-color: rgba(255, 140, 0, 0.5);
       transform: scale(0.95);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(255, 140, 0, 0.3);
+        background: linear-gradient(135deg, rgba(255, 140, 0, 0.3) 0%, rgba(255, 165, 0, 0.25) 100%);
         border-color: rgba(255, 140, 0, 0.5);
+        box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+        transform: translateY(-2px);
       }
     }
   }
 
   &__removeButton {
-    background: rgba(239, 68, 68, 0.2);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.15) 100%);
     border-color: rgba(239, 68, 68, 0.3);
     color: $color-negative;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 
     &:active {
-      background: rgba(239, 68, 68, 0.3);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.25) 100%);
+      border-color: rgba(239, 68, 68, 0.5);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(239, 68, 68, 0.3);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.25) 100%);
         border-color: rgba(239, 68, 68, 0.5);
+        box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
       }
     }
   }
 
   &__emptyState {
-    padding: $spacing-lg;
+    padding: $spacing-xl;
     text-align: center;
     color: $color-text-secondary;
-    font-size: $font-size-sm;
+    font-size: $font-size-base;
+    // Liquid Glass Effect
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.2) 0%,
+      rgba(20, 20, 20, 0.3) 50%,
+      rgba(26, 26, 26, 0.2) 100%
+    );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 140, 0, 0.15);
+    border-radius: $radius-md;
+
+    @include mobile {
+      padding: $spacing-lg;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+// Liquid glass shimmer animation
+@keyframes liquid-shimmer {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+    opacity: 0.6;
   }
 }

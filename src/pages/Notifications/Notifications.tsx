@@ -63,7 +63,7 @@ export const Notifications: React.FC = () => {
 
       <Card>
         <div className={styles.notifications__filters}>
-          <button className={styles.notifications__filter}>All</button>
+          <button className={`${styles.notifications__filter} ${styles.notifications__filter_active}`}>All</button>
           <button className={styles.notifications__filter}>Swap</button>
           <button className={styles.notifications__filter}>Transfer</button>
           <button className={styles.notifications__filter}>Contract</button>
@@ -71,29 +71,46 @@ export const Notifications: React.FC = () => {
         </div>
 
         <div className={styles.notifications__list}>
-          {notifications?.map((notification) => (
-            <div
-              key={notification.id}
-              className={`${styles.notifications__item} ${
-                !notification.read ? styles.notifications__item_unread : ''
-              }`}
-            >
-              <div className={styles.notifications__content}>
-                <div className={styles.notifications__category}>
-                  {notification.category}
+          {notifications && notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={`${styles.notifications__item} ${
+                  !notification.read ? styles.notifications__item_unread : ''
+                }`}
+              >
+                <div className={styles.notifications__icon}>
+                  {notification.category === 'Swap' && '🔄'}
+                  {notification.category === 'Transfer' && '📤'}
+                  {notification.category === 'Contract' && '📋'}
+                  {notification.category === 'Airdrop' && '🎁'}
+                  {notification.category === 'Staking' && '💰'}
+                  {!['Swap', 'Transfer', 'Contract', 'Airdrop', 'Staking'].includes(notification.category) && '🔔'}
                 </div>
-                <div className={styles.notifications__title}>
-                  {notification.title}
+                <div className={styles.notifications__content}>
+                  <div className={styles.notifications__header}>
+                    <div className={styles.notifications__category}>
+                      {notification.category}
+                    </div>
+                    <div className={styles.notifications__time}>
+                      {formatTimestamp(notification.timestamp)}
+                    </div>
+                  </div>
+                  <div className={styles.notifications__title}>
+                    {notification.title}
+                  </div>
+                  <div className={styles.notifications__description}>
+                    {notification.description}
+                  </div>
                 </div>
-                <div className={styles.notifications__description}>
-                  {notification.description}
-                </div>
+                {!notification.read && (
+                  <div className={styles.notifications__unreadDot} />
+                )}
               </div>
-              <div className={styles.notifications__time}>
-                {formatTimestamp(notification.timestamp)}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className={styles.notifications__empty}>No notifications</div>
+          )}
         </div>
       </Card>
     </div>

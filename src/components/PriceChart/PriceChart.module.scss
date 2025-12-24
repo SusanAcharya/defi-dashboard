@@ -93,11 +93,11 @@
     }
 
     &_active {
-      background: $gradient-accent-purple;
-      border-color: rgba(255, 140, 0, 0.7);
+      background: $gradient-accent-primary;
+      border-color: rgba(255, 140, 0, 0.5);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
-      box-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
+      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
     }
   }
 
@@ -169,13 +169,18 @@
 
   &__tableWrapper {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+    -webkit-overflow-scrolling: touch;
     width: 100%;
+    margin-top: $spacing-md;
+    border-radius: $radius-md;
+    background: rgba(26, 26, 26, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 140, 0, 0.2);
     
     @include mobile {
-      // Add padding for better mobile scrolling
-      margin: 0 (-$spacing-md);
-      padding: 0 $spacing-md;
+      margin-top: $spacing-sm;
+      border-radius: $radius-sm;
     }
   }
 
@@ -187,19 +192,27 @@
     @include mobile {
       min-width: 700px;
     }
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
   }
 
   &__tableHeader {
     th {
-      padding: $spacing-md;
-      border-bottom: 1px solid $color-divider;
+      padding: $spacing-md $spacing-sm;
+      border-bottom: 2px solid rgba(255, 140, 0, 0.3);
+      background: rgba(255, 140, 0, 0.1);
       color: $color-text-secondary;
       font-family: $font-family-primary;
-      font-size: $font-size-sm;
-      font-weight: $font-weight-semibold;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-bold;
       text-transform: uppercase;
       letter-spacing: 1px;
       text-align: left;
+      white-space: nowrap;
 
       &:first-child {
         width: 50px;
@@ -219,8 +232,9 @@
       }
 
       @include mobile {
-        padding: $spacing-xs $spacing-sm;
-        font-size: $font-size-xs;
+        padding: $spacing-sm $spacing-xs;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
       }
     }
   }
@@ -228,18 +242,22 @@
   &__tableRow {
     cursor: pointer;
     transition: all $transition-fast;
+    border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+    background: transparent;
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     @include desktop {
       &:hover {
-        background: rgba(255, 140, 0, 0.1);
+        background: rgba(255, 140, 0, 0.1) !important;
       }
     }
 
     &:active {
-      background: rgba(255, 140, 0, 0.15);
+      background: rgba(255, 140, 0, 0.15) !important;
     }
-    border-bottom: 1px solid rgba(44, 44, 68, 0.5);
-    transition: background $transition-fast;
 
     td {
       padding: $spacing-md;
@@ -278,18 +296,19 @@
     width: 40px;
     height: 40px;
     border-radius: $radius-full;
-    background: $gradient-accent-purple;
+    background: $gradient-accent-primary;
     @include flex-center;
     color: $color-text-primary;
     font-family: $font-family-primary;
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
 
     @include mobile {
-      width: 28px;
-      height: 28px;
-      font-size: $font-size-sm;
+      width: 32px;
+      height: 32px;
+      font-size: $font-size-base;
     }
   }
 
