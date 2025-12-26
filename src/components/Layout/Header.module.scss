@@ -46,6 +46,82 @@
     }
   }
 
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex: 1;
+    min-width: 0;
+
+    @include desktop {
+      gap: $spacing-md;
+    }
+  }
+
+  &__menuButton {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-md;
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    cursor: pointer;
+    transition: all $transition-fast;
+    flex-shrink: 0;
+    padding: 8px;
+    margin-left: $spacing-xs;
+
+    @include mobile {
+      margin-left: 4px;
+    }
+
+    @include desktop {
+      display: none; // Hide on desktop
+    }
+
+    &:active {
+      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(255, 140, 0, 0.5);
+      transform: scale(0.95);
+    }
+  }
+
+  &__menuIcon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20px;
+    height: 16px;
+    position: relative;
+
+    span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: $color-text-primary;
+      border-radius: 2px;
+      transition: all $transition-fast;
+      transform-origin: center;
+    }
+
+    &_open {
+      span {
+        &:nth-child(1) {
+          transform: translateY(7px) rotate(45deg);
+        }
+        &:nth-child(2) {
+          opacity: 0;
+        }
+        &:nth-child(3) {
+          transform: translateY(-7px) rotate(-45deg);
+        }
+      }
+    }
+  }
+
   &__logo {
     display: flex;
     align-items: center;
@@ -287,30 +363,29 @@
   &__walletIcon,
   &__settingsIcon {
     @include button-reset;
-    width: 32px; // Mobile-first: smaller
-    height: 32px;
-    border-radius: $radius-full;
-    background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
-    cursor: pointer;
-    transition: all $transition-fast;
-    @include flex-center;
-    padding: 4px; // Smaller padding on mobile
-    flex-shrink: 0; // Don't shrink icons
+    display: none; // Hidden on mobile (they're in sidebar)
 
     @include desktop {
+      display: flex; // Show on desktop
       width: 40px;
       height: 40px;
+      border-radius: $radius-full;
+      background: rgba(26, 26, 26, 0.6);
+      border: 1px solid rgba(255, 140, 0, 0.3);
+      cursor: pointer;
+      transition: all $transition-fast;
+      @include flex-center;
       padding: 8px;
-    }
-
-    &:active {
-      background: rgba(255, 140, 0, 0.1);
-      border-color: rgba(255, 140, 0, 0.5);
-      transform: scale(0.95);
+      flex-shrink: 0; // Don't shrink icons
     }
 
     @include desktop {
+      &:active {
+        background: rgba(255, 140, 0, 0.1);
+        border-color: rgba(255, 140, 0, 0.5);
+        transform: scale(0.95);
+      }
+
       &:hover {
         background: rgba(255, 140, 0, 0.1);
         border-color: rgba(255, 140, 0, 0.5);

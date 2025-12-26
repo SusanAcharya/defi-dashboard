@@ -518,14 +518,20 @@
   @include flex-column;
   gap: $spacing-lg;
 
+  @include mobile {
+    gap: $spacing-md;
+  }
+
   @include tablet {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: $spacing-xl;
   }
 
-  @include mobile {
-    gap: $spacing-md;
+  @include desktop {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xl;
   }
 
   &__category {

@@ -2,9 +2,42 @@
 @use '@/styles/variables.scss' as *;
 
 .sidebar {
-  // Mobile-first: Hidden by default, shown as drawer
+  // Mobile: Hidden by default, shown as drawer when mobileNavOpen is true
   display: none;
 
+  // Mobile sidebar
+  @include mobile {
+    display: block;
+    width: 280px;
+    max-width: 85vw;
+    // Liquid Glass Effect
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.95) 0%,
+      rgba(20, 20, 20, 0.98) 50%,
+      rgba(26, 26, 26, 0.95) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-left: 1px solid rgba(255, 140, 0, 0.3);
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 
+      -2px 0 30px rgba(0, 0, 0, 0.8),
+      inset 1px 0 0 rgba(255, 140, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform $transition-base;
+
+    &_mobileOpen {
+      transform: translateX(0);
+    }
+  }
+
+  // Desktop sidebar
   @include desktop {
     display: block;
     width: 250px;
@@ -27,12 +60,58 @@
     box-shadow: 
       2px 0 20px rgba(0, 0, 0, 0.6),
       inset -1px 0 0 rgba(255, 140, 0, 0.1);
+    transform: none;
+  }
+
+  &__overlay {
+    @include mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 999;
+      animation: fadeIn $transition-base;
+    }
+
+    @include desktop {
+      display: none;
+    }
   }
 
   &__nav {
     @include flex-column;
     padding: $spacing-md;
     gap: $spacing-xs;
+    padding-top: 80px; // Account for header height on mobile
+
+    @include desktop {
+      padding-top: $spacing-md;
+    }
+  }
+
+  &__topSection {
+    @include flex-column;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-xs;
+
+    @include desktop {
+      display: none; // Hide wallet and settings on desktop (they're in header)
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background: rgba(255, 140, 0, 0.2);
+    margin: $spacing-sm 0;
+    border: none;
+
+    @include desktop {
+      display: none; // Hide divider on desktop since top section is hidden
+    }
   }
 
   &__item {
@@ -219,6 +298,16 @@
   50% {
     transform: translate(-50%, -50%) rotate(180deg);
     opacity: 0.6;
+  }
+}
+
+// Fade in animation for overlay
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 

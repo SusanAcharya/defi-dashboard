@@ -12,7 +12,7 @@ import styles from './Header.module.scss';
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { wallets, selectedWalletAddress, setSelectedWallet } = useWalletStore();
-  const { streak } = useUIStore();
+  const { streak, mobileNavOpen, setMobileNavOpen } = useUIStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
@@ -70,13 +70,15 @@ export const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
-        <div className={styles.header__logo} onClick={() => navigate('/')}>
-          <img 
-            src={logoImage} 
-            alt="Kompass Finance" 
-            className={styles.header__logoImage}
-          />
-          <span className={styles.header__logoText}>Kompass Finance</span>
+        <div className={styles.header__left}>
+          <div className={styles.header__logo} onClick={() => navigate('/')}>
+            <img 
+              src={logoImage} 
+              alt="Kompass Finance" 
+              className={styles.header__logoImage}
+            />
+            <span className={styles.header__logoText}>Kompass Finance</span>
+          </div>
         </div>
         <div className={styles.header__actions}>
           {streak > 0 && (
@@ -173,6 +175,17 @@ export const Header: React.FC = () => {
               alt="Profile" 
               className={styles.header__avatar}
             />
+          </button>
+          <button
+            className={styles.header__menuButton}
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            aria-label="Toggle menu"
+          >
+            <span className={`${styles.header__menuIcon} ${mobileNavOpen ? styles.header__menuIcon_open : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
           </button>
         </div>
       </div>
