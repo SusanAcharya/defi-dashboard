@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+BACKEND_INTEGRATION.md
+req.txt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

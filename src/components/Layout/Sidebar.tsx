@@ -7,6 +7,7 @@ import settingsIcon from '@/assets/icons/settings.png';
 import walletIcon from '@/assets/icons/wallet.png';
 import defiIcon from '@/assets/icons/defi.png';
 import notificationIcon from '@/assets/icons/notification.png';
+import leaderboardIcon from '@/assets/icons/leaderboard.png';
 import styles from './Sidebar.module.scss';
 
 const navItems = [
@@ -20,6 +21,7 @@ const navItems = [
   { path: '/swap', label: 'Swap', icon: null, iconImage: swapIcon },
   { path: '/address-book', label: 'Address Book', icon: '📇', iconImage: null },
   { path: '/staking', label: 'Staking', icon: null, iconImage: stakeIcon },
+  { path: '/leaderboard', label: 'Leaderboard', icon: null, iconImage: leaderboardIcon },
   { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
 ];
 

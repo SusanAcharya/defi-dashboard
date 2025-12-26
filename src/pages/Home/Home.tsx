@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PortfolioCard, QuickActions, ActivityFeed, AssetAllocation, PortfolioExposure, PortfolioChart } from '@/components';
+import { PortfolioCard, LatestNotifications, ActivityFeed, AssetAllocation, PortfolioExposure, PortfolioChart } from '@/components';
 import airdropIcon from '@/assets/icons/airdrop.png';
 import sendIcon from '@/assets/icons/send.png';
 import leaderboardIcon from '@/assets/icons/leaderboard.png';
@@ -21,7 +21,7 @@ export const Home: React.FC = () => {
   return (
     <div className={styles.home}>
       <PortfolioCard />
-      <QuickActions />
+      <LatestNotifications />
       <div className={styles.home__grid}>
         <AssetAllocation />
         <PortfolioExposure />
