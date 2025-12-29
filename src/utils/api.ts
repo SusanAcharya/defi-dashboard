@@ -94,23 +94,33 @@ export const api = {
   },
 
   // Notifications - Starknet ecosystem
-  async getNotifications(): Promise<Notification[]> {
+  async getNotifications(walletAddress?: string | null): Promise<Notification[]> {
     await delay(500);
     const now = Date.now();
-    return [
-      { id: '1', type: 'swap', category: 'Swap', title: 'JediSwap completed', description: 'Swapped 1 ETH for 2000 USDC on Starknet', timestamp: now - 3600000, read: false },
-      { id: '2', type: 'transfer', category: 'Transfer', title: 'STRK received', description: 'Received 100 STRK on Starknet', timestamp: now - 7200000, read: false },
+    const mainWallet = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
+    const tradingWallet = '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7';
+    
+    const allNotifications: Notification[] = [
+      { id: '1', type: 'swap', category: 'Swap', title: 'JediSwap completed', description: 'Swapped 1 ETH for 2000 USDC on Starknet', timestamp: now - 3600000, read: false, wallet: mainWallet },
+      { id: '2', type: 'transfer', category: 'Transfer', title: 'STRK received', description: 'Received 100 STRK on Starknet', timestamp: now - 7200000, read: false, wallet: mainWallet },
       { id: '3', type: 'airdrop', category: 'Airdrop', title: 'Starknet airdrop', description: 'New Starknet ecosystem airdrop available', timestamp: now - 10800000, read: true },
-      { id: '4', type: 'swap', category: 'Swap', title: '10KSwap completed', description: 'Swapped 500 USDC for 0.25 ETH', timestamp: now - 21600000, read: false },
-      { id: '5', type: 'transfer', category: 'Transfer', title: 'USDC sent', description: 'Sent 1000 USDC to 0x04...7c93', timestamp: now - 25200000, read: true },
-      { id: '6', type: 'swap', category: 'Swap', title: 'JediSwap completed', description: 'Swapped 0.5 ETH for 1000 USDC', timestamp: now - 32400000, read: true },
-      { id: '7', type: 'transfer', category: 'Transfer', title: 'ETH received', description: 'Received 2 ETH on Starknet', timestamp: now - 36000000, read: false },
+      { id: '4', type: 'swap', category: 'Swap', title: '10KSwap completed', description: 'Swapped 500 USDC for 0.25 ETH', timestamp: now - 21600000, read: false, wallet: tradingWallet },
+      { id: '5', type: 'transfer', category: 'Transfer', title: 'USDC sent', description: 'Sent 1000 USDC to 0x04...7c93', timestamp: now - 25200000, read: true, wallet: tradingWallet },
+      { id: '6', type: 'swap', category: 'Swap', title: 'JediSwap completed', description: 'Swapped 0.5 ETH for 1000 USDC', timestamp: now - 32400000, read: true, wallet: mainWallet },
+      { id: '7', type: 'transfer', category: 'Transfer', title: 'ETH received', description: 'Received 2 ETH on Starknet', timestamp: now - 36000000, read: false, wallet: mainWallet },
       { id: '8', type: 'airdrop', category: 'Airdrop', title: 'New airdrop available', description: 'Eligible for JediSwap LP rewards', timestamp: now - 43200000, read: false },
-      { id: '9', type: 'swap', category: 'Swap', title: 'JediSwap completed', description: 'Swapped 2 ETH for 4000 USDC', timestamp: now - 46800000, read: true },
-      { id: '10', type: 'transfer', category: 'Transfer', title: 'STRK sent', description: 'Sent 500 STRK to 0x04...7c93', timestamp: now - 50400000, read: false },
+      { id: '9', type: 'swap', category: 'Swap', title: 'JediSwap completed', description: 'Swapped 2 ETH for 4000 USDC', timestamp: now - 46800000, read: true, wallet: tradingWallet },
+      { id: '10', type: 'transfer', category: 'Transfer', title: 'STRK sent', description: 'Sent 500 STRK to 0x04...7c93', timestamp: now - 50400000, read: false, wallet: tradingWallet },
       { id: '11', type: 'airdrop', category: 'Airdrop', title: 'Starknet ecosystem airdrop', description: 'New airdrop campaign launched', timestamp: now - 54000000, read: true },
-      { id: '12', type: 'swap', category: 'Swap', title: '10KSwap completed', description: 'Swapped 1000 USDC for 0.5 ETH', timestamp: now - 57600000, read: false },
+      { id: '12', type: 'swap', category: 'Swap', title: '10KSwap completed', description: 'Swapped 1000 USDC for 0.5 ETH', timestamp: now - 57600000, read: false, wallet: mainWallet },
     ];
+
+    // Filter by wallet if specified
+    if (walletAddress) {
+      return allNotifications.filter(n => n.wallet === walletAddress || !n.wallet);
+    }
+    
+    return allNotifications;
   },
 
   // DeFi - Starknet protocols

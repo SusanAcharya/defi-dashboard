@@ -38,6 +38,7 @@ export interface Activity {
 export interface Notification extends Activity {
   read: boolean;
   category: string;
+  wallet?: string; // Wallet address for filtering
 }
 
 export interface DefiPosition {
@@ -135,6 +136,7 @@ export interface Settings {
 export interface WalletNotificationSettings {
   address: string;
   enabled: boolean;
+  // Category-based notifications
   notifyTransactions: boolean;
   notifyReceives: boolean;
   notifySends: boolean;
@@ -143,6 +145,14 @@ export interface WalletNotificationSettings {
   notifyLending: boolean;
   notifySwaps: boolean;
   notifyNFTs: boolean;
+  // Protocol-based notifications
+  notifyProtocols: {
+    [protocol: string]: boolean; // e.g., 'JediSwap': true, 'zkLend': false
+  };
+  // Blockchain activity notifications
+  notifyContractInteractions: boolean;
+  notifyFailedTransactions: boolean;
+  notifyPendingTransactions: boolean;
 }
 
 export interface LiquidityPool {

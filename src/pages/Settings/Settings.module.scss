@@ -13,6 +13,29 @@
     gap: $spacing-lg;
   }
 
+  &__sectionDescription {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+  }
+
+  &__subsection {
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid rgba(255, 140, 0, 0.1);
+  }
+
+  &__subsectionTitle {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-md;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
   &__item {
     @include card; // Use card mixin for grid pattern and neon blue borders
     @include flex-between;
@@ -484,11 +507,55 @@
 
   &__walletDetails {
     @include flex-column;
-    gap: $spacing-sm;
+    gap: $spacing-md;
     padding: $spacing-md;
     padding-top: 0;
     border-top: 1px solid rgba(255, 140, 0, 0.2);
     background: rgba(26, 26, 26, 0.2);
+  }
+
+  &__walletSubsection {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__walletSubsectionHeader {
+    @include button-reset;
+    @include flex-between;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 26, 0.4);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    @include desktop {
+      &:hover {
+        background: rgba(26, 26, 26, 0.6);
+        border-color: rgba(255, 140, 0, 0.3);
+      }
+    }
+
+    &:active {
+      background: rgba(255, 140, 0, 0.1);
+    }
+  }
+
+  &__walletSubsectionTitle {
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__walletSubsectionContent {
+    @include flex-column;
+    gap: $spacing-sm;
+    padding: $spacing-sm 0 $spacing-sm $spacing-md;
+    border-left: 2px solid rgba(255, 140, 0, 0.2);
+    margin-left: $spacing-sm;
   }
 
   &__walletDetailItem {

@@ -59,6 +59,82 @@
     font-weight: $font-weight-medium;
   }
 
+  &__guestSection {
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid rgba(255, 140, 0, 0.2);
+  }
+
+  &__telegramButton {
+    @include button-reset;
+    width: 100%;
+    padding: $spacing-md $spacing-lg;
+    background: linear-gradient(135deg, #0088cc 0%, #0066aa 100%);
+    color: white;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: all $transition-fast;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-sm;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+
+    @include mobile {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 136, 204, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__telegramIcon {
+    font-size: $font-size-lg;
+  }
+
+  &__logoutSection {
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid rgba(255, 140, 0, 0.2);
+  }
+
+  &__logoutButton {
+    @include button-reset;
+    width: 100%;
+    padding: $spacing-md $spacing-lg;
+    background: rgba(255, 68, 68, 0.1);
+    color: rgba(255, 68, 68, 0.9);
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    @include mobile {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+    }
+
+    &:hover {
+      background: rgba(255, 68, 68, 0.2);
+      border-color: rgba(255, 68, 68, 0.5);
+    }
+
+    &:active {
+      background: rgba(255, 68, 68, 0.15);
+    }
+  }
+
   &__editButton {
     @include button-reset;
     font-size: $font-size-sm;

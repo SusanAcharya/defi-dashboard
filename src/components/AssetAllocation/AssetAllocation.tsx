@@ -7,16 +7,26 @@ import { Card } from '../Card/Card';
 import styles from './AssetAllocation.module.scss';
 
 export const AssetAllocation: React.FC = () => {
-  const { selectedWalletAddress } = useWalletStore();
+  const { selectedWalletAddress, isGuest } = useWalletStore();
   
   // Get tokens for selected wallet or combined
   const { data: tokens } = useQuery({
     queryKey: ['tokens', selectedWalletAddress],
     queryFn: ({ queryKey }) => api.getTokens(queryKey[1] as string | null),
+    enabled: !isGuest, // Don't fetch if guest
   });
 
   // Convert tokens to asset allocation data
   const data = useMemo(() => {
+    // Guest mode: show default data
+    if (isGuest) {
+      return [
+        { name: 'Built', value: 33.33, percentage: 33.33, color: '#ff6347' }, // Red-orange
+        { name: 'By', value: 33.33, percentage: 33.33, color: '#228b22' }, // Dark green
+        { name: 'Gamemachine', value: 33.34, percentage: 33.34, color: '#ff8c00' }, // Orange
+      ];
+    }
+    
     if (!tokens || tokens.length === 0) {
       return [
         { name: 'STRK', value: 48000, percentage: 40.00, color: '#ff6347' }, // Red-orange

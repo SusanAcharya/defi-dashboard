@@ -15,6 +15,7 @@ interface WalletState {
   alias: string;
   wallets: TrackedWallet[];
   selectedWalletAddress: string | null; // null = show all my wallets combined
+  isGuest: boolean; // true for guest mode, false for logged in users
   
   updateSettings: (settings: Partial<Settings>) => void;
   updateWalletNotificationSettings: (address: string, settings: Partial<WalletNotificationSettings>) => void;
@@ -24,6 +25,8 @@ interface WalletState {
   removeWallet: (address: string) => void;
   updateWallet: (address: string, updates: Partial<TrackedWallet>) => void;
   setSelectedWallet: (address: string | null) => void;
+  loginWithTelegram: () => void;
+  logout: () => void;
 }
 
 const defaultSettings: Settings = {
@@ -50,6 +53,15 @@ const createDefaultWalletNotificationSettings = (address: string): WalletNotific
   notifyLending: true,
   notifySwaps: true,
   notifyNFTs: true,
+  notifyProtocols: {
+    'JediSwap': true,
+    '10KSwap': true,
+    'Ekubo': true,
+    'zkLend': true,
+  },
+  notifyContractInteractions: true,
+  notifyFailedTransactions: true,
+  notifyPendingTransactions: true,
 });
 
 const initialWallets: TrackedWallet[] = [
@@ -73,6 +85,8 @@ const initialWallets: TrackedWallet[] = [
   },
 ];
 
+const guestWallets: TrackedWallet[] = [];
+
 export const useWalletStore = create<WalletState>((set, get) => ({
   settings: defaultSettings,
   walletNotificationSettings: initialWallets.map(w => createDefaultWalletNotificationSettings(w.address)),
@@ -80,6 +94,7 @@ export const useWalletStore = create<WalletState>((set, get) => ({
   alias: 'Thug',
   wallets: initialWallets,
   selectedWalletAddress: null, // null = show all my wallets combined
+  isGuest: false, // Start logged in by default
   
   updateSettings: (newSettings) => set((state) => ({
     settings: { ...state.settings, ...newSettings },
@@ -142,5 +157,23 @@ export const useWalletStore = create<WalletState>((set, get) => ({
   })),
   
   setSelectedWallet: (address) => set({ selectedWalletAddress: address }),
+  
+  loginWithTelegram: () => set({
+    // Simulate Telegram login - in real app, this would call Telegram API
+    isGuest: false,
+    username: 'n00dlehead',
+    alias: 'Thug',
+    wallets: initialWallets,
+    walletNotificationSettings: initialWallets.map(w => createDefaultWalletNotificationSettings(w.address)),
+  }),
+  
+  logout: () => set({
+    isGuest: true,
+    username: 'Guest',
+    alias: '',
+    wallets: guestWallets,
+    walletNotificationSettings: [],
+    selectedWalletAddress: null,
+  }),
 }));
 

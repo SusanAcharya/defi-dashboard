@@ -58,26 +58,34 @@
     }
   }
 
-  &__viewAllButton {
+  &__expandButton {
     @include button-reset;
     color: rgba(255, 255, 255, 0.6);
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     cursor: pointer;
     transition: color $transition-fast;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    white-space: nowrap;
 
     @include mobile {
-      font-size: $font-size-xs;
+      font-size: 0.65rem;
+      padding: 2px $spacing-xs;
     }
 
-    &:hover {
-      color: rgba(255, 255, 255, 0.8);
+    @include desktop {
+      &:hover {
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 140, 0, 0.1);
+      }
     }
 
     &:active {
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 1);
     }
   }
+
 
   &__separator {
     height: 1px;
@@ -91,10 +99,10 @@
 
   &__list {
     @include flex-column;
-    gap: $spacing-sm;
+    gap: 4px;
 
     @include mobile {
-      gap: $spacing-xs;
+      gap: 2px;
     }
   }
 
@@ -103,7 +111,7 @@
     grid-template-columns: 180px 1fr 200px;
     align-items: center;
     gap: $spacing-md;
-    padding: $spacing-sm 0;
+    padding: 2px 0;
     cursor: pointer;
     transition: opacity $transition-fast;
     width: 100%;
@@ -111,7 +119,7 @@
     @include mobile {
       grid-template-columns: 120px 1fr 120px;
       gap: $spacing-sm;
-      padding: $spacing-xs 0;
+      padding: 1px 0;
     }
 
     &:hover {
@@ -182,6 +190,24 @@
 
     @include mobile {
       font-size: $font-size-xs;
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: $font-size-sm;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+
+    @include mobile {
+      padding: $spacing-lg;
+      font-size: $font-size-xs;
+      min-height: 80px;
     }
   }
 }

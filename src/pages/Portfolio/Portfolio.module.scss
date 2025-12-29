@@ -460,5 +460,18 @@
       font-size: $font-size-sm;
     }
   }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl;
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+    font-style: italic;
+
+    @include mobile {
+      padding: $spacing-lg;
+      font-size: $font-size-sm;
+    }
+  }
 }
 

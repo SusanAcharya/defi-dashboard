@@ -1,5 +1,4 @@
 export { Home } from './Home/Home';
-export { Notifications } from './Notifications/Notifications';
 export { Portfolio } from './Portfolio/Portfolio';
 export { Settings } from './Settings/Settings';
 export { Profile } from './Profile/Profile';

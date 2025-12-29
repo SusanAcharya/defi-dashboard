@@ -18,8 +18,104 @@
   }
 
   &__addButton {
+    @include button-reset;
     width: 100%;
+    padding: $spacing-lg $spacing-xl;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 140, 0, 0.15) 0%,
+      rgba(255, 165, 0, 0.12) 50%,
+      rgba(255, 140, 0, 0.15) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.3);
+    border-radius: $radius-lg;
+    color: $color-text-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: all $transition-base;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-md;
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 20px rgba(255, 140, 0, 0.2);
     margin-bottom: $spacing-md;
+    position: relative;
+    overflow: hidden;
+
+    @include mobile {
+      padding: $spacing-md $spacing-lg;
+      font-size: $font-size-base;
+      gap: $spacing-sm;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.1) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(255, 140, 0, 0.5);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 40px rgba(255, 140, 0, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__addButtonIcon {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 140, 0, 0.2);
+    border-radius: $radius-full;
+    border: 1px solid rgba(255, 140, 0, 0.4);
+
+    @include mobile {
+      font-size: $font-size-xl;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  &__addButtonText {
+    flex: 1;
+    text-align: center;
   }
 
   &__addForm {
@@ -202,8 +298,83 @@
   }
 
   &__submitButton {
+    @include button-reset;
     width: 100%;
+    padding: $spacing-md $spacing-lg;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 140, 0, 0.25) 0%,
+      rgba(255, 165, 0, 0.22) 50%,
+      rgba(255, 140, 0, 0.25) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.4);
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: all $transition-base;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-sm;
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 20px rgba(255, 140, 0, 0.2);
     margin-top: $spacing-sm;
+    position: relative;
+    overflow: hidden;
+
+    @include mobile {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.15) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    @include desktop {
+      &:hover {
+        border-color: rgba(255, 140, 0, 0.6);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 40px rgba(255, 140, 0, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__submitButtonIcon {
+    font-size: $font-size-lg;
+    line-height: 1;
   }
 
   &__section {
@@ -352,22 +523,69 @@
   }
 
   &__iconContainer {
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
     @include flex-center;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 140, 0, 0.25) 0%,
+      rgba(255, 165, 0, 0.2) 50%,
+      rgba(255, 140, 0, 0.25) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: $radius-lg;
+    border: 2px solid rgba(255, 140, 0, 0.4);
     box-shadow: 
-      0 4px 16px rgba(255, 140, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    font-size: $font-size-2xl;
+      0 6px 24px rgba(255, 140, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 0 30px rgba(255, 140, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: all $transition-base;
 
     @include mobile {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.15) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @include desktop {
+      .wallet__walletItem:hover & {
+        border-color: rgba(255, 140, 0, 0.6);
+        box-shadow: 
+          0 8px 32px rgba(255, 140, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2),
+          0 0 40px rgba(255, 140, 0, 0.3);
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &__iconInner {
+    font-size: $font-size-2xl;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.4));
+
+    @include mobile {
       font-size: $font-size-xl;
     }
   }
@@ -440,60 +658,117 @@
   &__toggleButton,
   &__removeButton {
     @include button-reset;
-    padding: $spacing-sm $spacing-md;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    padding: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 140, 0, 0.25) 0%,
+      rgba(255, 165, 0, 0.2) 50%,
+      rgba(255, 140, 0, 0.25) 100%
+    );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 140, 0, 0.4);
     border-radius: $radius-md;
     color: $color-text-primary;
-    font-size: $font-size-lg;
     cursor: pointer;
-    transition: all $transition-fast;
-    min-width: 44px;
-    height: 44px;
+    transition: all $transition-base;
+    min-width: 48px;
+    height: 48px;
     @include flex-center;
-    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+    box-shadow: 
+      0 4px 16px rgba(255, 140, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
 
     @include mobile {
-      min-width: 40px;
-      height: 40px;
-      font-size: $font-size-base;
-      padding: $spacing-xs $spacing-sm;
+      min-width: 44px;
+      height: 44px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 140, 0, 0.1) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
     }
 
     &:active {
-      background: linear-gradient(135deg, rgba(255, 140, 0, 0.3) 0%, rgba(255, 165, 0, 0.25) 100%);
-      border-color: rgba(255, 140, 0, 0.5);
       transform: scale(0.95);
     }
 
     @include desktop {
       &:hover {
-        background: linear-gradient(135deg, rgba(255, 140, 0, 0.3) 0%, rgba(255, 165, 0, 0.25) 100%);
-        border-color: rgba(255, 140, 0, 0.5);
-        box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
-        transform: translateY(-2px);
+        border-color: rgba(255, 140, 0, 0.6);
+        box-shadow: 
+          0 6px 24px rgba(255, 140, 0, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 30px rgba(255, 140, 0, 0.3);
+        transform: translateY(-2px) scale(1.05);
       }
     }
   }
 
+  &__actionIcon {
+    font-size: $font-size-lg;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+
+    @include mobile {
+      font-size: $font-size-base;
+    }
+  }
+
   &__removeButton {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.15) 100%);
-    border-color: rgba(239, 68, 68, 0.3);
+    background: linear-gradient(
+      135deg,
+      rgba(239, 68, 68, 0.25) 0%,
+      rgba(220, 38, 38, 0.2) 50%,
+      rgba(239, 68, 68, 0.25) 100%
+    );
+    border-color: rgba(239, 68, 68, 0.4);
     color: $color-negative;
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+    box-shadow: 
+      0 4px 16px rgba(239, 68, 68, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    &::before {
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(239, 68, 68, 0.1) 50%,
+        transparent 70%
+      );
+    }
 
     &:active {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.25) 100%);
-      border-color: rgba(239, 68, 68, 0.5);
+      transform: scale(0.95);
     }
 
     @include desktop {
       &:hover {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.25) 100%);
-        border-color: rgba(239, 68, 68, 0.5);
-        box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+        border-color: rgba(239, 68, 68, 0.6);
+        box-shadow: 
+          0 6px 24px rgba(239, 68, 68, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 0 30px rgba(239, 68, 68, 0.3);
+        transform: translateY(-2px) scale(1.05);
       }
     }
   }

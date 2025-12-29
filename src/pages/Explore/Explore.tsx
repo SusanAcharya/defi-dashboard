@@ -96,8 +96,9 @@ export const Explore: React.FC = () => {
 
   return (
     <div className={styles.explore}>
-      {/* Hot Bowls Section */}
-      <Card title="🔥 Hot Bowls" className={styles.explore__hotBowls}>
+      <div className={styles.explore__content}>
+        {/* Hot Bowls Section */}
+        <Card title="🔥 Hot Bowls" className={styles.explore__hotBowls}>
         <div className={styles.hotBowls}>
           {hotBowlCategories.map((category) => {
             const bowls = getCategoryBowls(category.id);
@@ -347,6 +348,10 @@ export const Explore: React.FC = () => {
           </div>
         )}
       </Card>
+      </div>
+      <div className={styles.explore__overlay}>
+        <div className={styles.explore__comingSoon}>Coming Soon</div>
+      </div>
     </div>
   );
 };

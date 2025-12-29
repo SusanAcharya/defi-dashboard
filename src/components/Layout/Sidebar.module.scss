@@ -141,8 +141,8 @@
     gap: $spacing-xs;
     margin-bottom: $spacing-xs;
 
-    @include desktop {
-      display: none; // Hide wallet and settings on desktop (they're in header)
+    @include mobile {
+      display: none; // Hide wallet and settings on mobile (they're in bottom nav)
     }
   }
 
@@ -152,8 +152,8 @@
     margin: $spacing-sm 0;
     border: none;
 
-    @include desktop {
-      display: none; // Hide divider on desktop since top section is hidden
+    @include mobile {
+      display: none; // Hide divider on mobile since top section is hidden
     }
   }
 
@@ -375,7 +375,7 @@
 
   &__checkIn {
     flex-shrink: 0;
-    padding: $spacing-md;
+    padding: $spacing-sm $spacing-md;
     border-top: 1px solid rgba(255, 140, 0, 0.2);
     background: linear-gradient(
       180deg,
@@ -397,6 +397,7 @@
         rgba(26, 26, 26, 0.7) 50%,
         rgba(20, 20, 20, 0.95) 100%
       );
+      padding: $spacing-xs $spacing-sm;
     }
 
     @include desktop {
@@ -490,8 +491,8 @@
     flex-shrink: 0;
 
     @include mobile {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
     }
   }
 
@@ -503,87 +504,137 @@
     text-align: left;
 
     @include mobile {
-      font-size: $font-size-sm;
+      font-size: $font-size-base;
     }
   }
 
   &__checkInStatus {
     @include flex-column;
-    gap: $spacing-sm;
+    gap: 0;
     width: 100%;
-    padding: $spacing-md;
-    border-radius: $radius-lg;
-    background: linear-gradient(
-      135deg,
-      rgba(26, 26, 26, 0.4) 0%,
-      rgba(20, 20, 20, 0.5) 50%,
-      rgba(26, 26, 26, 0.4) 100%
-    );
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 140, 0, 0.2);
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-    @include mobile {
-      padding: $spacing-sm;
-    }
   }
 
   &__checkInStatusTop {
-    @include flex-center;
-    gap: $spacing-sm;
+    @include flex-between;
+    gap: $spacing-xs;
     align-items: center;
+    width: 100%;
   }
 
   &__checkInStatusIcon {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.6));
+    filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.6));
     flex-shrink: 0;
 
     @include mobile {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
     }
   }
 
   &__checkInStatusLabel {
     flex: 1;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
     color: $color-text-primary;
     text-align: left;
 
     @include mobile {
-      font-size: $font-size-xs;
+      font-size: $font-size-sm;
     }
   }
 
   &__checkInStreak {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     color: $color-warning;
     white-space: nowrap;
 
     @include mobile {
-      font-size: $font-size-xs;
+      font-size: $font-size-sm;
     }
   }
 
-  &__checkInTimer {
+  &__checkInInfo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  &__checkInInfoIcon {
     font-size: $font-size-xs;
     color: $color-text-secondary;
-    text-align: center;
-    padding-top: $spacing-xs;
-    border-top: 1px solid rgba(255, 140, 0, 0.1);
-    font-family: monospace;
-    letter-spacing: 1px;
+    opacity: 0.7;
+    transition: opacity $transition-fast;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
 
     @include mobile {
-      font-size: 0.65rem;
+      font-size: $font-size-base;
+    }
+
+    @include desktop {
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__checkInInfoTooltip {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 26, 0.98);
+    border: 1px solid rgba(255, 140, 0, 0.5);
+    border-radius: $radius-sm;
+    color: $color-text-primary;
+    font-size: $font-size-xs;
+    white-space: nowrap;
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(255, 140, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: all $transition-fast;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+
+    @include mobile {
+      font-size: $font-size-sm;
+      padding: $spacing-md $spacing-lg;
+      bottom: auto;
+      top: 100%;
+      margin-top: $spacing-xs;
+      margin-bottom: 0;
+    }
+
+    @include desktop {
+      .sidebar__checkInInfo:hover & {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+    }
+  }
+
+  &__checkInInfo {
+    @include mobile {
+      &_active .sidebar__checkInInfoTooltip {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
     }
   }
 }

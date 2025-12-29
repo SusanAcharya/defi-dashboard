@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUIStore } from '@/store/uiStore';
-import settingsIcon from '@/assets/icons/settings.png';
-import walletIcon from '@/assets/icons/wallet.png';
-import notificationIcon from '@/assets/icons/notification.png';
 import checkinIcon from '@/assets/checkin.png';
 import checkedinIcon from '@/assets/checkedin.png';
 import styles from './Sidebar.module.scss';
+import settingsIcon from '@/assets/icons/settings.png';
 
 const navItems = [
   { path: '/', label: 'Home', icon: '📊', iconImage: null },
-  { path: '/portfolio', label: 'Portfolio', icon: '💼', iconImage: null },
+  { path: '/portfolio', label: 'Overview', icon: '💼', iconImage: null },
   { path: '/explore', label: 'Explore', icon: '🔍', iconImage: null },
   { path: '/live-chart', label: 'Live Chart', icon: '📈', iconImage: null },
-  { path: '/history', label: 'History', icon: '📜', iconImage: null },
-  { path: '/notifications', label: 'Notifications', icon: null, iconImage: notificationIcon },
+  { path: '/history', label: 'Activity', icon: '📜', iconImage: null },
+  { path: '/settings', label: 'Manage Notifications', icon: null, iconImage: settingsIcon },
   { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
-];
-
-const topNavItems = [
-  { path: '/wallet', label: 'Wallet', icon: null, iconImage: walletIcon },
-  { path: '/settings', label: 'Settings', icon: null, iconImage: settingsIcon },
 ];
 
 export const Sidebar: React.FC = () => {
@@ -28,6 +21,7 @@ export const Sidebar: React.FC = () => {
   const location = useLocation();
   const { desktopSidebarOpen, mobileNavOpen, setMobileNavOpen, checkedInToday, lastCheckIn, checkIn, streak } = useUIStore();
   const [timeRemaining, setTimeRemaining] = useState<string>('');
+  const [showTimerTooltip, setShowTimerTooltip] = useState(false);
 
   // Calculate time remaining until next check-in
   useEffect(() => {
@@ -103,33 +97,6 @@ export const Sidebar: React.FC = () => {
       
       <aside className={`${styles.sidebar} ${desktopSidebarOpen ? styles.sidebar_open : ''} ${mobileNavOpen ? styles.sidebar_mobileOpen : ''}`}>
         <nav className={styles.sidebar__nav}>
-          {/* Top Section: Wallet and Settings */}
-          <div className={styles.sidebar__topSection}>
-            {topNavItems.map((item) => (
-              <button
-                key={item.path}
-                className={`${styles.sidebar__item} ${styles.sidebar__topItem} ${
-                  location.pathname === item.path ? styles.sidebar__item_active : ''
-                }`}
-                onClick={() => handleNavigate(item.path)}
-              >
-                {item.iconImage ? (
-                  <img 
-                    src={item.iconImage} 
-                    alt={item.label}
-                    className={styles.sidebar__iconImage}
-                  />
-                ) : (
-                  <span className={styles.sidebar__icon}>{item.icon}</span>
-                )}
-                <span className={styles.sidebar__label}>{item.label}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div className={styles.sidebar__divider} />
-
           {/* Main Navigation Items */}
           {navItems.map((item) => (
             <button
@@ -179,12 +146,18 @@ export const Sidebar: React.FC = () => {
                 {streak > 0 && (
                   <span className={styles.sidebar__checkInStreak}>🔥 {streak}</span>
                 )}
+                {timeRemaining && (
+                  <div 
+                    className={`${styles.sidebar__checkInInfo} ${showTimerTooltip ? styles.sidebar__checkInInfo_active : ''}`}
+                    onClick={() => setShowTimerTooltip(!showTimerTooltip)}
+                  >
+                    <span className={styles.sidebar__checkInInfoIcon}>ℹ️</span>
+                    <div className={styles.sidebar__checkInInfoTooltip}>
+                      Next check-in: {timeRemaining}
+                    </div>
+                  </div>
+                )}
               </div>
-              {timeRemaining && (
-                <div className={styles.sidebar__checkInTimer}>
-                  Next check-in: {timeRemaining}
-                </div>
-              )}
             </div>
           )}
         </div>

@@ -1,28 +1,39 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatDateTime } from '@/utils/format';
+import { useWalletStore } from '@/store/walletStore';
 import { Card } from '../Card/Card';
 import styles from './LatestNotifications.module.scss';
 
 export const LatestNotifications: React.FC = () => {
-  const navigate = useNavigate();
+  const { selectedWalletAddress, isGuest } = useWalletStore();
+  const [expanded, setExpanded] = useState(false);
   const { data: notifications, isLoading } = useQuery({
-    queryKey: ['notifications'],
-    queryFn: api.getNotifications,
+    queryKey: ['notifications', selectedWalletAddress],
+    queryFn: () => api.getNotifications(selectedWalletAddress),
     refetchInterval: 10000, // Refetch every 10 seconds
+    enabled: !isGuest, // Don't fetch if guest
   });
 
-  if (isLoading) {
-    return null;
-  }
+  // Get latest 5 notifications, show 2 initially or 5 when expanded
+  const allNotifications = isGuest ? [] : (notifications?.slice(0, 5) || []);
+  const latestNotifications = expanded ? allNotifications : allNotifications.slice(0, 2);
+  const hasMore = allNotifications.length > 2;
 
-  // Get latest 2 notifications
-  const latestNotifications = notifications?.slice(0, 2) || [];
-
-  if (latestNotifications.length === 0) {
-    return null;
+  if (isLoading && !isGuest) {
+    return (
+      <Card className={styles.latestNotifications}>
+        <div className={styles.latestNotifications__header}>
+          <div className={styles.latestNotifications__headerLeft}>
+            <span className={styles.latestNotifications__bellIcon}>🔔</span>
+            <span className={styles.latestNotifications__title}>LATEST ALERTS</span>
+          </div>
+        </div>
+        <div className={styles.latestNotifications__separator} />
+        <div className={styles.latestNotifications__empty}>Loading...</div>
+      </Card>
+    );
   }
 
   const getNotificationIcon = (category: string) => {
@@ -41,38 +52,45 @@ export const LatestNotifications: React.FC = () => {
       <div className={styles.latestNotifications__header}>
         <div className={styles.latestNotifications__headerLeft}>
           <span className={styles.latestNotifications__bellIcon}>🔔</span>
-          <span className={styles.latestNotifications__title}>RECENT NOTIFICATIONS</span>
+          <span className={styles.latestNotifications__title}>LATEST ALERTS</span>
         </div>
-        <button
-          className={styles.latestNotifications__viewAllButton}
-          onClick={() => navigate('/notifications')}
-          aria-label="View all notifications"
-        >
-          View all
-        </button>
+        {hasMore && (
+          <button
+            className={styles.latestNotifications__expandButton}
+            onClick={() => setExpanded(!expanded)}
+            aria-label={expanded ? 'Show less' : 'Show more'}
+          >
+            {expanded ? 'Show Less' : `Show More`}
+          </button>
+        )}
       </div>
       <div className={styles.latestNotifications__separator} />
       <div className={styles.latestNotifications__list}>
-        {latestNotifications.map((notification) => (
-          <div
-            key={notification.id}
-            className={styles.latestNotifications__item}
-            onClick={() => navigate('/notifications')}
-          >
-            <span className={styles.latestNotifications__dateTime}>
-              {formatDateTime(notification.timestamp)}
-            </span>
-            <div className={styles.latestNotifications__middle}>
-              <span className={styles.latestNotifications__who}>who</span>
-              <span className={styles.latestNotifications__icon}>
-                {getNotificationIcon(notification.category)}
+        {latestNotifications.length > 0 ? (
+          latestNotifications.map((notification) => (
+            <div
+              key={notification.id}
+              className={styles.latestNotifications__item}
+            >
+              <span className={styles.latestNotifications__dateTime}>
+                {formatDateTime(notification.timestamp)}
+              </span>
+              <div className={styles.latestNotifications__middle}>
+                <span className={styles.latestNotifications__who}>who</span>
+                <span className={styles.latestNotifications__icon}>
+                  {getNotificationIcon(notification.category)}
+                </span>
+              </div>
+              <span className={styles.latestNotifications__text}>
+                {notification.title}
               </span>
             </div>
-            <span className={styles.latestNotifications__text}>
-              {notification.title}
-            </span>
+          ))
+        ) : (
+          <div className={styles.latestNotifications__empty}>
+            No Recent Notification
           </div>
-        ))}
+        )}
       </div>
     </Card>
   );

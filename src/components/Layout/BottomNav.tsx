@@ -1,15 +1,14 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import homeIcon from '@/assets/icons/home.png';
-import notificationIcon from '@/assets/icons/notification.png';
+import walletIcon from '@/assets/icons/wallet.png';
 import styles from './BottomNav.module.scss';
 
 const mobileNavItems = [
   { path: '/', label: 'Home', icon: null, iconImage: homeIcon },
-  { path: '/explore', label: 'Explore', icon: '🔍', iconImage: null },
-  { path: '/portfolio', label: 'Portfolio', icon: '💼', iconImage: null },
-  { path: '/history', label: 'History', icon: '📜', iconImage: null },
-  { path: '/notifications', label: 'Notifications', icon: null, iconImage: notificationIcon },
+  { path: '/portfolio', label: 'Overview', icon: '💼', iconImage: null },
+  { path: '/wallet', label: 'Wallets', icon: null, iconImage: walletIcon },
+  { path: '/history', label: 'Activity', icon: '📜', iconImage: null },
 ];
 
 export const BottomNav: React.FC = () => {

@@ -6,29 +6,36 @@ import { Card } from '../Card/Card';
 import styles from './PortfolioExposure.module.scss';
 
 export const PortfolioExposure: React.FC = () => {
-  const { selectedWalletAddress } = useWalletStore();
+  const { selectedWalletAddress, isGuest } = useWalletStore();
   
   // Get DeFi positions for selected wallet or combined
   const { data: defiPositions } = useQuery({
     queryKey: ['defiPositions', selectedWalletAddress],
     queryFn: ({ queryKey }) => api.getDefiPositions(queryKey[1] as string | null),
+    enabled: !isGuest, // Don't fetch if guest
   });
 
   // Convert DeFi positions to exposure data
-  const data = defiPositions?.map((pos, index) => {
-    const colors = ['#ff8c00', '#ffa500', '#ff9500', '#ff7f00', '#228b22', '#ff6347'];
-    return {
-      name: pos.protocol,
-      value: pos.positionValue,
-      color: colors[index % colors.length],
-    };
-  }) || [
-    { name: 'JediSwap', value: 7500, color: '#ff8c00' },
-    { name: '10KSwap', value: 7500, color: '#ffa500' },
-    { name: 'Ekubo', value: 580, color: '#ff9500' },
-    { name: 'zkLend', value: 7500, color: '#ff7f00' },
-    { name: 'STRK Staking', value: 20, color: '#228b22' },
-  ];
+  const data = isGuest 
+    ? [
+        { name: 'Please', value: 33.33, color: '#ff8c00' },
+        { name: 'Add', value: 33.33, color: '#ffa500' },
+        { name: 'Wallet', value: 33.34, color: '#ff9500' }, // Empty name for third item
+      ]
+    : defiPositions?.map((pos, index) => {
+        const colors = ['#ff8c00', '#ffa500', '#ff9500', '#ff7f00', '#228b22', '#ff6347'];
+        return {
+          name: pos.protocol,
+          value: pos.positionValue,
+          color: colors[index % colors.length],
+        };
+      }) || [
+        { name: 'JediSwap', value: 7500, color: '#ff8c00' },
+        { name: '10KSwap', value: 7500, color: '#ffa500' },
+        { name: 'Ekubo', value: 580, color: '#ff9500' },
+        { name: 'zkLend', value: 7500, color: '#ff7f00' },
+        { name: 'STRK Staking', value: 20, color: '#228b22' },
+      ];
 
   // Only show first 5 items
   const displayData = data.slice(0, 5);
@@ -48,9 +55,9 @@ export const PortfolioExposure: React.FC = () => {
                 {item.name[0]}
               </div>
               <div className={styles.portfolioExposure__itemInfo}>
-                <div className={styles.portfolioExposure__itemName}>{item.name}</div>
+                <div className={styles.portfolioExposure__itemName}>{item.name || ''}</div>
                 <div className={styles.portfolioExposure__itemValue}>
-                  ${item.value.toLocaleString()}
+                  {isGuest ? `${item.value.toFixed(2)}%` : `$${item.value.toLocaleString()}`}
                 </div>
               </div>
               <div className={styles.portfolioExposure__itemAllocation}>

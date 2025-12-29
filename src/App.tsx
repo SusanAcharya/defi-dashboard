@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout, AnimatedBackground } from './components';
 import {
   Home,
-  Notifications,
   Portfolio,
   Settings,
   Profile,
@@ -33,7 +32,6 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/notifications" element={<Notifications />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />

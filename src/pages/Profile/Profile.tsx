@@ -10,6 +10,9 @@ export const Profile: React.FC = () => {
   const { 
     username,
     alias,
+    isGuest,
+    loginWithTelegram,
+    logout,
   } = useWalletStore();
   
   const { streak, checkInHistory, referralCode, referredFriends } = useUIStore();
@@ -49,16 +52,41 @@ export const Profile: React.FC = () => {
           />
           <div className={styles.profile__profileInfo}>
             <div className={styles.profile__username}>{username}</div>
-            <div className={styles.profile__alias}>Alias: {alias}</div>
-            <div className={styles.profile__streak}>
-              🔥 Streak: {streak} days
-            </div>
+            {!isGuest && alias && (
+              <div className={styles.profile__alias}>Alias: {alias}</div>
+            )}
+            {!isGuest && (
+              <div className={styles.profile__streak}>
+                🔥 Streak: {streak} days
+              </div>
+            )}
           </div>
         </div>
+        {isGuest ? (
+          <div className={styles.profile__guestSection}>
+            <button
+              className={styles.profile__telegramButton}
+              onClick={loginWithTelegram}
+            >
+              <span className={styles.profile__telegramIcon}>📱</span>
+              Login with Telegram
+            </button>
+          </div>
+        ) : (
+          <div className={styles.profile__logoutSection}>
+            <button
+              className={styles.profile__logoutButton}
+              onClick={logout}
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </Card>
 
-      {/* Referral System */}
-      <Card title="Referral Program" className={styles.profile__referral}>
+      {/* Referral System - Only show if logged in */}
+      {!isGuest && (
+        <Card title="Referral Program" className={styles.profile__referral}>
         <div className={styles.profile__referralCode}>
           <div className={styles.profile__referralLabel}>Your Referral Code</div>
           <div className={styles.profile__referralCodeValue}>
@@ -100,9 +128,11 @@ export const Profile: React.FC = () => {
           )}
         </div>
       </Card>
+      )}
 
-      {/* Daily Check-in */}
-      <Card title="Daily Check-in" className={styles.profile__checkin}>
+      {/* Daily Check-in - Only show if logged in */}
+      {!isGuest && (
+        <Card title="Daily Check-in" className={styles.profile__checkin}>
         <div className={styles.profile__checkinStreak}>
           <div className={styles.profile__checkinStreakLabel}>Current Streak</div>
           <div className={styles.profile__checkinStreakValue}>{streak} days 🔥</div>
@@ -124,6 +154,7 @@ export const Profile: React.FC = () => {
           </div>
         </div>
       </Card>
+      )}
     </div>
   );
 };

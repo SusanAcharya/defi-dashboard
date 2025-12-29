@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useWalletStore, TrackedWallet } from '@/store/walletStore';
-import { Card, Button, Toast } from '@/components';
+import { Card, Toast } from '@/components';
 import { formatAddress } from '@/utils/format';
 import styles from './Wallet.module.scss';
 
@@ -57,13 +57,17 @@ export const Wallet: React.FC = () => {
     <div className={styles.wallet}>
       <Card title="Wallet Management">
         <div className={styles.wallet__addSection}>
-          <Button
-            variant="outline"
+          <button
             onClick={() => setShowAddForm(!showAddForm)}
             className={styles.wallet__addButton}
           >
-            {showAddForm ? '− Cancel' : '+ Add Wallet'}
-          </Button>
+            <span className={styles.wallet__addButtonIcon}>
+              {showAddForm ? '−' : '+'}
+            </span>
+            <span className={styles.wallet__addButtonText}>
+              {showAddForm ? 'Cancel' : 'Add New Wallet'}
+            </span>
+          </button>
           
           {showAddForm && (
             <div className={styles.wallet__addForm}>
@@ -109,13 +113,13 @@ export const Wallet: React.FC = () => {
                   </label>
                 </div>
               </div>
-              <Button
-                variant="primary"
+              <button
                 onClick={handleAddWallet}
                 className={styles.wallet__submitButton}
               >
-                Add Wallet
-              </Button>
+                <span className={styles.wallet__submitButtonIcon}>✓</span>
+                <span>Add Wallet</span>
+              </button>
             </div>
           )}
         </div>
@@ -128,9 +132,6 @@ export const Wallet: React.FC = () => {
               {myWallets.map((wallet) => (
                 <div key={wallet.address} className={styles.wallet__walletItem}>
                   <div className={styles.wallet__walletInfo}>
-                    <div className={styles.wallet__walletIcon}>
-                      <div className={styles.wallet__iconContainer}>🔷</div>
-                    </div>
                     <div className={styles.wallet__walletDetails}>
                       <div className={styles.wallet__walletName}>{wallet.name}</div>
                       <button
@@ -146,16 +147,16 @@ export const Wallet: React.FC = () => {
                     <button
                       className={styles.wallet__toggleButton}
                       onClick={() => handleToggleOwnership(wallet)}
-                      title="Mark as other's wallet"
+                      title={wallet.isMine ? "Mark as other's wallet" : "Mark as my wallet"}
                     >
-                      👤
+                      <span className={styles.wallet__actionIcon}>👤</span>
                     </button>
                     <button
                       className={styles.wallet__removeButton}
                       onClick={() => removeWallet(wallet.address)}
                       title="Remove wallet"
                     >
-                      ✕
+                      <span className={styles.wallet__actionIcon}>✕</span>
                     </button>
                   </div>
                 </div>
@@ -176,9 +177,6 @@ export const Wallet: React.FC = () => {
               {otherWallets.map((wallet) => (
                 <div key={wallet.address} className={styles.wallet__walletItem}>
                   <div className={styles.wallet__walletInfo}>
-                    <div className={styles.wallet__walletIcon}>
-                      <div className={styles.wallet__iconContainer}>👁️</div>
-                    </div>
                     <div className={styles.wallet__walletDetails}>
                       <div className={styles.wallet__walletName}>{wallet.name}</div>
                       <button

@@ -18,31 +18,43 @@ export const Portfolio: React.FC = () => {
   const isDraggingRef = useRef(false);
   const dragStartRef = useRef(0);
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
-  const { selectedWalletAddress } = useWalletStore();
+  const { selectedWalletAddress, isGuest } = useWalletStore();
   // Show all wallets, not just "my wallets"
+
+  // Guest mode: return zero portfolio
+  const guestPortfolio = {
+    totalValue: 0,
+    pnl24hPercent: 0,
+  };
 
   // Get portfolio data for selected wallet or combined
   const { data: portfolio } = useQuery({
     queryKey: ['portfolio', selectedWalletAddress],
     queryFn: ({ queryKey }) => api.getPortfolio(queryKey[1] as string | null),
+    enabled: !isGuest, // Don't fetch if guest
   });
+
+  const displayPortfolio = isGuest ? guestPortfolio : portfolio;
 
   // Get chart data
   const { data: chartData } = useQuery({
     queryKey: ['portfolioChart', selectedWalletAddress, selectedTimeframe],
     queryFn: ({ queryKey }) => api.getPortfolioChartData(queryKey[1] as string | null, queryKey[2] as string),
+    enabled: !isGuest, // Don't fetch if guest
   });
 
   // Get tokens for selected wallet or combined
   const { data: tokens, isLoading } = useQuery({
     queryKey: ['tokens', selectedWalletAddress],
     queryFn: ({ queryKey }) => api.getTokens(queryKey[1] as string | null),
+    enabled: !isGuest, // Don't fetch if guest
   });
 
   // Get DeFi positions
   const { data: defiPositions } = useQuery({
     queryKey: ['defiPositions', selectedWalletAddress],
     queryFn: ({ queryKey }) => api.getDefiPositions(queryKey[1] as string | null),
+    enabled: !isGuest, // Don't fetch if guest
   });
 
   // Determine if we should enable zoom (for larger timelines)
@@ -133,11 +145,11 @@ export const Portfolio: React.FC = () => {
         <div className={styles.portfolio__header}>
           <div>
             <div className={styles.portfolio__value}>
-              {portfolio && formatCurrency(portfolio.totalValue, 'USD', showFinancialNumbers)}
+              {displayPortfolio && formatCurrency(displayPortfolio.totalValue, 'USD', showFinancialNumbers)}
             </div>
-            {portfolio && (
+            {displayPortfolio && (
               <div className={styles.portfolio__change}>
-                {formatPercentage(portfolio.pnl24hPercent, 2, showFinancialNumbers)} (24h)
+                {formatPercentage(displayPortfolio.pnl24hPercent, 2, showFinancialNumbers)} (24h)
               </div>
             )}
           </div>
@@ -266,8 +278,10 @@ export const Portfolio: React.FC = () => {
       </Card>
 
       <Card title="Token Holdings">
-        {isLoading ? (
+        {isLoading && !isGuest ? (
           <div>Loading tokens...</div>
+        ) : isGuest || !tokens || tokens.length === 0 ? (
+          <div className={styles.portfolio__empty}>No token holdings</div>
         ) : (
           <div className={styles.portfolio__tableWrapper}>
             <table className={styles.portfolio__table}>
@@ -280,7 +294,7 @@ export const Portfolio: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {tokens?.map((token) => (
+                {tokens.map((token) => (
                   <tr key={token.id} className={styles.portfolio__tableRow}>
                     <td>
                       <div className={styles.portfolio__tokenInfo}>
@@ -311,7 +325,7 @@ export const Portfolio: React.FC = () => {
         )}
       </Card>
 
-      {defiPositions && defiPositions.length > 0 && (
+      {!isGuest && defiPositions && defiPositions.length > 0 && (
         <Card title="Protocol Positions">
           <div className={styles.portfolio__tableWrapper}>
             <table className={styles.portfolio__table}>

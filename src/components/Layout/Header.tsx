@@ -6,12 +6,11 @@ import { formatAddress } from '@/utils/format';
 import profileImage from '@/assets/profile.png';
 import logoImage from '@/assets/logo.png';
 import walletIcon from '@/assets/icons/wallet.png';
-import settingsIcon from '@/assets/icons/settings.png';
 import styles from './Header.module.scss';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { wallets, selectedWalletAddress, setSelectedWallet } = useWalletStore();
+  const { wallets, selectedWalletAddress, setSelectedWallet, isGuest } = useWalletStore();
   const { mobileNavOpen, setMobileNavOpen } = useUIStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -149,18 +148,6 @@ export const Header: React.FC = () => {
             />
           </button>
           <button
-            className={styles.header__settingsIcon}
-            onClick={() => navigate('/settings')}
-            aria-label="Settings"
-            title="Settings"
-          >
-            <img 
-              src={settingsIcon} 
-              alt="Settings"
-              className={styles.header__iconImage}
-            />
-          </button>
-          <button
             className={styles.header__profile}
             onClick={() => navigate('/profile')}
             aria-label="Profile"
@@ -169,6 +156,7 @@ export const Header: React.FC = () => {
               src={profileImage} 
               alt="Profile" 
               className={styles.header__avatar}
+              style={isGuest ? { opacity: 0.6, filter: 'grayscale(0.3)' } : {}}
             />
           </button>
           <button

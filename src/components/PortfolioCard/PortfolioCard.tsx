@@ -11,25 +11,37 @@ import hideIcon from '@/assets/icons/hide.png';
 import styles from './PortfolioCard.module.scss';
 
 export const PortfolioCard: React.FC = () => {
-  const { selectedWalletAddress } = useWalletStore();
+  const { selectedWalletAddress, isGuest, username, alias } = useWalletStore();
   const { data: portfolio, isLoading } = useQuery({
     queryKey: ['portfolio', selectedWalletAddress],
     queryFn: ({ queryKey }) => api.getPortfolio(queryKey[1] as string | null),
+    enabled: !isGuest, // Don't fetch if guest
   });
 
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
   const toggleFinancialNumbers = useUIStore((state) => state.toggleFinancialNumbers);
 
-  if (isLoading) {
+  // Guest mode: return zero portfolio
+  const guestPortfolio = {
+    totalValue: 0,
+    pnl24h: 0,
+    totalAssets: 0,
+    totalDebt: 0,
+    nftValue: 0,
+  };
+
+  const displayPortfolio = isGuest ? guestPortfolio : portfolio;
+
+  if (isLoading && !isGuest) {
     return <Card className={styles.portfolioCard}>Loading...</Card>;
   }
 
-  if (!portfolio) return null;
+  if (!displayPortfolio) return null;
 
   return (
     <Card className={styles.portfolioCard}>
       <div className={styles.portfolioCard__topRow}>
-        <div className={styles.portfolioCard__alias}>Alias: Thug</div>
+        {alias && <div className={styles.portfolioCard__alias}>Alias: {alias}</div>}
       </div>
       <div className={styles.portfolioCard__header}>
         <div className={styles.portfolioCard__profile}>
@@ -37,10 +49,11 @@ export const PortfolioCard: React.FC = () => {
             src={profileImage} 
             alt="Profile" 
             className={styles.portfolioCard__avatar}
+            style={isGuest ? { opacity: 0.6, filter: 'grayscale(0.3)' } : {}}
           />
           <div className={styles.portfolioCard__info}>
             <div className={styles.portfolioCard__usernameRow}>
-              <div className={styles.portfolioCard__username}>n00dlehead</div>
+              <div className={styles.portfolioCard__username}>{username}</div>
               <button
                 className={styles.portfolioCard__eyeButton}
                 onClick={toggleFinancialNumbers}
@@ -53,20 +66,22 @@ export const PortfolioCard: React.FC = () => {
                 />
               </button>
             </div>
-            <div className={styles.portfolioCard__aliasDesktopRow}>
-              <div className={styles.portfolioCard__aliasDesktop}>Alias: Thug</div>
-            </div>
+            {alias && (
+              <div className={styles.portfolioCard__aliasDesktopRow}>
+                <div className={styles.portfolioCard__aliasDesktop}>Alias: {alias}</div>
+              </div>
+            )}
           </div>
         </div>
         <div className={styles.portfolioCard__networth}>
           <div className={styles.portfolioCard__label}>NET WORTH</div>
           <div className={styles.portfolioCard__networthRow}>
             <div className={styles.portfolioCard__value}>
-              {formatCurrency(portfolio.totalValue, 'USD', showFinancialNumbers)}
+              {formatCurrency(displayPortfolio.totalValue, 'USD', showFinancialNumbers)}
             </div>
             <div className={styles.portfolioCard__change}>
               {showFinancialNumbers 
-                ? (portfolio.pnl24h >= 0 ? '+' : '') + formatCurrency(Math.abs(portfolio.pnl24h), 'USD', showFinancialNumbers)
+                ? (displayPortfolio.pnl24h >= 0 ? '+' : '') + formatCurrency(Math.abs(displayPortfolio.pnl24h), 'USD', showFinancialNumbers)
                 : '••••'
               }
             </div>
@@ -78,19 +93,19 @@ export const PortfolioCard: React.FC = () => {
         <div className={styles.portfolioCard__metric}>
           <div className={styles.portfolioCard__metricLabel}>Total Assets</div>
           <div className={styles.portfolioCard__metricValue}>
-            {formatCurrency(portfolio.totalAssets, 'USD', showFinancialNumbers)}
+            {formatCurrency(displayPortfolio.totalAssets, 'USD', showFinancialNumbers)}
           </div>
         </div>
         <div className={styles.portfolioCard__metric}>
           <div className={styles.portfolioCard__metricLabel}>Total Debt</div>
           <div className={styles.portfolioCard__metricValue}>
-            {formatCurrency(portfolio.totalDebt, 'USD', showFinancialNumbers)}
+            {formatCurrency(displayPortfolio.totalDebt, 'USD', showFinancialNumbers)}
           </div>
         </div>
         <div className={styles.portfolioCard__metric}>
           <div className={styles.portfolioCard__metricLabel}>NFT Value</div>
           <div className={styles.portfolioCard__metricValue}>
-            {formatCurrency(portfolio.nftValue, 'USD', showFinancialNumbers)}
+            {formatCurrency(displayPortfolio.nftValue, 'USD', showFinancialNumbers)}
           </div>
         </div>
       </div>

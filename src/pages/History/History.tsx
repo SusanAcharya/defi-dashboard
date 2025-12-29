@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency, formatAddress, formatTimestamp } from '@/utils/format';
 import { useUIStore } from '@/store/uiStore';
+import { useWalletStore } from '@/store/walletStore';
 import { Card } from '@/components';
 import styles from './History.module.scss';
 
@@ -26,14 +27,17 @@ export const History: React.FC = () => {
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
+  const { isGuest } = useWalletStore();
 
   const { data: history, isLoading } = useQuery({
     queryKey: ['history', selectedTimeframe],
     queryFn: () => api.getHistory(selectedTimeframe),
+    enabled: !isGuest, // Don't fetch if guest
   });
 
   // Filter history by date range
   const filteredHistory = useMemo(() => {
+    if (isGuest) return []; // Return empty array for guest mode
     if (!history) return [];
     if (!dateFrom && !dateTo) return history;
 
@@ -46,7 +50,7 @@ export const History: React.FC = () => {
       if (toDate && entryDate > toDate) return false;
       return true;
     });
-  }, [history, dateFrom, dateTo]);
+  }, [history, dateFrom, dateTo, isGuest]);
 
   const totalGasFee = useMemo(() => {
     if (!filteredHistory) return { eth: 0, usd: 0 };

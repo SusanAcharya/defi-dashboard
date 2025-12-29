@@ -338,10 +338,9 @@
     font-weight: $font-weight-medium;
   }
 
-  &__walletIcon,
-  &__settingsIcon {
+  &__walletIcon {
     @include button-reset;
-    display: none; // Hidden on mobile (they're in sidebar)
+    display: none;
 
     @include desktop {
       display: flex; // Show on desktop
@@ -379,8 +378,7 @@
     filter: brightness(0.9); // Slightly dimmer for inactive state
     transition: filter $transition-fast;
 
-    .header__walletIcon:hover &,
-    .header__settingsIcon:hover & {
+    .header__walletIcon:hover & {
       filter: brightness(1.2); // Brighter on hover
     }
   }
