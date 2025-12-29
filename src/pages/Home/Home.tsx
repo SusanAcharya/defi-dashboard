@@ -1,5 +1,5 @@
 import React from 'react';
-import { PortfolioCard, LatestNotifications, AssetAllocation, PortfolioExposure, PortfolioChart } from '@/components';
+import { PortfolioCard, LatestNotifications, AssetAllocation, PortfolioExposure } from '@/components';
 import styles from './Home.module.scss';
 
 export const Home: React.FC = () => {
@@ -10,9 +10,6 @@ export const Home: React.FC = () => {
       <div className={styles.home__grid}>
         <AssetAllocation />
         <PortfolioExposure />
-      </div>
-      <div className={styles.home__portfolioChart}>
-        <PortfolioChart />
       </div>
     </div>
   );

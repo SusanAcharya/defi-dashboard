@@ -128,7 +128,7 @@
     }
 
     &_active {
-      background: $gradient-accent-purple; // Purple gradient
+      background: $gradient-accent-primary; // Orange gradient
       color: $color-text-primary;
       border: 1px solid rgba(255, 140, 0, 0.5);
       box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
@@ -218,69 +218,148 @@
   }
 
 
-  &__tokens {
-    @include flex-column;
-    gap: $spacing-md;
-  }
-
-  &__token {
-    @include flex-between;
-    padding: $spacing-md;
-    background: rgba(26, 26, 26, 0.6); // Semi-transparent purple-blue
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.3); // Purple border
+  &__tableWrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin-top: $spacing-md;
+    border-radius: $radius-lg;
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.6) 0%,
+      rgba(20, 20, 20, 0.7) 100%
+    );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 140, 0, 0.25);
     box-shadow: 
-      0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(255, 140, 0, 0.1);
-    transition: all $transition-fast;
-    position: relative;
-    overflow: hidden;
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
     @include mobile {
-      padding: $spacing-sm;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: $spacing-sm;
+      margin-top: $spacing-sm;
+      border-radius: $radius-md;
     }
 
-    // Add corner accent
-    &::before {
-      content: '';
-      position: absolute;
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: $radius-sm;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 140, 0, 0.4);
+      border-radius: $radius-sm;
+      
+      &:hover {
+        background: rgba(255, 140, 0, 0.6);
+      }
+    }
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 600px;
+
+    @include mobile {
+      min-width: 500px;
+    }
+
+    thead {
+      position: sticky;
       top: 0;
-      right: 0;
-      width: 15px;
-      height: 15px;
-      border-top: 2px solid rgba(255, 140, 0, 0.4); // Purple
-      border-right: 2px solid rgba(255, 140, 0, 0.4); // Purple
+      z-index: 10;
+    }
+  }
+
+  &__tableHeader {
+    th {
+      padding: $spacing-md $spacing-lg;
+      border-bottom: 2px solid rgba(255, 140, 0, 0.3);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 140, 0, 0.15) 0%,
+        rgba(255, 165, 0, 0.1) 100%
+      );
+      color: rgba(255, 255, 255, 0.9);
+      font-family: $font-family-primary;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      text-align: left;
+      white-space: nowrap;
+
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5) {
+        text-align: right;
+      }
+
+      @include mobile {
+        padding: $spacing-sm $spacing-md;
+        font-size: 0.65rem;
+        letter-spacing: 0.8px;
+      }
+    }
+  }
+
+  &__tableRow {
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(255, 140, 0, 0.08);
+    background: transparent;
+
+    &:last-child {
+      border-bottom: none;
     }
 
-    &:active {
-      background: rgba(26, 26, 26, 0.8);
-      border-color: rgba(255, 140, 0, 0.5);
-      box-shadow: 
-        0 6px 20px rgba(0, 0, 0, 0.9),
-        0 0 15px rgba(255, 140, 0, 0.3);
+    td {
+      padding: $spacing-md $spacing-lg;
+      vertical-align: middle;
+      transition: color 0.2s;
+
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5) {
+        text-align: right;
+      }
+
+      @include mobile {
+        padding: $spacing-sm $spacing-md;
+      }
     }
 
     @include desktop {
       &:hover {
-        background: rgba(26, 26, 26, 0.8);
-        border-color: rgba(255, 140, 0, 0.5);
-        box-shadow: 
-          0 6px 20px rgba(0, 0, 0, 0.9),
-          0 0 15px rgba(255, 140, 0, 0.3);
-        transform: translateX(-3px);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 140, 0, 0.08) 0%,
+          rgba(255, 140, 0, 0.12) 100%
+        );
+        border-bottom-color: rgba(255, 140, 0, 0.2);
+        transform: translateX(2px);
+        box-shadow: 2px 0 8px rgba(255, 140, 0, 0.15);
       }
+    }
+
+    &:active {
+      background: rgba(255, 140, 0, 0.15) !important;
+      transform: scale(0.998);
     }
   }
 
   &__tokenInfo {
     @include flex-column;
-    gap: $spacing-xs;
-    flex: 1;
+    gap: 2px;
   }
 
   &__tokenSymbol {
@@ -295,117 +374,91 @@
 
   &__tokenName {
     color: $color-text-secondary;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
 
     @include mobile {
-      font-size: $font-size-xs;
+      font-size: 0.65rem;
     }
   }
 
   &__tokenBalance {
-    @include flex-column;
-    align-items: flex-end;
-    gap: $spacing-xs;
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-base;
+    white-space: nowrap;
 
     @include mobile {
-      align-items: flex-start;
-      width: 100%;
+      font-size: $font-size-sm;
     }
   }
 
   &__tokenValue {
     color: $color-text-primary;
-    font-weight: $font-weight-medium;
-    font-size: $font-size-lg; // Larger for numbers
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-base;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
 
     @include mobile {
-      font-size: $font-size-base;
+      font-size: $font-size-sm;
     }
   }
 
   &__tokenChange {
-    font-weight: $font-weight-medium;
-    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-base;
     white-space: nowrap;
+    letter-spacing: 0.3px;
 
     @include mobile {
-      font-size: $font-size-xs;
+      font-size: $font-size-sm;
     }
 
     &_positive {
       color: $color-positive;
+      text-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
     }
 
     &_negative {
       color: $color-negative;
+      text-shadow: 0 0 8px rgba(244, 67, 54, 0.3);
     }
-  }
-
-  &__defiPositions {
-    @include flex-column;
-    gap: $spacing-md;
-  }
-
-  &__defiPosition {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: $spacing-md;
-    padding: $spacing-md;
-    background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
-    border-radius: $radius-md;
-    transition: all $transition-fast;
-
-    @include mobile {
-      grid-template-columns: 1fr;
-      gap: $spacing-sm;
-    }
-
-    @include desktop {
-      &:hover {
-        background: rgba(255, 140, 0, 0.1);
-        border-color: rgba(255, 140, 0, 0.5);
-      }
-    }
-  }
-
-  &__defiInfo {
-    @include flex-column;
-    gap: $spacing-xs;
   }
 
   &__defiProtocol {
     color: $color-text-primary;
     font-weight: $font-weight-semibold;
     font-size: $font-size-base;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
   }
 
   &__defiType {
-    color: $color-text-secondary;
+    color: rgba(255, 255, 255, 0.6);
     font-size: $font-size-xs;
     text-transform: uppercase;
-  }
+    letter-spacing: 0.5px;
+    font-weight: $font-weight-medium;
 
-  &__defiValue,
-  &__defiApr,
-  &__defiRewards {
-    @include flex-column;
-    gap: $spacing-xs;
-  }
-
-  &__defiValueLabel,
-  &__defiAprLabel,
-  &__defiRewardsLabel {
-    color: $color-text-secondary;
-    font-size: $font-size-xs;
+    @include mobile {
+      font-size: 0.65rem;
+    }
   }
 
   &__defiValueAmount,
   &__defiAprValue,
   &__defiRewardsValue {
     color: $color-text-primary;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-semibold;
     font-size: $font-size-base;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
   }
 }
 

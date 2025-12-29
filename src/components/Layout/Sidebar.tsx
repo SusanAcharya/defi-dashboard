@@ -9,12 +9,12 @@ import checkedinIcon from '@/assets/checkedin.png';
 import styles from './Sidebar.module.scss';
 
 const navItems = [
-  { path: '/', label: 'Dashboard', icon: '📊', iconImage: null },
+  { path: '/', label: 'Home', icon: '📊', iconImage: null },
+  { path: '/portfolio', label: 'Portfolio', icon: '💼', iconImage: null },
   { path: '/explore', label: 'Explore', icon: '🔍', iconImage: null },
   { path: '/live-chart', label: 'Live Chart', icon: '📈', iconImage: null },
   { path: '/history', label: 'History', icon: '📜', iconImage: null },
   { path: '/notifications', label: 'Notifications', icon: null, iconImage: notificationIcon },
-  { path: '/portfolio', label: 'Portfolio', icon: '💼', iconImage: null },
   { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
 ];
 

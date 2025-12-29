@@ -191,170 +191,158 @@ export const Explore: React.FC = () => {
 
         {/* Pools List */}
         {activeTab === 'Pools' && (
-          <div className={styles.explore__list}>
+          <div className={styles.explore__tableWrapper}>
             {filteredPools.length === 0 ? (
               <div className={styles.explore__empty}>No pools found</div>
             ) : (
-              filteredPools.map((pool) => (
-                <div 
-                  key={pool.id}
-                  className={styles.explore__card}
-                  onClick={() => navigate(`/pool/${pool.id}`)}
-                >
-                  <div className={styles.explore__cardHeader}>
-                    <div className={styles.explore__poolInfo}>
-                      <span className={styles.explore__star}>⭐</span>
-                      <div className={styles.explore__poolMain}>
-                        <div className={styles.explore__poolName}>
-                          {pool.pair}
-                          {pool.verified && <span className={styles.explore__verified}>✓</span>}
-                          {pool.hasRewards && <span className={styles.explore__gift}>🎁</span>}
+              <table className={styles.explore__table}>
+                <thead>
+                  <tr>
+                    <th>Pool</th>
+                    <th>APR</th>
+                    <th>TVL</th>
+                    <th>24H Volume</th>
+                    <th>24H Fee</th>
+                    <th>Rewards</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredPools.map((pool) => (
+                    <tr 
+                      key={pool.id}
+                      className={styles.explore__tableRow}
+                      onClick={() => navigate(`/pool/${pool.id}`)}
+                    >
+                      <td>
+                        <div className={styles.explore__tablePool}>
+                          <span className={styles.explore__star}>⭐</span>
+                          <div className={styles.explore__tablePoolInfo}>
+                            <div className={styles.explore__tablePoolName}>
+                              {pool.pair}
+                              {pool.verified && <span className={styles.explore__verified}>✓</span>}
+                              {pool.hasRewards && <span className={styles.explore__gift}>🎁</span>}
+                            </div>
+                            <div className={styles.explore__tablePoolDetails}>
+                              {pool.protocol} • {pool.poolType} • {pool.fee}
+                            </div>
+                          </div>
                         </div>
-                        <div className={styles.explore__poolDetails}>
-                          {pool.protocol} • {pool.poolType} • {pool.fee}
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.explore__cardApr}>
-                      {formatPercentage(pool.apr24h, 2, showFinancialNumbers)}
-                    </div>
-                  </div>
-                  <div className={styles.explore__cardStats}>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>TVL</span>
-                      <span className={styles.explore__statValue}>
-                        {formatCurrency(pool.tvl, 'USD', showFinancialNumbers)}
-                      </span>
-                    </div>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>24H Volume</span>
-                      <span className={styles.explore__statValue}>
+                      </td>
+                      <td className={styles.explore__tableApr}>
+                        {formatPercentage(pool.apr24h, 2, showFinancialNumbers)}
+                      </td>
+                      <td>{formatCurrency(pool.tvl, 'USD', showFinancialNumbers)}</td>
+                      <td>
                         {showFinancialNumbers 
                           ? `${formatCurrency(pool.volume24h / 1000000, 'USD', true)}M`
                           : '•••'
                         }
-                      </span>
-                    </div>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>24H Fee</span>
-                      <span className={styles.explore__statValue}>
+                      </td>
+                      <td>
                         {showFinancialNumbers 
                           ? formatCurrency(pool.fee24h, 'USD', true)
                           : '•••'
                         }
-                      </span>
-                    </div>
-                    {pool.rewards && (
-                      <div className={styles.explore__stat}>
-                        <span className={styles.explore__statLabel}>Rewards</span>
-                        <span className={styles.explore__statValue}>{pool.rewards}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))
+                      </td>
+                      <td>{pool.rewards || '-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
         )}
 
         {/* Lending List */}
         {activeTab === 'Lending' && (
-          <div className={styles.explore__list}>
+          <div className={styles.explore__tableWrapper}>
             {filteredLending.length === 0 ? (
               <div className={styles.explore__empty}>No lending options found</div>
             ) : (
-              filteredLending.map((option) => (
-                <div 
-                  key={option.id}
-                  className={styles.explore__card}
-                  onClick={() => navigate(`/lending/${option.id}`)}
-                >
-                  <div className={styles.explore__cardHeader}>
-                    <div className={styles.explore__lendingInfo}>
-                      <div className={styles.explore__lendingToken}>{option.token}</div>
-                      <div className={styles.explore__lendingProtocol}>{option.protocol}</div>
-                    </div>
-                  </div>
-                  <div className={styles.explore__cardStats}>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>Supply APR</span>
-                      <span className={`${styles.explore__statValue} ${styles.explore__apr}`}>
+              <table className={styles.explore__table}>
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Protocol</th>
+                    <th>Supply APR</th>
+                    <th>Borrow APR</th>
+                    <th>Total Supply</th>
+                    <th>Total Borrow</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredLending.map((option) => (
+                    <tr 
+                      key={option.id}
+                      className={styles.explore__tableRow}
+                      onClick={() => navigate(`/lending/${option.id}`)}
+                    >
+                      <td className={styles.explore__tableToken}>{option.token}</td>
+                      <td>{option.protocol}</td>
+                      <td className={styles.explore__tableApr}>
                         {formatPercentage(option.supplyApr, 2, showFinancialNumbers)}
-                      </span>
-                    </div>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>Borrow APR</span>
-                      <span className={`${styles.explore__statValue} ${styles.explore__apr}`}>
+                      </td>
+                      <td className={styles.explore__tableApr}>
                         {formatPercentage(option.borrowApr, 2, showFinancialNumbers)}
-                      </span>
-                    </div>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>Total Supply</span>
-                      <span className={styles.explore__statValue}>
-                        {formatCurrency(option.totalSupply, 'USD', showFinancialNumbers)}
-                      </span>
-                    </div>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>Total Borrow</span>
-                      <span className={styles.explore__statValue}>
-                        {formatCurrency(option.totalBorrow, 'USD', showFinancialNumbers)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))
+                      </td>
+                      <td>{formatCurrency(option.totalSupply, 'USD', showFinancialNumbers)}</td>
+                      <td>{formatCurrency(option.totalBorrow, 'USD', showFinancialNumbers)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
         )}
 
         {/* Staking Strategies List */}
         {activeTab === 'Staking' && (
-          <div className={styles.explore__list}>
+          <div className={styles.explore__tableWrapper}>
             {filteredStrategies.length === 0 ? (
               <div className={styles.explore__empty}>No strategies found</div>
             ) : (
-              filteredStrategies.map((strategy) => (
-                <div 
-                  key={strategy.id}
-                  className={styles.explore__card}
-                  onClick={() => navigate(`/strategy/${strategy.id}`)}
-                >
-                  <div className={styles.explore__cardHeader}>
-                    <div className={styles.explore__strategyInfo}>
-                      <div className={styles.explore__strategyIcon}>💎</div>
-                      <div className={styles.explore__strategyMain}>
-                        <div className={styles.explore__strategyName}>
-                          {strategy.name}
-                          {strategy.verified && <span className={styles.explore__verified}>✓</span>}
+              <table className={styles.explore__table}>
+                <thead>
+                  <tr>
+                    <th>Strategy</th>
+                    <th>Provider</th>
+                    <th>APY</th>
+                    <th>Risk</th>
+                    <th>TVL</th>
+                    <th>Bonus</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredStrategies.map((strategy) => (
+                    <tr 
+                      key={strategy.id}
+                      className={styles.explore__tableRow}
+                      onClick={() => navigate(`/strategy/${strategy.id}`)}
+                    >
+                      <td>
+                        <div className={styles.explore__tableStrategy}>
+                          <span className={styles.explore__strategyIcon}>💎</span>
+                          <span>
+                            {strategy.name}
+                            {strategy.verified && <span className={styles.explore__verified}>✓</span>}
+                          </span>
                         </div>
-                        <div className={styles.explore__strategyProvider}>{strategy.provider}</div>
-                      </div>
-                    </div>
-                    <div className={styles.explore__cardApr}>
-                      <div>{formatPercentage(strategy.apy, 2, showFinancialNumbers)}</div>
-                      {strategy.bonus && (
-                        <div className={styles.explore__bonus}>
-                          {strategy.bonus} <span className={styles.explore__bonusCheck}>✓</span>
+                      </td>
+                      <td>{strategy.provider}</td>
+                      <td className={styles.explore__tableApr}>
+                        {formatPercentage(strategy.apy, 2, showFinancialNumbers)}
+                      </td>
+                      <td>
+                        <div className={styles.explore__risk}>
+                          {getRiskBars(strategy.risk)}
                         </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className={styles.explore__cardStats}>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>Risk</span>
-                      <div className={styles.explore__risk}>
-                        {getRiskBars(strategy.risk)}
-                      </div>
-                    </div>
-                    <div className={styles.explore__stat}>
-                      <span className={styles.explore__statLabel}>TVL</span>
-                      <span className={styles.explore__statValue}>
-                        {formatCurrency(strategy.tvl, 'USD', showFinancialNumbers)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))
+                      </td>
+                      <td>{formatCurrency(strategy.tvl, 'USD', showFinancialNumbers)}</td>
+                      <td>{strategy.bonus || '-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
         )}

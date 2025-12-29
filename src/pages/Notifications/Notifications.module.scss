@@ -3,10 +3,37 @@
 
 .notifications {
   @include flex-column;
-  gap: $spacing-lg;
+  width: 100%;
+  height: 100%;
+  padding: $spacing-lg;
 
   @include mobile {
+    padding: $spacing-md;
+  }
+
+  &__header {
+    @include flex-column;
     gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+
+    @include mobile {
+      gap: $spacing-sm;
+      margin-bottom: $spacing-md;
+      padding-bottom: $spacing-sm;
+    }
+  }
+
+  &__title {
+    color: $color-text-primary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    margin: 0;
+
+    @include mobile {
+      font-size: $font-size-xl;
+    }
   }
 
   &__preferences {
@@ -153,15 +180,12 @@
   &__filters {
     display: flex;
     gap: $spacing-sm;
-    margin-bottom: $spacing-lg;
     flex-wrap: wrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: $spacing-xs;
 
     @include mobile {
       gap: $spacing-xs;
-      margin-bottom: $spacing-md;
     }
   }
 
@@ -209,130 +233,51 @@
 
   &__list {
     @include flex-column;
-    gap: $spacing-md;
-
-    @include mobile {
-      gap: $spacing-sm;
-    }
+    flex: 1;
+    overflow-y: auto;
   }
 
   &__item {
     display: flex;
     align-items: flex-start;
     gap: $spacing-md;
-    padding: $spacing-lg;
-    // Liquid Glass Effect
-    background: linear-gradient(
-      135deg,
-      rgba(26, 26, 26, 0.3) 0%,
-      rgba(20, 20, 20, 0.4) 50%,
-      rgba(26, 26, 26, 0.3) 100%
-    );
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 140, 0, 0.2);
-    border-radius: $radius-md;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 140, 0, 0.1);
-    transition: all $transition-base;
-    position: relative;
-    overflow: hidden;
+    padding: $spacing-md $spacing-lg;
+    border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+    transition: background-color $transition-fast;
     cursor: pointer;
 
     @include mobile {
-      padding: $spacing-md;
+      padding: $spacing-sm $spacing-md;
       gap: $spacing-sm;
     }
 
-    // Liquid glass reflection
-    &::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        135deg,
-        transparent 30%,
-        rgba(255, 140, 0, 0.08) 50%,
-        transparent 70%
-      );
-      animation: liquid-shimmer 8s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    // Gradient overlay
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(255, 140, 0, 0.05) 0%,
-        transparent 50%,
-        rgba(255, 140, 0, 0.05) 100%
-      );
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.6;
-    }
-
-    > * {
-      position: relative;
-      z-index: 2;
+    &:last-child {
+      border-bottom: none;
     }
 
     &:active {
-      transform: scale(0.98);
-    }
-
-    &_unread {
-      border-left: 3px solid rgba(255, 140, 0, 0.7);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        -3px 0 15px rgba(255, 140, 0, 0.3);
+      background-color: rgba(255, 140, 0, 0.05);
     }
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.4);
-        box-shadow: 
-          0 12px 48px rgba(0, 0, 0, 0.5),
-          inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 40px rgba(255, 140, 0, 0.15);
-        transform: translateY(-2px);
+        background-color: rgba(255, 140, 0, 0.08);
       }
     }
   }
 
   &__icon {
-    font-size: $font-size-2xl;
-    width: 48px;
-    height: 48px;
+    font-size: $font-size-xl;
+    width: 40px;
+    height: 40px;
     @include flex-center;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.3);
-    box-shadow: 
-      0 4px 16px rgba(255, 140, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
+    margin-top: 2px;
 
     @include mobile {
-      width: 40px;
-      height: 40px;
-      font-size: $font-size-xl;
+      width: 36px;
+      height: 36px;
+      font-size: $font-size-lg;
     }
   }
 
@@ -343,29 +288,28 @@
     min-width: 0;
   }
 
-  &__header {
+  &__contentHeader {
     @include flex-between;
     align-items: flex-start;
     gap: $spacing-sm;
-    margin-bottom: $spacing-xs;
-  }
-
-  &__category {
-    color: rgba(255, 140, 0, 0.9);
-    font-size: $font-size-xs;
-    font-weight: $font-weight-bold;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  &__title {
-    color: $color-text-primary;
-    font-weight: $font-weight-bold;
-    font-size: $font-size-lg;
-    margin-bottom: $spacing-xs;
+    margin-bottom: 4px;
 
     @include mobile {
-      font-size: $font-size-base;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+  }
+
+  &__titleText {
+    color: $color-text-primary;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-base;
+    line-height: 1.4;
+    flex: 1;
+
+    @include mobile {
+      font-size: $font-size-sm;
     }
   }
 
@@ -373,9 +317,22 @@
     color: $color-text-secondary;
     font-size: $font-size-sm;
     line-height: 1.5;
+    margin-bottom: 4px;
 
     @include mobile {
       font-size: $font-size-xs;
+    }
+  }
+
+  &__category {
+    color: rgba(255, 140, 0, 0.8);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    @include mobile {
+      font-size: 0.65rem;
     }
   }
 
@@ -384,21 +341,9 @@
     font-size: $font-size-xs;
     white-space: nowrap;
     flex-shrink: 0;
-  }
-
-  &__unreadDot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 140, 0, 0.9);
-    box-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
-    flex-shrink: 0;
-    margin-top: $spacing-xs;
-    animation: pulse 2s ease-in-out infinite;
 
     @include mobile {
-      width: 8px;
-      height: 8px;
+      font-size: 0.65rem;
     }
   }
 
@@ -415,26 +360,3 @@
   }
 }
 
-// Liquid glass shimmer animation
-@keyframes liquid-shimmer {
-  0%, 100% {
-    transform: translate(-50%, -50%) rotate(0deg);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translate(-50%, -50%) rotate(180deg);
-    opacity: 0.6;
-  }
-}
-
-// Pulse animation for unread dot
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
-}

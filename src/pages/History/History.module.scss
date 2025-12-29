@@ -47,50 +47,232 @@
     }
   }
 
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    flex: 1;
+    width: 100%;
+
+    @include desktop {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: $spacing-xl;
+    }
+  }
+
   &__timeframes {
     display: flex;
-    gap: $spacing-sm;
+    gap: $spacing-xs;
     flex-wrap: wrap;
+    align-items: center;
+
+    @include desktop {
+      gap: $spacing-sm;
+    }
+  }
+
+  &__dateFilters {
+    display: flex;
+    gap: $spacing-md;
+    align-items: flex-end;
+    flex-wrap: wrap;
+
+    @include mobile {
+      flex-direction: column;
+      width: 100%;
+      gap: $spacing-md;
+    }
+
+    @include desktop {
+      gap: $spacing-lg;
+    }
+  }
+
+  &__dateFilter {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+    min-width: 140px;
+
+    @include mobile {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    @include desktop {
+      min-width: 160px;
+    }
+  }
+
+  &__dateLabel {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+
+  &__dateInput {
+    padding: $spacing-md $spacing-lg;
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.8) 0%,
+      rgba(20, 20, 20, 0.9) 100%
+    );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255, 140, 0, 0.25);
+    border-radius: $radius-lg;
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-primary;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    position: relative;
+
+    @include mobile {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-xs;
+    }
+
+    &:hover {
+      border-color: rgba(255, 140, 0, 0.4);
+      background: linear-gradient(
+        135deg,
+        rgba(30, 30, 30, 0.9) 0%,
+        rgba(24, 24, 24, 0.95) 100%
+      );
+      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.15);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba(255, 140, 0, 0.6);
+      background: linear-gradient(
+        135deg,
+        rgba(35, 35, 35, 0.95) 0%,
+        rgba(28, 28, 28, 1) 100%
+      );
+      box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2), 0 4px 12px rgba(255, 140, 0, 0.25);
+      transform: translateY(-1px);
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(0.7) sepia(1) saturate(5) hue-rotate(0deg);
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    &:hover::-webkit-calendar-picker-indicator {
+      opacity: 1;
+    }
+
+    &::-webkit-datetime-edit-fields-wrapper {
+      color: $color-text-primary;
+      padding: 0;
+    }
+
+    &::-webkit-datetime-edit-text {
+      color: rgba(255, 255, 255, 0.5);
+      padding: 0 2px;
+    }
+
+    &::-webkit-datetime-edit-month-field,
+    &::-webkit-datetime-edit-day-field,
+    &::-webkit-datetime-edit-year-field {
+      color: $color-text-primary;
+    }
   }
 
   &__timeframe {
     @include button-reset;
-    padding: $spacing-sm $spacing-md;
-    background: rgba(26, 26, 26, 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.3);
-    border-radius: $radius-md;
-    color: $color-text-secondary;
+    padding: $spacing-md $spacing-xl;
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.7) 0%,
+      rgba(20, 20, 20, 0.8) 100%
+    );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255, 140, 0, 0.25);
+    border-radius: $radius-lg;
+    color: rgba(255, 255, 255, 0.7);
     font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-semibold;
+    letter-spacing: 0.3px;
     cursor: pointer;
-    transition: all $transition-fast;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
+    position: relative;
+    overflow: hidden;
 
     @include mobile {
-      padding: $spacing-xs $spacing-sm;
+      padding: $spacing-sm $spacing-md;
       font-size: $font-size-xs;
+      border-radius: $radius-md;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 140, 0, 0.1),
+        transparent
+      );
+      transition: left 0.5s;
+    }
+
+    &:hover::before {
+      left: 100%;
     }
 
     &:active {
-      border-color: rgba(255, 140, 0, 0.5);
-      background: rgba(255, 140, 0, 0.1);
+      transform: scale(0.98);
     }
 
     &_active {
-      background: $gradient-accent-primary;
-      border-color: rgba(255, 140, 0, 0.5);
+      background: linear-gradient(
+        135deg,
+        rgba(255, 140, 0, 0.2) 0%,
+        rgba(255, 165, 0, 0.15) 100%
+      );
+      border-color: rgba(255, 140, 0, 0.6);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
-      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
+      box-shadow: 
+        0 4px 12px rgba(255, 140, 0, 0.3),
+        0 0 20px rgba(255, 140, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+
+      &::before {
+        display: none;
+      }
     }
 
     @include desktop {
       &:hover:not(&_active) {
-        border-color: rgba(255, 140, 0, 0.5);
-        background: rgba(255, 140, 0, 0.1);
+        border-color: rgba(255, 140, 0, 0.4);
+        background: linear-gradient(
+          135deg,
+          rgba(30, 30, 30, 0.8) 0%,
+          rgba(24, 24, 24, 0.9) 100%
+        );
         color: $color-text-primary;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 140, 0, 0.15);
       }
     }
   }
@@ -120,7 +302,7 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: $radius-md;
-    padding: $spacing-lg;
+    padding: $spacing-md;
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
@@ -131,7 +313,7 @@
     overflow: hidden;
 
     @include mobile {
-      padding: $spacing-md;
+      padding: $spacing-sm;
     }
 
     // Liquid glass reflection
@@ -193,35 +375,49 @@
     }
   }
 
-  &__itemHeader {
-    @include flex-between;
-    align-items: flex-start;
-    margin-bottom: $spacing-md;
+  &__itemContent {
+    display: flex;
+    align-items: center;
     gap: $spacing-md;
+    width: 100%;
 
     @include mobile {
       flex-direction: column;
+      align-items: flex-start;
       gap: $spacing-sm;
-      margin-bottom: $spacing-sm;
     }
   }
 
-  &__itemDetails {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: $spacing-md;
-    margin-bottom: $spacing-md;
+  &__itemMeta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    flex: 1;
 
     @include mobile {
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      align-items: flex-start;
       gap: $spacing-sm;
-      margin-bottom: $spacing-sm;
+      width: 100%;
     }
   }
 
-  &__itemActions {
+  &__itemRight {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+
+    @include mobile {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  &__metaItem {
+    @include flex-column;
+    gap: 2px;
+    min-width: 0;
   }
 
   &__activity {
@@ -233,9 +429,9 @@
   }
 
   &__activityIcon {
-    font-size: $font-size-2xl;
-    width: 48px;
-    height: 48px;
+    font-size: $font-size-xl;
+    width: 36px;
+    height: 36px;
     @include flex-center;
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
     backdrop-filter: blur(15px);
@@ -248,9 +444,9 @@
     flex-shrink: 0;
 
     @include mobile {
-      width: 40px;
-      height: 40px;
-      font-size: $font-size-xl;
+      width: 32px;
+      height: 32px;
+      font-size: $font-size-lg;
     }
   }
 
@@ -264,10 +460,10 @@
   &__activityTitle {
     color: $color-text-primary;
     font-weight: $font-weight-bold;
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
 
     @include mobile {
-      font-size: $font-size-base;
+      font-size: $font-size-sm;
     }
   }
 
@@ -282,26 +478,34 @@
 
   &__detail {
     @include flex-column;
-    gap: $spacing-xs;
+    gap: 2px;
   }
 
   &__detailLabel {
     color: $color-text-secondary;
-    font-size: $font-size-xs;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: $font-weight-medium;
+
+    @include mobile {
+      font-size: 0.6rem;
+    }
   }
 
   &__address {
     @include button-reset;
     color: rgba(255, 140, 0, 0.9);
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-family: monospace;
     cursor: pointer;
     transition: all $transition-fast;
     text-align: left;
     padding: 0;
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
 
     &:active {
       color: $color-text-primary;
@@ -317,31 +521,43 @@
 
   &__gasFee {
     @include flex-column;
-    gap: 2px;
+    gap: 1px;
   }
 
   &__gasFeeEth {
     color: $color-text-primary;
     font-weight: $font-weight-semibold;
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     font-family: $font-family-primary;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
   }
 
   &__gasFeeUSD {
     color: $color-text-secondary;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
   }
 
   &__time {
     color: $color-text-primary;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-medium;
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
   }
 
   &__status {
-    padding: $spacing-xs $spacing-md;
-    border-radius: $radius-md;
-    font-size: $font-size-xs;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    font-size: 0.65rem;
     font-weight: $font-weight-bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -349,6 +565,11 @@
     flex-shrink: 0;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+
+    @include mobile {
+      padding: 2px $spacing-xs;
+      font-size: 0.6rem;
+    }
 
     &_completed {
       background: rgba(16, 185, 129, 0.2);
@@ -374,23 +595,22 @@
 
   &__viewButton {
     @include button-reset;
-    padding: $spacing-sm $spacing-lg;
+    padding: $spacing-xs $spacing-md;
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 140, 0, 0.3);
     border-radius: $radius-md;
     color: $color-text-primary;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     cursor: pointer;
     transition: all $transition-fast;
     white-space: nowrap;
 
     @include mobile {
-      padding: $spacing-xs $spacing-md;
-      font-size: $font-size-xs;
-      width: 100%;
+      padding: $spacing-xs $spacing-sm;
+      font-size: 0.65rem;
     }
 
     &:active {

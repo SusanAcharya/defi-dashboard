@@ -269,63 +269,79 @@ export const Portfolio: React.FC = () => {
         {isLoading ? (
           <div>Loading tokens...</div>
         ) : (
-          <div className={styles.portfolio__tokens}>
-            {tokens?.map((token) => (
-              <div key={token.id} className={styles.portfolio__token}>
-                <div className={styles.portfolio__tokenInfo}>
-                  <div className={styles.portfolio__tokenSymbol}>{token.symbol}</div>
-                  <div className={styles.portfolio__tokenName}>{token.name}</div>
-                </div>
-                <div className={styles.portfolio__tokenBalance}>
-                  <div>{token.balance}</div>
-                  <div className={styles.portfolio__tokenValue}>
-                    {formatCurrency(token.usdValue, 'USD', showFinancialNumbers)}
-                  </div>
-                </div>
-                <div
-                  className={`${styles.portfolio__tokenChange} ${
-                    token.change24h >= 0
-                      ? styles.portfolio__tokenChange_positive
-                      : styles.portfolio__tokenChange_negative
-                  }`}
-                >
-                  {formatPercentage(token.change24h, 2, showFinancialNumbers)} (24h)
-                </div>
-              </div>
-            ))}
+          <div className={styles.portfolio__tableWrapper}>
+            <table className={styles.portfolio__table}>
+              <thead>
+                <tr className={styles.portfolio__tableHeader}>
+                  <th>Token</th>
+                  <th>Balance</th>
+                  <th>Value</th>
+                  <th>24h Change</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tokens?.map((token) => (
+                  <tr key={token.id} className={styles.portfolio__tableRow}>
+                    <td>
+                      <div className={styles.portfolio__tokenInfo}>
+                        <div className={styles.portfolio__tokenSymbol}>{token.symbol}</div>
+                        <div className={styles.portfolio__tokenName}>{token.name}</div>
+                      </div>
+                    </td>
+                    <td className={styles.portfolio__tokenBalance}>
+                      {token.balance}
+                    </td>
+                    <td className={styles.portfolio__tokenValue}>
+                      {formatCurrency(token.usdValue, 'USD', showFinancialNumbers)}
+                    </td>
+                    <td
+                      className={`${styles.portfolio__tokenChange} ${
+                        token.change24h >= 0
+                          ? styles.portfolio__tokenChange_positive
+                          : styles.portfolio__tokenChange_negative
+                      }`}
+                    >
+                      {formatPercentage(token.change24h, 2, showFinancialNumbers)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </Card>
 
       {defiPositions && defiPositions.length > 0 && (
         <Card title="Protocol Positions">
-          <div className={styles.portfolio__defiPositions}>
-            {defiPositions.map((position) => (
-              <div key={position.id} className={styles.portfolio__defiPosition}>
-                <div className={styles.portfolio__defiInfo}>
-                  <div className={styles.portfolio__defiProtocol}>{position.protocol}</div>
-                  <div className={styles.portfolio__defiType}>{position.type.toUpperCase()}</div>
-                </div>
-                <div className={styles.portfolio__defiValue}>
-                  <div className={styles.portfolio__defiValueLabel}>Position Value</div>
-                  <div className={styles.portfolio__defiValueAmount}>
-                    {formatCurrency(position.positionValue, 'USD', showFinancialNumbers)}
-                  </div>
-                </div>
-                <div className={styles.portfolio__defiApr}>
-                  <div className={styles.portfolio__defiAprLabel}>APR</div>
-                  <div className={styles.portfolio__defiAprValue}>
-                    {formatPercentage(position.apr, 2, showFinancialNumbers)}
-                  </div>
-                </div>
-                <div className={styles.portfolio__defiRewards}>
-                  <div className={styles.portfolio__defiRewardsLabel}>Claimable</div>
-                  <div className={styles.portfolio__defiRewardsValue}>
-                    {formatCurrency(position.claimableRewards, 'USD', showFinancialNumbers)}
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className={styles.portfolio__tableWrapper}>
+            <table className={styles.portfolio__table}>
+              <thead>
+                <tr className={styles.portfolio__tableHeader}>
+                  <th>Protocol</th>
+                  <th>Type</th>
+                  <th>Position Value</th>
+                  <th>APR</th>
+                  <th>Claimable Rewards</th>
+                </tr>
+              </thead>
+              <tbody>
+                {defiPositions.map((position) => (
+                  <tr key={position.id} className={styles.portfolio__tableRow}>
+                    <td className={styles.portfolio__defiProtocol}>{position.protocol}</td>
+                    <td className={styles.portfolio__defiType}>{position.type.toUpperCase()}</td>
+                    <td className={styles.portfolio__defiValueAmount}>
+                      {formatCurrency(position.positionValue, 'USD', showFinancialNumbers)}
+                    </td>
+                    <td className={styles.portfolio__defiAprValue}>
+                      {formatPercentage(position.apr, 2, showFinancialNumbers)}
+                    </td>
+                    <td className={styles.portfolio__defiRewardsValue}>
+                      {formatCurrency(position.claimableRewards, 'USD', showFinancialNumbers)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </Card>
       )}

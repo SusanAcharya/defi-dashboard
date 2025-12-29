@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency, formatAddress, formatTimestamp } from '@/utils/format';
@@ -23,6 +23,8 @@ const getActivityIcon = (type: string) => {
 
 export const History: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState<'7d' | '30d'>('7d');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
   const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
 
   const { data: history, isLoading } = useQuery({
@@ -30,16 +32,43 @@ export const History: React.FC = () => {
     queryFn: () => api.getHistory(selectedTimeframe),
   });
 
+  // Filter history by date range
+  const filteredHistory = useMemo(() => {
+    if (!history) return [];
+    if (!dateFrom && !dateTo) return history;
+
+    return history.filter((entry) => {
+      const entryDate = new Date(entry.timestamp);
+      const fromDate = dateFrom ? new Date(dateFrom) : null;
+      const toDate = dateTo ? new Date(dateTo + 'T23:59:59') : null; // Include full day
+
+      if (fromDate && entryDate < fromDate) return false;
+      if (toDate && entryDate > toDate) return false;
+      return true;
+    });
+  }, [history, dateFrom, dateTo]);
+
   const totalGasFee = useMemo(() => {
-    if (!history) return { eth: 0, usd: 0 };
-    return history.reduce(
+    if (!filteredHistory) return { eth: 0, usd: 0 };
+    return filteredHistory.reduce(
       (acc, entry) => ({
         eth: acc.eth + entry.gasFee,
         usd: acc.usd + entry.gasFeeUSD,
       }),
       { eth: 0, usd: 0 }
     );
-  }, [history]);
+  }, [filteredHistory]);
+
+  // Set default date range based on timeframe
+  useEffect(() => {
+    const now = new Date();
+    const days = selectedTimeframe === '7d' ? 7 : 30;
+    const fromDate = new Date(now);
+    fromDate.setDate(fromDate.getDate() - days);
+    
+    setDateFrom(fromDate.toISOString().split('T')[0]);
+    setDateTo(now.toISOString().split('T')[0]);
+  }, [selectedTimeframe]);
 
   if (isLoading) {
     return <Card>Loading history...</Card>;
@@ -66,28 +95,51 @@ export const History: React.FC = () => {
               }
             </div>
           </div>
-          <div className={styles.history__timeframes}>
-            {timeframes.map((tf) => (
-              <button
-                key={tf}
-                className={`${styles.history__timeframe} ${
-                  selectedTimeframe === tf ? styles.history__timeframe_active : ''
-                }`}
-                onClick={() => setSelectedTimeframe(tf as '7d' | '30d')}
-              >
-                Past {tf === '7d' ? '7 Days' : 'Month'}
-              </button>
-            ))}
+          <div className={styles.history__filters}>
+            <div className={styles.history__timeframes}>
+              {timeframes.map((tf) => (
+                <button
+                  key={tf}
+                  className={`${styles.history__timeframe} ${
+                    selectedTimeframe === tf ? styles.history__timeframe_active : ''
+                  }`}
+                  onClick={() => setSelectedTimeframe(tf as '7d' | '30d')}
+                >
+                  Past {tf === '7d' ? '7 Days' : 'Month'}
+                </button>
+              ))}
+            </div>
+            <div className={styles.history__dateFilters}>
+              <div className={styles.history__dateFilter}>
+                <label className={styles.history__dateLabel}>From</label>
+                <input
+                  type="date"
+                  className={styles.history__dateInput}
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                />
+              </div>
+              <div className={styles.history__dateFilter}>
+                <label className={styles.history__dateLabel}>To</label>
+                <input
+                  type="date"
+                  className={styles.history__dateInput}
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </Card>
 
       <Card className={styles.history__list}>
-        {history && history.length > 0 ? (
+        {filteredHistory && filteredHistory.length > 0 ? (
           <div className={styles.history__items}>
-            {history.map((entry) => (
+            {filteredHistory.map((entry) => (
               <div key={entry.id} className={styles.history__item}>
-                <div className={styles.history__itemHeader}>
+                <div className={styles.history__itemContent}>
                   <div className={styles.history__activity}>
                     <div className={styles.history__activityIcon}>
                       {getActivityIcon(entry.activityType)}
@@ -99,51 +151,51 @@ export const History: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <span className={`${styles.history__status} ${styles[`history__status_${entry.status}`]}`}>
-                    {entry.status}
-                  </span>
-                </div>
-                <div className={styles.history__itemDetails}>
-                  <div className={styles.history__detail}>
-                    <span className={styles.history__detailLabel}>Wallet</span>
-                    <button
-                      className={styles.history__address}
-                      onClick={() => handleCopyAddress(entry.wallet)}
-                      title={entry.wallet}
-                    >
-                      {formatAddress(entry.wallet, 6, 4)}
-                    </button>
-                  </div>
-                  <div className={styles.history__detail}>
-                    <span className={styles.history__detailLabel}>Gas Fee</span>
-                    <div className={styles.history__gasFee}>
-                      <div className={styles.history__gasFeeEth}>
-                        {showFinancialNumbers 
-                          ? `${entry.gasFee.toFixed(6)} ETH`
-                          : '•••• ETH'
-                        }
-                      </div>
-                      <div className={styles.history__gasFeeUSD}>
-                        {showFinancialNumbers 
-                          ? formatCurrency(entry.gasFeeUSD, 'USD', true)
-                          : '••••'
-                        }
+                  <div className={styles.history__itemMeta}>
+                    <div className={styles.history__metaItem}>
+                      <span className={styles.history__detailLabel}>Wallet</span>
+                      <button
+                        className={styles.history__address}
+                        onClick={() => handleCopyAddress(entry.wallet)}
+                        title={entry.wallet}
+                      >
+                        {formatAddress(entry.wallet, 4, 4)}
+                      </button>
+                    </div>
+                    <div className={styles.history__metaItem}>
+                      <span className={styles.history__detailLabel}>Gas Fee</span>
+                      <div className={styles.history__gasFee}>
+                        <div className={styles.history__gasFeeEth}>
+                          {showFinancialNumbers 
+                            ? `${entry.gasFee.toFixed(6)} ETH`
+                            : '•••• ETH'
+                          }
+                        </div>
+                        <div className={styles.history__gasFeeUSD}>
+                          {showFinancialNumbers 
+                            ? formatCurrency(entry.gasFeeUSD, 'USD', true)
+                            : '••••'
+                          }
+                        </div>
                       </div>
                     </div>
+                    <div className={styles.history__metaItem}>
+                      <span className={styles.history__detailLabel}>Time</span>
+                      <span className={styles.history__time}>{formatTimestamp(entry.timestamp)}</span>
+                    </div>
                   </div>
-                  <div className={styles.history__detail}>
-                    <span className={styles.history__detailLabel}>Time</span>
-                    <span className={styles.history__time}>{formatTimestamp(entry.timestamp)}</span>
+                  <div className={styles.history__itemRight}>
+                    <span className={`${styles.history__status} ${styles[`history__status_${entry.status}`]}`}>
+                      {entry.status}
+                    </span>
+                    <button
+                      className={styles.history__viewButton}
+                      onClick={() => handleCopyTxHash(entry.txHash)}
+                      title="View on Explorer"
+                    >
+                      View
+                    </button>
                   </div>
-                </div>
-                <div className={styles.history__itemActions}>
-                  <button
-                    className={styles.history__viewButton}
-                    onClick={() => handleCopyTxHash(entry.txHash)}
-                    title="View on Explorer"
-                  >
-                    View Transaction
-                  </button>
                 </div>
               </div>
             ))}

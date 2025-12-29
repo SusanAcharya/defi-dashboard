@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useWalletStore } from '@/store/walletStore';
 import { useUIStore } from '@/store/uiStore';
 import { Card } from '@/components';
@@ -11,28 +10,10 @@ export const Profile: React.FC = () => {
   const { 
     username,
     alias,
-    wallets,
-    updateProfile,
-    removeWallet,
   } = useWalletStore();
   
   const { streak, checkInHistory, referralCode, referredFriends } = useUIStore();
   const [showReferrals, setShowReferrals] = useState(false);
-  const [editingUsername, setEditingUsername] = useState(false);
-  const [editingAlias, setEditingAlias] = useState(false);
-  const [newUsername, setNewUsername] = useState(username);
-  const [newAlias, setNewAlias] = useState(alias);
-  const navigate = useNavigate();
-
-  const handleSaveUsername = () => {
-    updateProfile(newUsername, undefined);
-    setEditingUsername(false);
-  };
-
-  const handleSaveAlias = () => {
-    updateProfile(undefined, newAlias);
-    setEditingAlias(false);
-  };
 
   // Calculate check-in calendar (last 30 days)
   const checkInCalendar = useMemo(() => {
@@ -67,114 +48,13 @@ export const Profile: React.FC = () => {
             className={styles.profile__profileImage}
           />
           <div className={styles.profile__profileInfo}>
-            {editingUsername ? (
-              <div className={styles.profile__editRow}>
-                <input
-                  type="text"
-                  value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                  className={styles.profile__editInput}
-                  autoFocus
-                />
-                <button
-                  className={styles.profile__saveButton}
-                  onClick={handleSaveUsername}
-                >
-                  ✓
-                </button>
-                <button
-                  className={styles.profile__cancelButton}
-                  onClick={() => {
-                    setNewUsername(username);
-                    setEditingUsername(false);
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-            ) : (
-              <div className={styles.profile__usernameRow}>
-                <div className={styles.profile__username}>{username}</div>
-                <button
-                  className={styles.profile__editButton}
-                  onClick={() => setEditingUsername(true)}
-                >
-                  ✏️
-                </button>
-              </div>
-            )}
-            {editingAlias ? (
-              <div className={styles.profile__editRow}>
-                <input
-                  type="text"
-                  value={newAlias}
-                  onChange={(e) => setNewAlias(e.target.value)}
-                  className={styles.profile__editInput}
-                  autoFocus
-                />
-                <button
-                  className={styles.profile__saveButton}
-                  onClick={handleSaveAlias}
-                >
-                  ✓
-                </button>
-                <button
-                  className={styles.profile__cancelButton}
-                  onClick={() => {
-                    setNewAlias(alias);
-                    setEditingAlias(false);
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-            ) : (
-              <div className={styles.profile__aliasRow}>
-                <div className={styles.profile__alias}>Alias: {alias}</div>
-                <button
-                  className={styles.profile__editButton}
-                  onClick={() => setEditingAlias(true)}
-                >
-                  ✏️
-                </button>
-              </div>
-            )}
+            <div className={styles.profile__username}>{username}</div>
+            <div className={styles.profile__alias}>Alias: {alias}</div>
             <div className={styles.profile__streak}>
               🔥 Streak: {streak} days
             </div>
           </div>
         </div>
-      </Card>
-
-      {/* Connected Wallets */}
-      <Card title="My Wallets" className={styles.profile__wallets}>
-        <div className={styles.profile__walletList}>
-          {wallets.filter(w => w.isMine).map((w, index) => (
-            <div key={w.address} className={styles.profile__walletItem}>
-              <div className={styles.profile__walletInfo}>
-                <div className={styles.profile__walletName}>
-                  {w.name || `Wallet ${index + 1}`}
-                </div>
-                <div className={styles.profile__walletAddress}>
-                  {formatAddress(w.address, 4, 4)}
-                </div>
-              </div>
-              {wallets.filter(w => w.isMine).length > 1 && (
-                <button
-                  className={styles.profile__removeButton}
-                  onClick={() => removeWallet(w.address)}
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-        {wallets.filter(w => w.isMine).length === 0 && (
-          <div className={styles.profile__noWallets}>
-            No wallets added yet. <button onClick={() => navigate('/wallet')} className={styles.profile__addWalletLink}>Add your first wallet</button>
-          </div>
-        )}
       </Card>
 
       {/* Referral System */}

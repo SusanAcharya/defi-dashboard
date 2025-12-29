@@ -204,6 +204,132 @@
     }
   }
 
+  &__tableWrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: -$spacing-md;
+    padding: $spacing-md;
+
+    @include mobile {
+      margin: -$spacing-sm;
+      padding: $spacing-sm;
+    }
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-sm;
+
+    @include mobile {
+      font-size: $font-size-xs;
+    }
+  }
+
+  &__table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.95) 0%,
+      rgba(20, 20, 20, 0.98) 50%,
+      rgba(26, 26, 26, 0.95) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 2px solid rgba(255, 140, 0, 0.3);
+  }
+
+  &__table th {
+    padding: $spacing-md $spacing-sm;
+    text-align: left;
+    color: $color-text-primary;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+
+    @include mobile {
+      padding: $spacing-sm $spacing-xs;
+      font-size: 0.65rem;
+    }
+  }
+
+  &__tableRow {
+    border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+    cursor: pointer;
+    transition: all $transition-fast;
+    background: transparent;
+
+    &:hover {
+      background: rgba(255, 140, 0, 0.05);
+    }
+
+    &:active {
+      background: rgba(255, 140, 0, 0.1);
+    }
+  }
+
+  &__table td {
+    padding: $spacing-md $spacing-sm;
+    color: $color-text-primary;
+    vertical-align: middle;
+
+    @include mobile {
+      padding: $spacing-sm $spacing-xs;
+    }
+  }
+
+  &__tablePool {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__tablePoolInfo {
+    @include flex-column;
+    gap: 2px;
+  }
+
+  &__tablePoolName {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__tablePoolDetails {
+    font-size: $font-size-xs;
+    color: $color-text-secondary;
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
+  }
+
+  &__tableApr {
+    color: $color-positive;
+    font-weight: $font-weight-bold;
+  }
+
+  &__tableToken {
+    font-weight: $font-weight-semibold;
+  }
+
+  &__tableStrategy {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
   &__empty {
     text-align: center;
     padding: $spacing-xl;

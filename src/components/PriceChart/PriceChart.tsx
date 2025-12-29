@@ -157,7 +157,7 @@ export const PriceChart: React.FC = () => {
               <th>Price</th>
               <th>24h</th>
               <th>Market Cap</th>
-              <th>Liqui</th>
+              <th>Liquidity</th>
             </tr>
           </thead>
           <tbody>
