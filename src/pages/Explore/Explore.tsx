@@ -8,10 +8,8 @@ import { Card } from '@/components';
 import styles from './Explore.module.scss';
 
 const hotBowlCategories = [
-  { id: 'high-apr', label: 'High APR', icon: '🚀' },
   { id: 'stablecoin', label: 'Stablecoin', icon: '🐢' },
   { id: 'blue-chip', label: 'Blue-chips', icon: '💎' },
-  { id: 'memecoin', label: 'Memecoins', icon: '🔥' },
 ];
 
 const exploreTabs = ['Pools', 'Lending', 'Staking'];
@@ -47,7 +45,7 @@ export const Explore: React.FC = () => {
   });
 
   const getCategoryBowls = (category: string) => {
-    return hotBowls?.filter(bowl => bowl.category === category).slice(0, 5) || [];
+    return hotBowls?.filter(bowl => bowl.category === category).slice(0, 3) || [];
   };
 
   const getRiskBars = (risk: 'low' | 'medium' | 'high') => {

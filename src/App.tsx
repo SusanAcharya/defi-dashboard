@@ -5,10 +5,6 @@ import {
   Home,
   Notifications,
   Portfolio,
-  Send,
-  Transfers,
-  Airdrops,
-  NFTs,
   Settings,
   Profile,
   Wallet,
@@ -39,10 +35,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/send" element={<Send />} />
-            <Route path="/transfers" element={<Transfers />} />
-            <Route path="/airdrops" element={<Airdrops />} />
-            <Route path="/nfts" element={<NFTs />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/wallet" element={<Wallet />} />

@@ -8,7 +8,6 @@ export { Modal } from './Modal/Modal';
 export { Toast } from './Toast/Toast';
 export { PortfolioCard } from './PortfolioCard/PortfolioCard';
 export { LatestNotifications } from './LatestNotifications/LatestNotifications';
-export { ActivityFeed } from './ActivityFeed/ActivityFeed';
 export { AssetAllocation } from './AssetAllocation/AssetAllocation';
 export { PortfolioExposure } from './PortfolioExposure/PortfolioExposure';
 export { PriceChart } from './PriceChart/PriceChart';
