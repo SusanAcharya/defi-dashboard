@@ -5,14 +5,9 @@ import {
   Home,
   Notifications,
   Portfolio,
-  DeFi,
-  Swap,
   Send,
-  AddressBook,
   Transfers,
   Airdrops,
-  Staking,
-  Leaderboard,
   NFTs,
   Settings,
   Profile,
@@ -44,14 +39,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/defi" element={<DeFi />} />
-            <Route path="/swap" element={<Swap />} />
             <Route path="/send" element={<Send />} />
-            <Route path="/address-book" element={<AddressBook />} />
             <Route path="/transfers" element={<Transfers />} />
             <Route path="/airdrops" element={<Airdrops />} />
-            <Route path="/staking" element={<Staking />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/nfts" element={<NFTs />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />

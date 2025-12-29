@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUIStore } from '@/store/uiStore';
-import swapIcon from '@/assets/icons/swap.png';
-import stakeIcon from '@/assets/icons/stake.png';
 import settingsIcon from '@/assets/icons/settings.png';
 import walletIcon from '@/assets/icons/wallet.png';
-import defiIcon from '@/assets/icons/defi.png';
 import notificationIcon from '@/assets/icons/notification.png';
-import leaderboardIcon from '@/assets/icons/leaderboard.png';
+import checkinIcon from '@/assets/checkin.png';
+import checkedinIcon from '@/assets/checkedin.png';
 import styles from './Sidebar.module.scss';
 
 const navItems = [
@@ -17,11 +15,6 @@ const navItems = [
   { path: '/history', label: 'History', icon: '📜', iconImage: null },
   { path: '/notifications', label: 'Notifications', icon: null, iconImage: notificationIcon },
   { path: '/portfolio', label: 'Portfolio', icon: '💼', iconImage: null },
-  { path: '/defi', label: 'DeFi', icon: null, iconImage: defiIcon },
-  { path: '/swap', label: 'Swap', icon: null, iconImage: swapIcon },
-  { path: '/address-book', label: 'Address Book', icon: '📇', iconImage: null },
-  { path: '/staking', label: 'Staking', icon: null, iconImage: stakeIcon },
-  { path: '/leaderboard', label: 'Leaderboard', icon: null, iconImage: leaderboardIcon },
   { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
 ];
 
@@ -33,7 +26,44 @@ const topNavItems = [
 export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { desktopSidebarOpen, mobileNavOpen, setMobileNavOpen } = useUIStore();
+  const { desktopSidebarOpen, mobileNavOpen, setMobileNavOpen, checkedInToday, lastCheckIn, checkIn, streak } = useUIStore();
+  const [timeRemaining, setTimeRemaining] = useState<string>('');
+
+  // Calculate time remaining until next check-in
+  useEffect(() => {
+    if (checkedInToday && lastCheckIn) {
+      const updateTimeRemaining = () => {
+        const now = Date.now();
+        const nextCheckInTime = lastCheckIn + (24 * 60 * 60 * 1000);
+        const remaining = nextCheckInTime - now;
+
+        if (remaining > 0) {
+          const hours = Math.floor(remaining / (1000 * 60 * 60));
+          const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+          
+          setTimeRemaining(
+            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+          );
+        } else {
+          setTimeRemaining('00:00:00');
+        }
+      };
+
+      updateTimeRemaining();
+      const interval = setInterval(updateTimeRemaining, 1000);
+
+      return () => clearInterval(interval);
+    } else {
+      setTimeRemaining('');
+    }
+  }, [checkedInToday, lastCheckIn]);
+
+  const handleCheckIn = () => {
+    if (!checkedInToday) {
+      checkIn();
+    }
+  };
 
   // Close mobile sidebar when navigating
   const handleNavigate = (path: string) => {
@@ -122,6 +152,42 @@ export const Sidebar: React.FC = () => {
             </button>
           ))}
         </nav>
+
+        {/* Daily Check-in Section */}
+        <div className={styles.sidebar__checkIn}>
+          {!checkedInToday ? (
+            <button
+              className={styles.sidebar__checkInButton}
+              onClick={handleCheckIn}
+            >
+              <img 
+                src={checkinIcon} 
+                alt="Check-in"
+                className={styles.sidebar__checkInIcon}
+              />
+              <span className={styles.sidebar__checkInLabel}>Daily Check-in</span>
+            </button>
+          ) : (
+            <div className={styles.sidebar__checkInStatus}>
+              <div className={styles.sidebar__checkInStatusTop}>
+                <img 
+                  src={checkedinIcon} 
+                  alt="Checked in"
+                  className={styles.sidebar__checkInStatusIcon}
+                />
+                <span className={styles.sidebar__checkInStatusLabel}>Checked In</span>
+                {streak > 0 && (
+                  <span className={styles.sidebar__checkInStreak}>🔥 {streak}</span>
+                )}
+              </div>
+              {timeRemaining && (
+                <div className={styles.sidebar__checkInTimer}>
+                  Next check-in: {timeRemaining}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </aside>
     </>
   );

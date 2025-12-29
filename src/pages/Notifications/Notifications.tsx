@@ -3,20 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatTimestamp } from '@/utils/format';
 import { Card } from '@/components';
-import { useWalletStore } from '@/store/walletStore';
 import styles from './Notifications.module.scss';
 
 export const Notifications: React.FC = () => {
-  const { settings, updateSettings } = useWalletStore();
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
     queryFn: api.getNotifications,
     refetchInterval: 10000,
   });
-
-  const toggleTelegram = () => {
-    updateSettings({ telegramAlerts: !settings.telegramAlerts });
-  };
 
   if (isLoading) {
     return <Card>Loading notifications...</Card>;
@@ -24,43 +18,6 @@ export const Notifications: React.FC = () => {
 
   return (
     <div className={styles.notifications}>
-      <Card title="NOTIFICATION PREFERENCES">
-        <div className={styles.notifications__preferences}>
-          <div className={styles.notifications__preferenceItem}>
-            <div className={styles.notifications__preferenceLabel}>
-              <div className={styles.notifications__preferenceTitle}>Telegram Alerts</div>
-              <div className={styles.notifications__preferenceDescription}>
-                Receive notifications via Telegram
-              </div>
-            </div>
-            <button
-              className={`${styles.notifications__toggle} ${
-                settings.telegramAlerts ? styles.notifications__toggle_active : ''
-              }`}
-              onClick={toggleTelegram}
-            >
-              {settings.telegramAlerts ? 'ON' : 'OFF'}
-            </button>
-          </div>
-          <div className={styles.notifications__preferenceItem}>
-            <div className={styles.notifications__preferenceLabel}>
-              <div className={styles.notifications__preferenceTitle}>Push Notifications</div>
-              <div className={styles.notifications__preferenceDescription}>
-                Receive browser push notifications
-              </div>
-            </div>
-            <button
-              className={`${styles.notifications__toggle} ${
-                settings.pushNotifications ? styles.notifications__toggle_active : ''
-              }`}
-              onClick={() => updateSettings({ pushNotifications: !settings.pushNotifications })}
-            >
-              {settings.pushNotifications ? 'ON' : 'OFF'}
-            </button>
-          </div>
-        </div>
-      </Card>
-
       <Card>
         <div className={styles.notifications__filters}>
           <button className={`${styles.notifications__filter} ${styles.notifications__filter_active}`}>All</button>
