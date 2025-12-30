@@ -230,27 +230,6 @@
     gap: $spacing-sm;
   }
 
-  &__refreshButton {
-    @include button-reset;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform $transition-fast;
-    color: rgba(255, 255, 255, 0.8);
-
-    &:hover {
-      transform: rotate(180deg);
-      color: rgba(255, 255, 255, 1);
-    }
-  }
-
-  &__refreshIcon {
-    font-size: $font-size-base;
-    line-height: 1;
-  }
 
   &__networthValue {
     color: #ffd700; // Golden-yellow

@@ -52,11 +52,15 @@ export const PortfolioCard: React.FC = () => {
           <div className={styles.portfolioCard__networthHeader}>
             <div className={styles.portfolioCard__label}>TOTAL NET WORTH</div>
             <button
-              className={styles.portfolioCard__refreshButton}
-              onClick={() => window.location.reload()}
-              aria-label="Refresh"
+              className={styles.portfolioCard__eyeButton}
+              onClick={toggleFinancialNumbers}
+              aria-label={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
             >
-              <span className={styles.portfolioCard__refreshIcon}>↻</span>
+              <img 
+                src={showFinancialNumbers ? showIcon : hideIcon} 
+                alt={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
+                className={styles.portfolioCard__eyeIcon}
+              />
             </button>
           </div>
           <div className={styles.portfolioCard__networthValue}>
@@ -141,9 +145,9 @@ export const PortfolioCard: React.FC = () => {
           </div>
         </div>
         <div className={styles.portfolioCard__metric}>
-          <div className={styles.portfolioCard__metricLabel}>NFT VALUE</div>
+          <div className={styles.portfolioCard__metricLabel}>PROTOCOL REWARDS</div>
           <div className={styles.portfolioCard__metricValue}>
-            {formatCurrency(displayPortfolio.nftValue, 'USD', showFinancialNumbers)}
+            {formatCurrency(displayPortfolio.protocolRewards, 'USD', showFinancialNumbers)}
           </div>
         </div>
       </div>
