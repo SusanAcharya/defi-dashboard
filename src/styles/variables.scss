@@ -12,11 +12,11 @@ $color-text-primary: #ffffff; // White - Primary numbers, titles
 $color-text-secondary: #b0b0b0; // Light grey - Labels, descriptions
 $color-text-muted: #707070; // Muted grey
 
-// Accent Colors (Orange/Yellow for active/highlights)
-$color-accent-primary: #ff8c00; // Orange - Primary accent (active items)
-$color-accent-secondary: #ffa500; // Orange-yellow
-$color-accent-orange: #ff8c00; // Orange
-$color-accent-yellow: #ffd700; // Gold/Yellow
+// Accent Colors (Blue theme matching cards)
+$color-accent-primary: #3c78d8; // Blue - Primary accent (active items)
+$color-accent-secondary: #5a9fff; // Light blue
+$color-accent-orange: #3c78d8; // Blue (replacing orange)
+$color-accent-yellow: #ffd700; // Gold/Yellow (keeping for special cases)
 
 // Semantic Colors (Financial Status)
 $color-positive: #10b981; // Green - Price up, Profit/Gain
@@ -80,11 +80,11 @@ $transition-fast: 150ms ease;
 $transition-base: 250ms ease;
 $transition-slow: 350ms ease;
 
-// Gradients - Dark Grey with Orange/Yellow Accents
-$gradient-bg-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%); // Dark grey gradient
-$gradient-bg-card: rgba(26, 26, 26, 0.8); // Semi-transparent dark grey
-$gradient-accent-primary: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%); // Orange to orange-yellow gradient
-$gradient-accent-gold: linear-gradient(135deg, #ffd700 0%, #ffa500 100%); // Gold gradient
+// Gradients - Blue theme matching cards
+$gradient-bg-primary: linear-gradient(135deg, rgba(10, 15, 30, 1) 0%, rgba(15, 25, 50, 1) 25%, rgba(20, 40, 80, 1) 50%, rgba(15, 25, 50, 1) 75%, rgba(10, 15, 30, 1) 100%); // Blue gradient
+$gradient-bg-card: rgba(30, 60, 120, 0.6); // Semi-transparent blue
+$gradient-accent-primary: linear-gradient(135deg, #3c78d8 0%, #5a9fff 100%); // Blue gradient
+$gradient-accent-gold: linear-gradient(135deg, #ffd700 0%, #5a9fff 100%); // Gold gradient
 $gradient-accent-red: linear-gradient(135deg, #ff6347 0%, #ff4500 100%); // Red-orange gradient (for charts)
 $gradient-accent-blue: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); // Blue gradient
 $gradient-accent-green: linear-gradient(135deg, #228b22 0%, #1a6b1a 100%); // Dark green gradient (for charts)

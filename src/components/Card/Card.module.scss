@@ -1,22 +1,22 @@
 @use '@/styles/mixins.scss' as *;
 
 .card {
-  // Liquid Glass Effect
+  // Liquid Glass Effect with gradient from blue to dark (darker base)
   background: linear-gradient(
-    135deg,
-    rgba(26, 26, 26, 0.4) 0%,
-    rgba(20, 20, 20, 0.5) 50%,
-    rgba(26, 26, 26, 0.4) 100%
+    180deg,
+    rgba(15, 30, 60, 0.7) 0%,
+    rgba(10, 20, 40, 0.8) 50%,
+    rgba(8, 15, 30, 0.9) 100%
   );
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 140, 0, 0.2);
+  border: 1px solid rgba(60, 120, 200, 0.15);
   border-radius: $radius-lg;
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(255, 140, 0, 0.1);
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(60, 120, 200, 0.08);
   position: relative;
   overflow: hidden;
   transition: all $transition-base;
@@ -34,7 +34,7 @@
     background: linear-gradient(
       135deg,
       transparent 30%,
-      rgba(255, 140, 0, 0.1) 50%,
+      rgba(60, 120, 200, 0.1) 50%,
       transparent 70%
     );
     animation: liquid-shimmer 8s ease-in-out infinite;
@@ -52,10 +52,10 @@
     bottom: 0;
     background: linear-gradient(
       180deg,
-      rgba(255, 140, 0, 0.05) 0%,
+      rgba(60, 120, 200, 0.05) 0%,
       transparent 30%,
       transparent 70%,
-      rgba(255, 140, 0, 0.05) 100%
+      rgba(60, 120, 200, 0.05) 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -71,25 +71,14 @@
   @include desktop {
     margin-bottom: $spacing-lg;
     padding: $spacing-lg;
-
-    &:hover {
-      border-color: rgba(255, 140, 0, 0.4);
-      box-shadow: 
-        0 12px 48px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 140, 0, 0.2),
-        0 0 40px rgba(255, 140, 0, 0.15);
-      transform: translateY(-2px);
-    }
   }
 
   &__title {
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.9); // White with slight transparency
     font-size: $font-size-base;
     font-weight: $font-weight-bold;
     margin-bottom: $spacing-sm;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     position: relative;
     z-index: 2;
     text-transform: uppercase;
@@ -97,7 +86,7 @@
     @include desktop {
       font-size: $font-size-lg;
       margin-bottom: $spacing-md;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
     }
   }
 }

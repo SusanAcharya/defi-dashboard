@@ -30,8 +30,8 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 140, 0, 0.2);
-     border: 2px solid rgba(255, 140, 0, 0.7); // Shinier neon blue border
+     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(60, 120, 200, 0.2);
+     border: 2px solid rgba(60, 120, 200, 0.7); // Shinier neon blue border
     animation: slideUp $transition-base;
     width: 100%;
     margin-top: auto; // Mobile: slide up from bottom

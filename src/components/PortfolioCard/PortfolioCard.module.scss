@@ -1,22 +1,22 @@
 @use '@/styles/mixins.scss' as *;
 
 .portfolioCard {
-  // Liquid Glass Effect
+  // Liquid Glass Effect with gradient from blue to dark (darker base)
   background: linear-gradient(
-    135deg,
-    rgba(26, 26, 26, 0.4) 0%,
-    rgba(20, 20, 20, 0.5) 50%,
-    rgba(26, 26, 26, 0.4) 100%
+    180deg,
+    rgba(15, 30, 60, 0.7) 0%,
+    rgba(10, 20, 40, 0.8) 50%,
+    rgba(8, 15, 30, 0.9) 100%
   );
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 140, 0, 0.2);
+  border: 1px solid rgba(60, 120, 200, 0.15);
   border-radius: $radius-lg;
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(255, 140, 0, 0.1);
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(60, 120, 200, 0.08);
   position: relative;
   overflow: hidden;
   transition: all $transition-base;
@@ -32,7 +32,7 @@
     background: linear-gradient(
       135deg,
       transparent 30%,
-      rgba(255, 140, 0, 0.1) 50%,
+      rgba(60, 120, 200, 0.1) 50%,
       transparent 70%
     );
     animation: liquid-shimmer 8s ease-in-out infinite;
@@ -50,10 +50,10 @@
     bottom: 0;
     background: linear-gradient(
       180deg,
-      rgba(255, 140, 0, 0.05) 0%,
+      rgba(60, 120, 200, 0.05) 0%,
       transparent 30%,
       transparent 70%,
-      rgba(255, 140, 0, 0.05) 100%
+      rgba(60, 120, 200, 0.05) 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -62,14 +62,32 @@
 
   @include desktop {
     &:hover {
-      border-color: rgba(255, 140, 0, 0.4);
+      // Brighter on hover with subtle pop-out
+      background: linear-gradient(
+        180deg,
+        rgba(25, 50, 100, 0.75) 0%,
+        rgba(18, 35, 70, 0.85) 50%,
+        rgba(12, 25, 50, 0.95) 100%
+      );
+      border-color: rgba(60, 120, 200, 0.35);
       box-shadow: 
-        0 12px 48px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 12px 48px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
         inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 140, 0, 0.2),
-        0 0 40px rgba(255, 140, 0, 0.15);
-      transform: translateY(-2px);
+        0 0 0 1px rgba(60, 120, 200, 0.25),
+        0 0 40px rgba(60, 120, 200, 0.2);
+      transform: translateY(-3px) scale(1.01);
+    }
+
+    &:active {
+      // Slightly brighter on click
+      background: linear-gradient(
+        180deg,
+        rgba(30, 60, 120, 0.8) 0%,
+        rgba(20, 40, 80, 0.9) 50%,
+        rgba(15, 25, 50, 1) 100%
+      );
+      transform: translateY(-1px) scale(1.005);
     }
   }
 
@@ -105,8 +123,8 @@
   &__checkInButton {
     @include button-reset;
     padding: $spacing-xs $spacing-sm;
-    background: rgba(255, 140, 0, 0.2);
-    border: 1px solid rgba(255, 140, 0, 0.4);
+    background: rgba(60, 120, 200, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.4);
     border-radius: $radius-sm;
     color: $color-accent-purple;
     font-size: $font-size-xs;
@@ -117,8 +135,8 @@
     z-index: 1;
 
     &:active:not(&:disabled) {
-      background: rgba(255, 140, 0, 0.3);
-      border-color: rgba(255, 140, 0, 0.6);
+      background: rgba(60, 120, 200, 0.3);
+      border-color: rgba(60, 120, 200, 0.6);
       transform: scale(0.95);
     }
 
@@ -156,8 +174,8 @@
   &__checkInButtonDesktop {
     @include button-reset;
     padding: $spacing-xs $spacing-sm;
-    background: rgba(255, 140, 0, 0.2);
-    border: 1px solid rgba(255, 140, 0, 0.4);
+    background: rgba(60, 120, 200, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.4);
     border-radius: $radius-sm;
     color: $color-accent-purple;
     font-size: $font-size-xs;
@@ -171,8 +189,8 @@
     }
 
     &:hover:not(&:disabled) {
-      background: rgba(255, 140, 0, 0.3);
-      border-color: rgba(255, 140, 0, 0.6);
+      background: rgba(60, 120, 200, 0.3);
+      border-color: rgba(60, 120, 200, 0.6);
     }
 
     &:disabled {
@@ -187,36 +205,143 @@
     }
   }
 
-  &__header {
-    @include flex-between;
-    margin-bottom: $spacing-md;
-    gap: $spacing-lg;
+  &__topSection {
+    display: none; // Hidden on mobile
+
+    @include desktop {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: $spacing-md;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__topLeft {
+    @include flex-column;
+    gap: $spacing-sm;
+    flex: 1;
+  }
+
+  &__networthHeader {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__refreshButton {
+    @include button-reset;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform $transition-fast;
+    color: rgba(255, 255, 255, 0.8);
+
+    &:hover {
+      transform: rotate(180deg);
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  &__refreshIcon {
+    font-size: $font-size-base;
+    line-height: 1;
+  }
+
+  &__networthValue {
+    color: #ffd700; // Golden-yellow
+    font-size: 2.5rem;
+    font-weight: $font-weight-bold;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    margin-top: 4px;
+  }
+
+  &__profitLoss {
+    @include flex-column;
+    gap: 4px;
+    margin-top: $spacing-xs;
+  }
+
+  &__profitLossLabel {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__profitLossValue {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+
+    &_positive {
+      color: #10b981; // Green for profit
+    }
+
+    &_negative {
+      color: #ef4444; // Red for loss
+    }
+  }
+
+  &__topRight {
     position: relative;
     z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding-right: 10px;
+    padding-top: 10px;
+  }
+
+  &__coin {
+    font-size: 100px;
+    line-height: 1;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
+    transform: rotate(-15deg);
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+    gap: $spacing-md;
+    position: relative;
+    z-index: 1;
+
+    @include desktop {
+      display: none; // Hide on desktop, use topSection instead
+    }
 
     @include mobile {
       flex-direction: column;
       align-items: center;
-      gap: $spacing-md;
+      gap: $spacing-sm;
     }
   }
 
   &__profile {
     @include flex-column;
     @include flex-center;
-    gap: $spacing-sm;
+    gap: $spacing-xs;
     align-items: center;
 
     @include desktop {
       @include flex-center;
       flex-direction: row;
-      gap: $spacing-md;
+      gap: $spacing-sm;
     }
   }
 
   &__info {
     @include flex-column;
-    gap: $spacing-xs;
+    gap: 2px;
     align-items: center;
 
     @include desktop {
@@ -225,23 +350,23 @@
   }
 
   &__avatar {
-    width: 60px; // Mobile-first: smaller
-    height: 60px;
+    width: 50px; // Mobile-first: smaller
+    height: 50px;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 2px solid rgba(255, 140, 0, 0.4);
+    border: 2px solid rgba(60, 120, 200, 0.4);
     flex-shrink: 0;
     position: relative;
     box-shadow: 
       0 4px 12px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(255, 140, 0, 0.2);
+      0 0 20px rgba(60, 120, 200, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 
     @include desktop {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
     }
   }
 
@@ -258,14 +383,14 @@
 
   &__username {
     color: $color-text-primary; // White
-    font-size: $font-size-xl; // Mobile-first: larger
+    font-size: $font-size-lg; // Mobile-first: reduced
     font-weight: $font-weight-bold;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-align: center;
     // Removed glow
 
     @include desktop {
-      font-size: $font-size-2xl; // Even larger on desktop
+      font-size: $font-size-xl; // Reduced on desktop
       text-align: left;
     }
   }
@@ -273,7 +398,7 @@
   &__networth {
     @include flex-column;
     align-items: flex-end;
-    gap: $spacing-xs;
+    gap: 2px;
     width: 100%;
 
 
@@ -304,7 +429,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 140, 0, 0.5); // Purple border
+    border: 1px solid rgba(60, 120, 200, 0.5); // Purple border
     border-radius: $radius-sm;
     padding: $spacing-xs;
     cursor: pointer;
@@ -317,20 +442,20 @@
     width: 28px;
     height: 28px;
     -webkit-tap-highlight-color: transparent;
-    box-shadow: 0 0 8px rgba(255, 140, 0, 0.3);
+    box-shadow: 0 0 8px rgba(60, 120, 200, 0.3);
     flex-shrink: 0;
 
     &:active {
-      background: rgba(255, 140, 0, 0.1);
-      border-color: rgba(255, 140, 0, 0.7);
+      background: rgba(60, 120, 200, 0.1);
+      border-color: rgba(60, 120, 200, 0.7);
       transform: scale(0.95);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(255, 140, 0, 0.15);
-        border-color: rgba(255, 140, 0, 0.7);
-        box-shadow: 0 0 12px rgba(255, 140, 0, 0.4);
+        background: rgba(60, 120, 200, 0.15);
+        border-color: rgba(60, 120, 200, 0.7);
+        box-shadow: 0 0 12px rgba(60, 120, 200, 0.4);
       }
     }
   }
@@ -342,20 +467,22 @@
   }
 
   &__label {
-    color: $color-text-secondary; // Light gray-purple
-    font-size: $font-size-sm;
+    color: rgba(255, 255, 255, 0.9); // White
+    font-size: $font-size-xs;
     font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   &__value {
     color: $color-text-primary; // White
     // Removed glow/shine
-    font-size: $font-size-2xl; // Mobile-first: larger for numbers
+    font-size: $font-size-xl; // Mobile-first: reduced
     font-weight: $font-weight-bold;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 
     @include desktop {
-      font-size: $font-size-3xl; // Even larger on desktop
+      font-size: $font-size-2xl; // Reduced on desktop
     }
   }
 
@@ -364,7 +491,7 @@
     color: $color-positive; // Green color for positive change
     padding: $spacing-xs $spacing-sm;
     border-radius: $radius-sm;
-    font-size: $font-size-base; // Larger for numbers
+    font-size: $font-size-sm; // Reduced
     font-weight: $font-weight-bold;
     border: none; // No border
     box-shadow: none; // No shadow
@@ -377,12 +504,12 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 140, 0, 0.3),
-      rgba(255, 140, 0, 0.5),
-      rgba(255, 140, 0, 0.3),
+      rgba(60, 120, 200, 0.3),
+      rgba(60, 120, 200, 0.5),
+      rgba(60, 120, 200, 0.3),
       transparent
     );
-    margin: $spacing-md 0;
+    margin: $spacing-sm 0;
     position: relative;
     z-index: 2;
   }
@@ -390,53 +517,56 @@
   &__metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr); // Mobile: 3 columns
-    gap: $spacing-sm; // Mobile-first: smaller gap
+    gap: $spacing-xs; // Mobile-first: smaller gap
     position: relative;
     z-index: 2;
 
     @include desktop {
-      gap: $spacing-md;
+      gap: $spacing-sm;
     }
   }
 
   &__metric {
     @include flex-column;
-    gap: $spacing-xs;
+    gap: 2px;
     align-items: center; // Center items horizontally
     text-align: center; // Center text
-    padding: $spacing-sm;
+    padding: $spacing-xs;
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.1);
+    border: 1px solid rgba(60, 120, 200, 0.1);
     transition: all $transition-fast;
 
     @include desktop {
       &:hover {
         background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 140, 0, 0.2);
+        border-color: rgba(60, 120, 200, 0.2);
         transform: translateY(-2px);
       }
     }
   }
 
   &__metricLabel {
-    color: $color-text-secondary; // Light gray-purple
-    font-size: $font-size-sm;
+    color: rgba(255, 255, 255, 0.9); // White
+    font-size: $font-size-xs;
     text-align: center; // Center label
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: $font-weight-medium;
   }
 
   &__metricValue {
     color: $color-text-primary; // White
     // Removed glow/shine
-    font-size: $font-size-xl; // Larger for numbers
+    font-size: $font-size-lg; // Reduced
     font-weight: $font-weight-bold;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-align: center; // Center value
 
     @include desktop {
-      font-size: $font-size-2xl; // Even larger on desktop
+      font-size: $font-size-xl; // Reduced on desktop
     }
   }
 }

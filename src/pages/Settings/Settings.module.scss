@@ -18,13 +18,13 @@
     font-size: $font-size-sm;
     margin-bottom: $spacing-md;
     padding-bottom: $spacing-md;
-    border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+    border-bottom: 1px solid rgba(60, 120, 200, 0.2);
   }
 
   &__subsection {
     margin-top: $spacing-lg;
     padding-top: $spacing-lg;
-    border-top: 1px solid rgba(255, 140, 0, 0.1);
+    border-top: 1px solid rgba(60, 120, 200, 0.1);
   }
 
   &__subsectionTitle {
@@ -44,7 +44,7 @@
 
     &:hover {
       background: rgba(0, 0, 0, 0.5);
-      border-color: rgba(255, 140, 0, 0.8);
+      border-color: rgba(60, 120, 200, 0.8);
     }
 
     @include mobile {
@@ -78,7 +78,7 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: #b0b0b0; // Light gray
-    border: 1px solid rgba(255, 140, 0, 0.3); // Neon blue border
+    border: 1px solid rgba(60, 120, 200, 0.3); // Neon blue border
     border-radius: $radius-md;
     font-weight: $font-weight-medium;
     transition: all $transition-fast;
@@ -97,7 +97,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 140, 0, 0.5); // Neon blue border
+    border: 1px solid rgba(60, 120, 200, 0.5); // Neon blue border
     border-radius: $radius-md;
     color: #ffffff; // White text
     font-size: $font-size-base;
@@ -106,8 +106,8 @@
 
     &:focus {
       outline: none;
-      border-color: rgba(255, 140, 0, 0.7);
-      box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+      border-color: rgba(60, 120, 200, 0.7);
+      box-shadow: 0 0 15px rgba(60, 120, 200, 0.3);
     }
   }
 
@@ -132,7 +132,7 @@
     height: 80px;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 2px solid rgba(255, 140, 0, 0.5);
+    border: 2px solid rgba(60, 120, 200, 0.5);
     flex-shrink: 0;
   }
 
@@ -187,7 +187,7 @@
   &__editInput {
     padding: $spacing-xs $spacing-sm;
     background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-sm;
     color: $color-text-primary;
     font-size: $font-size-base;
@@ -239,7 +239,7 @@
     align-items: center;
     padding: $spacing-md;
     background: rgba(26, 26, 26, 0.4);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
   }
 
@@ -301,7 +301,7 @@
     gap: $spacing-sm;
     padding: $spacing-md;
     background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-md;
     color: $color-text-primary;
     font-size: $font-size-lg;
@@ -332,7 +332,7 @@
     align-items: center;
     padding: $spacing-md;
     background: rgba(26, 26, 26, 0.4);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
     color: $color-text-primary;
     font-size: $font-size-base;
@@ -341,7 +341,7 @@
     transition: all $transition-fast;
 
     &:active {
-      background: rgba(255, 140, 0, 0.1);
+      background: rgba(60, 120, 200, 0.1);
     }
   }
 
@@ -464,12 +464,12 @@
     transition: all $transition-fast;
 
     &:active {
-      background: rgba(255, 140, 0, 0.1);
+      background: rgba(60, 120, 200, 0.1);
     }
 
     @include desktop {
       &:hover {
-        background: rgba(255, 140, 0, 0.1);
+        background: rgba(60, 120, 200, 0.1);
       }
     }
   }
@@ -510,7 +510,7 @@
     gap: $spacing-md;
     padding: $spacing-md;
     padding-top: 0;
-    border-top: 1px solid rgba(255, 140, 0, 0.2);
+    border-top: 1px solid rgba(60, 120, 200, 0.2);
     background: rgba(26, 26, 26, 0.2);
   }
 
@@ -525,7 +525,7 @@
     align-items: center;
     padding: $spacing-sm $spacing-md;
     background: rgba(26, 26, 26, 0.4);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
     cursor: pointer;
     transition: all $transition-fast;
@@ -533,12 +533,12 @@
     @include desktop {
       &:hover {
         background: rgba(26, 26, 26, 0.6);
-        border-color: rgba(255, 140, 0, 0.3);
+        border-color: rgba(60, 120, 200, 0.3);
       }
     }
 
     &:active {
-      background: rgba(255, 140, 0, 0.1);
+      background: rgba(60, 120, 200, 0.1);
     }
   }
 
@@ -554,7 +554,7 @@
     @include flex-column;
     gap: $spacing-sm;
     padding: $spacing-sm 0 $spacing-sm $spacing-md;
-    border-left: 2px solid rgba(255, 140, 0, 0.2);
+    border-left: 2px solid rgba(60, 120, 200, 0.2);
     margin-left: $spacing-sm;
   }
 
@@ -563,7 +563,7 @@
     align-items: center;
     padding: $spacing-sm $spacing-md;
     background: rgba(26, 26, 26, 0.4);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-sm;
     transition: all $transition-fast;
 
@@ -576,7 +576,7 @@
     @include desktop {
       &:hover {
         background: rgba(26, 26, 26, 0.6);
-        border-color: rgba(255, 140, 0, 0.3);
+        border-color: rgba(60, 120, 200, 0.3);
       }
     }
   }

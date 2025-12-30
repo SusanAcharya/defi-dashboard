@@ -164,13 +164,13 @@ export const PortfolioChart: React.FC = () => {
             >
               <defs>
                 <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.5} />
-                  <stop offset="50%" stopColor="#ff8c00" stopOpacity={0.2} />
-                  <stop offset="100%" stopColor="#ff8c00" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#3c78d8" stopOpacity={0.5} />
+                  <stop offset="50%" stopColor="#3c78d8" stopOpacity={0.2} />
+                  <stop offset="100%" stopColor="#3c78d8" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.8} />
-                  <stop offset="100%" stopColor="#ffa500" stopOpacity={1} />
+                  <stop offset="0%" stopColor="#3c78d8" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="#5a9fff" stopOpacity={1} />
                 </linearGradient>
                 <filter id="lineGlow">
                   <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -182,23 +182,23 @@ export const PortfolioChart: React.FC = () => {
               </defs>
               <CartesianGrid 
                 strokeDasharray="3 3" 
-                stroke="rgba(255, 140, 0, 0.1)" 
+                stroke="rgba(60, 120, 200, 0.1)" 
                 vertical={false}
                 horizontal={true}
               />
               <XAxis 
                 dataKey="date" 
-                stroke="rgba(255, 140, 0, 0.3)"
+                stroke="rgba(60, 120, 200, 0.3)"
                 tick={{ fill: '#707070', fontSize: 11 }}
-                tickLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
-                axisLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                tickLine={{ stroke: 'rgba(60, 120, 200, 0.2)' }}
+                axisLine={{ stroke: 'rgba(60, 120, 200, 0.2)' }}
                 interval="preserveStartEnd"
               />
               <YAxis 
-                stroke="rgba(255, 140, 0, 0.3)"
+                stroke="rgba(60, 120, 200, 0.3)"
                 tick={{ fill: '#707070', fontSize: 11 }}
-                tickLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
-                axisLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                tickLine={{ stroke: 'rgba(60, 120, 200, 0.2)' }}
+                axisLine={{ stroke: 'rgba(60, 120, 200, 0.2)' }}
                 tickFormatter={(value) => {
                   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
                   if (value >= 1000) return `$${(value / 1000).toFixed(1)}K`;
@@ -221,7 +221,7 @@ export const PortfolioChart: React.FC = () => {
                   }
                   return null;
                 }}
-                cursor={{ stroke: '#ff8c00', strokeWidth: 1, strokeDasharray: '5 5' }}
+                cursor={{ stroke: '#3c78d8', strokeWidth: 1, strokeDasharray: '5 5' }}
               />
               <Area
                 type="monotone"
@@ -239,10 +239,10 @@ export const PortfolioChart: React.FC = () => {
                 dot={false}
                 activeDot={{ 
                   r: 5, 
-                  fill: '#ff8c00', 
+                  fill: '#3c78d8', 
                   stroke: '#ffffff', 
                   strokeWidth: 2,
-                  style: { filter: 'drop-shadow(0 0 4px rgba(255, 140, 0, 0.8))' }
+                  style: { filter: 'drop-shadow(0 0 4px rgba(60, 120, 200, 0.8))' }
                 }}
                 filter="url(#lineGlow)"
                 isAnimationActive={true}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency, formatPercentage } from '@/utils/format';
 import { useUIStore } from '@/store/uiStore';
 import { useWalletStore } from '@/store/walletStore';
 import { Card } from '../Card/Card';
@@ -28,6 +28,8 @@ export const PortfolioCard: React.FC = () => {
     totalAssets: 0,
     totalDebt: 0,
     nftValue: 0,
+    protocolRewards: 0,
+    pnl24hPercent: 0,
   };
 
   const displayPortfolio = isGuest ? guestPortfolio : portfolio;
@@ -43,6 +45,41 @@ export const PortfolioCard: React.FC = () => {
       <div className={styles.portfolioCard__topRow}>
         {alias && <div className={styles.portfolioCard__alias}>Alias: {alias}</div>}
       </div>
+      
+      {/* Desktop Layout: Top Section with Net Worth and Protocol Rewards */}
+      <div className={styles.portfolioCard__topSection}>
+        <div className={styles.portfolioCard__topLeft}>
+          <div className={styles.portfolioCard__networthHeader}>
+            <div className={styles.portfolioCard__label}>TOTAL NET WORTH</div>
+            <button
+              className={styles.portfolioCard__refreshButton}
+              onClick={() => window.location.reload()}
+              aria-label="Refresh"
+            >
+              <span className={styles.portfolioCard__refreshIcon}>↻</span>
+            </button>
+          </div>
+          <div className={styles.portfolioCard__networthValue}>
+            {formatCurrency(displayPortfolio.totalValue, 'USD', showFinancialNumbers)}
+          </div>
+          <div className={styles.portfolioCard__profitLoss}>
+            <div className={styles.portfolioCard__profitLossLabel}>PROFIT/LOSS (24H)</div>
+            <div className={`${styles.portfolioCard__profitLossValue} ${
+              displayPortfolio.pnl24hPercent >= 0 ? styles.portfolioCard__profitLossValue_positive : styles.portfolioCard__profitLossValue_negative
+            }`}>
+              {showFinancialNumbers 
+                ? formatPercentage(displayPortfolio.pnl24hPercent, 2, showFinancialNumbers)
+                : '••••'
+              }
+            </div>
+          </div>
+        </div>
+        <div className={styles.portfolioCard__topRight}>
+          <div className={styles.portfolioCard__coin}>🪙</div>
+        </div>
+      </div>
+
+      {/* Mobile Layout: Keep original profile and net worth */}
       <div className={styles.portfolioCard__header}>
         <div className={styles.portfolioCard__profile}>
           <img 
@@ -88,22 +125,23 @@ export const PortfolioCard: React.FC = () => {
           </div>
         </div>
       </div>
+      
       <div className={styles.portfolioCard__divider} />
       <div className={styles.portfolioCard__metrics}>
         <div className={styles.portfolioCard__metric}>
-          <div className={styles.portfolioCard__metricLabel}>Total Assets</div>
+          <div className={styles.portfolioCard__metricLabel}>TOTAL ASSETS</div>
           <div className={styles.portfolioCard__metricValue}>
             {formatCurrency(displayPortfolio.totalAssets, 'USD', showFinancialNumbers)}
           </div>
         </div>
         <div className={styles.portfolioCard__metric}>
-          <div className={styles.portfolioCard__metricLabel}>Total Debt</div>
+          <div className={styles.portfolioCard__metricLabel}>TOTAL DEBT</div>
           <div className={styles.portfolioCard__metricValue}>
             {formatCurrency(displayPortfolio.totalDebt, 'USD', showFinancialNumbers)}
           </div>
         </div>
         <div className={styles.portfolioCard__metric}>
-          <div className={styles.portfolioCard__metricLabel}>NFT Value</div>
+          <div className={styles.portfolioCard__metricLabel}>NFT VALUE</div>
           <div className={styles.portfolioCard__metricValue}>
             {formatCurrency(displayPortfolio.nftValue, 'USD', showFinancialNumbers)}
           </div>

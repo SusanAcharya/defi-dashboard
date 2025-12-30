@@ -10,14 +10,14 @@
   background: rgba(26, 26, 26, 0.8); // Transparent purple-blue
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border-top: 2px solid rgba(255, 140, 0, 0.6); // Purple accent
+  border-top: 2px solid rgba(60, 120, 200, 0.6); // Purple accent
   padding: $spacing-sm $spacing-md;
   z-index: 1000; // High z-index to stay on top
   @include flex-between;
   box-shadow: 
     0 -4px 20px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(255, 140, 0, 0.3),
-    0 0 40px rgba(255, 140, 0, 0.2); // Purple glow
+    inset 0 1px 0 rgba(60, 120, 200, 0.3),
+    0 0 40px rgba(60, 120, 200, 0.2); // Purple glow
   overflow: hidden;
 
   // Add subtle scan effect
@@ -28,7 +28,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(60, 120, 200, 0.1), transparent);
     animation: gritty-scan 12s linear infinite;
     pointer-events: none;
   }
@@ -55,8 +55,8 @@
     }
 
     &.bottomNav__item_active {
-      color: #ff8c00; // Neon blue for active
-      text-shadow: 0 0 10px rgba(255, 140, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
+      color: #3c78d8; // Neon blue for active
+      text-shadow: 0 0 10px rgba(60, 120, 200, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
     }
   }
 

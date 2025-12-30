@@ -18,14 +18,14 @@ html {
 
 body {
   font-family: $font-family-primary;
-  // Dark grey gradient background
+  // Blue gradient background matching card theme
   background: linear-gradient(
     135deg,
-    #0a0a0a 0%,      // Deep black
-    #1a1a1a 25%,     // Dark grey
-    #2a2a2a 50%,     // Medium grey
-    #1a1a1a 75%,     // Dark grey
-    #0a0a0a 100%     // Deep black
+    rgba(10, 15, 30, 1) 0%,      // Deep blue-black
+    rgba(15, 25, 50, 1) 25%,     // Dark blue
+    rgba(20, 40, 80, 1) 50%,     // Medium blue
+    rgba(15, 25, 50, 1) 75%,     // Dark blue
+    rgba(10, 15, 30, 1) 100%     // Deep blue-black
   );
   background-attachment: fixed;
   background-size: 100% 100%;

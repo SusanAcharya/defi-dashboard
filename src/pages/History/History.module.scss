@@ -124,7 +124,7 @@
     );
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1.5px solid rgba(255, 140, 0, 0.25);
+    border: 1.5px solid rgba(60, 120, 200, 0.25);
     border-radius: $radius-lg;
     color: $color-text-primary;
     font-size: $font-size-sm;
@@ -141,24 +141,24 @@
     }
 
     &:hover {
-      border-color: rgba(255, 140, 0, 0.4);
+      border-color: rgba(60, 120, 200, 0.4);
       background: linear-gradient(
         135deg,
         rgba(30, 30, 30, 0.9) 0%,
         rgba(24, 24, 24, 0.95) 100%
       );
-      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.15);
+      box-shadow: 0 2px 8px rgba(60, 120, 200, 0.15);
     }
 
     &:focus {
       outline: none;
-      border-color: rgba(255, 140, 0, 0.6);
+      border-color: rgba(60, 120, 200, 0.6);
       background: linear-gradient(
         135deg,
         rgba(35, 35, 35, 0.95) 0%,
         rgba(28, 28, 28, 1) 100%
       );
-      box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2), 0 4px 12px rgba(255, 140, 0, 0.25);
+      box-shadow: 0 0 0 3px rgba(60, 120, 200, 0.2), 0 4px 12px rgba(60, 120, 200, 0.25);
       transform: translateY(-1px);
     }
 
@@ -200,7 +200,7 @@
     );
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1.5px solid rgba(255, 140, 0, 0.25);
+    border: 1.5px solid rgba(60, 120, 200, 0.25);
     border-radius: $radius-lg;
     color: rgba(255, 255, 255, 0.7);
     font-size: $font-size-sm;
@@ -228,7 +228,7 @@
       background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 140, 0, 0.1),
+        rgba(60, 120, 200, 0.1),
         transparent
       );
       transition: left 0.5s;
@@ -245,15 +245,15 @@
     &_active {
       background: linear-gradient(
         135deg,
-        rgba(255, 140, 0, 0.2) 0%,
-        rgba(255, 165, 0, 0.15) 100%
+        rgba(60, 120, 200, 0.2) 0%,
+        rgba(90, 150, 240, 0.15) 100%
       );
-      border-color: rgba(255, 140, 0, 0.6);
+      border-color: rgba(60, 120, 200, 0.6);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
       box-shadow: 
-        0 4px 12px rgba(255, 140, 0, 0.3),
-        0 0 20px rgba(255, 140, 0, 0.2),
+        0 4px 12px rgba(60, 120, 200, 0.3),
+        0 0 20px rgba(60, 120, 200, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
       transform: translateY(-1px);
 
@@ -264,7 +264,7 @@
 
     @include desktop {
       &:hover:not(&_active) {
-        border-color: rgba(255, 140, 0, 0.4);
+        border-color: rgba(60, 120, 200, 0.4);
         background: linear-gradient(
           135deg,
           rgba(30, 30, 30, 0.8) 0%,
@@ -272,7 +272,7 @@
         );
         color: $color-text-primary;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 140, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(60, 120, 200, 0.15);
       }
     }
   }
@@ -286,7 +286,9 @@
     gap: $spacing-md;
 
     @include mobile {
-      gap: $spacing-sm;
+      gap: $spacing-xs;
+      display: grid;
+      grid-template-columns: 1fr; // One card per row
     }
   }
 
@@ -300,20 +302,22 @@
     );
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
     padding: $spacing-md;
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
       inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 140, 0, 0.1);
+      0 0 0 1px rgba(60, 120, 200, 0.1);
     transition: all $transition-base;
     position: relative;
     overflow: hidden;
 
     @include mobile {
-      padding: $spacing-sm;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $radius-sm;
+      margin-bottom: $spacing-xs;
     }
 
     // Liquid glass reflection
@@ -327,7 +331,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.08) 50%,
+        rgba(60, 120, 200, 0.08) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 8s ease-in-out infinite;
@@ -345,9 +349,9 @@
       bottom: 0;
       background: linear-gradient(
         180deg,
-        rgba(255, 140, 0, 0.05) 0%,
+        rgba(60, 120, 200, 0.05) 0%,
         transparent 50%,
-        rgba(255, 140, 0, 0.05) 100%
+        rgba(60, 120, 200, 0.05) 100%
       );
       pointer-events: none;
       z-index: 1;
@@ -365,11 +369,11 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.4);
+        border-color: rgba(60, 120, 200, 0.4);
         box-shadow: 
           0 12px 48px rgba(0, 0, 0, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 40px rgba(255, 140, 0, 0.15);
+          0 0 40px rgba(60, 120, 200, 0.15);
         transform: translateY(-2px);
       }
     }
@@ -384,7 +388,7 @@
     @include mobile {
       flex-direction: column;
       align-items: flex-start;
-      gap: $spacing-sm;
+      gap: $spacing-xs;
     }
   }
 
@@ -395,10 +399,11 @@
     flex: 1;
 
     @include mobile {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: $spacing-sm;
+      flex-direction: row;
+      align-items: center;
+      gap: $spacing-xs;
       width: 100%;
+      flex-wrap: wrap;
     }
   }
 
@@ -411,6 +416,7 @@
     @include mobile {
       width: 100%;
       justify-content: space-between;
+      margin-top: $spacing-xs;
     }
   }
 
@@ -418,6 +424,12 @@
     @include flex-column;
     gap: 2px;
     min-width: 0;
+
+    @include mobile {
+      gap: 1px;
+      flex: 1;
+      min-width: 0;
+    }
   }
 
   &__activity {
@@ -426,6 +438,11 @@
     gap: $spacing-md;
     flex: 1;
     min-width: 0;
+
+    @include mobile {
+      gap: $spacing-xs;
+      width: 100%;
+    }
   }
 
   &__activityIcon {
@@ -433,20 +450,21 @@
     width: 36px;
     height: 36px;
     @include flex-center;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(60, 120, 200, 0.2) 0%, rgba(90, 150, 240, 0.15) 100%);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     box-shadow: 
-      0 4px 16px rgba(255, 140, 0, 0.2),
+      0 4px 16px rgba(60, 120, 200, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
 
     @include mobile {
-      width: 32px;
-      height: 32px;
-      font-size: $font-size-lg;
+      width: 24px;
+      height: 24px;
+      font-size: $font-size-sm;
+      border-radius: $radius-sm;
     }
   }
 
@@ -463,7 +481,9 @@
     font-size: $font-size-base;
 
     @include mobile {
-      font-size: $font-size-sm;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      line-height: 1.3;
     }
   }
 
@@ -472,7 +492,8 @@
     font-size: $font-size-sm;
 
     @include mobile {
-      font-size: $font-size-xs;
+      font-size: 0.6rem;
+      margin-top: 1px;
     }
   }
 
@@ -495,7 +516,7 @@
 
   &__address {
     @include button-reset;
-    color: rgba(255, 140, 0, 0.9);
+    color: rgba(60, 120, 200, 0.9);
     font-size: $font-size-xs;
     font-family: monospace;
     cursor: pointer;
@@ -567,8 +588,9 @@
     -webkit-backdrop-filter: blur(10px);
 
     @include mobile {
-      padding: 2px $spacing-xs;
-      font-size: 0.6rem;
+      padding: 1px 4px;
+      font-size: 0.55rem;
+      letter-spacing: 0.3px;
     }
 
     &_completed {
@@ -596,10 +618,10 @@
   &__viewButton {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(60, 120, 200, 0.2) 0%, rgba(90, 150, 240, 0.15) 100%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-md;
     color: $color-text-primary;
     font-size: $font-size-xs;
@@ -609,21 +631,22 @@
     white-space: nowrap;
 
     @include mobile {
-      padding: $spacing-xs $spacing-sm;
-      font-size: 0.65rem;
+      padding: 2px $spacing-xs;
+      font-size: 0.6rem;
+      border-radius: $radius-sm;
     }
 
     &:active {
-      background: linear-gradient(135deg, rgba(255, 140, 0, 0.3) 0%, rgba(255, 165, 0, 0.25) 100%);
-      border-color: rgba(255, 140, 0, 0.5);
+      background: linear-gradient(135deg, rgba(60, 120, 200, 0.3) 0%, rgba(90, 150, 240, 0.25) 100%);
+      border-color: rgba(60, 120, 200, 0.5);
       transform: scale(0.98);
     }
 
     @include desktop {
       &:hover {
-        background: linear-gradient(135deg, rgba(255, 140, 0, 0.3) 0%, rgba(255, 165, 0, 0.25) 100%);
-        border-color: rgba(255, 140, 0, 0.5);
-        box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+        background: linear-gradient(135deg, rgba(60, 120, 200, 0.3) 0%, rgba(90, 150, 240, 0.25) 100%);
+        border-color: rgba(60, 120, 200, 0.5);
+        box-shadow: 0 4px 16px rgba(60, 120, 200, 0.3);
         transform: translateY(-2px);
       }
     }

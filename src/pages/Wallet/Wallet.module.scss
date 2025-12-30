@@ -23,13 +23,13 @@
     padding: $spacing-lg $spacing-xl;
     background: linear-gradient(
       135deg,
-      rgba(255, 140, 0, 0.15) 0%,
-      rgba(255, 165, 0, 0.12) 50%,
-      rgba(255, 140, 0, 0.15) 100%
+      rgba(60, 120, 200, 0.15) 0%,
+      rgba(90, 150, 240, 0.12) 50%,
+      rgba(60, 120, 200, 0.15) 100%
     );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 140, 0, 0.3);
+    border: 2px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-lg;
     color: $color-text-primary;
     font-size: $font-size-lg;
@@ -43,7 +43,7 @@
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(255, 140, 0, 0.2);
+      0 0 20px rgba(60, 120, 200, 0.2);
     margin-bottom: $spacing-md;
     position: relative;
     overflow: hidden;
@@ -64,7 +64,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.1) 50%,
+        rgba(60, 120, 200, 0.1) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 6s ease-in-out infinite;
@@ -83,11 +83,11 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.5);
+        border-color: rgba(60, 120, 200, 0.5);
         box-shadow: 
           0 8px 32px rgba(0, 0, 0, 0.4),
           inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 40px rgba(255, 140, 0, 0.3);
+          0 0 40px rgba(60, 120, 200, 0.3);
         transform: translateY(-2px);
       }
     }
@@ -102,9 +102,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 140, 0, 0.2);
+    background: rgba(60, 120, 200, 0.2);
     border-radius: $radius-full;
-    border: 1px solid rgba(255, 140, 0, 0.4);
+    border: 1px solid rgba(60, 120, 200, 0.4);
 
     @include mobile {
       font-size: $font-size-xl;
@@ -131,7 +131,7 @@
     );
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.4),
@@ -158,7 +158,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.08) 50%,
+        rgba(60, 120, 200, 0.08) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 8s ease-in-out infinite;
@@ -176,9 +176,9 @@
       bottom: 0;
       background: linear-gradient(
         180deg,
-        rgba(255, 140, 0, 0.05) 0%,
+        rgba(60, 120, 200, 0.05) 0%,
         transparent 50%,
-        rgba(255, 140, 0, 0.05) 100%
+        rgba(60, 120, 200, 0.05) 100%
       );
       pointer-events: none;
       z-index: 1;
@@ -192,11 +192,11 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.4);
+        border-color: rgba(60, 120, 200, 0.4);
         box-shadow: 
           0 12px 48px rgba(0, 0, 0, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 40px rgba(255, 140, 0, 0.15);
+          0 0 40px rgba(60, 120, 200, 0.15);
       }
     }
   }
@@ -219,7 +219,7 @@
     background: rgba(26, 26, 26, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-md;
     color: $color-text-primary;
     font-size: $font-size-base;
@@ -237,10 +237,10 @@
     }
 
     &:focus {
-      border-color: rgba(255, 140, 0, 0.5);
+      border-color: rgba(60, 120, 200, 0.5);
       box-shadow: 
-        0 0 0 2px rgba(255, 140, 0, 0.2),
-        0 0 20px rgba(255, 140, 0, 0.2);
+        0 0 0 2px rgba(60, 120, 200, 0.2),
+        0 0 20px rgba(60, 120, 200, 0.2);
       background: rgba(26, 26, 26, 0.8);
     }
   }
@@ -266,7 +266,7 @@
     background: rgba(26, 26, 26, 0.4);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
     transition: all $transition-fast;
 
@@ -276,14 +276,14 @@
     }
 
     &:hover {
-      border-color: rgba(255, 140, 0, 0.4);
-      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(60, 120, 200, 0.4);
+      background: rgba(60, 120, 200, 0.1);
     }
   }
 
   &__radio {
     cursor: pointer;
-    accent-color: rgba(255, 140, 0, 0.8);
+    accent-color: rgba(60, 120, 200, 0.8);
     width: 18px;
     height: 18px;
 
@@ -303,13 +303,13 @@
     padding: $spacing-md $spacing-lg;
     background: linear-gradient(
       135deg,
-      rgba(255, 140, 0, 0.25) 0%,
-      rgba(255, 165, 0, 0.22) 50%,
-      rgba(255, 140, 0, 0.25) 100%
+      rgba(60, 120, 200, 0.25) 0%,
+      rgba(90, 150, 240, 0.22) 50%,
+      rgba(60, 120, 200, 0.25) 100%
     );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 140, 0, 0.4);
+    border: 2px solid rgba(60, 120, 200, 0.4);
     border-radius: $radius-md;
     color: $color-text-primary;
     font-size: $font-size-base;
@@ -323,7 +323,7 @@
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(255, 140, 0, 0.2);
+      0 0 20px rgba(60, 120, 200, 0.2);
     margin-top: $spacing-sm;
     position: relative;
     overflow: hidden;
@@ -343,7 +343,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.15) 50%,
+        rgba(60, 120, 200, 0.15) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 6s ease-in-out infinite;
@@ -362,11 +362,11 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.6);
+        border-color: rgba(60, 120, 200, 0.6);
         box-shadow: 
           0 8px 32px rgba(0, 0, 0, 0.4),
           inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 40px rgba(255, 140, 0, 0.3);
+          0 0 40px rgba(60, 120, 200, 0.3);
         transform: translateY(-2px);
       }
     }
@@ -398,7 +398,7 @@
     letter-spacing: 1px;
     position: relative;
     padding-bottom: $spacing-sm;
-    border-bottom: 2px solid rgba(255, 140, 0, 0.3);
+    border-bottom: 2px solid rgba(60, 120, 200, 0.3);
 
     @include mobile {
       font-size: $font-size-lg;
@@ -428,13 +428,13 @@
     );
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
       inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 140, 0, 0.1);
+      0 0 0 1px rgba(60, 120, 200, 0.1);
     gap: $spacing-lg;
     transition: all $transition-base;
     position: relative;
@@ -458,7 +458,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.08) 50%,
+        rgba(60, 120, 200, 0.08) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 8s ease-in-out infinite;
@@ -476,9 +476,9 @@
       bottom: 0;
       background: linear-gradient(
         180deg,
-        rgba(255, 140, 0, 0.05) 0%,
+        rgba(60, 120, 200, 0.05) 0%,
         transparent 50%,
-        rgba(255, 140, 0, 0.05) 100%
+        rgba(60, 120, 200, 0.05) 100%
       );
       pointer-events: none;
       z-index: 1;
@@ -496,11 +496,11 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.4);
+        border-color: rgba(60, 120, 200, 0.4);
         box-shadow: 
           0 12px 48px rgba(0, 0, 0, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 40px rgba(255, 140, 0, 0.15);
+          0 0 40px rgba(60, 120, 200, 0.15);
         transform: translateY(-2px);
       }
     }
@@ -528,18 +528,18 @@
     @include flex-center;
     background: linear-gradient(
       135deg,
-      rgba(255, 140, 0, 0.25) 0%,
-      rgba(255, 165, 0, 0.2) 50%,
-      rgba(255, 140, 0, 0.25) 100%
+      rgba(60, 120, 200, 0.25) 0%,
+      rgba(90, 150, 240, 0.2) 50%,
+      rgba(60, 120, 200, 0.25) 100%
     );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: $radius-lg;
-    border: 2px solid rgba(255, 140, 0, 0.4);
+    border: 2px solid rgba(60, 120, 200, 0.4);
     box-shadow: 
-      0 6px 24px rgba(255, 140, 0, 0.3),
+      0 6px 24px rgba(60, 120, 200, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      0 0 30px rgba(255, 140, 0, 0.2);
+      0 0 30px rgba(60, 120, 200, 0.2);
     position: relative;
     overflow: hidden;
     transition: all $transition-base;
@@ -559,7 +559,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.15) 50%,
+        rgba(60, 120, 200, 0.15) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 8s ease-in-out infinite;
@@ -569,11 +569,11 @@
 
     @include desktop {
       .wallet__walletItem:hover & {
-        border-color: rgba(255, 140, 0, 0.6);
+        border-color: rgba(60, 120, 200, 0.6);
         box-shadow: 
-          0 8px 32px rgba(255, 140, 0, 0.4),
+          0 8px 32px rgba(60, 120, 200, 0.4),
           inset 0 1px 0 rgba(255, 255, 255, 0.2),
-          0 0 40px rgba(255, 140, 0, 0.3);
+          0 0 40px rgba(60, 120, 200, 0.3);
         transform: scale(1.05);
       }
     }
@@ -583,7 +583,7 @@
     font-size: $font-size-2xl;
     position: relative;
     z-index: 2;
-    filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.4));
+    filter: drop-shadow(0 2px 8px rgba(60, 120, 200, 0.4));
 
     @include mobile {
       font-size: $font-size-xl;
@@ -609,7 +609,7 @@
 
   &__walletAddress {
     @include button-reset;
-    color: rgba(255, 140, 0, 0.9);
+    color: rgba(60, 120, 200, 0.9);
     font-size: $font-size-sm;
     font-family: monospace;
     word-break: break-all;
@@ -617,10 +617,10 @@
     transition: all $transition-fast;
     text-align: left;
     padding: 0;
-    background: rgba(255, 140, 0, 0.05);
+    background: rgba(60, 120, 200, 0.05);
     padding: $spacing-xs $spacing-sm;
     border-radius: $radius-sm;
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
 
     @include mobile {
       font-size: $font-size-xs;
@@ -629,15 +629,15 @@
 
     &:active {
       color: $color-text-primary;
-      background: rgba(255, 140, 0, 0.15);
-      border-color: rgba(255, 140, 0, 0.4);
+      background: rgba(60, 120, 200, 0.15);
+      border-color: rgba(60, 120, 200, 0.4);
     }
 
     @include desktop {
       &:hover {
         color: $color-text-primary;
-        background: rgba(255, 140, 0, 0.15);
-        border-color: rgba(255, 140, 0, 0.4);
+        background: rgba(60, 120, 200, 0.15);
+        border-color: rgba(60, 120, 200, 0.4);
         text-decoration: none;
       }
     }
@@ -661,13 +661,13 @@
     padding: 0;
     background: linear-gradient(
       135deg,
-      rgba(255, 140, 0, 0.25) 0%,
-      rgba(255, 165, 0, 0.2) 50%,
-      rgba(255, 140, 0, 0.25) 100%
+      rgba(60, 120, 200, 0.25) 0%,
+      rgba(90, 150, 240, 0.2) 50%,
+      rgba(60, 120, 200, 0.25) 100%
     );
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 140, 0, 0.4);
+    border: 2px solid rgba(60, 120, 200, 0.4);
     border-radius: $radius-md;
     color: $color-text-primary;
     cursor: pointer;
@@ -676,7 +676,7 @@
     height: 48px;
     @include flex-center;
     box-shadow: 
-      0 4px 16px rgba(255, 140, 0, 0.25),
+      0 4px 16px rgba(60, 120, 200, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
@@ -696,7 +696,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.1) 50%,
+        rgba(60, 120, 200, 0.1) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 6s ease-in-out infinite;
@@ -715,11 +715,11 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.6);
+        border-color: rgba(60, 120, 200, 0.6);
         box-shadow: 
-          0 6px 24px rgba(255, 140, 0, 0.35),
+          0 6px 24px rgba(60, 120, 200, 0.35),
           inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 30px rgba(255, 140, 0, 0.3);
+          0 0 30px rgba(60, 120, 200, 0.3);
         transform: translateY(-2px) scale(1.05);
       }
     }
@@ -787,7 +787,7 @@
     );
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 140, 0, 0.15);
+    border: 1px solid rgba(60, 120, 200, 0.15);
     border-radius: $radius-md;
 
     @include mobile {

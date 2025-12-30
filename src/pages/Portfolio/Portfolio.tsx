@@ -188,16 +188,18 @@ export const Portfolio: React.FC = () => {
             >
               <defs>
                 <linearGradient id="portfolioAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.5} />
-                  <stop offset="50%" stopColor="#ff8c00" stopOpacity={0.2} />
-                  <stop offset="100%" stopColor="#ff8c00" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#3c78d8" stopOpacity={0.6} />
+                  <stop offset="30%" stopColor="#5a9fff" stopOpacity={0.4} />
+                  <stop offset="70%" stopColor="#3c78d8" stopOpacity={0.15} />
+                  <stop offset="100%" stopColor="#3c78d8" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="portfolioLineGradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.8} />
-                  <stop offset="100%" stopColor="#ffa500" stopOpacity={1} />
+                  <stop offset="0%" stopColor="#5a9fff" stopOpacity={1} />
+                  <stop offset="50%" stopColor="#3c78d8" stopOpacity={0.95} />
+                  <stop offset="100%" stopColor="#5a9fff" stopOpacity={1} />
                 </linearGradient>
                 <filter id="portfolioLineGlow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
                   <feMerge>
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
@@ -205,24 +207,25 @@ export const Portfolio: React.FC = () => {
                 </filter>
               </defs>
               <CartesianGrid 
-                strokeDasharray="3 3" 
-                stroke="rgba(255, 140, 0, 0.1)" 
+                strokeDasharray="2 4" 
+                stroke="rgba(60, 120, 200, 0.15)" 
                 vertical={false}
                 horizontal={true}
+                strokeWidth={0.5}
               />
               <XAxis 
                 dataKey="date" 
-                stroke="rgba(255, 140, 0, 0.3)"
-                tick={{ fill: '#707070', fontSize: 11 }}
-                tickLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
-                axisLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                stroke="rgba(60, 120, 200, 0.4)"
+                tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 11, fontWeight: 500 }}
+                tickLine={{ stroke: 'rgba(60, 120, 200, 0.3)', strokeWidth: 1 }}
+                axisLine={{ stroke: 'rgba(60, 120, 200, 0.3)', strokeWidth: 1 }}
                 interval="preserveStartEnd"
               />
               <YAxis 
-                stroke="rgba(255, 140, 0, 0.3)"
-                tick={{ fill: '#707070', fontSize: 11 }}
-                tickLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
-                axisLine={{ stroke: 'rgba(255, 140, 0, 0.2)' }}
+                stroke="rgba(60, 120, 200, 0.4)"
+                tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 11, fontWeight: 500 }}
+                tickLine={{ stroke: 'rgba(60, 120, 200, 0.3)', strokeWidth: 1 }}
+                axisLine={{ stroke: 'rgba(60, 120, 200, 0.3)', strokeWidth: 1 }}
                 tickFormatter={(value) => {
                   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
                   if (value >= 1000) return `$${(value / 1000).toFixed(1)}K`;
@@ -245,7 +248,12 @@ export const Portfolio: React.FC = () => {
                   }
                   return null;
                 }}
-                cursor={{ stroke: '#ff8c00', strokeWidth: 1, strokeDasharray: '5 5' }}
+                cursor={{ 
+                  stroke: '#5a9fff', 
+                  strokeWidth: 1.5, 
+                  strokeDasharray: '4 4',
+                  opacity: 0.8
+                }}
               />
               <Area
                 type="monotone"
@@ -259,14 +267,17 @@ export const Portfolio: React.FC = () => {
                 type="monotone"
                 dataKey="value"
                 stroke="url(#portfolioLineGradient)"
-                strokeWidth={2.5}
+                strokeWidth={3}
                 dot={false}
                 activeDot={{ 
-                  r: 5, 
-                  fill: '#ff8c00', 
+                  r: 6, 
+                  fill: '#5a9fff', 
                   stroke: '#ffffff', 
-                  strokeWidth: 2,
-                  style: { filter: 'drop-shadow(0 0 4px rgba(255, 140, 0, 0.8))' }
+                  strokeWidth: 2.5,
+                  style: { 
+                    filter: 'drop-shadow(0 0 6px rgba(90, 150, 240, 0.9))',
+                    transition: 'all 0.2s ease'
+                  }
                 }}
                 filter="url(#portfolioLineGlow)"
                 isAnimationActive={true}

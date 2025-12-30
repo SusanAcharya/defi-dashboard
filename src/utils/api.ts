@@ -39,6 +39,7 @@ export const api = {
       totalAssets: baseValue * 1.0,
       totalDebt: 0,
       nftValue: baseValue * 0.04,
+      protocolRewards: baseValue * 0.00014,
       pnl24h: baseValue * 0.007,
       pnl24hPercent: 0.89,
     };

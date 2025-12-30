@@ -18,20 +18,20 @@ export const PortfolioExposure: React.FC = () => {
   // Convert DeFi positions to exposure data
   const data = isGuest 
     ? [
-        { name: 'Please', value: 33.33, color: '#ff8c00' },
-        { name: 'Add', value: 33.33, color: '#ffa500' },
+        { name: 'Please', value: 33.33, color: '#3c78d8' },
+        { name: 'Add', value: 33.33, color: '#5a9fff' },
         { name: 'Wallet', value: 33.34, color: '#ff9500' }, // Empty name for third item
       ]
     : defiPositions?.map((pos, index) => {
-        const colors = ['#ff8c00', '#ffa500', '#ff9500', '#ff7f00', '#228b22', '#ff6347'];
+        const colors = ['#3c78d8', '#5a9fff', '#ff9500', '#ff7f00', '#228b22', '#ff6347'];
         return {
           name: pos.protocol,
           value: pos.positionValue,
           color: colors[index % colors.length],
         };
       }) || [
-        { name: 'JediSwap', value: 7500, color: '#ff8c00' },
-        { name: '10KSwap', value: 7500, color: '#ffa500' },
+        { name: 'JediSwap', value: 7500, color: '#3c78d8' },
+        { name: '10KSwap', value: 7500, color: '#5a9fff' },
         { name: 'Ekubo', value: 580, color: '#ff9500' },
         { name: 'zkLend', value: 7500, color: '#ff7f00' },
         { name: 'STRK Staking', value: 20, color: '#228b22' },

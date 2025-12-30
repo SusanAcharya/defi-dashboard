@@ -23,7 +23,7 @@ export const AssetAllocation: React.FC = () => {
       return [
         { name: 'Built', value: 33.33, percentage: 33.33, color: '#ff6347' }, // Red-orange
         { name: 'By', value: 33.33, percentage: 33.33, color: '#228b22' }, // Dark green
-        { name: 'Gamemachine', value: 33.34, percentage: 33.34, color: '#ff8c00' }, // Orange
+        { name: 'Gamemachine', value: 33.34, percentage: 33.34, color: '#3c78d8' }, // Orange
       ];
     }
     
@@ -32,7 +32,7 @@ export const AssetAllocation: React.FC = () => {
         { name: 'STRK', value: 48000, percentage: 40.00, color: '#ff6347' }, // Red-orange
         { name: 'ETH', value: 36000, percentage: 30.00, color: '#228b22' }, // Dark green
         { name: 'Stablecoins', value: 24000, percentage: 20.00, color: '#9370db' }, // Purple
-        { name: 'DeFi Tokens', value: 9600, percentage: 8.00, color: '#ff8c00' }, // Orange
+        { name: 'DeFi Tokens', value: 9600, percentage: 8.00, color: '#3c78d8' }, // Orange
         { name: 'Other Assets', value: 2400, percentage: 2.00, color: '#4a90e2' }, // Blue
       ];
     }
@@ -81,7 +81,7 @@ export const AssetAllocation: React.FC = () => {
         name: 'DeFi Tokens',
         value: defiValue,
         percentage: (defiValue / totalValue) * 100,
-        color: '#ff8c00', // Orange
+        color: '#3c78d8', // Orange
       });
     }
     if (otherValue > 0) {
@@ -98,7 +98,7 @@ export const AssetAllocation: React.FC = () => {
       { name: 'STRK', value: 48000, percentage: 40.00, color: '#ff6347' },
       { name: 'ETH', value: 36000, percentage: 30.00, color: '#228b22' },
       { name: 'Stablecoins', value: 24000, percentage: 20.00, color: '#9370db' },
-      { name: 'DeFi Tokens', value: 9600, percentage: 8.00, color: '#ff8c00' },
+      { name: 'DeFi Tokens', value: 9600, percentage: 8.00, color: '#3c78d8' },
       { name: 'Other Assets', value: 2400, percentage: 2.00, color: '#4a90e2' },
     ];
   }, [tokens]);

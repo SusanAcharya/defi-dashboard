@@ -131,26 +131,26 @@ export const TokenDetail: React.FC = () => {
             <LineChart data={chartData}>
               <defs>
                 <linearGradient id="tokenAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#ff8c00" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#ff8c00" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#3c78d8" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#3c78d8" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 140, 0, 0.2)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(60, 120, 200, 0.2)" />
               <XAxis 
                 dataKey="date" 
-                stroke="#ff8c00" 
+                stroke="#3c78d8" 
                 style={{ fontSize: '12px' }}
                 tick={{ fill: '#b0b0c0' }}
               />
               <YAxis 
-                stroke="#ff8c00" 
+                stroke="#3c78d8" 
                 style={{ fontSize: '12px' }}
                 tick={{ fill: '#b0b0c0' }}
               />
               <Tooltip
                 contentStyle={{
                   background: 'rgba(26, 26, 26, 0.95)',
-                  border: '1px solid rgba(255, 140, 0, 0.5)',
+                  border: '1px solid rgba(60, 120, 200, 0.5)',
                   borderRadius: '8px',
                   color: '#ffffff',
                 }}
@@ -165,9 +165,9 @@ export const TokenDetail: React.FC = () => {
               <Line
                 type="monotone"
                 dataKey="price"
-                stroke="#ff8c00"
+                stroke="#3c78d8"
                 strokeWidth={3}
-                dot={{ fill: '#ff8c00', r: 4 }}
+                dot={{ fill: '#3c78d8', r: 4 }}
                 activeDot={{ r: 6 }}
               />
             </LineChart>

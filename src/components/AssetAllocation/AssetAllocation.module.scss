@@ -82,7 +82,7 @@
   }
 
   &__legendLabel {
-    color: $color-text-primary;
+    color: rgba(255, 255, 255, 0.9); // White matching PortfolioCard theme
     font-size: $font-size-base;
     font-weight: $font-weight-medium;
     display: flex;
@@ -92,7 +92,7 @@
     
     &::after {
       content: attr(data-percentage);
-      color: $color-text-primary;
+      color: rgba(255, 255, 255, 0.9); // White matching PortfolioCard theme
       font-weight: $font-weight-semibold;
       margin-left: $spacing-sm;
       font-size: $font-size-base;
@@ -129,17 +129,17 @@
     ) !important;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 140, 0, 0.5) !important;
+    border: 1px solid rgba(60, 120, 200, 0.5) !important;
     border-radius: $radius-md !important;
     padding: $spacing-sm $spacing-md !important;
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.8),
-      0 0 30px rgba(255, 140, 0, 0.3) !important;
+      0 0 30px rgba(60, 120, 200, 0.3) !important;
     min-width: 150px;
   }
 
   &__tooltipName {
-    color: $color-text-primary;
+    color: rgba(255, 255, 255, 0.9); // White matching PortfolioCard theme
     font-size: $font-size-base;
     font-weight: $font-weight-bold;
     margin-bottom: $spacing-xs;
@@ -148,7 +148,7 @@
   }
 
   &__tooltipValue {
-    color: $color-text-primary;
+    color: rgba(255, 255, 255, 0.9); // White matching PortfolioCard theme
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     font-family: $font-family-primary;
@@ -156,7 +156,7 @@
   }
 
   &__tooltipPercentage {
-    color: $color-text-secondary;
+    color: rgba(255, 255, 255, 0.7); // Light white matching PortfolioCard theme
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
   }

@@ -127,7 +127,7 @@
     @include button-reset;
     padding: $spacing-sm $spacing-md;
     background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-md;
     color: $color-text-secondary;
     font-size: $font-size-sm;
@@ -135,14 +135,14 @@
 
     &_active {
       background: $gradient-accent-purple;
-      border-color: rgba(255, 140, 0, 0.5);
+      border-color: rgba(60, 120, 200, 0.5);
       color: $color-text-primary;
     }
 
     @include desktop {
       &:hover:not(&_active) {
-        background: rgba(255, 140, 0, 0.1);
-        border-color: rgba(255, 140, 0, 0.4);
+        background: rgba(60, 120, 200, 0.1);
+        border-color: rgba(60, 120, 200, 0.4);
       }
     }
   }
@@ -152,7 +152,7 @@
     padding: $spacing-md;
     background: rgba(26, 26, 26, 0.4);
     border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
   }
 
   &__stats {
@@ -171,7 +171,7 @@
     padding: $spacing-md;
     background: rgba(26, 26, 26, 0.4);
     border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
   }
 
   &__statLabel {

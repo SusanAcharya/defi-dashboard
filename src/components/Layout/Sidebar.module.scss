@@ -10,14 +10,14 @@
     width: 280px;
     max-width: 85vw;
     background: linear-gradient(
-      135deg,
-      rgba(26, 26, 26, 0.95) 0%,
-      rgba(20, 20, 20, 0.98) 50%,
-      rgba(26, 26, 26, 0.95) 100%
+      180deg,
+      rgba(12, 25, 50, 0.95) 0%,
+      rgba(8, 18, 35, 0.98) 50%,
+      rgba(6, 12, 25, 0.95) 100%
     );
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-left: 1px solid rgba(255, 140, 0, 0.3);
+    border-left: 1px solid rgba(60, 120, 200, 0.25);
     height: 100vh;
     position: fixed;
     right: 0;
@@ -26,7 +26,7 @@
     z-index: 1000;
     box-shadow: 
       -2px 0 30px rgba(0, 0, 0, 0.8),
-      inset 1px 0 0 rgba(255, 140, 0, 0.15);
+      inset 1px 0 0 rgba(60, 120, 200, 0.15);
     transform: translateX(100%);
     transition: transform $transition-base;
 
@@ -40,16 +40,16 @@
     display: flex;
     flex-direction: column;
     width: 280px;
-    // Enhanced Liquid Glass Effect
+    // Enhanced Liquid Glass Effect (darker to match cards)
     background: linear-gradient(
-      135deg,
-      rgba(26, 26, 26, 0.5) 0%,
-      rgba(20, 20, 20, 0.6) 50%,
-      rgba(26, 26, 26, 0.5) 100%
+      180deg,
+      rgba(12, 25, 50, 0.75) 0%,
+      rgba(8, 18, 35, 0.85) 50%,
+      rgba(6, 12, 25, 0.9) 100%
     );
     backdrop-filter: blur(25px) saturate(200%);
     -webkit-backdrop-filter: blur(25px) saturate(200%);
-    border-right: 1px solid rgba(255, 140, 0, 0.25);
+    border-right: 1px solid rgba(60, 120, 200, 0.2);
     height: calc(100vh - 80px);
     position: fixed;
     left: 0;
@@ -58,8 +58,8 @@
     z-index: 50;
     box-shadow: 
       4px 0 30px rgba(0, 0, 0, 0.7),
-      inset -1px 0 0 rgba(255, 140, 0, 0.15),
-      0 0 0 1px rgba(255, 140, 0, 0.05);
+      inset -1px 0 0 rgba(60, 120, 200, 0.15),
+      0 0 0 1px rgba(60, 120, 200, 0.05);
     transform: none;
     transition: all $transition-base;
 
@@ -74,7 +74,7 @@
       background: linear-gradient(
         180deg,
         transparent 0%,
-        rgba(255, 140, 0, 0.3) 50%,
+        rgba(60, 120, 200, 0.3) 50%,
         transparent 100%
       );
       pointer-events: none;
@@ -91,12 +91,12 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(255, 140, 0, 0.3);
+      background: rgba(60, 120, 200, 0.3);
       border-radius: 3px;
       transition: background $transition-fast;
 
       &:hover {
-        background: rgba(255, 140, 0, 0.5);
+        background: rgba(60, 120, 200, 0.5);
       }
     }
   }
@@ -148,7 +148,7 @@
 
   &__divider {
     height: 1px;
-    background: rgba(255, 140, 0, 0.2);
+    background: rgba(60, 120, 200, 0.2);
     margin: $spacing-sm 0;
     border: none;
 
@@ -194,7 +194,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.05) 50%,
+        rgba(60, 120, 200, 0.05) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 8s ease-in-out infinite;
@@ -214,9 +214,9 @@
       bottom: 0;
       background: linear-gradient(
         90deg,
-        rgba(255, 140, 0, 0.05) 0%,
+        rgba(60, 120, 200, 0.05) 0%,
         transparent 50%,
-        rgba(255, 140, 0, 0.05) 100%
+        rgba(60, 120, 200, 0.05) 100%
       );
       pointer-events: none;
       z-index: 1;
@@ -244,11 +244,11 @@
         );
         backdrop-filter: blur(25px) saturate(200%);
         -webkit-backdrop-filter: blur(25px) saturate(200%);
-        border: 1px solid rgba(255, 140, 0, 0.4);
+        border: 1px solid rgba(60, 120, 200, 0.4);
         box-shadow: 
           0 6px 24px rgba(0, 0, 0, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          0 0 30px rgba(255, 140, 0, 0.2),
+          0 0 30px rgba(60, 120, 200, 0.2),
           inset 0 -1px 0 rgba(0, 0, 0, 0.2);
         color: $color-text-primary;
         transform: translateX(6px) scale(1.02);
@@ -267,17 +267,17 @@
       // Enhanced Liquid Glass Effect for active item
       background: linear-gradient(
         135deg,
-        rgba(255, 140, 0, 0.2) 0%,
-        rgba(255, 165, 0, 0.18) 50%,
-        rgba(255, 140, 0, 0.2) 100%
+        rgba(60, 120, 200, 0.2) 0%,
+        rgba(90, 150, 240, 0.18) 50%,
+        rgba(60, 120, 200, 0.2) 100%
       );
       backdrop-filter: blur(25px) saturate(200%);
       -webkit-backdrop-filter: blur(25px) saturate(200%);
-      border: 1px solid rgba(255, 140, 0, 0.5);
+      border: 1px solid rgba(60, 120, 200, 0.5);
       box-shadow: 
         0 6px 24px rgba(0, 0, 0, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 0 35px rgba(255, 140, 0, 0.3),
+        0 0 35px rgba(60, 120, 200, 0.3),
         inset 0 -1px 0 rgba(0, 0, 0, 0.2);
       color: $color-text-primary;
       font-weight: $font-weight-bold;
@@ -287,9 +287,9 @@
         // Active indicator bar on the left (using box-shadow inset)
         box-shadow: 
           0 6px 24px rgba(0, 0, 0, 0.5),
-          inset 3px 0 0 rgba(255, 140, 0, 0.8),
+          inset 3px 0 0 rgba(60, 120, 200, 0.8),
           inset 0 1px 0 rgba(255, 255, 255, 0.2),
-          0 0 35px rgba(255, 140, 0, 0.3),
+          0 0 35px rgba(60, 120, 200, 0.3),
           inset 0 -1px 0 rgba(0, 0, 0, 0.2);
       }
 
@@ -320,7 +320,7 @@
     }
 
     .sidebar__item_active & {
-      filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.8));
+      filter: drop-shadow(0 0 12px rgba(60, 120, 200, 0.8));
       transform: scale(1.1);
     }
   }
@@ -344,7 +344,7 @@
     }
 
     .sidebar__item_active & {
-      filter: brightness(1.3) saturate(1.4) drop-shadow(0 0 12px rgba(255, 140, 0, 0.8));
+      filter: brightness(1.3) saturate(1.4) drop-shadow(0 0 12px rgba(60, 120, 200, 0.8));
       transform: scale(1.08);
     }
   }
@@ -369,19 +369,19 @@
     .sidebar__item_active & {
       font-weight: $font-weight-bold;
       letter-spacing: 0.8px;
-      text-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+      text-shadow: 0 0 10px rgba(60, 120, 200, 0.3);
     }
   }
 
   &__checkIn {
     flex-shrink: 0;
     padding: $spacing-sm $spacing-md;
-    border-top: 1px solid rgba(255, 140, 0, 0.2);
+    border-top: 1px solid rgba(60, 120, 200, 0.15);
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(26, 26, 26, 0.6) 50%,
-      rgba(26, 26, 26, 0.8) 100%
+      rgba(8, 18, 35, 0.6) 50%,
+      rgba(6, 12, 25, 0.8) 100%
     );
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -394,8 +394,8 @@
       background: linear-gradient(
         180deg,
         transparent 0%,
-        rgba(26, 26, 26, 0.7) 50%,
-        rgba(20, 20, 20, 0.95) 100%
+        rgba(8, 18, 35, 0.7) 50%,
+        rgba(6, 12, 25, 0.95) 100%
       );
       padding: $spacing-xs $spacing-sm;
     }
@@ -409,7 +409,7 @@
       background: linear-gradient(
         180deg,
         transparent 0%,
-        rgba(26, 26, 26, 0.3) 100%
+        rgba(8, 18, 35, 0.3) 100%
       );
       margin-top: 0;
     }
@@ -424,17 +424,17 @@
     border-radius: $radius-lg;
     background: linear-gradient(
       135deg,
-      rgba(255, 140, 0, 0.15) 0%,
-      rgba(255, 165, 0, 0.12) 50%,
-      rgba(255, 140, 0, 0.15) 100%
+      rgba(60, 120, 200, 0.15) 0%,
+      rgba(90, 150, 240, 0.12) 50%,
+      rgba(60, 120, 200, 0.15) 100%
     );
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(255, 140, 0, 0.2);
+      0 0 20px rgba(60, 120, 200, 0.2);
     transition: all $transition-base;
     cursor: pointer;
     position: relative;
@@ -450,7 +450,7 @@
       background: linear-gradient(
         135deg,
         transparent 30%,
-        rgba(255, 140, 0, 0.1) 50%,
+        rgba(60, 120, 200, 0.1) 50%,
         transparent 70%
       );
       animation: liquid-shimmer 6s ease-in-out infinite;
@@ -466,15 +466,15 @@
     &:hover {
       background: linear-gradient(
         135deg,
-        rgba(255, 140, 0, 0.25) 0%,
-        rgba(255, 165, 0, 0.22) 50%,
-        rgba(255, 140, 0, 0.25) 100%
+        rgba(60, 120, 200, 0.25) 0%,
+        rgba(90, 150, 240, 0.22) 50%,
+        rgba(60, 120, 200, 0.25) 100%
       );
-      border-color: rgba(255, 140, 0, 0.5);
+      border-color: rgba(60, 120, 200, 0.5);
       box-shadow: 
         0 6px 24px rgba(0, 0, 0, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.15),
-        0 0 30px rgba(255, 140, 0, 0.3);
+        0 0 30px rgba(60, 120, 200, 0.3);
       transform: translateY(-2px);
     }
 
@@ -487,7 +487,7 @@
     width: 32px;
     height: 32px;
     object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.6));
+    filter: drop-shadow(0 0 8px rgba(60, 120, 200, 0.6));
     flex-shrink: 0;
 
     @include mobile {
@@ -525,7 +525,7 @@
     width: 20px;
     height: 20px;
     object-fit: contain;
-    filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.6));
+    filter: drop-shadow(0 0 6px rgba(60, 120, 200, 0.6));
     flex-shrink: 0;
 
     @include mobile {
@@ -592,14 +592,14 @@
     margin-bottom: $spacing-xs;
     padding: $spacing-sm $spacing-md;
     background: rgba(26, 26, 26, 0.98);
-    border: 1px solid rgba(255, 140, 0, 0.5);
+    border: 1px solid rgba(60, 120, 200, 0.5);
     border-radius: $radius-sm;
     color: $color-text-primary;
     font-size: $font-size-xs;
     white-space: nowrap;
     box-shadow: 
       0 4px 12px rgba(0, 0, 0, 0.5),
-      0 0 20px rgba(255, 140, 0, 0.3);
+      0 0 20px rgba(60, 120, 200, 0.3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 1000;

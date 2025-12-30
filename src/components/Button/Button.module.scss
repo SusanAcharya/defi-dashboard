@@ -22,13 +22,13 @@
   &_primary {
     background: $gradient-accent-blue; // Neon blue gradient (MOBSTAKER style)
     color: #ffffff; // White text
-    border: 2px solid rgba(255, 140, 0, 0.6);
-    text-shadow: 0 0 8px rgba(255, 140, 0, 0.8);
+    border: 2px solid rgba(60, 120, 200, 0.6);
+    text-shadow: 0 0 8px rgba(60, 120, 200, 0.8);
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.6),
       inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 0 20px rgba(255, 140, 0, 0.4), // Neon blue glow
-      inset 0 0 10px rgba(255, 140, 0, 0.1);
+      0 0 20px rgba(60, 120, 200, 0.4), // Neon blue glow
+      inset 0 0 10px rgba(60, 120, 200, 0.1);
     font-weight: $font-weight-bold;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -47,11 +47,11 @@
       &:hover:not(:disabled) {
         box-shadow: 
           0 6px 20px rgba(0, 0, 0, 0.7),
-          0 0 40px rgba(255, 140, 0, 0.5),
+          0 0 40px rgba(60, 120, 200, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.3),
-          inset 0 0 15px rgba(255, 140, 0, 0.2);
+          inset 0 0 15px rgba(60, 120, 200, 0.2);
         transform: translateY(-2px);
-        border-color: rgba(255, 140, 0, 0.7);
+        border-color: rgba(60, 120, 200, 0.7);
       }
     }
   }

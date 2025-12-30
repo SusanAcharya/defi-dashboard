@@ -21,6 +21,7 @@ export interface Portfolio {
   totalAssets: number;
   totalDebt: number;
   nftValue: number;
+  protocolRewards: number;
   pnl24h: number;
   pnl24hPercent: number;
 }

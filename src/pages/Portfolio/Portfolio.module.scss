@@ -9,14 +9,14 @@
     padding: $spacing-md;
     background: rgba(26, 26, 26, 0.4);
     border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.2);
   }
 
   &__walletOption {
     @include button-reset;
     padding: $spacing-md $spacing-lg;
     background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-md;
     color: $color-text-secondary;
     font-size: $font-size-base;
@@ -28,22 +28,22 @@
     min-width: 120px;
 
     &:active {
-      border-color: rgba(255, 140, 0, 0.5);
+      border-color: rgba(60, 120, 200, 0.5);
       transform: scale(0.98);
     }
 
     &_active {
-      background: rgba(255, 140, 0, 0.3);
-      border-color: rgba(255, 140, 0, 0.7);
+      background: rgba(60, 120, 200, 0.3);
+      border-color: rgba(60, 120, 200, 0.7);
       color: $color-text-primary;
-      box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+      box-shadow: 0 0 15px rgba(60, 120, 200, 0.4);
       font-weight: $font-weight-semibold;
     }
 
     @include desktop {
       &:hover:not(&_active) {
-        background: rgba(255, 140, 0, 0.15);
-        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(60, 120, 200, 0.15);
+        border-color: rgba(60, 120, 200, 0.5);
       }
     }
   }
@@ -106,7 +106,7 @@
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 140, 0, 0.3); // Purple border
+    border: 1px solid rgba(60, 120, 200, 0.3); // Purple border
     color: $color-text-secondary;
     border-radius: $radius-md;
     font-size: $font-size-sm;
@@ -121,43 +121,89 @@
 
     @include desktop {
       &:hover {
-        background: rgba(255, 140, 0, 0.1);
+        background: rgba(60, 120, 200, 0.1);
         color: $color-text-primary;
-        border-color: rgba(255, 140, 0, 0.5);
+        border-color: rgba(60, 120, 200, 0.5);
       }
     }
 
     &_active {
       background: $gradient-accent-primary; // Orange gradient
       color: $color-text-primary;
-      border: 1px solid rgba(255, 140, 0, 0.5);
-      box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4), 0 0 15px rgba(255, 140, 0, 0.3);
+      border: 1px solid rgba(60, 120, 200, 0.5);
+      box-shadow: 0 2px 8px rgba(60, 120, 200, 0.4), 0 0 15px rgba(60, 120, 200, 0.3);
     }
   }
 
   &__chart {
-    @include card;
     margin-top: $spacing-lg;
     padding: $spacing-lg $spacing-md $spacing-md;
     position: relative;
     overflow: hidden;
-    background: rgba(26, 26, 26, 0.8);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    // Darker blue gradient matching card theme
+    background: linear-gradient(
+      180deg,
+      rgba(15, 30, 60, 0.7) 0%,
+      rgba(10, 20, 40, 0.8) 50%,
+      rgba(8, 15, 30, 0.9) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(60, 120, 200, 0.15);
+    border-radius: $radius-lg;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(60, 120, 200, 0.08);
 
     @include mobile {
       margin-top: $spacing-md;
       padding: $spacing-md $spacing-sm $spacing-sm;
     }
 
-    // Professional chart container styling
+    // Liquid glass reflection effect
     &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(60, 120, 200, 0.08) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Gradient overlay
+    &::after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.3), transparent);
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(60, 120, 200, 0.03) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(60, 120, 200, 0.03) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
     }
 
     &_zoomable {
@@ -175,15 +221,20 @@
     top: $spacing-sm;
     right: $spacing-md;
     padding: $spacing-xs $spacing-sm;
-    background: rgba(26, 26, 26, 0.9);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    background: linear-gradient(
+      180deg,
+      rgba(12, 25, 50, 0.95) 0%,
+      rgba(8, 18, 35, 0.98) 100%
+    );
+    border: 1px solid rgba(60, 120, 200, 0.25);
     border-radius: $radius-sm;
-    color: $color-text-secondary;
+    color: rgba(255, 255, 255, 0.7);
     font-size: $font-size-xs;
     z-index: 10;
     pointer-events: none;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
     @include mobile {
       display: none;
@@ -191,15 +242,20 @@
   }
 
   &__tooltip {
-    background: rgba(26, 26, 26, 0.98);
-    border: 1px solid rgba(255, 140, 0, 0.5);
+    background: linear-gradient(
+      180deg,
+      rgba(12, 25, 50, 0.98) 0%,
+      rgba(8, 18, 35, 0.98) 100%
+    );
+    border: 1px solid rgba(60, 120, 200, 0.4);
     border-radius: $radius-md;
     padding: $spacing-sm $spacing-md;
     box-shadow: 
       0 4px 20px rgba(0, 0, 0, 0.8),
-      0 0 30px rgba(255, 140, 0, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+      0 0 30px rgba(60, 120, 200, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
   }
 
   &__tooltipLabel {
@@ -231,7 +287,7 @@
     );
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 140, 0, 0.25);
+    border: 1px solid rgba(60, 120, 200, 0.25);
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -252,11 +308,11 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(255, 140, 0, 0.4);
+      background: rgba(60, 120, 200, 0.4);
       border-radius: $radius-sm;
       
       &:hover {
-        background: rgba(255, 140, 0, 0.6);
+        background: rgba(60, 120, 200, 0.6);
       }
     }
   }
@@ -281,11 +337,11 @@
   &__tableHeader {
     th {
       padding: $spacing-md $spacing-lg;
-      border-bottom: 2px solid rgba(255, 140, 0, 0.3);
+      border-bottom: 2px solid rgba(60, 120, 200, 0.3);
       background: linear-gradient(
         135deg,
-        rgba(255, 140, 0, 0.15) 0%,
-        rgba(255, 165, 0, 0.1) 100%
+        rgba(60, 120, 200, 0.15) 0%,
+        rgba(90, 150, 240, 0.1) 100%
       );
       color: rgba(255, 255, 255, 0.9);
       font-family: $font-family-primary;
@@ -314,7 +370,7 @@
   &__tableRow {
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    border-bottom: 1px solid rgba(255, 140, 0, 0.08);
+    border-bottom: 1px solid rgba(60, 120, 200, 0.08);
     background: transparent;
 
     &:last-child {
@@ -342,17 +398,17 @@
       &:hover {
         background: linear-gradient(
           90deg,
-          rgba(255, 140, 0, 0.08) 0%,
-          rgba(255, 140, 0, 0.12) 100%
+          rgba(60, 120, 200, 0.08) 0%,
+          rgba(60, 120, 200, 0.12) 100%
         );
-        border-bottom-color: rgba(255, 140, 0, 0.2);
+        border-bottom-color: rgba(60, 120, 200, 0.2);
         transform: translateX(2px);
-        box-shadow: 2px 0 8px rgba(255, 140, 0, 0.15);
+        box-shadow: 2px 0 8px rgba(60, 120, 200, 0.15);
       }
     }
 
     &:active {
-      background: rgba(255, 140, 0, 0.15) !important;
+      background: rgba(60, 120, 200, 0.15) !important;
       transform: scale(0.998);
     }
   }
@@ -472,6 +528,18 @@
       padding: $spacing-lg;
       font-size: $font-size-sm;
     }
+  }
+}
+
+// Liquid glass shimmer animation
+@keyframes liquid-shimmer {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+    opacity: 0.6;
   }
 }
 

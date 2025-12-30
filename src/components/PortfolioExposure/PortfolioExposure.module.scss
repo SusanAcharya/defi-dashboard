@@ -9,7 +9,7 @@
   }
 
   &__trend {
-    color: $color-positive; // Green
+    color: #10b981; // Green (keeping positive color)
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
@@ -35,7 +35,7 @@
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
     border-radius: $radius-md;
-    border: 1px solid rgba(255, 140, 0, 0.15);
+    border: 1px solid rgba(60, 120, 200, 0.15);
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -52,9 +52,9 @@
       bottom: 0;
       background: linear-gradient(
         180deg,
-        rgba(255, 140, 0, 0.03) 0%,
+        rgba(60, 120, 200, 0.03) 0%,
         transparent 50%,
-        rgba(255, 140, 0, 0.03) 100%
+        rgba(60, 120, 200, 0.03) 100%
       );
       pointer-events: none;
       opacity: 0.5;
@@ -62,11 +62,11 @@
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.3);
+        border-color: rgba(60, 120, 200, 0.3);
         box-shadow: 
           0 6px 24px rgba(0, 0, 0, 0.4),
           inset 0 1px 0 rgba(255, 255, 255, 0.1),
-          0 0 20px rgba(255, 140, 0, 0.1);
+          0 0 20px rgba(60, 120, 200, 0.1);
         transform: translateY(-2px);
 
         .portfolioExposure__itemBarFill {
@@ -82,16 +82,16 @@
     width: 32px;
     height: 32px;
     border-radius: $radius-sm;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(60, 120, 200, 0.2) 0%, rgba(90, 150, 240, 0.15) 100%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     @include flex-center;
     font-size: $font-size-base;
     font-weight: $font-weight-bold;
-    color: $color-text-primary;
+    color: rgba(255, 255, 255, 0.9); // White matching PortfolioCard theme
     flex-shrink: 0;
-    border: 1px solid rgba(255, 140, 0, 0.3);
-    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.3);
+    box-shadow: 0 2px 8px rgba(60, 120, 200, 0.2);
   }
 
   &__itemInfo {
@@ -102,13 +102,13 @@
   }
 
   &__itemName {
-    color: $color-text-primary;
+    color: rgba(255, 255, 255, 0.9); // White matching PortfolioCard theme
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
   }
 
   &__itemValue {
-    color: $color-text-secondary;
+    color: rgba(255, 255, 255, 0.7); // Light white matching PortfolioCard theme
     font-size: $font-size-xs;
   }
 
@@ -132,7 +132,7 @@
     border-radius: $radius-full;
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(255, 140, 0, 0.1);
+    border: 1px solid rgba(60, 120, 200, 0.1);
     box-shadow: 
       inset 0 2px 4px rgba(0, 0, 0, 0.3),
       0 1px 2px rgba(0, 0, 0, 0.2);
@@ -189,14 +189,14 @@
   }
 
   &__itemPercentage {
-    color: $color-text-secondary;
+    color: rgba(255, 255, 255, 0.7); // Light white matching PortfolioCard theme
     font-size: $font-size-xs;
     white-space: nowrap;
   }
 
   &__itemMenu {
     @include button-reset;
-    color: $color-text-secondary;
+    color: rgba(255, 255, 255, 0.7); // Light white matching PortfolioCard theme
     font-size: $font-size-lg;
     cursor: pointer;
     padding: $spacing-xs;

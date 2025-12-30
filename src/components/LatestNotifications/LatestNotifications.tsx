@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatDateTime } from '@/utils/format';
@@ -9,6 +9,17 @@ import styles from './LatestNotifications.module.scss';
 export const LatestNotifications: React.FC = () => {
   const { selectedWalletAddress, isGuest } = useWalletStore();
   const [expanded, setExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications', selectedWalletAddress],
     queryFn: () => api.getNotifications(selectedWalletAddress),
@@ -16,10 +27,11 @@ export const LatestNotifications: React.FC = () => {
     enabled: !isGuest, // Don't fetch if guest
   });
 
-  // Get latest 5 notifications, show 2 initially or 5 when expanded
+  // Get latest 5 notifications
+  // On desktop: show all 5, on mobile: show 2 initially or 5 when expanded
   const allNotifications = isGuest ? [] : (notifications?.slice(0, 5) || []);
-  const latestNotifications = expanded ? allNotifications : allNotifications.slice(0, 2);
-  const hasMore = allNotifications.length > 2;
+  const latestNotifications = (isMobile && !expanded) ? allNotifications.slice(0, 2) : allNotifications;
+  const hasMore = allNotifications.length > 2 && isMobile;
 
   if (isLoading && !isGuest) {
     return (
@@ -60,7 +72,7 @@ export const LatestNotifications: React.FC = () => {
             onClick={() => setExpanded(!expanded)}
             aria-label={expanded ? 'Show less' : 'Show more'}
           >
-            {expanded ? 'Show Less' : `Show More`}
+            {expanded ? 'Show Less' : 'Show More'}
           </button>
         )}
       </div>

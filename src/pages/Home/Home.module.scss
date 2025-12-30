@@ -9,6 +9,20 @@
     gap: $spacing-md;
   }
 
+  &__topRow {
+    @include flex-column;
+    gap: $spacing-lg;
+
+    @include mobile {
+      gap: $spacing-md;
+    }
+
+    @include desktop {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-lg;
+    }
+  }
 
   &__grid {
     display: grid;
@@ -46,10 +60,10 @@
     background: rgba(26, 26, 26, 0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 2px solid rgba(255, 140, 0, 0.3);
+    border: 2px solid rgba(60, 120, 200, 0.3);
     box-shadow: 
       0 4px 15px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(255, 140, 0, 0.1);
+      inset 0 1px 0 rgba(60, 120, 200, 0.1);
     transition: all $transition-fast;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -58,10 +72,10 @@
 
     &:active {
       background: rgba(26, 26, 26, 0.8);
-      border-color: rgba(255, 140, 0, 0.5);
+      border-color: rgba(60, 120, 200, 0.5);
       box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.9),
-        0 0 15px rgba(255, 140, 0, 0.3);
+        0 0 15px rgba(60, 120, 200, 0.3);
       transform: scale(0.95);
     }
   }
@@ -83,5 +97,40 @@
     font-weight: $font-weight-medium;
     text-align: center;
     line-height: 1.2;
+  }
+
+  // Homepage-specific hover effects for cards
+  @include desktop {
+    // Target Card components within home page
+    :global(.card) {
+      &:hover {
+        // Brighter on hover with subtle pop-out
+        background: linear-gradient(
+          180deg,
+          rgba(25, 50, 100, 0.75) 0%,
+          rgba(18, 35, 70, 0.85) 50%,
+          rgba(12, 25, 50, 0.95) 100%
+        ) !important;
+        border-color: rgba(60, 120, 200, 0.35) !important;
+        box-shadow: 
+          0 12px 48px rgba(0, 0, 0, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(60, 120, 200, 0.25),
+          0 0 40px rgba(60, 120, 200, 0.2) !important;
+        transform: translateY(-3px) scale(1.01) !important;
+      }
+
+      &:active {
+        // Slightly brighter on click
+        background: linear-gradient(
+          180deg,
+          rgba(30, 60, 120, 0.8) 0%,
+          rgba(20, 40, 80, 0.9) 50%,
+          rgba(15, 25, 50, 1) 100%
+        ) !important;
+        transform: translateY(-1px) scale(1.005) !important;
+      }
+    }
   }
 }

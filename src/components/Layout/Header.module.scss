@@ -2,18 +2,23 @@
 @use 'sass:color';
 
 .header {
-  background: rgba(26, 26, 26, 0.9); // Transparent dark grey
+  background: linear-gradient(
+    180deg,
+    rgba(12, 25, 50, 0.95) 0%,
+    rgba(8, 18, 35, 0.98) 50%,
+    rgba(6, 12, 25, 0.95) 100%
+  ); // Darker blue gradient matching card theme
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border-bottom: 2px solid rgba(255, 140, 0, 0.4); // Orange border
+  border-bottom: 2px solid rgba(60, 120, 200, 0.3); // Darker blue border
   padding: $spacing-sm $spacing-md; // Mobile-first: smaller padding
   position: sticky;
   top: 0;
   z-index: 9999; // High z-index for header, dropdown will be 10000 
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.8),
-    inset 0 -1px 0 rgba(255, 140, 0, 0.2),
-    0 0 20px rgba(255, 140, 0, 0.1); // Orange glow
+    inset 0 -1px 0 rgba(60, 120, 200, 0.15),
+    0 0 20px rgba(60, 120, 200, 0.08); // Darker blue glow
   overflow: visible; // Allow dropdown to overflow
 
   // Add subtle scan effect
@@ -24,7 +29,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.05), transparent);
+    background: linear-gradient(90deg, transparent, rgba(60, 120, 200, 0.05), transparent);
     animation: gritty-scan 10s linear infinite;
     pointer-events: none;
   }
@@ -67,7 +72,7 @@
     height: 40px;
     border-radius: $radius-md;
     background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     cursor: pointer;
     transition: all $transition-fast;
     flex-shrink: 0;
@@ -83,8 +88,8 @@
     }
 
     &:active {
-      background: rgba(255, 140, 0, 0.1);
-      border-color: rgba(255, 140, 0, 0.5);
+      background: rgba(60, 120, 200, 0.1);
+      border-color: rgba(60, 120, 200, 0.5);
       transform: scale(0.95);
     }
   }
@@ -205,7 +210,7 @@
     gap: 2px; // Very small gap on mobile
     padding: 4px $spacing-xs; // Smaller padding on mobile
     background: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-sm;
     color: $color-text-primary;
     font-size: $font-size-xs;
@@ -225,14 +230,14 @@
     }
 
     &:active {
-      border-color: rgba(255, 140, 0, 0.5);
-      background: rgba(255, 140, 0, 0.1);
+      border-color: rgba(60, 120, 200, 0.5);
+      background: rgba(60, 120, 200, 0.1);
     }
 
     @include desktop {
       &:hover {
-        border-color: rgba(255, 140, 0, 0.5);
-        background: rgba(255, 140, 0, 0.1);
+        border-color: rgba(60, 120, 200, 0.5);
+        background: rgba(60, 120, 200, 0.1);
       }
     }
   }
@@ -262,7 +267,7 @@
     background: rgba(26, 26, 46, 0.98);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.3);
+    border: 1px solid rgba(60, 120, 200, 0.3);
     border-radius: $radius-md;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
     z-index: 99999; 
@@ -295,18 +300,18 @@
     gap: $spacing-sm;
 
     &:active {
-      background: rgba(255, 140, 0, 0.1);
+      background: rgba(60, 120, 200, 0.1);
     }
 
     &_active {
-      background: rgba(255, 140, 0, 0.2);
+      background: rgba(60, 120, 200, 0.2);
       color: $color-text-primary;
       font-weight: $font-weight-semibold;
     }
 
     @include desktop {
       &:hover:not(&_active) {
-        background: rgba(255, 140, 0, 0.1);
+        background: rgba(60, 120, 200, 0.1);
         color: $color-text-primary;
       }
     }
@@ -348,7 +353,7 @@
       height: 40px;
       border-radius: $radius-full;
       background: rgba(26, 26, 26, 0.6);
-      border: 1px solid rgba(255, 140, 0, 0.3);
+      border: 1px solid rgba(60, 120, 200, 0.3);
       cursor: pointer;
       transition: all $transition-fast;
       @include flex-center;
@@ -358,15 +363,15 @@
 
     @include desktop {
       &:active {
-        background: rgba(255, 140, 0, 0.1);
-        border-color: rgba(255, 140, 0, 0.5);
+        background: rgba(60, 120, 200, 0.1);
+        border-color: rgba(60, 120, 200, 0.5);
         transform: scale(0.95);
       }
 
       &:hover {
-        background: rgba(255, 140, 0, 0.1);
-        border-color: rgba(255, 140, 0, 0.5);
-        box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+        background: rgba(60, 120, 200, 0.1);
+        border-color: rgba(60, 120, 200, 0.5);
+        box-shadow: 0 0 15px rgba(60, 120, 200, 0.3);
       }
     }
   }
@@ -414,8 +419,8 @@
     height: 100%;
     border-radius: $radius-full;
     object-fit: cover;
-    border: 2px solid rgba(255, 140, 0, 0.4); // Orange
-    box-shadow: 0 0 15px rgba(255, 140, 0, 0.4); // Orange glow
+    border: 2px solid rgba(60, 120, 200, 0.4); // Orange
+    box-shadow: 0 0 15px rgba(60, 120, 200, 0.4); // Orange glow
   }
 }
 
