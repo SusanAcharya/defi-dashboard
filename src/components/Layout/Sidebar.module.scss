@@ -125,14 +125,18 @@
     padding: $spacing-md;
     gap: $spacing-xs;
     padding-top: 80px; // Account for header height on mobile
-    flex: 1;
-    overflow-y: auto;
+
+    @include mobile {
+      padding-bottom: $spacing-md; // Add bottom padding for spacing
+    }
 
     @include desktop {
       padding: $spacing-lg $spacing-md;
       padding-top: $spacing-xl;
       padding-bottom: 180px; // Space for check-in section at bottom
       gap: $spacing-sm;
+      flex: 1;
+      overflow-y: auto;
     }
   }
 
@@ -418,8 +422,7 @@
     margin-top: auto; // Push to bottom in flex container
 
     @include mobile {
-      position: sticky;
-      bottom: 0;
+      position: relative; // Changed from sticky to relative so it scrolls
       background: linear-gradient(
         180deg,
         transparent 0%,
@@ -427,6 +430,7 @@
         rgba(6, 12, 25, 0.95) 100%
       );
       padding: $spacing-xs $spacing-sm;
+      margin-top: $spacing-md; // Add spacing from nav items
     }
 
     @include desktop {
