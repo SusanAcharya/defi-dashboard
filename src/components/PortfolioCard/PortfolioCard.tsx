@@ -153,12 +153,6 @@ export const PortfolioCard: React.FC = () => {
             <div className={styles.portfolioCard__divider} />
             <div className={styles.portfolioCard__metrics}>
               <div className={styles.portfolioCard__metric}>
-                <div className={styles.portfolioCard__metricLabel}>TOTAL ASSETS</div>
-                <div className={styles.portfolioCard__metricValue}>
-                  {formatCurrency(displayPortfolio.totalAssets, 'USD', showFinancialNumbers)}
-                </div>
-              </div>
-              <div className={styles.portfolioCard__metric}>
                 <div className={styles.portfolioCard__metricLabel}>TOTAL DEBT</div>
                 <div className={styles.portfolioCard__metricValue}>
                   {formatCurrency(displayPortfolio.totalDebt, 'USD', showFinancialNumbers)}
@@ -189,12 +183,6 @@ export const PortfolioCard: React.FC = () => {
         <div className={styles.portfolioCard__mobileMetrics}>
           <div className={styles.portfolioCard__divider} />
           <div className={styles.portfolioCard__metrics}>
-            <div className={styles.portfolioCard__metric}>
-              <div className={styles.portfolioCard__metricLabel}>TOTAL ASSETS</div>
-              <div className={styles.portfolioCard__metricValue}>
-                {formatCurrency(displayPortfolio.totalAssets, 'USD', showFinancialNumbers)}
-              </div>
-            </div>
             <div className={styles.portfolioCard__metric}>
               <div className={styles.portfolioCard__metricLabel}>TOTAL DEBT</div>
               <div className={styles.portfolioCard__metricValue}>

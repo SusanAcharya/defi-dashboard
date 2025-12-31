@@ -582,7 +582,7 @@
 
   &__metrics {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); // Mobile: 3 columns
+    grid-template-columns: repeat(2, 1fr); // 2 columns for Debt and Protocol Rewards
     gap: $spacing-xs; // Mobile-first: smaller gap
     position: relative;
     z-index: 2;
