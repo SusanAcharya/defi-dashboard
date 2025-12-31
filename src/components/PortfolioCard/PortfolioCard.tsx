@@ -183,6 +183,33 @@ export const PortfolioCard: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Mobile: Metrics section - only show when not guest */}
+      {!isGuest && (
+        <div className={styles.portfolioCard__mobileMetrics}>
+          <div className={styles.portfolioCard__divider} />
+          <div className={styles.portfolioCard__metrics}>
+            <div className={styles.portfolioCard__metric}>
+              <div className={styles.portfolioCard__metricLabel}>TOTAL ASSETS</div>
+              <div className={styles.portfolioCard__metricValue}>
+                {formatCurrency(displayPortfolio.totalAssets, 'USD', showFinancialNumbers)}
+              </div>
+            </div>
+            <div className={styles.portfolioCard__metric}>
+              <div className={styles.portfolioCard__metricLabel}>TOTAL DEBT</div>
+              <div className={styles.portfolioCard__metricValue}>
+                {formatCurrency(displayPortfolio.totalDebt, 'USD', showFinancialNumbers)}
+              </div>
+            </div>
+            <div className={styles.portfolioCard__metric}>
+              <div className={styles.portfolioCard__metricLabel}>PROTOCOL REWARDS</div>
+              <div className={styles.portfolioCard__metricValue}>
+                {formatCurrency(displayPortfolio.protocolRewards, 'USD', showFinancialNumbers)}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </Card>
   );
 };

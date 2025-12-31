@@ -273,6 +273,15 @@
     }
   }
 
+  &__mobileMetrics {
+    @include desktop {
+      display: none; // Hide on desktop
+    }
+    margin-top: $spacing-md;
+    position: relative;
+    z-index: 2;
+  }
+
   &__addWalletSection {
     @include flex-center;
     margin-top: $spacing-md;

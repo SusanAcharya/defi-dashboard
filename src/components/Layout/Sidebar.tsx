@@ -5,10 +5,12 @@ import checkinIcon from '@/assets/checkin.png';
 import checkedinIcon from '@/assets/checkedin.png';
 import styles from './Sidebar.module.scss';
 import settingsIcon from '@/assets/icons/settings.png';
+import walletIcon from '@/assets/icons/wallet.png';
 
 const mainNavItems = [
   { path: '/', label: 'Home', icon: '📊', iconImage: null },
   { path: '/portfolio', label: 'Overview', icon: '💼', iconImage: null },
+  { path: '/wallet', label: 'Wallet', icon: null, iconImage: walletIcon },
   { path: '/history', label: 'Activity', icon: '📜', iconImage: null },
   { path: '/settings', label: 'Manage Alerts', icon: null, iconImage: settingsIcon },
   { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
