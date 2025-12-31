@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { formatCurrency, formatPercentage } from '@/utils/format';
@@ -11,6 +12,7 @@ import hideIcon from '@/assets/icons/hide.png';
 import styles from './PortfolioCard.module.scss';
 
 export const PortfolioCard: React.FC = () => {
+  const navigate = useNavigate();
   const { selectedWalletAddress, isGuest, username, alias } = useWalletStore();
   const { data: portfolio, isLoading } = useQuery({
     queryKey: ['portfolio', selectedWalletAddress],
@@ -51,17 +53,19 @@ export const PortfolioCard: React.FC = () => {
         <div className={styles.portfolioCard__topLeft}>
           <div className={styles.portfolioCard__networthHeader}>
             <div className={styles.portfolioCard__label}>TOTAL NET WORTH</div>
-            <button
-              className={styles.portfolioCard__eyeButton}
-              onClick={toggleFinancialNumbers}
-              aria-label={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
-            >
-              <img 
-                src={showFinancialNumbers ? showIcon : hideIcon} 
-                alt={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
-                className={styles.portfolioCard__eyeIcon}
-              />
-            </button>
+            {!isGuest && (
+              <button
+                className={styles.portfolioCard__eyeButton}
+                onClick={toggleFinancialNumbers}
+                aria-label={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
+              >
+                <img 
+                  src={showFinancialNumbers ? showIcon : hideIcon} 
+                  alt={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
+                  className={styles.portfolioCard__eyeIcon}
+                />
+              </button>
+            )}
           </div>
           <div className={styles.portfolioCard__networthValue}>
             {formatCurrency(displayPortfolio.totalValue, 'USD', showFinancialNumbers)}
@@ -90,22 +94,23 @@ export const PortfolioCard: React.FC = () => {
             src={profileImage} 
             alt="Profile" 
             className={styles.portfolioCard__avatar}
-            style={isGuest ? { opacity: 0.6, filter: 'grayscale(0.3)' } : {}}
           />
           <div className={styles.portfolioCard__info}>
             <div className={styles.portfolioCard__usernameRow}>
               <div className={styles.portfolioCard__username}>{username}</div>
-              <button
-                className={styles.portfolioCard__eyeButton}
-                onClick={toggleFinancialNumbers}
-                aria-label={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
-              >
-                <img 
-                  src={showFinancialNumbers ? showIcon : hideIcon} 
-                  alt={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
-                  className={styles.portfolioCard__eyeIcon}
-                />
-              </button>
+              {!isGuest && (
+                <button
+                  className={styles.portfolioCard__eyeButton}
+                  onClick={toggleFinancialNumbers}
+                  aria-label={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
+                >
+                  <img 
+                    src={showFinancialNumbers ? showIcon : hideIcon} 
+                    alt={showFinancialNumbers ? 'Hide numbers' : 'Show numbers'}
+                    className={styles.portfolioCard__eyeIcon}
+                  />
+                </button>
+              )}
             </div>
             {alias && (
               <div className={styles.portfolioCard__aliasDesktopRow}>
@@ -114,42 +119,69 @@ export const PortfolioCard: React.FC = () => {
             )}
           </div>
         </div>
-        <div className={styles.portfolioCard__networth}>
-          <div className={styles.portfolioCard__label}>NET WORTH</div>
-          <div className={styles.portfolioCard__networthRow}>
-            <div className={styles.portfolioCard__value}>
-              {formatCurrency(displayPortfolio.totalValue, 'USD', showFinancialNumbers)}
-            </div>
-            <div className={styles.portfolioCard__change}>
-              {showFinancialNumbers 
-                ? (displayPortfolio.pnl24h >= 0 ? '+' : '') + formatCurrency(Math.abs(displayPortfolio.pnl24h), 'USD', showFinancialNumbers)
-                : '••••'
-              }
+            {isGuest ? (
+          <div className={styles.portfolioCard__addWalletSectionMobile}>
+            <button
+              className={styles.portfolioCard__addWalletButton}
+              onClick={() => navigate('/wallet')}
+            >
+              Add a Wallet to start Tracking
+            </button>
+          </div>
+        ) : (
+          <div className={styles.portfolioCard__networth}>
+            <div className={styles.portfolioCard__label}>NET WORTH</div>
+            <div className={styles.portfolioCard__networthRow}>
+              <div className={styles.portfolioCard__value}>
+                {formatCurrency(displayPortfolio.totalValue, 'USD', showFinancialNumbers)}
+              </div>
+              <div className={styles.portfolioCard__change}>
+                {showFinancialNumbers 
+                  ? (displayPortfolio.pnl24h >= 0 ? '+' : '') + formatCurrency(Math.abs(displayPortfolio.pnl24h), 'USD', showFinancialNumbers)
+                  : '••••'
+                }
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       
-      <div className={styles.portfolioCard__divider} />
-      <div className={styles.portfolioCard__metrics}>
-        <div className={styles.portfolioCard__metric}>
-          <div className={styles.portfolioCard__metricLabel}>TOTAL ASSETS</div>
-          <div className={styles.portfolioCard__metricValue}>
-            {formatCurrency(displayPortfolio.totalAssets, 'USD', showFinancialNumbers)}
+      {/* Desktop: Metrics section - only show when not guest */}
+      <div className={styles.portfolioCard__desktopMetrics}>
+        {!isGuest ? (
+          <>
+            <div className={styles.portfolioCard__divider} />
+            <div className={styles.portfolioCard__metrics}>
+              <div className={styles.portfolioCard__metric}>
+                <div className={styles.portfolioCard__metricLabel}>TOTAL ASSETS</div>
+                <div className={styles.portfolioCard__metricValue}>
+                  {formatCurrency(displayPortfolio.totalAssets, 'USD', showFinancialNumbers)}
+                </div>
+              </div>
+              <div className={styles.portfolioCard__metric}>
+                <div className={styles.portfolioCard__metricLabel}>TOTAL DEBT</div>
+                <div className={styles.portfolioCard__metricValue}>
+                  {formatCurrency(displayPortfolio.totalDebt, 'USD', showFinancialNumbers)}
+                </div>
+              </div>
+              <div className={styles.portfolioCard__metric}>
+                <div className={styles.portfolioCard__metricLabel}>PROTOCOL REWARDS</div>
+                <div className={styles.portfolioCard__metricValue}>
+                  {formatCurrency(displayPortfolio.protocolRewards, 'USD', showFinancialNumbers)}
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className={styles.portfolioCard__addWalletSectionDesktop}>
+            <button
+              className={styles.portfolioCard__addWalletButton}
+              onClick={() => navigate('/wallet')}
+            >
+              Add a Wallet to start Tracking
+            </button>
           </div>
-        </div>
-        <div className={styles.portfolioCard__metric}>
-          <div className={styles.portfolioCard__metricLabel}>TOTAL DEBT</div>
-          <div className={styles.portfolioCard__metricValue}>
-            {formatCurrency(displayPortfolio.totalDebt, 'USD', showFinancialNumbers)}
-          </div>
-        </div>
-        <div className={styles.portfolioCard__metric}>
-          <div className={styles.portfolioCard__metricLabel}>PROTOCOL REWARDS</div>
-          <div className={styles.portfolioCard__metricValue}>
-            {formatCurrency(displayPortfolio.protocolRewards, 'USD', showFinancialNumbers)}
-          </div>
-        </div>
+        )}
       </div>
     </Card>
   );

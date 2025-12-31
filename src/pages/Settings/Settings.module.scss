@@ -37,14 +37,99 @@
   }
 
   &__item {
-    @include card; // Use card mixin for grid pattern and neon blue borders
+    // Liquid Glass Effect matching Card component theme
+    background: linear-gradient(
+      180deg,
+      rgba(15, 30, 60, 0.7) 0%,
+      rgba(10, 20, 40, 0.8) 50%,
+      rgba(8, 15, 30, 0.9) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(60, 120, 200, 0.15);
+    border-radius: $radius-md;
+    box-shadow: 
+      0 6px 24px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(60, 120, 200, 0.08);
     @include flex-between;
     padding: $spacing-md;
-    transition: all $transition-fast;
+    transition: all $transition-base;
+    position: relative;
+    overflow: hidden;
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.5);
-      border-color: rgba(60, 120, 200, 0.8);
+    // Liquid glass reflection effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(60, 120, 200, 0.1) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Subtle gradient overlay
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(60, 120, 200, 0.05) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(60, 120, 200, 0.05) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include desktop {
+      &:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(25, 50, 100, 0.75) 0%,
+          rgba(18, 35, 70, 0.85) 50%,
+          rgba(12, 25, 50, 0.95) 100%
+        );
+        border-color: rgba(60, 120, 200, 0.3);
+        box-shadow: 
+          0 10px 40px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+          0 0 0 1px rgba(60, 120, 200, 0.12),
+          0 0 30px rgba(60, 120, 200, 0.1);
+        transform: translateY(-3px) scale(1.01);
+      }
+      &:active {
+        background: linear-gradient(
+          180deg,
+          rgba(30, 60, 120, 0.8) 0%,
+          rgba(20, 40, 80, 0.9) 50%,
+          rgba(15, 25, 50, 1) 100%
+        );
+        transform: translateY(-1px) scale(1.005);
+        border-color: rgba(60, 120, 200, 0.4);
+      }
     }
 
     @include mobile {
@@ -74,21 +159,45 @@
   &__toggle {
     @include button-reset;
     padding: $spacing-xs $spacing-md;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #b0b0b0; // Light gray
-    border: 1px solid rgba(60, 120, 200, 0.3); // Neon blue border
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 26, 0.8) 0%,
+      rgba(20, 20, 20, 0.9) 100%
+    );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(60, 120, 200, 0.25);
     border-radius: $radius-md;
     font-weight: $font-weight-medium;
     transition: all $transition-fast;
     min-width: 60px;
+    position: relative;
+    z-index: 2;
 
     &_active {
-      background: $gradient-accent-green; // Neon green
-      color: #ffffff; // White text
-      border-color: rgba(0, 255, 136, 0.7);
-      box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+      background: linear-gradient(
+        135deg,
+        rgba(16, 185, 129, 0.3) 0%,
+        rgba(5, 150, 105, 0.4) 100%
+      );
+      color: #ffffff;
+      border-color: rgba(16, 185, 129, 0.6);
+      box-shadow: 
+        0 4px 12px rgba(16, 185, 129, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    @include desktop {
+      &:hover:not(&_active) {
+        background: linear-gradient(
+          135deg,
+          rgba(30, 30, 30, 0.9) 0%,
+          rgba(24, 24, 24, 0.95) 100%
+        );
+        border-color: rgba(60, 120, 200, 0.4);
+        color: rgba(255, 255, 255, 0.9);
+      }
     }
   }
 
@@ -449,9 +558,89 @@
 
   // Wallet Notification Settings
   &__walletCard {
-    @include card;
+    // Liquid Glass Effect matching Card component theme (same as __item)
+    background: linear-gradient(
+      180deg,
+      rgba(15, 30, 60, 0.7) 0%,
+      rgba(10, 20, 40, 0.8) 50%,
+      rgba(8, 15, 30, 0.9) 100%
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(60, 120, 200, 0.15);
+    border-radius: $radius-lg;
+    box-shadow: 
+      0 6px 24px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(60, 120, 200, 0.08);
     margin-bottom: $spacing-md;
     overflow: hidden;
+    position: relative;
+    transition: all $transition-base;
+
+    // Liquid glass reflection effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(60, 120, 200, 0.1) 50%,
+        transparent 70%
+      );
+      animation: liquid-shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // Subtle gradient overlay
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(60, 120, 200, 0.05) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(60, 120, 200, 0.05) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include desktop {
+      &:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(25, 50, 100, 0.75) 0%,
+          rgba(18, 35, 70, 0.85) 50%,
+          rgba(12, 25, 50, 0.95) 100%
+        );
+        border-color: rgba(60, 120, 200, 0.3);
+        box-shadow: 
+          0 10px 40px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+          0 0 0 1px rgba(60, 120, 200, 0.12),
+          0 0 30px rgba(60, 120, 200, 0.1);
+        transform: translateY(-3px) scale(1.01);
+      }
+    }
   }
 
   &__walletHeader {
@@ -462,6 +651,8 @@
     padding: $spacing-md;
     cursor: pointer;
     transition: all $transition-fast;
+    position: relative;
+    z-index: 2;
 
     &:active {
       background: rgba(60, 120, 200, 0.1);
@@ -511,7 +702,9 @@
     padding: $spacing-md;
     padding-top: 0;
     border-top: 1px solid rgba(60, 120, 200, 0.2);
-    background: rgba(26, 26, 26, 0.2);
+    background: rgba(15, 30, 60, 0.3);
+    position: relative;
+    z-index: 2;
   }
 
   &__walletSubsection {
@@ -524,7 +717,13 @@
     @include flex-between;
     align-items: center;
     padding: $spacing-sm $spacing-md;
-    background: rgba(26, 26, 26, 0.4);
+    background: linear-gradient(
+      135deg,
+      rgba(15, 30, 60, 0.5) 0%,
+      rgba(10, 20, 40, 0.6) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-md;
     cursor: pointer;
@@ -532,7 +731,11 @@
 
     @include desktop {
       &:hover {
-        background: rgba(26, 26, 26, 0.6);
+        background: linear-gradient(
+          135deg,
+          rgba(20, 40, 80, 0.6) 0%,
+          rgba(15, 30, 60, 0.7) 100%
+        );
         border-color: rgba(60, 120, 200, 0.3);
       }
     }
@@ -562,7 +765,13 @@
     @include flex-between;
     align-items: center;
     padding: $spacing-sm $spacing-md;
-    background: rgba(26, 26, 26, 0.4);
+    background: linear-gradient(
+      135deg,
+      rgba(15, 30, 60, 0.4) 0%,
+      rgba(10, 20, 40, 0.5) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(60, 120, 200, 0.2);
     border-radius: $radius-sm;
     transition: all $transition-fast;
@@ -575,7 +784,11 @@
 
     @include desktop {
       &:hover {
-        background: rgba(26, 26, 26, 0.6);
+        background: linear-gradient(
+          135deg,
+          rgba(20, 40, 80, 0.5) 0%,
+          rgba(15, 30, 60, 0.6) 100%
+        );
         border-color: rgba(60, 120, 200, 0.3);
       }
     }
@@ -586,6 +799,18 @@
     padding: $spacing-xl;
     color: $color-text-secondary;
     font-size: $font-size-sm;
+  }
+}
+
+// Liquid glass shimmer animation
+@keyframes liquid-shimmer {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+    opacity: 0.6;
   }
 }
 

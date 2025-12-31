@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import homeIcon from '@/assets/icons/home.png';
 import walletIcon from '@/assets/icons/wallet.png';
+import profileImage from '@/assets/profile.png';
 import styles from './BottomNav.module.scss';
 
 const mobileNavItems = [
@@ -9,6 +10,7 @@ const mobileNavItems = [
   { path: '/portfolio', label: 'Overview', icon: '💼', iconImage: null },
   { path: '/wallet', label: 'Wallets', icon: null, iconImage: walletIcon },
   { path: '/history', label: 'Activity', icon: '📜', iconImage: null },
+  { path: '/profile', label: 'Profile', icon: null, iconImage: profileImage },
 ];
 
 export const BottomNav: React.FC = () => {

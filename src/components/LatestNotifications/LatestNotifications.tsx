@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { api } from '@/utils/api';
 import { formatDateTime } from '@/utils/format';
 import { useWalletStore } from '@/store/walletStore';
@@ -7,7 +8,8 @@ import { Card } from '../Card/Card';
 import styles from './LatestNotifications.module.scss';
 
 export const LatestNotifications: React.FC = () => {
-  const { selectedWalletAddress, isGuest } = useWalletStore();
+  const { selectedWalletAddress, isGuest, wallets } = useWalletStore();
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
@@ -100,7 +102,16 @@ export const LatestNotifications: React.FC = () => {
           ))
         ) : (
           <div className={styles.latestNotifications__empty}>
-            No Recent Notification
+            {isGuest || wallets.length === 0 ? (
+              <button
+                className={styles.latestNotifications__connectButton}
+                onClick={() => navigate('/wallet')}
+              >
+                Connect a wallet to receive notifications
+              </button>
+            ) : (
+              'No Recent Notification'
+            )}
           </div>
         )}
       </div>

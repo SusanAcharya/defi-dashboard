@@ -157,6 +157,24 @@
     }
   }
 
+  &__comingSoon {
+    @include flex-column;
+    gap: $spacing-xs;
+    margin-top: $spacing-md;
+    padding-top: $spacing-md;
+    border-top: 1px solid rgba(60, 120, 200, 0.15);
+  }
+
+  &__comingSoonHeader {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: $spacing-xs $spacing-lg;
+    margin-bottom: $spacing-xs;
+  }
+
   &__item {
     @include button-reset;
     @include flex-center;
@@ -299,6 +317,17 @@
 
       &::after {
         opacity: 0.9;
+      }
+    }
+
+    &_comingSoon {
+      opacity: 0.6;
+      cursor: not-allowed;
+
+      @include desktop {
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
   }
@@ -522,38 +551,38 @@
   }
 
   &__checkInStatusIcon {
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     filter: drop-shadow(0 0 6px rgba(60, 120, 200, 0.6));
     flex-shrink: 0;
 
     @include mobile {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
     }
   }
 
   &__checkInStatusLabel {
     flex: 1;
-    font-size: $font-size-xs;
+    font-size: $font-size-base;
     font-weight: $font-weight-semibold;
     color: $color-text-primary;
     text-align: left;
 
     @include mobile {
-      font-size: $font-size-sm;
+      font-size: $font-size-lg;
     }
   }
 
   &__checkInStreak {
-    font-size: $font-size-xs;
+    font-size: $font-size-base;
     font-weight: $font-weight-bold;
     color: $color-warning;
     white-space: nowrap;
 
     @include mobile {
-      font-size: $font-size-sm;
+      font-size: $font-size-lg;
     }
   }
 

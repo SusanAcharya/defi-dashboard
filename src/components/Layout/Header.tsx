@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useWalletStore } from '@/store/walletStore';
 import { useUIStore } from '@/store/uiStore';
 import { formatAddress } from '@/utils/format';
-import profileImage from '@/assets/profile.png';
 import logoImage from '@/assets/logo.png';
 import walletIcon from '@/assets/icons/wallet.png';
+import profileImage from '@/assets/profile.png';
 import styles from './Header.module.scss';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { wallets, selectedWalletAddress, setSelectedWallet, isGuest } = useWalletStore();
+  const { wallets, selectedWalletAddress, setSelectedWallet, username } = useWalletStore();
   const { mobileNavOpen, setMobileNavOpen } = useUIStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -151,12 +151,12 @@ export const Header: React.FC = () => {
             className={styles.header__profile}
             onClick={() => navigate('/profile')}
             aria-label="Profile"
+            title={username}
           >
             <img 
               src={profileImage} 
               alt="Profile" 
               className={styles.header__avatar}
-              style={isGuest ? { opacity: 0.6, filter: 'grayscale(0.3)' } : {}}
             />
           </button>
           <button

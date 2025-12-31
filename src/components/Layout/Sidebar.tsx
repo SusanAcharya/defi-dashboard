@@ -6,14 +6,17 @@ import checkedinIcon from '@/assets/checkedin.png';
 import styles from './Sidebar.module.scss';
 import settingsIcon from '@/assets/icons/settings.png';
 
-const navItems = [
+const mainNavItems = [
   { path: '/', label: 'Home', icon: '📊', iconImage: null },
   { path: '/portfolio', label: 'Overview', icon: '💼', iconImage: null },
+  { path: '/history', label: 'Activity', icon: '📜', iconImage: null },
+  { path: '/settings', label: 'Manage Alerts', icon: null, iconImage: settingsIcon },
+  { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
+];
+
+const comingSoonItems = [
   { path: '/explore', label: 'Explore', icon: '🔍', iconImage: null },
   { path: '/live-chart', label: 'Live Chart', icon: '📈', iconImage: null },
-  { path: '/history', label: 'Activity', icon: '📜', iconImage: null },
-  { path: '/settings', label: 'Manage Notifications', icon: null, iconImage: settingsIcon },
-  { path: '/profile', label: 'Profile', icon: '👤', iconImage: null },
 ];
 
 export const Sidebar: React.FC = () => {
@@ -98,7 +101,7 @@ export const Sidebar: React.FC = () => {
       <aside className={`${styles.sidebar} ${desktopSidebarOpen ? styles.sidebar_open : ''} ${mobileNavOpen ? styles.sidebar_mobileOpen : ''}`}>
         <nav className={styles.sidebar__nav}>
           {/* Main Navigation Items */}
-          {navItems.map((item) => (
+          {mainNavItems.map((item) => (
             <button
               key={item.path}
               className={`${styles.sidebar__item} ${
@@ -118,6 +121,31 @@ export const Sidebar: React.FC = () => {
               <span className={styles.sidebar__label}>{item.label}</span>
             </button>
           ))}
+
+          {/* Coming Soon Section */}
+          <div className={styles.sidebar__comingSoon}>
+            <div className={styles.sidebar__comingSoonHeader}>Coming Soon</div>
+            {comingSoonItems.map((item) => (
+              <button
+                key={item.path}
+                className={`${styles.sidebar__item} ${styles.sidebar__item_comingSoon} ${
+                  location.pathname === item.path ? styles.sidebar__item_active : ''
+                }`}
+                onClick={() => handleNavigate(item.path)}
+              >
+                {item.iconImage ? (
+                  <img 
+                    src={item.iconImage} 
+                    alt={item.label}
+                    className={styles.sidebar__iconImage}
+                  />
+                ) : (
+                  <span className={styles.sidebar__icon}>{item.icon}</span>
+                )}
+                <span className={styles.sidebar__label}>{item.label}</span>
+              </button>
+            ))}
+          </div>
         </nav>
 
         {/* Daily Check-in Section */}

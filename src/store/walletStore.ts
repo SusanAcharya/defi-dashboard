@@ -167,13 +167,14 @@ export const useWalletStore = create<WalletState>((set, get) => ({
     walletNotificationSettings: initialWallets.map(w => createDefaultWalletNotificationSettings(w.address)),
   }),
   
-  logout: () => set({
+  logout: () => set((state) => ({
     isGuest: true,
-    username: 'Guest',
-    alias: '',
+    // Keep username, alias, and profile picture the same
+    username: state.username,
+    alias: state.alias,
     wallets: guestWallets,
     walletNotificationSettings: [],
     selectedWalletAddress: null,
-  }),
+  })),
 }));
 

@@ -34,7 +34,6 @@ export const PortfolioExposure: React.FC = () => {
         { name: '10KSwap', value: 7500, color: '#5a9fff' },
         { name: 'Ekubo', value: 580, color: '#ff9500' },
         { name: 'zkLend', value: 7500, color: '#ff7f00' },
-        { name: 'STRK Staking', value: 20, color: '#228b22' },
       ];
 
   // Only show first 5 items
@@ -42,7 +41,7 @@ export const PortfolioExposure: React.FC = () => {
   const totalValue = displayData.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <Card title="PROTOCOL EXPOSURE (Risk Distribution)" className={styles.portfolioExposure}>
+    <Card title="PROTOCOL EXPOSURE" className={styles.portfolioExposure}>
       <div className={styles.portfolioExposure__header}>
         <span className={styles.portfolioExposure__trend}>+18.5% (30D)</span>
       </div>

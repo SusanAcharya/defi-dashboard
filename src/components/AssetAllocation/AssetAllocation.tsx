@@ -104,7 +104,7 @@ export const AssetAllocation: React.FC = () => {
   }, [tokens]);
 
   return (
-    <Card title="THE CUT (Asset Allocation)" className={styles.assetAllocation}>
+    <Card title="Asset Allocation" className={styles.assetAllocation}>
       <div className={styles.assetAllocation__content}>
         <div className={styles.assetAllocation__chart}>
           <ResponsiveContainer 
