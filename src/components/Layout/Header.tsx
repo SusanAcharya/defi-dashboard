@@ -21,7 +21,6 @@ export const Header: React.FC = () => {
     ? wallets.find(w => w.address === selectedWalletAddress)
     : null;
 
-  // Position dropdown menu and close when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -33,18 +32,15 @@ export const Header: React.FC = () => {
       if (dropdownOpen && buttonRef.current && dropdownMenuRef.current) {
         const buttonRect = buttonRef.current.getBoundingClientRect();
         const menu = dropdownMenuRef.current;
-        const isMobile = window.innerWidth < 768; // Match your mobile breakpoint
+        const isMobile = window.innerWidth < 768; 
         
-        // Position the dropdown below the button
         menu.style.top = `${buttonRect.bottom + 4}px`;
         
         if (isMobile) {
-          // On mobile, position from left with padding
           menu.style.left = '16px';
           menu.style.right = '16px';
           menu.style.width = 'auto';
         } else {
-          // On desktop, position from right
           menu.style.right = `${window.innerWidth - buttonRect.right}px`;
           menu.style.left = 'auto';
         }
@@ -73,10 +69,10 @@ export const Header: React.FC = () => {
           <div className={styles.header__logo} onClick={() => navigate('/')}>
             <img 
               src={logoImage} 
-              alt="Kompass Finance" 
+              alt="KOMPASS" 
               className={styles.header__logoImage}
             />
-            <span className={styles.header__logoText}>Kompass Finance</span>
+            <span className={styles.header__logoText}>KOMPASS</span>
           </div>
         </div>
         <div className={styles.header__actions}>
