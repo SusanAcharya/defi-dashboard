@@ -28,41 +28,6 @@ import {
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const api = {
-  // Portfolio - can be for specific wallet or combined
-  async getPortfolio(walletAddress?: string | null): Promise<Portfolio> {
-    await delay(500);
-    // If walletAddress is provided, return data for that specific wallet
-    // If null/undefined, return combined data for all "my wallets"
-    const baseValue = walletAddress ? 50000000 : 125000000;
-    return {
-      totalValue: baseValue,
-      totalAssets: baseValue * 1.0,
-      totalDebt: 0,
-      nftValue: baseValue * 0.04,
-      protocolRewards: baseValue * 0.00014,
-      pnl24h: baseValue * 0.007,
-      pnl24hPercent: 0.89,
-    };
-  },
-  
-  // Get portfolio chart data for a specific wallet or combined
-  async getPortfolioChartData(walletAddress?: string | null, timeframe: string = '30D'): Promise<Array<{ date: string; value: number }>> {
-    await delay(300);
-    const baseValue = walletAddress ? 50000000 : 125000000;
-    const data = [];
-    const days = timeframe === '1D' ? 1 : timeframe === '7D' ? 7 : timeframe === '30D' ? 30 : timeframe === '90D' ? 90 : timeframe === '1Y' ? 365 : 730;
-    
-    for (let i = days - 1; i >= 0; i--) {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      const value = baseValue * (1 + (Math.random() - 0.5) * 0.1);
-      data.push({
-        date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        value: Math.round(value),
-      });
-    }
-    return data;
-  },
 
   async getTokens(walletAddress?: string | null): Promise<Token[]> {
     await delay(500);
