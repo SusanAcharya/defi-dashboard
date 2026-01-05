@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAccount, useConnect } from "@starknet-react/core";
 import { useWalletStore } from "@/store/walletStore";
@@ -40,6 +40,14 @@ export const BottomNav: React.FC = () => {
     type: "success" | "error" | "info" | "warning";
   } | null>(null);
 
+  // Reset connecting state when wallet address becomes available
+  useEffect(() => {
+    if (address && isConnecting) {
+      setIsConnecting(false);
+      navigate("/profile");
+    }
+  }, [address, isConnecting, navigate]);
+
   const handleProfileClick = async () => {
     // If already connected, navigate to profile
     if (address || wallets.length > 0) {
@@ -53,19 +61,19 @@ export const BottomNav: React.FC = () => {
       const connector = connectors[0];
       if (!connector) {
         setToastMessage({
-          message: "No wallet connectors available",
+          message:
+            "No wallet connectors available. Please install Braavos or ArgentX wallet.",
           type: "error",
         });
+        setIsConnecting(false);
         return;
       }
 
-      await connect({ connector });
+      // Trigger wallet connection - this opens the wallet modal
+      connect({ connector });
 
-      // Connection successful - the useEffect in Header will handle the rest
-      setToastMessage({
-        message: "Connecting wallet...",
-        type: "info",
-      });
+      // Don't set isConnecting to false here - let the user interact with the wallet
+      // The Header's useEffect will handle the profile setup when address becomes available
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Failed to connect wallet";
@@ -73,7 +81,6 @@ export const BottomNav: React.FC = () => {
         message: `Connection failed: ${errorMessage}`,
         type: "error",
       });
-    } finally {
       setIsConnecting(false);
     }
   };

@@ -254,7 +254,7 @@ export const Profile: React.FC = () => {
                     <div className={styles.profile__walletType}>
                       <span className={styles.profile__walletLabel}>Type:</span>
                       <span className={styles.profile__walletValue}>
-                        📡 Subscribed
+                        Subscribed
                       </span>
                     </div>
                   </div>

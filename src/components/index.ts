@@ -13,6 +13,7 @@ export { PortfolioExposure } from './PortfolioExposure/PortfolioExposure';
 export { PriceChart } from './PriceChart/PriceChart';
 export { PortfolioChart } from './PortfolioChart/PortfolioChart';
 export { WalletConnectModal } from './WalletConnectModal/WalletConnectModal';
+export { TelegramConnectModal } from './TelegramConnectModal/TelegramConnectModal';
 export { AnimatedBackground } from './AnimatedBackground/AnimatedBackground';
 export { Badge } from './Badge/Badge';
 

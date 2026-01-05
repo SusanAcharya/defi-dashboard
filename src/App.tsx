@@ -7,7 +7,7 @@ import {
   jsonRpcProvider,
 } from "@starknet-react/core";
 import { sepolia, mainnet } from "@starknet-react/chains";
-import { Layout, AnimatedBackground } from "./components";
+import { Layout, AnimatedBackground, TelegramConnectModal } from "./components";
 import {
   Home,
   Portfolio,
@@ -59,6 +59,7 @@ function App() {
               <Route path="/token/:tokenId" element={<TokenDetail />} />
             </Routes>
           </Layout>
+          <TelegramConnectModal />
         </BrowserRouter>
       </QueryClientProvider>
     </StarknetConfig>

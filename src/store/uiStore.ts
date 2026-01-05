@@ -10,6 +10,7 @@ interface UIState {
   stakeModalOpen: boolean;
   nftDetailModalOpen: boolean;
   notificationDetailModalOpen: boolean;
+  telegramConnectModalOpen: boolean;
   
   // Drawers/Sidebars
   mobileNavOpen: boolean;
@@ -41,6 +42,7 @@ interface UIState {
   setStakeModalOpen: (open: boolean) => void;
   setNftDetailModalOpen: (open: boolean) => void;
   setNotificationDetailModalOpen: (open: boolean) => void;
+  setTelegramConnectModalOpen: (open: boolean) => void;
   setMobileNavOpen: (open: boolean) => void;
   setDesktopSidebarOpen: (open: boolean) => void;
   setSelectedToken: (token: string | null) => void;
@@ -61,6 +63,7 @@ export const useUIStore = create<UIState>((set) => ({
   stakeModalOpen: false,
   nftDetailModalOpen: false,
   notificationDetailModalOpen: false,
+  telegramConnectModalOpen: false,
   mobileNavOpen: false,
   desktopSidebarOpen: true,
   selectedToken: null,
@@ -83,6 +86,7 @@ export const useUIStore = create<UIState>((set) => ({
   setStakeModalOpen: (open) => set({ stakeModalOpen: open }),
   setNftDetailModalOpen: (open) => set({ nftDetailModalOpen: open }),
   setNotificationDetailModalOpen: (open) => set({ notificationDetailModalOpen: open }),
+  setTelegramConnectModalOpen: (open) => set({ telegramConnectModalOpen: open }),
   setMobileNavOpen: (open) => set({ mobileNavOpen: open }),
   setDesktopSidebarOpen: (open) => set({ desktopSidebarOpen: open }),
   setSelectedToken: (token) => set({ selectedToken: token }),
@@ -155,6 +159,7 @@ export const useUIStore = create<UIState>((set) => ({
     stakeModalOpen: false,
     nftDetailModalOpen: false,
     notificationDetailModalOpen: false,
+    telegramConnectModalOpen: false,
   }),
 }));
 

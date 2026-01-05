@@ -1,0 +1,242 @@
+@use '@/styles/mixins.scss' as *;
+
+.telegramConnect {
+  @include flex-column;
+  align-items: center;
+  text-align: center;
+  padding: $spacing-md 0;
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0088cc, #00a8e8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $spacing-lg;
+
+    svg {
+      width: 36px;
+      height: 36px;
+      color: white;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__description {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    line-height: 1.5;
+    margin-bottom: $spacing-lg;
+    max-width: 320px;
+
+    strong {
+      color: $color-text-primary;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &__form {
+    width: 100%;
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__inputGroup {
+    @include flex-column;
+    gap: $spacing-xs;
+    text-align: left;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+  }
+
+  &__input {
+    width: 100%;
+    padding: $spacing-md;
+    background: $color-bg-tertiary;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    transition: all $transition-fast;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #0088cc;
+      box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.15);
+    }
+  }
+
+  &__button {
+    @include button-reset;
+    @include flex-center;
+    gap: $spacing-sm;
+    width: 100%;
+    padding: $spacing-md $spacing-lg;
+    background: linear-gradient(135deg, #0088cc, #00a8e8);
+    border-radius: $radius-md;
+    color: white;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: linear-gradient(135deg, #006699, #0088cc);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__buttonIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__secondaryButton {
+    @include button-reset;
+    width: 100%;
+    padding: $spacing-sm;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-text-primary;
+    }
+  }
+
+  &__linkButton {
+    @include button-reset;
+    color: #0088cc;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    margin-bottom: $spacing-md;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: #00a8e8;
+      text-decoration: underline;
+    }
+  }
+
+  &__error {
+    color: $color-negative;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $spacing-sm;
+    background: rgba($color-negative, 0.1);
+    border-radius: $radius-sm;
+  }
+
+  &__features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-sm;
+    width: 100%;
+    margin-top: $spacing-md;
+    padding-top: $spacing-lg;
+    border-top: 1px solid $color-border;
+  }
+
+  &__feature {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: $spacing-sm;
+    background: $color-bg-tertiary;
+    border-radius: $radius-sm;
+    font-size: $font-size-xs;
+    color: $color-text-secondary;
+  }
+
+  &__featureIcon {
+    font-size: $font-size-base;
+  }
+
+  &__loading {
+    @include flex-column;
+    align-items: center;
+    gap: $spacing-lg;
+    padding: $spacing-xl 0;
+    color: $color-text-secondary;
+  }
+
+  &__spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid $color-border;
+    border-top-color: #0088cc;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  &__success {
+    @include flex-column;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__successIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $color-positive, darken($color-positive, 10%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-2xl;
+    color: white;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__errorIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $color-negative, darken($color-negative, 10%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-2xl;
+    color: white;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Mobile responsive
+@media (max-width: 480px) {
+  .telegramConnect {
+    &__features {
+      grid-template-columns: 1fr;
+    }
+  }
+}

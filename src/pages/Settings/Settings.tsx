@@ -1,32 +1,46 @@
-import React, { useState } from 'react';
-import { useWalletStore } from '@/store/walletStore';
-import { Card } from '@/components';
-import { formatAddress } from '@/utils/format';
-import styles from './Settings.module.scss';
+import React, { useState } from "react";
+import { useWalletStore } from "@/store/walletStore";
+import { useUIStore } from "@/store/uiStore";
+import { Card } from "@/components";
+import { formatAddress } from "@/utils/format";
+import styles from "./Settings.module.scss";
 
-const PROTOCOLS = ['JediSwap', '10KSwap', 'Ekubo', 'zkLend'];
+const PROTOCOLS = ["JediSwap", "10KSwap", "Ekubo", "zkLend"];
 
 export const Settings: React.FC = () => {
-  const { 
-    settings, 
+  const {
+    settings,
     walletNotificationSettings,
     wallets,
     updateSettings,
     updateWalletNotificationSettings,
     getWalletNotificationSettings,
   } = useWalletStore();
+  const { setTelegramConnectModalOpen } = useUIStore();
 
   const [expandedWallet, setExpandedWallet] = useState<string | null>(null);
-  const [expandedSection, setExpandedSection] = useState<{ wallet: string; section: 'categories' | 'protocols' | 'activities' } | null>(null);
+  const [expandedSection, setExpandedSection] = useState<{
+    wallet: string;
+    section: "categories" | "protocols" | "activities";
+  } | null>(null);
 
   const handleToggle = (key: keyof typeof settings) => {
     updateSettings({ [key]: !settings[key] });
   };
 
-  const handleWalletToggle = (address: string, key: keyof typeof walletNotificationSettings[0]) => {
+  const handleTelegramConnect = () => {
+    setTelegramConnectModalOpen(true);
+  };
+
+  const handleWalletToggle = (
+    address: string,
+    key: keyof (typeof walletNotificationSettings)[0]
+  ) => {
     const walletSettings = getWalletNotificationSettings(address);
     if (walletSettings) {
-      updateWalletNotificationSettings(address, { [key]: !walletSettings[key] });
+      updateWalletNotificationSettings(address, {
+        [key]: !walletSettings[key],
+      });
     }
   };
 
@@ -37,26 +51,76 @@ export const Settings: React.FC = () => {
         ...walletSettings.notifyProtocols,
         [protocol]: !walletSettings.notifyProtocols[protocol],
       };
-      updateWalletNotificationSettings(address, { notifyProtocols: updatedProtocols });
+      updateWalletNotificationSettings(address, {
+        notifyProtocols: updatedProtocols,
+      });
     }
   };
 
   const generalNotificationTypes = [
-    { key: 'notifyTransactions' as const, label: 'Transactions', description: 'General transaction notifications' },
-    { key: 'notifyAirdrops' as const, label: 'Airdrops', description: 'New airdrop opportunities' },
-    { key: 'notifyStaking' as const, label: 'Staking', description: 'Staking opportunities and updates' },
-    { key: 'notifyLending' as const, label: 'Lending', description: 'Lending opportunities and updates' },
+    {
+      key: "notifyTransactions" as const,
+      label: "Transactions",
+      description: "General transaction notifications",
+    },
+    {
+      key: "notifyAirdrops" as const,
+      label: "Airdrops",
+      description: "New airdrop opportunities",
+    },
+    {
+      key: "notifyStaking" as const,
+      label: "Staking",
+      description: "Staking opportunities and updates",
+    },
+    {
+      key: "notifyLending" as const,
+      label: "Lending",
+      description: "Lending opportunities and updates",
+    },
   ];
 
   const walletCategoryTypes = [
-    { key: 'notifyTransactions' as const, label: 'Transactions', description: 'All transaction activities' },
-    { key: 'notifyReceives' as const, label: 'Receives', description: 'Incoming token transfers' },
-    { key: 'notifySends' as const, label: 'Sends', description: 'Outgoing token transfers' },
-    { key: 'notifySwaps' as const, label: 'Swaps', description: 'Token swap activities' },
-    { key: 'notifyStaking' as const, label: 'Staking', description: 'Staking activities' },
-    { key: 'notifyLending' as const, label: 'Lending', description: 'Lending activities' },
-    { key: 'notifyAirdrops' as const, label: 'Airdrops', description: 'Airdrop activities' },
-    { key: 'notifyNFTs' as const, label: 'NFTs', description: 'NFT-related activities' },
+    {
+      key: "notifyTransactions" as const,
+      label: "Transactions",
+      description: "All transaction activities",
+    },
+    {
+      key: "notifyReceives" as const,
+      label: "Receives",
+      description: "Incoming token transfers",
+    },
+    {
+      key: "notifySends" as const,
+      label: "Sends",
+      description: "Outgoing token transfers",
+    },
+    {
+      key: "notifySwaps" as const,
+      label: "Swaps",
+      description: "Token swap activities",
+    },
+    {
+      key: "notifyStaking" as const,
+      label: "Staking",
+      description: "Staking activities",
+    },
+    {
+      key: "notifyLending" as const,
+      label: "Lending",
+      description: "Lending activities",
+    },
+    {
+      key: "notifyAirdrops" as const,
+      label: "Airdrops",
+      description: "Airdrop activities",
+    },
+    {
+      key: "notifyNFTs" as const,
+      label: "NFTs",
+      description: "NFT-related activities",
+    },
   ];
 
   return (
@@ -71,17 +135,28 @@ export const Settings: React.FC = () => {
             <div className={styles.settings__label}>
               <div className={styles.settings__title}>Telegram Alerts</div>
               <div className={styles.settings__description}>
-                Receive notifications via Telegram
+                {settings.telegramAlerts
+                  ? "Connected - Receiving notifications via Telegram"
+                  : "Connect Telegram to receive notifications"}
               </div>
             </div>
-            <button
-              className={`${styles.settings__toggle} ${
-                settings.telegramAlerts ? styles.settings__toggle_active : ''
-              }`}
-              onClick={() => handleToggle('telegramAlerts')}
-            >
-              {settings.telegramAlerts ? 'ON' : 'OFF'}
-            </button>
+            <div className={styles.settings__actions}>
+              {settings.telegramAlerts ? (
+                <button
+                  className={`${styles.settings__toggle} ${styles.settings__toggle_active}`}
+                  onClick={() => handleToggle("telegramAlerts")}
+                >
+                  ON
+                </button>
+              ) : (
+                <button
+                  className={styles.settings__connectButton}
+                  onClick={handleTelegramConnect}
+                >
+                  Connect
+                </button>
+              )}
+            </div>
           </div>
 
           <div className={styles.settings__item}>
@@ -93,17 +168,19 @@ export const Settings: React.FC = () => {
             </div>
             <button
               className={`${styles.settings__toggle} ${
-                settings.pushNotifications ? styles.settings__toggle_active : ''
+                settings.pushNotifications ? styles.settings__toggle_active : ""
               }`}
-              onClick={() => handleToggle('pushNotifications')}
+              onClick={() => handleToggle("pushNotifications")}
             >
-              {settings.pushNotifications ? 'ON' : 'OFF'}
+              {settings.pushNotifications ? "ON" : "OFF"}
             </button>
           </div>
         </div>
 
         <div className={styles.settings__subsection}>
-          <div className={styles.settings__subsectionTitle}>Notification Categories</div>
+          <div className={styles.settings__subsectionTitle}>
+            Notification Categories
+          </div>
           <div className={styles.settings__section}>
             {generalNotificationTypes.map((type) => (
               <div key={type.key} className={styles.settings__item}>
@@ -115,11 +192,11 @@ export const Settings: React.FC = () => {
                 </div>
                 <button
                   className={`${styles.settings__toggle} ${
-                    settings[type.key] ? styles.settings__toggle_active : ''
+                    settings[type.key] ? styles.settings__toggle_active : ""
                   }`}
                   onClick={() => handleToggle(type.key)}
                 >
-                  {settings[type.key] ? 'ON' : 'OFF'}
+                  {settings[type.key] ? "ON" : "OFF"}
                 </button>
               </div>
             ))}
@@ -135,11 +212,16 @@ export const Settings: React.FC = () => {
         <div className={styles.settings__section}>
           {wallets.length === 0 ? (
             <div className={styles.settings__emptyState}>
-              <p>No wallets added. Add wallets from the Wallet page to configure notifications.</p>
+              <p>
+                No wallets added. Add wallets from the Wallet page to configure
+                notifications.
+              </p>
             </div>
           ) : (
             wallets.map((wallet) => {
-              const walletSettings = getWalletNotificationSettings(wallet.address) || {
+              const walletSettings = getWalletNotificationSettings(
+                wallet.address
+              ) || {
                 address: wallet.address,
                 enabled: true,
                 notifyTransactions: true,
@@ -151,28 +233,41 @@ export const Settings: React.FC = () => {
                 notifySwaps: true,
                 notifyNFTs: true,
                 notifyProtocols: {
-                  'JediSwap': true,
-                  '10KSwap': true,
-                  'Ekubo': true,
-                  'zkLend': true,
+                  JediSwap: true,
+                  "10KSwap": true,
+                  Ekubo: true,
+                  zkLend: true,
                 },
                 notifyContractInteractions: true,
                 notifyFailedTransactions: true,
                 notifyPendingTransactions: true,
               };
               const isExpanded = expandedWallet === wallet.address;
-              const categoriesExpanded = expandedSection?.wallet === wallet.address && expandedSection?.section === 'categories';
-              const protocolsExpanded = expandedSection?.wallet === wallet.address && expandedSection?.section === 'protocols';
-              const activitiesExpanded = expandedSection?.wallet === wallet.address && expandedSection?.section === 'activities';
+              const categoriesExpanded =
+                expandedSection?.wallet === wallet.address &&
+                expandedSection?.section === "categories";
+              const protocolsExpanded =
+                expandedSection?.wallet === wallet.address &&
+                expandedSection?.section === "protocols";
+              const activitiesExpanded =
+                expandedSection?.wallet === wallet.address &&
+                expandedSection?.section === "activities";
 
               return (
-                <div key={wallet.address} className={styles.settings__walletCard}>
+                <div
+                  key={wallet.address}
+                  className={styles.settings__walletCard}
+                >
                   <button
                     className={styles.settings__walletHeader}
-                    onClick={() => setExpandedWallet(isExpanded ? null : wallet.address)}
+                    onClick={() =>
+                      setExpandedWallet(isExpanded ? null : wallet.address)
+                    }
                   >
                     <div className={styles.settings__walletInfo}>
-                      <div className={styles.settings__walletName}>{wallet.name}</div>
+                      <div className={styles.settings__walletName}>
+                        {wallet.name}
+                      </div>
                       <div className={styles.settings__walletAddress}>
                         {formatAddress(wallet.address, 4, 4)}
                       </div>
@@ -180,17 +275,19 @@ export const Settings: React.FC = () => {
                     <div className={styles.settings__walletHeaderActions}>
                       <button
                         className={`${styles.settings__toggle} ${
-                          walletSettings.enabled ? styles.settings__toggle_active : ''
+                          walletSettings.enabled
+                            ? styles.settings__toggle_active
+                            : ""
                         }`}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleWalletToggle(wallet.address, 'enabled');
+                          handleWalletToggle(wallet.address, "enabled");
                         }}
                       >
-                        {walletSettings.enabled ? 'ON' : 'OFF'}
+                        {walletSettings.enabled ? "ON" : "OFF"}
                       </button>
                       <span className={styles.settings__expandIcon}>
-                        {isExpanded ? '▲' : '▼'}
+                        {isExpanded ? "▲" : "▼"}
                       </span>
                     </div>
                   </button>
@@ -201,34 +298,54 @@ export const Settings: React.FC = () => {
                       <div className={styles.settings__walletSubsection}>
                         <button
                           className={styles.settings__walletSubsectionHeader}
-                          onClick={() => setExpandedSection(
-                            categoriesExpanded 
-                              ? null 
-                              : { wallet: wallet.address, section: 'categories' }
-                          )}
+                          onClick={() =>
+                            setExpandedSection(
+                              categoriesExpanded
+                                ? null
+                                : {
+                                    wallet: wallet.address,
+                                    section: "categories",
+                                  }
+                            )
+                          }
                         >
-                          <span className={styles.settings__walletSubsectionTitle}>Categories</span>
+                          <span
+                            className={styles.settings__walletSubsectionTitle}
+                          >
+                            Categories
+                          </span>
                           <span className={styles.settings__expandIcon}>
-                            {categoriesExpanded ? '▲' : '▼'}
+                            {categoriesExpanded ? "▲" : "▼"}
                           </span>
                         </button>
                         {categoriesExpanded && (
-                          <div className={styles.settings__walletSubsectionContent}>
+                          <div
+                            className={styles.settings__walletSubsectionContent}
+                          >
                             {walletCategoryTypes.map((type) => (
-                              <div key={type.key} className={styles.settings__walletDetailItem}>
+                              <div
+                                key={type.key}
+                                className={styles.settings__walletDetailItem}
+                              >
                                 <div className={styles.settings__label}>
-                                  <div className={styles.settings__title}>{type.label}</div>
+                                  <div className={styles.settings__title}>
+                                    {type.label}
+                                  </div>
                                   <div className={styles.settings__description}>
                                     {type.description}
                                   </div>
                                 </div>
                                 <button
                                   className={`${styles.settings__toggle} ${
-                                    walletSettings[type.key] ? styles.settings__toggle_active : ''
+                                    walletSettings[type.key]
+                                      ? styles.settings__toggle_active
+                                      : ""
                                   }`}
-                                  onClick={() => handleWalletToggle(wallet.address, type.key)}
+                                  onClick={() =>
+                                    handleWalletToggle(wallet.address, type.key)
+                                  }
                                 >
-                                  {walletSettings[type.key] ? 'ON' : 'OFF'}
+                                  {walletSettings[type.key] ? "ON" : "OFF"}
                                 </button>
                               </div>
                             ))}
@@ -240,34 +357,59 @@ export const Settings: React.FC = () => {
                       <div className={styles.settings__walletSubsection}>
                         <button
                           className={styles.settings__walletSubsectionHeader}
-                          onClick={() => setExpandedSection(
-                            protocolsExpanded 
-                              ? null 
-                              : { wallet: wallet.address, section: 'protocols' }
-                          )}
+                          onClick={() =>
+                            setExpandedSection(
+                              protocolsExpanded
+                                ? null
+                                : {
+                                    wallet: wallet.address,
+                                    section: "protocols",
+                                  }
+                            )
+                          }
                         >
-                          <span className={styles.settings__walletSubsectionTitle}>Protocols</span>
+                          <span
+                            className={styles.settings__walletSubsectionTitle}
+                          >
+                            Protocols
+                          </span>
                           <span className={styles.settings__expandIcon}>
-                            {protocolsExpanded ? '▲' : '▼'}
+                            {protocolsExpanded ? "▲" : "▼"}
                           </span>
                         </button>
                         {protocolsExpanded && (
-                          <div className={styles.settings__walletSubsectionContent}>
+                          <div
+                            className={styles.settings__walletSubsectionContent}
+                          >
                             {PROTOCOLS.map((protocol) => (
-                              <div key={protocol} className={styles.settings__walletDetailItem}>
+                              <div
+                                key={protocol}
+                                className={styles.settings__walletDetailItem}
+                              >
                                 <div className={styles.settings__label}>
-                                  <div className={styles.settings__title}>{protocol}</div>
+                                  <div className={styles.settings__title}>
+                                    {protocol}
+                                  </div>
                                   <div className={styles.settings__description}>
                                     Notifications for {protocol} activities
                                   </div>
                                 </div>
                                 <button
                                   className={`${styles.settings__toggle} ${
-                                    walletSettings.notifyProtocols[protocol] ? styles.settings__toggle_active : ''
+                                    walletSettings.notifyProtocols[protocol]
+                                      ? styles.settings__toggle_active
+                                      : ""
                                   }`}
-                                  onClick={() => handleProtocolToggle(wallet.address, protocol)}
+                                  onClick={() =>
+                                    handleProtocolToggle(
+                                      wallet.address,
+                                      protocol
+                                    )
+                                  }
                                 >
-                                  {walletSettings.notifyProtocols[protocol] ? 'ON' : 'OFF'}
+                                  {walletSettings.notifyProtocols[protocol]
+                                    ? "ON"
+                                    : "OFF"}
                                 </button>
                               </div>
                             ))}
@@ -279,65 +421,109 @@ export const Settings: React.FC = () => {
                       <div className={styles.settings__walletSubsection}>
                         <button
                           className={styles.settings__walletSubsectionHeader}
-                          onClick={() => setExpandedSection(
-                            activitiesExpanded 
-                              ? null 
-                              : { wallet: wallet.address, section: 'activities' }
-                          )}
+                          onClick={() =>
+                            setExpandedSection(
+                              activitiesExpanded
+                                ? null
+                                : {
+                                    wallet: wallet.address,
+                                    section: "activities",
+                                  }
+                            )
+                          }
                         >
-                          <span className={styles.settings__walletSubsectionTitle}>Blockchain Activities</span>
+                          <span
+                            className={styles.settings__walletSubsectionTitle}
+                          >
+                            Blockchain Activities
+                          </span>
                           <span className={styles.settings__expandIcon}>
-                            {activitiesExpanded ? '▲' : '▼'}
+                            {activitiesExpanded ? "▲" : "▼"}
                           </span>
                         </button>
                         {activitiesExpanded && (
-                          <div className={styles.settings__walletSubsectionContent}>
+                          <div
+                            className={styles.settings__walletSubsectionContent}
+                          >
                             <div className={styles.settings__walletDetailItem}>
                               <div className={styles.settings__label}>
-                                <div className={styles.settings__title}>Contract Interactions</div>
+                                <div className={styles.settings__title}>
+                                  Contract Interactions
+                                </div>
                                 <div className={styles.settings__description}>
                                   Notifications for smart contract interactions
                                 </div>
                               </div>
                               <button
                                 className={`${styles.settings__toggle} ${
-                                  walletSettings.notifyContractInteractions ? styles.settings__toggle_active : ''
+                                  walletSettings.notifyContractInteractions
+                                    ? styles.settings__toggle_active
+                                    : ""
                                 }`}
-                                onClick={() => handleWalletToggle(wallet.address, 'notifyContractInteractions')}
+                                onClick={() =>
+                                  handleWalletToggle(
+                                    wallet.address,
+                                    "notifyContractInteractions"
+                                  )
+                                }
                               >
-                                {walletSettings.notifyContractInteractions ? 'ON' : 'OFF'}
+                                {walletSettings.notifyContractInteractions
+                                  ? "ON"
+                                  : "OFF"}
                               </button>
                             </div>
                             <div className={styles.settings__walletDetailItem}>
                               <div className={styles.settings__label}>
-                                <div className={styles.settings__title}>Failed Transactions</div>
+                                <div className={styles.settings__title}>
+                                  Failed Transactions
+                                </div>
                                 <div className={styles.settings__description}>
                                   Notifications when transactions fail
                                 </div>
                               </div>
                               <button
                                 className={`${styles.settings__toggle} ${
-                                  walletSettings.notifyFailedTransactions ? styles.settings__toggle_active : ''
+                                  walletSettings.notifyFailedTransactions
+                                    ? styles.settings__toggle_active
+                                    : ""
                                 }`}
-                                onClick={() => handleWalletToggle(wallet.address, 'notifyFailedTransactions')}
+                                onClick={() =>
+                                  handleWalletToggle(
+                                    wallet.address,
+                                    "notifyFailedTransactions"
+                                  )
+                                }
                               >
-                                {walletSettings.notifyFailedTransactions ? 'ON' : 'OFF'}
+                                {walletSettings.notifyFailedTransactions
+                                  ? "ON"
+                                  : "OFF"}
                               </button>
                             </div>
                             <div className={styles.settings__walletDetailItem}>
                               <div className={styles.settings__label}>
-                                <div className={styles.settings__title}>Pending Transactions</div>
+                                <div className={styles.settings__title}>
+                                  Pending Transactions
+                                </div>
                                 <div className={styles.settings__description}>
                                   Notifications for pending transaction status
                                 </div>
                               </div>
                               <button
                                 className={`${styles.settings__toggle} ${
-                                  walletSettings.notifyPendingTransactions ? styles.settings__toggle_active : ''
+                                  walletSettings.notifyPendingTransactions
+                                    ? styles.settings__toggle_active
+                                    : ""
                                 }`}
-                                onClick={() => handleWalletToggle(wallet.address, 'notifyPendingTransactions')}
+                                onClick={() =>
+                                  handleWalletToggle(
+                                    wallet.address,
+                                    "notifyPendingTransactions"
+                                  )
+                                }
                               >
-                                {walletSettings.notifyPendingTransactions ? 'ON' : 'OFF'}
+                                {walletSettings.notifyPendingTransactions
+                                  ? "ON"
+                                  : "OFF"}
                               </button>
                             </div>
                           </div>
