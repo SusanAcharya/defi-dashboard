@@ -6,6 +6,7 @@ import { useUIStore } from "@/store/uiStore";
 import { formatAddress } from "@/utils/format";
 import { fetchUserProfile } from "@/services/user.api";
 import { authAPI } from "@/services/auth.api";
+import { walletAPI, WalletSubscription } from "@/services/wallet.api";
 import { Toast } from "@/components/Toast/Toast";
 import { Modal } from "@/components/Modal/Modal";
 import logoImage from "@/assets/logo.png";
@@ -41,6 +42,9 @@ export const Header: React.FC = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [subscribedWallets, setSubscribedWallets] = useState<
+    WalletSubscription[]
+  >([]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionStep, setConnectionStep] = useState<
     "idle" | "connecting" | "fetching" | "success" | "error"
@@ -221,6 +225,28 @@ export const Header: React.FC = () => {
     }
   };
 
+  // Load subscribed wallets
+  useEffect(() => {
+    const loadSubscribedWallets = async () => {
+      if (wallets.length === 0) {
+        setSubscribedWallets([]);
+        return;
+      }
+
+      try {
+        const mainWallet = wallets[0];
+        const subscribed = await walletAPI.getSubscribedWallets(
+          mainWallet.address
+        );
+        setSubscribedWallets(subscribed || []);
+      } catch (error) {
+        console.error("Error loading subscribed wallets in header:", error);
+      }
+    };
+
+    loadSubscribedWallets();
+  }, [wallets]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // Handle wallet dropdown
@@ -355,6 +381,48 @@ export const Header: React.FC = () => {
                       )}
                     </button>
                   ))}
+                  {subscribedWallets.length > 0 && (
+                    <>
+                      <div className={styles.header__walletDropdownDivider} />
+                      <div className={styles.header__walletDropdownSection}>
+                        <span
+                          className={styles.header__walletDropdownSectionTitle}
+                        >
+                          Subscribed Wallets
+                        </span>
+                      </div>
+                      {subscribedWallets.map((subWallet) => (
+                        <button
+                          key={subWallet.walletAddress}
+                          className={`${styles.header__walletDropdownItem} ${
+                            selectedWalletAddress === subWallet.walletAddress
+                              ? styles.header__walletDropdownItem_active
+                              : ""
+                          }`}
+                          onClick={() => {
+                            setSelectedWallet(subWallet.walletAddress);
+                            setDropdownOpen(false);
+                          }}
+                        >
+                          <span
+                            className={styles.header__walletDropdownItemLabel}
+                          >
+                            {subWallet.name}
+                          </span>
+                          <span
+                            className={styles.header__walletDropdownItemAddress}
+                          >
+                            {formatAddress(subWallet.walletAddress, 4, 4)}
+                          </span>
+                          <span
+                            className={styles.header__walletDropdownItemBadge}
+                          >
+                            Subscribed
+                          </span>
+                        </button>
+                      ))}
+                    </>
+                  )}
                 </div>
               )}
             </div>

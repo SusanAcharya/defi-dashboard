@@ -2,13 +2,14 @@ import React, { useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { useWalletStore } from "@/store/walletStore";
+import { convertBalanceToTokenAmount } from "@/utils/format";
 import { Card } from "../Card/Card";
 import styles from "./AssetAllocation.module.scss";
 
 export const AssetAllocation: React.FC = () => {
   const { selectedWalletAddress, isGuest } = useWalletStore();
 
-  // Get tokens for selected wallet or combined
+  // Get tokens for selected wallet
   const { data: tokens } = useQuery({
     queryKey: ["tokens", selectedWalletAddress],
     queryFn: async () => {
@@ -26,156 +27,63 @@ export const AssetAllocation: React.FC = () => {
     enabled: !isGuest && !!selectedWalletAddress,
   });
 
+  // Define token categories with colors
+  const categories = [
+    { names: ["STRK"], label: "STRK", color: "#ff6347" },
+    { names: ["ETH"], label: "ETH", color: "#228b22" },
+    { names: ["USDC", "USDT", "DAI"], label: "Stablecoins", color: "#9370db" },
+    {
+      names: ["DEEP", "ZKX", "MYSTR", "REKT"],
+      label: "DeFi Tokens",
+      color: "#3c78d8",
+    },
+    { names: [], label: "Other Assets", color: "#4a90e2" },
+  ];
+
+  // Helper function to calculate category value
+  const calculateCategoryValue = (categoryNames: string[]): number => {
+    if (!tokens || tokens.length === 0) return 0;
+
+    const filteredTokens =
+      categoryNames.length > 0
+        ? tokens.filter((t: any) => categoryNames.includes(t.symbol))
+        : tokens.filter(
+            (t: any) =>
+              !categories
+                .slice(0, -1)
+                .some((cat) => cat.names.includes(t.symbol))
+          );
+
+    return filteredTokens.reduce((sum: number, t: any) => {
+      return sum + convertBalanceToTokenAmount(t.balance, t.decimals);
+    }, 0);
+  };
+
   // Convert tokens to asset allocation data
   const data = useMemo(() => {
-    // Guest mode: show default data
-    if (isGuest) {
-      return [
-        { name: "Built", value: 33.33, percentage: 33.33, color: "#ff6347" }, // Red-orange
-        { name: "By", value: 33.33, percentage: 33.33, color: "#228b22" }, // Dark green
-        {
-          name: "Gamemachine",
-          value: 33.34,
-          percentage: 33.34,
-          color: "#3c78d8",
-        }, // Orange
-      ];
+    if (isGuest || !tokens || tokens.length === 0) {
+      return [];
     }
 
-    if (!tokens || tokens.length === 0) {
-      return [
-        { name: "STRK", value: 48000, percentage: 40.0, color: "#ff6347" }, // Red-orange
-        { name: "ETH", value: 36000, percentage: 30.0, color: "#228b22" }, // Dark green
-        {
-          name: "Stablecoins",
-          value: 24000,
-          percentage: 20.0,
-          color: "#9370db",
-        }, // Purple
-        { name: "DeFi Tokens", value: 9600, percentage: 8.0, color: "#3c78d8" }, // Orange
-        {
-          name: "Other Assets",
-          value: 2400,
-          percentage: 2.0,
-          color: "#4a90e2",
-        }, // Blue
-      ];
+    const categoryValues = categories.map((cat) => ({
+      ...cat,
+      value: calculateCategoryValue(cat.names),
+    }));
+
+    const totalValue = categoryValues.reduce((sum, cat) => sum + cat.value, 0);
+
+    if (totalValue === 0) {
+      return [];
     }
 
-    // Group tokens into 5 categories
-    const stablecoins = tokens.filter((t: any) =>
-      ["USDC", "USDT", "DAI"].includes(t.symbol)
-    );
-    const eth = tokens.filter((t: any) => t.symbol === "ETH");
-    const strk = tokens.filter((t: any) => t.symbol === "STRK");
-    const defiTokens = tokens.filter((t: any) =>
-      ["DEEP", "ZKX", "MYSTR", "REKT"].includes(t.symbol)
-    );
-    const other = tokens.filter(
-      (t: any) =>
-        ![
-          "USDC",
-          "USDT",
-          "DAI",
-          "ETH",
-          "STRK",
-          "DEEP",
-          "ZKX",
-          "MYSTR",
-          "REKT",
-        ].includes(t.symbol)
-    );
-
-    const stablecoinsValue = stablecoins.reduce(
-      (sum: number, t: any) => sum + (t.usdValue || 0),
-      0
-    );
-    const ethValue = eth.reduce(
-      (sum: number, t: any) => sum + (t.usdValue || 0),
-      0
-    );
-    const strkValue = strk.reduce(
-      (sum: number, t: any) => sum + (t.usdValue || 0),
-      0
-    );
-    const defiValue = defiTokens.reduce(
-      (sum: number, t: any) => sum + (t.usdValue || 0),
-      0
-    );
-    const otherValue = other.reduce(
-      (sum: number, t: any) => sum + (t.usdValue || 0),
-      0
-    );
-    const totalValue =
-      stablecoinsValue + ethValue + strkValue + defiValue + otherValue;
-
-    const result = [];
-    if (strkValue > 0) {
-      result.push({
-        name: "STRK",
-        value: strkValue,
-        percentage: (strkValue / totalValue) * 100,
-        color: "#ff6347", // Red-orange
-      });
-    }
-    if (ethValue > 0) {
-      result.push({
-        name: "ETH",
-        value: ethValue,
-        percentage: (ethValue / totalValue) * 100,
-        color: "#228b22", // Dark green
-      });
-    }
-    if (stablecoinsValue > 0) {
-      result.push({
-        name: "Stablecoins",
-        value: stablecoinsValue,
-        percentage: (stablecoinsValue / totalValue) * 100,
-        color: "#9370db", // Purple
-      });
-    }
-    if (defiValue > 0) {
-      result.push({
-        name: "DeFi Tokens",
-        value: defiValue,
-        percentage: (defiValue / totalValue) * 100,
-        color: "#3c78d8", // Orange
-      });
-    }
-    if (otherValue > 0) {
-      result.push({
-        name: "Other Assets",
-        value: otherValue,
-        percentage: (otherValue / totalValue) * 100,
-        color: "#4a90e2", // Blue
-      });
-    }
-
-    // If no data, return default 5 items
-    return result.length > 0
-      ? result
-      : [
-          { name: "STRK", value: 48000, percentage: 40.0, color: "#ff6347" },
-          { name: "ETH", value: 36000, percentage: 30.0, color: "#228b22" },
-          {
-            name: "Stablecoins",
-            value: 24000,
-            percentage: 20.0,
-            color: "#9370db",
-          },
-          {
-            name: "DeFi Tokens",
-            value: 9600,
-            percentage: 8.0,
-            color: "#3c78d8",
-          },
-          {
-            name: "Other Assets",
-            value: 2400,
-            percentage: 2.0,
-            color: "#4a90e2",
-          },
-        ];
+    return categoryValues
+      .filter((cat) => cat.value > 0)
+      .map((cat) => ({
+        name: cat.label,
+        value: cat.value,
+        percentage: (cat.value / totalValue) * 100,
+        color: cat.color,
+      }));
   }, [tokens]);
 
   return (

@@ -343,6 +343,24 @@
     font-weight: $font-weight-medium;
   }
 
+  &__walletDropdownDivider {
+    height: 1px;
+    background: rgba(60, 120, 200, 0.2);
+    margin: $spacing-xs 0;
+  }
+
+  &__walletDropdownSection {
+    padding: $spacing-xs $spacing-sm;
+    display: flex;
+    align-items: center;
+  }
+
+  &__walletDropdownSectionTitle {
+    font-size: $font-size-xs;
+    color: rgba(100, 180, 255, 0.8);
+    font-weight: $font-weight-medium;
+  }
+
   &__walletIcon {
     @include button-reset;
     display: none;

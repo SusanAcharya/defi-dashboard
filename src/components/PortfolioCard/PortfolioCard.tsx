@@ -1,7 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getPortfolio } from "@/services/portfolio.api";
+import {
+  getPortfolio,
+  getPortfolioForAllWallets,
+} from "@/services/portfolio.api";
 import { formatCurrency, formatPercentage } from "@/utils/format";
 import { useUIStore } from "@/store/uiStore";
 import { useWalletStore } from "@/store/walletStore";
@@ -13,11 +16,34 @@ import styles from "./PortfolioCard.module.scss";
 
 export const PortfolioCard: React.FC = () => {
   const navigate = useNavigate();
-  const { selectedWalletAddress, isGuest, username, alias } = useWalletStore();
+  const { selectedWalletAddress, isGuest, username, alias, wallets } =
+    useWalletStore();
+
+  // Determine if we're showing all wallets or a single wallet
+  const isShowingAllWallets =
+    selectedWalletAddress === null && wallets.length > 0;
+  const walletsToFetch = isShowingAllWallets
+    ? wallets.map((w) => w.address)
+    : selectedWalletAddress
+    ? [selectedWalletAddress]
+    : [];
+
   const { data: portfolio, isLoading } = useQuery({
-    queryKey: ["portfolio", selectedWalletAddress],
-    queryFn: ({ queryKey }) => getPortfolio(queryKey[1] as string | null),
-    enabled: !isGuest, // Don't fetch if guest
+    queryKey: ["portfolio", selectedWalletAddress, isShowingAllWallets],
+    queryFn: async () => {
+      if (walletsToFetch.length === 0) {
+        throw new Error("No wallets to fetch");
+      }
+
+      if (isShowingAllWallets) {
+        return getPortfolioForAllWallets(walletsToFetch);
+      } else if (selectedWalletAddress) {
+        return getPortfolio(selectedWalletAddress);
+      }
+
+      throw new Error("Invalid wallet selection");
+    },
+    enabled: !isGuest && walletsToFetch.length > 0,
   });
 
   const showFinancialNumbers = useUIStore(
@@ -79,7 +105,7 @@ export const PortfolioCard: React.FC = () => {
               <span style={{ color: "#9ca3af" }}>Loading...</span>
             ) : (
               formatCurrency(
-                displayPortfolio?.totalValue || 0,
+                displayPortfolio?.totalValue,
                 "USD",
                 showFinancialNumbers
               )
@@ -110,8 +136,8 @@ export const PortfolioCard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className={styles.portfolioCard__topRight}>
-          <div className={styles.portfolioCard__coin}>🪙</div>
+        <div className={`${styles.portfolioCard__topRight}`}>
+          <div className={`${styles.portfolioCard__coin}`}>🪙</div>
         </div>
       </div>
 
@@ -166,7 +192,7 @@ export const PortfolioCard: React.FC = () => {
             <div className={styles.portfolioCard__networthRow}>
               <div className={styles.portfolioCard__value}>
                 {formatCurrency(
-                  displayPortfolio.totalValue,
+                  displayPortfolio?.totalValue,
                   "USD",
                   showFinancialNumbers
                 )}

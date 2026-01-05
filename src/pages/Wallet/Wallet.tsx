@@ -42,12 +42,6 @@ export const Wallet: React.FC = () => {
     string | null
   >(null);
 
-  // Aggregated data state
-  const [aggregatedTokens, setAggregatedTokens] = useState<
-    { token: any; walletCount: number }[]
-  >([]);
-  const [loadingAggregated, setLoadingAggregated] = useState(false);
-
   const handleCloseToast = useCallback(() => {
     setShowToast(false);
   }, []);
@@ -89,48 +83,6 @@ export const Wallet: React.FC = () => {
 
     loadSubscribedWallets();
   }, [wallets]);
-
-  // Load aggregated tokens from subscribed wallets
-  useEffect(() => {
-    const loadAggregatedTokens = async () => {
-      if (subscribedWallets.length === 0) {
-        setAggregatedTokens([]);
-        return;
-      }
-
-      try {
-        setLoadingAggregated(true);
-        const subscribedAddresses = subscribedWallets.map((w) => w.walletAddress);
-        
-        const result = await walletAPI.getAggregatedSubscribedTokens(
-          subscribedAddresses
-        );
-
-        // Create token list with wallet count
-        const tokensWithCount = result.aggregatedTokens.map((token) => {
-          const walletCount = result.walletTokenBreakdown.filter((wb) =>
-            wb.tokens.some((t) => t.address === token.address)
-          ).length;
-
-          return {
-            token,
-            walletCount,
-          };
-        });
-
-        console.log("Aggregated tokens:", tokensWithCount);
-        setAggregatedTokens(tokensWithCount);
-      } catch (error) {
-        console.error("Error loading aggregated tokens:", error);
-        setToastMessage("Failed to load aggregated tokens");
-        setShowToast(true);
-      } finally {
-        setLoadingAggregated(false);
-      }
-    };
-
-    loadAggregatedTokens();
-  }, [subscribedWallets]);
 
   const handleAddWallet = () => {
     if (!newWalletAddress.trim() || !newWalletName.trim()) {
@@ -251,6 +203,39 @@ export const Wallet: React.FC = () => {
       );
       setShowToast(true);
       handleCloseModal();
+    }
+  };
+
+  const handleRemoveSubscribedWallet = async (
+    subscribedWalletAddress: string
+  ) => {
+    if (wallets.length === 0) {
+      setToastMessage("No main wallet available");
+      setShowToast(true);
+      return;
+    }
+
+    try {
+      const mainWallet = wallets[0];
+      await walletAPI.removeSubscribedWallet(
+        mainWallet.address,
+        subscribedWalletAddress
+      );
+
+      // Remove from local state
+      setSubscribedWallets(
+        subscribedWallets.filter(
+          (w) => w.walletAddress !== subscribedWalletAddress
+        )
+      );
+      setExpandedSubscribedWallet(null);
+
+      setToastMessage("Subscription removed successfully");
+      setShowToast(true);
+    } catch (error) {
+      console.error("Error removing subscription:", error);
+      setToastMessage("Failed to remove subscription");
+      setShowToast(true);
     }
   };
 
@@ -526,6 +511,19 @@ export const Wallet: React.FC = () => {
                             📊
                           </span>
                           View Portfolio
+                        </button>
+                        <button
+                          className={`${styles.wallet__cardActionButton} ${styles.wallet__cardActionButton_danger}`}
+                          onClick={() =>
+                            handleRemoveSubscribedWallet(
+                              subWallet.walletAddress
+                            )
+                          }
+                        >
+                          <span className={styles.wallet__cardActionIcon}>
+                            🗑️
+                          </span>
+                          Remove Subscription
                         </button>
                       </div>
                     </div>

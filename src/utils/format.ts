@@ -64,3 +64,44 @@ export const formatDateTime = (timestamp: number): string => {
   return `${month}/${day}/${year} at ${hours}:${minutes}`;
 };
 
+
+/**
+ * Convert token balance to human-readable amount
+ * @param balance Balance as string (in smallest unit, wei)
+ * @param decimals Number of decimal places
+ * @returns Human-readable token amount
+ */
+export const convertBalanceToTokenAmount = (balance: string | number, decimals: number): number => {
+  try {
+    const balanceBigInt = BigInt(balance);
+    const divisor = BigInt(10 ** decimals);
+    const tokenAmount = Number(balanceBigInt) / Number(divisor);
+    return Math.round(tokenAmount * 100) / 100;
+  } catch (error) {
+    return 0;
+  }
+};
+
+
+/**
+ * Calculate the total value of tokens in USD
+ * @param tokens Array of token objects with balance and decimals
+ * @returns Total value in USD
+ */
+export const calculateTokenPortfolioValue = (tokens: any[]): number => {
+  if (!tokens || tokens.length === 0) return 0;
+
+  let totalValue = 0;
+
+  tokens.forEach((token) => {
+    try {
+      const usdValue = convertBalanceToTokenAmount(token.balance, token.decimals);
+      totalValue += usdValue;
+    } catch (error) {
+      console.error(`Error calculating value for token ${token.symbol}:`, error);
+    }
+  });
+
+  return Math.round(totalValue * 100) / 100;
+};
+

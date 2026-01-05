@@ -191,4 +191,18 @@ export const walletAPI = {
     });
     return response;
   },
+
+  /**
+   * Remove a subscribed wallet
+   */
+  removeSubscribedWallet: async (
+    walletAddress: string,
+    subscribedAddress: string
+  ): Promise<{ success: boolean; data?: any }> => {
+    const response = await apiClient.post<{ success: boolean; data?: any }>(`/auth/subscribed/remove`, {
+      walletAddress: walletAddress,
+      subscribedAddress: subscribedAddress,
+    });
+    return response;
+  },
 };

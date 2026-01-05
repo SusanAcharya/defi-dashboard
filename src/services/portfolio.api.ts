@@ -1,5 +1,9 @@
 import { Portfolio } from '@/types';
 import { apiClient } from './client';
+import {
+  calculateTokenPortfolioValue,
+  convertBalanceToTokenAmount,
+} from '@/utils/format';
 
 export async function getPortfolio(walletAddress?: string | null): Promise<Portfolio> {
   if (!walletAddress) {
@@ -12,11 +16,54 @@ export async function getPortfolio(walletAddress?: string | null): Promise<Portf
   }
 
   // Transform API response to match Portfolio interface
-  const { graphData } = response.data;
+  const { user } = response.data;
   
-  // Calculate total value from balance history
-  const latestBalance = graphData?.data?.[0];
-  const totalValue = latestBalance ? parseFloat(latestBalance.balance) / Math.pow(10, latestBalance.decimals) : 0;
+  // Calculate token portfolio value from tokens using conversion functions
+  const tokenValue = user?.tokens ? calculateTokenPortfolioValue(user.tokens) : 0;
+  
+  // Total value includes both graph balance and token balance
+  const totalValue =  tokenValue;
+
+  
+
+  console.log('Calculated total portfolio value:', totalValue);
+  return {
+    totalValue,
+    totalAssets: totalValue,
+    totalDebt: 0, 
+    nftValue: 0,
+    protocolRewards: 0,
+    pnl24h: 0,
+    pnl24hPercent: 0,
+  };
+}
+
+export async function getPortfolioForAllWallets(walletAddresses: string[]): Promise<Portfolio> {
+  if (!walletAddresses || walletAddresses.length === 0) {
+    throw new Error('At least one wallet address is required');
+  }
+
+  let totalValue = 0;
+
+  try {
+    // Fetch portfolio data for all wallets in parallel
+    const portfolioPromises = walletAddresses.map((address) =>
+      getPortfolio(address).catch((error) => {
+        console.error(`Error fetching portfolio for ${address}:`, error);
+        return null;
+      })
+    );
+
+    const portfolios = await Promise.all(portfolioPromises);
+
+    // Sum all values from successful fetches
+    totalValue = portfolios.reduce((sum, portfolio) => {
+      return sum + (portfolio?.totalValue || 0);
+    }, 0);
+  } catch (error) {
+    console.error('Error fetching portfolios for all wallets:', error);
+    throw error;
+  }
 
   return {
     totalValue,
