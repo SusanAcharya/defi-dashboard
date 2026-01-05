@@ -21,6 +21,7 @@ export async function getPortfolio(walletAddress?: string | null): Promise<Portf
 
     const totalValue = calculateTokenPortfolioValue(response.data.user?.tokens);
 
+    console.log(totalValue);  
     return {
       totalValue,
       totalAssets: totalValue,

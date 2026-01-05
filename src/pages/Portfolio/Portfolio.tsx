@@ -275,150 +275,174 @@ export const Portfolio: React.FC = () => {
             </button>
           ))}
         </div>
-        <div
-          ref={chartContainerRef}
-          className={`${styles.portfolio__chart} ${
-            enableZoom ? styles.portfolio__chart_zoomable : ""
-          }`}
-          onWheel={handleWheel}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-        >
-          {enableZoom && (
-            <div className={styles.portfolio__zoomHint}>
-              Scroll to zoom • Drag to pan
-            </div>
-          )}
-          <ResponsiveContainer width="100%" height={350}>
-            <LineChart
-              data={visibleData}
-              margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+        {!chartData || chartData.length === 0 ? (
+          <div className={styles.portfolio__empty}>
+            <div>No graph data available for this timeframe</div>
+            <div
+              style={{ fontSize: "0.85rem", marginTop: "8px", opacity: 0.7 }}
             >
-              <defs>
-                <linearGradient
-                  id="portfolioAreaGradient"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="0%" stopColor="#3c78d8" stopOpacity={0.6} />
-                  <stop offset="30%" stopColor="#5a9fff" stopOpacity={0.4} />
-                  <stop offset="70%" stopColor="#3c78d8" stopOpacity={0.15} />
-                  <stop offset="100%" stopColor="#3c78d8" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient
-                  id="portfolioLineGradient"
-                  x1="0"
-                  y1="0"
-                  x2="1"
-                  y2="0"
-                >
-                  <stop offset="0%" stopColor="#5a9fff" stopOpacity={1} />
-                  <stop offset="50%" stopColor="#3c78d8" stopOpacity={0.95} />
-                  <stop offset="100%" stopColor="#5a9fff" stopOpacity={1} />
-                </linearGradient>
-                <filter id="portfolioLineGlow">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <CartesianGrid
-                strokeDasharray="2 4"
-                stroke="rgba(60, 120, 200, 0.15)"
-                vertical={false}
-                horizontal={true}
-                strokeWidth={0.5}
-              />
-              <XAxis
-                dataKey="date"
-                stroke="rgba(60, 120, 200, 0.4)"
-                tick={{
-                  fill: "rgba(255, 255, 255, 0.6)",
-                  fontSize: 11,
-                  fontWeight: 500,
-                }}
-                tickLine={{ stroke: "rgba(60, 120, 200, 0.3)", strokeWidth: 1 }}
-                axisLine={{ stroke: "rgba(60, 120, 200, 0.3)", strokeWidth: 1 }}
-                interval="preserveStartEnd"
-              />
-              <YAxis
-                stroke="rgba(60, 120, 200, 0.4)"
-                tick={{
-                  fill: "rgba(255, 255, 255, 0.6)",
-                  fontSize: 11,
-                  fontWeight: 500,
-                }}
-                tickLine={{ stroke: "rgba(60, 120, 200, 0.3)", strokeWidth: 1 }}
-                axisLine={{ stroke: "rgba(60, 120, 200, 0.3)", strokeWidth: 1 }}
-                tickFormatter={(value) => {
-                  if (value >= 1000000)
-                    return `$${(value / 1000000).toFixed(1)}M`;
-                  if (value >= 1000) return `$${(value / 1000).toFixed(1)}K`;
-                  return `$${value}`;
-                }}
-                width={70}
-              />
-              <Tooltip
-                content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
-                    const value = payload[0].value as number;
-                    return (
-                      <div className={styles.portfolio__tooltip}>
-                        <div className={styles.portfolio__tooltipLabel}>
-                          {label}
+              Historical portfolio data will appear here as transactions are
+              recorded
+            </div>
+          </div>
+        ) : (
+          <div
+            ref={chartContainerRef}
+            className={`${styles.portfolio__chart} ${
+              enableZoom ? styles.portfolio__chart_zoomable : ""
+            }`}
+            onWheel={handleWheel}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            {enableZoom && (
+              <div className={styles.portfolio__zoomHint}>
+                Scroll to zoom • Drag to pan
+              </div>
+            )}
+            <ResponsiveContainer width="100%" height={350}>
+              <LineChart
+                data={visibleData}
+                margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+              >
+                <defs>
+                  <linearGradient
+                    id="portfolioAreaGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stopColor="#3c78d8" stopOpacity={0.6} />
+                    <stop offset="30%" stopColor="#5a9fff" stopOpacity={0.4} />
+                    <stop offset="70%" stopColor="#3c78d8" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="#3c78d8" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient
+                    id="portfolioLineGradient"
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="0"
+                  >
+                    <stop offset="0%" stopColor="#5a9fff" stopOpacity={1} />
+                    <stop offset="50%" stopColor="#3c78d8" stopOpacity={0.95} />
+                    <stop offset="100%" stopColor="#5a9fff" stopOpacity={1} />
+                  </linearGradient>
+                  <filter id="portfolioLineGlow">
+                    <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                    <feMerge>
+                      <feMergeNode in="coloredBlur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <CartesianGrid
+                  strokeDasharray="2 4"
+                  stroke="rgba(60, 120, 200, 0.15)"
+                  vertical={false}
+                  horizontal={true}
+                  strokeWidth={0.5}
+                />
+                <XAxis
+                  dataKey="date"
+                  stroke="rgba(60, 120, 200, 0.4)"
+                  tick={{
+                    fill: "rgba(255, 255, 255, 0.6)",
+                    fontSize: 11,
+                    fontWeight: 500,
+                  }}
+                  tickLine={{
+                    stroke: "rgba(60, 120, 200, 0.3)",
+                    strokeWidth: 1,
+                  }}
+                  axisLine={{
+                    stroke: "rgba(60, 120, 200, 0.3)",
+                    strokeWidth: 1,
+                  }}
+                  interval="preserveStartEnd"
+                />
+                <YAxis
+                  stroke="rgba(60, 120, 200, 0.4)"
+                  tick={{
+                    fill: "rgba(255, 255, 255, 0.6)",
+                    fontSize: 11,
+                    fontWeight: 500,
+                  }}
+                  tickLine={{
+                    stroke: "rgba(60, 120, 200, 0.3)",
+                    strokeWidth: 1,
+                  }}
+                  axisLine={{
+                    stroke: "rgba(60, 120, 200, 0.3)",
+                    strokeWidth: 1,
+                  }}
+                  tickFormatter={(value) => {
+                    if (value >= 1000000)
+                      return `$${(value / 1000000).toFixed(1)}M`;
+                    if (value >= 1000) return `$${(value / 1000).toFixed(1)}K`;
+                    return `$${value}`;
+                  }}
+                  width={70}
+                />
+                <Tooltip
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const value = payload[0].value as number;
+                      return (
+                        <div className={styles.portfolio__tooltip}>
+                          <div className={styles.portfolio__tooltipLabel}>
+                            {label}
+                          </div>
+                          <div className={styles.portfolio__tooltipValue}>
+                            {formatCurrency(value, "USD", true)}
+                          </div>
                         </div>
-                        <div className={styles.portfolio__tooltipValue}>
-                          {formatCurrency(value, "USD", true)}
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-                cursor={{
-                  stroke: "#5a9fff",
-                  strokeWidth: 1.5,
-                  strokeDasharray: "4 4",
-                  opacity: 0.8,
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="value"
-                fill="url(#portfolioAreaGradient)"
-                stroke="none"
-                isAnimationActive={true}
-                animationDuration={800}
-              />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="url(#portfolioLineGradient)"
-                strokeWidth={3}
-                dot={false}
-                activeDot={{
-                  r: 6,
-                  fill: "#5a9fff",
-                  stroke: "#ffffff",
-                  strokeWidth: 2.5,
-                  style: {
-                    filter: "drop-shadow(0 0 6px rgba(90, 150, 240, 0.9))",
-                    transition: "all 0.2s ease",
-                  },
-                }}
-                filter="url(#portfolioLineGlow)"
-                isAnimationActive={true}
-                animationDuration={800}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                  cursor={{
+                    stroke: "#5a9fff",
+                    strokeWidth: 1.5,
+                    strokeDasharray: "4 4",
+                    opacity: 0.8,
+                  }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  fill="url(#portfolioAreaGradient)"
+                  stroke="none"
+                  isAnimationActive={true}
+                  animationDuration={800}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="url(#portfolioLineGradient)"
+                  strokeWidth={3}
+                  dot={false}
+                  activeDot={{
+                    r: 6,
+                    fill: "#5a9fff",
+                    stroke: "#ffffff",
+                    strokeWidth: 2.5,
+                    style: {
+                      filter: "drop-shadow(0 0 6px rgba(90, 150, 240, 0.9))",
+                      transition: "all 0.2s ease",
+                    },
+                  }}
+                  filter="url(#portfolioLineGlow)"
+                  isAnimationActive={true}
+                  animationDuration={800}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </Card>
 
       <Card title="Token Holdings">

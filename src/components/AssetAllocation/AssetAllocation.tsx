@@ -88,86 +88,97 @@ export const AssetAllocation: React.FC = () => {
 
   return (
     <Card title="Asset Allocation" className={styles.assetAllocation}>
-      <div className={styles.assetAllocation__content}>
-        <div className={styles.assetAllocation__chart}>
-          <ResponsiveContainer
-            width="100%"
-            height={250}
-            className={styles.assetAllocation__chartContainer}
-          >
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                outerRadius="85%"
-                innerRadius="0%"
-                paddingAngle={2}
-                dataKey="value"
-                label={false}
-                labelLine={false}
-                stroke="rgba(0, 0, 0, 0.3)"
-                strokeWidth={2}
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.color}
-                    style={{
-                      filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))",
-                      transition: "all 0.3s ease",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    const data = payload[0].payload;
-                    return (
-                      <div className={styles.assetAllocation__tooltip}>
-                        <div className={styles.assetAllocation__tooltipName}>
-                          {data.name}
-                        </div>
-                        <div className={styles.assetAllocation__tooltipValue}>
-                          $
-                          {data.value.toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}
-                        </div>
-                        <div
-                          className={styles.assetAllocation__tooltipPercentage}
-                        >
-                          {data.percentage.toFixed(2)}%
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+      {data.length === 0 ? (
+        <div className={styles.assetAllocation__empty}>
+          <div>No asset allocation data available</div>
+          <div style={{ fontSize: "0.85rem", marginTop: "8px", opacity: 0.7 }}>
+            Your asset breakdown will appear here once you have token holdings
+          </div>
         </div>
-        <div className={styles.assetAllocation__legend}>
-          {data.map((item, index) => (
-            <div key={index} className={styles.assetAllocation__legendItem}>
-              <span
-                className={styles.assetAllocation__legendColor}
-                style={{ backgroundColor: item.color }}
-              />
-              <span
-                className={styles.assetAllocation__legendLabel}
-                data-percentage={`${item.percentage.toFixed(2)}%`}
-              >
-                {item.name}
-              </span>
-            </div>
-          ))}
+      ) : (
+        <div className={styles.assetAllocation__content}>
+          <div className={styles.assetAllocation__chart}>
+            <ResponsiveContainer
+              width="100%"
+              height={250}
+              className={styles.assetAllocation__chartContainer}
+            >
+              <PieChart>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius="85%"
+                  innerRadius="0%"
+                  paddingAngle={2}
+                  dataKey="value"
+                  label={false}
+                  labelLine={false}
+                  stroke="rgba(0, 0, 0, 0.3)"
+                  strokeWidth={2}
+                >
+                  {data.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      style={{
+                        filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))",
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                      }}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className={styles.assetAllocation__tooltip}>
+                          <div className={styles.assetAllocation__tooltipName}>
+                            {data.name}
+                          </div>
+                          <div className={styles.assetAllocation__tooltipValue}>
+                            $
+                            {data.value.toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                          </div>
+                          <div
+                            className={
+                              styles.assetAllocation__tooltipPercentage
+                            }
+                          >
+                            {data.percentage.toFixed(2)}%
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className={styles.assetAllocation__legend}>
+            {data.map((item, index) => (
+              <div key={index} className={styles.assetAllocation__legendItem}>
+                <span
+                  className={styles.assetAllocation__legendColor}
+                  style={{ backgroundColor: item.color }}
+                />
+                <span
+                  className={styles.assetAllocation__legendLabel}
+                  data-percentage={`${item.percentage.toFixed(2)}%`}
+                >
+                  {item.name}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </Card>
   );
 };

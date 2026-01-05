@@ -13,6 +13,7 @@ import profileImage from "@/assets/profile.png";
 import showIcon from "@/assets/icons/show.png";
 import hideIcon from "@/assets/icons/hide.png";
 import styles from "./PortfolioCard.module.scss";
+import { get } from "http";
 
 export const PortfolioCard: React.FC = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export const PortfolioCard: React.FC = () => {
   const { data: portfolio, isLoading } = useQuery({
     queryKey: ["portfolio", selectedWalletAddress, isShowingAllWallets],
     queryFn: async () => {
+      console.log("Fetching portfolio for wallets:", walletsToFetch);
       if (walletsToFetch.length === 0) {
         throw new Error("No wallets to fetch");
       }

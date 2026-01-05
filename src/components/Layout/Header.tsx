@@ -67,8 +67,17 @@ export const Header: React.FC = () => {
   const hasRestoredSession = useRef(false);
 
   const selectedWallet = selectedWalletAddress
-    ? wallets.find((w) => w.address === selectedWalletAddress)
+    ? wallets.find((w) => w.address === selectedWalletAddress) ||
+      subscribedWallets.find((sw) => sw.walletAddress === selectedWalletAddress)
     : null;
+
+  // For displaying the selected wallet name
+  const getSelectedWalletDisplay = (): string => {
+    if (selectedWallet && "name" in selectedWallet) {
+      return selectedWallet.name;
+    }
+    return "ALL";
+  };
 
   /**
    * Handle wallet connection using @starknet-react/core hooks
@@ -322,7 +331,7 @@ export const Header: React.FC = () => {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 <span className={styles.header__walletDropdownText}>
-                  {selectedWallet ? selectedWallet.name : "ALL"}
+                  {getSelectedWalletDisplay()}
                 </span>
                 <span className={styles.header__walletDropdownIcon}>
                   {dropdownOpen ? "▲" : "▼"}

@@ -44,7 +44,7 @@ export async function getHistory(
   }
 
   const response = await apiClient.get<TransactionResponse>(
-    `/wallet/0x3f239d7344cf4e5e93fbc31da0ec6682d6087fe3a4cde4617dc4a55fb4db0b1/transactions`,
+    `/wallet/0x3f239d7344cf4e5e93fbc31da0ec6682d6087fe3a4cde4617dc4a55fb4db0b1/transactions?limit=50`,
     { timeRange, limit: 100 }
   );
 

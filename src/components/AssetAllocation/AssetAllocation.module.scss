@@ -3,6 +3,19 @@
 .assetAllocation {
   position: relative;
 
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl;
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+    font-style: italic;
+
+    @include mobile {
+      padding: $spacing-lg;
+      font-size: $font-size-sm;
+    }
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
