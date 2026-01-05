@@ -205,4 +205,12 @@ export const walletAPI = {
     });
     return response;
   },
+
+  /**
+   * Get tokens for a wallet
+   */
+  getWalletTokens: async (walletAddress: string): Promise<Token[]> => {
+    const response = await walletAPI.getWalletDetails(walletAddress);
+    return response.data.user.tokens || [];
+  },
 };

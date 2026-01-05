@@ -529,6 +529,192 @@
       font-size: $font-size-sm;
     }
   }
+
+  &__transactionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid rgba(60, 120, 200, 0.2);
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+      align-items: flex-start;
+    }
+  }
+
+  &__filterButtons {
+    display: flex;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+  }
+
+  &__filterBtn {
+    @include button-reset;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(60, 120, 200, 0.3);
+    border-radius: $radius-md;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
+    white-space: nowrap;
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &_active {
+      background: rgba(60, 120, 200, 0.3);
+      border-color: rgba(60, 120, 200, 0.7);
+      color: $color-text-primary;
+      box-shadow: 0 0 10px rgba(60, 120, 200, 0.3);
+      font-weight: $font-weight-semibold;
+    }
+
+    @include desktop {
+      &:hover:not(&_active) {
+        background: rgba(60, 120, 200, 0.15);
+        border-color: rgba(60, 120, 200, 0.5);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: 0.75rem;
+    }
+  }
+
+  &__txDate {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
+  }
+
+  &__txType {
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+    text-transform: capitalize;
+    white-space: nowrap;
+
+    &_sent {
+      color: #ff6b6b;
+    }
+
+    &_received {
+      color: #51cf66;
+    }
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
+  }
+
+  &__txToken {
+    color: $color-text-primary;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
+  }
+
+  &__txAmount {
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+
+    @include mobile {
+      font-size: 0.65rem;
+    }
+  }
+
+  &__txAddress {
+    color: $color-text-secondary;
+    font-size: 0.75rem;
+    font-family: monospace;
+    white-space: nowrap;
+
+    @include mobile {
+      font-size: 0.6rem;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-md;
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid rgba(60, 120, 200, 0.2);
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+  }
+
+  &__paginationInfo {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+
+    @include mobile {
+      font-size: 0.75rem;
+    }
+  }
+
+  &__paginationBtn {
+    @include button-reset;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(60, 120, 200, 0.2);
+    border: 1px solid rgba(60, 120, 200, 0.4);
+    border-radius: $radius-md;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
+    white-space: nowrap;
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    @include desktop {
+      &:hover:not(:disabled) {
+        background: rgba(60, 120, 200, 0.35);
+        border-color: rgba(60, 120, 200, 0.6);
+        color: $color-text-primary;
+      }
+    }
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: 0.75rem;
+    }
+  }
 }
 
 // Liquid glass shimmer animation

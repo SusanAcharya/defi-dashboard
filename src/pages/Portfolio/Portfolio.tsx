@@ -15,14 +15,20 @@ import { formatCurrency, formatPercentage } from "@/utils/format";
 import { useUIStore } from "@/store/uiStore";
 import { useWalletStore } from "@/store/walletStore";
 import { Card } from "@/components";
+import { transactionAPI } from "@/services/transaction.api";
+import { walletAPI } from "@/services/wallet.api";
 import styles from "./Portfolio.module.scss";
 
-const timeframes = ["1D", "7D", "30D", "90D", "1Y", "ALL"];
+const timeframes = ["1W", "1M", "6M", "1Y", "ALL"];
 
 export const Portfolio: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState("30D");
   const [zoomLevel, setZoomLevel] = useState(1);
   const [panOffset, setPanOffset] = useState(0);
+  const [transactionPage, setTransactionPage] = useState(1);
+  const [transactionFilter, setTransactionFilter] = useState<
+    "all" | "sent" | "received"
+  >("all");
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const dragStartRef = useRef(0);
@@ -64,13 +70,8 @@ export const Portfolio: React.FC = () => {
     queryKey: ["tokens", selectedWalletAddress],
     queryFn: async () => {
       if (!selectedWalletAddress || isGuest) return [];
-      // Get tokens from wallet endpoint
       try {
-        const response = await fetch(
-          `${"http://localhost:8000/api"}/wallet/${selectedWalletAddress}`
-        );
-        const data = await response.json();
-        return data.data?.user?.tokens || [];
+        return await walletAPI.getWalletTokens(selectedWalletAddress);
       } catch {
         return [];
       }
@@ -86,6 +87,37 @@ export const Portfolio: React.FC = () => {
       return [];
     },
     enabled: !isGuest, // Don't fetch if guest
+  });
+
+  // Get wallet transactions
+  const { data: transactionsData } = useQuery({
+    queryKey: [
+      "transactions",
+      selectedWalletAddress,
+      transactionPage,
+      transactionFilter,
+    ],
+    queryFn: async () => {
+      if (!selectedWalletAddress || isGuest) return null;
+      try {
+        const response = await transactionAPI.getWalletTransactions(
+          selectedWalletAddress,
+          10,
+          transactionPage
+        );
+        // Filter transactions based on selected filter
+        if (transactionFilter === "sent" || transactionFilter === "received") {
+          response.data.data = response.data.data.filter(
+            (tx: any) => tx.type === transactionFilter
+          );
+        }
+        return response.data;
+      } catch (error) {
+        console.error("Failed to fetch transactions:", error);
+        return null;
+      }
+    },
+    enabled: !isGuest && !!selectedWalletAddress,
   });
 
   // Determine if we should enable zoom (for larger timelines)
@@ -411,32 +443,32 @@ export const Portfolio: React.FC = () => {
                     <td>
                       <div className={styles.portfolio__tokenInfo}>
                         <div className={styles.portfolio__tokenSymbol}>
-                          {token.symbol}
+                          {token.symbol || "—"}
                         </div>
                         <div className={styles.portfolio__tokenName}>
-                          {token.name}
+                          {token.name || "—"}
                         </div>
                       </div>
                     </td>
                     <td className={styles.portfolio__tokenBalance}>
-                      {token.balance}
+                      {token.balance ?? "0"}
                     </td>
                     <td className={styles.portfolio__tokenValue}>
                       {formatCurrency(
-                        token.usdValue,
+                        token.usdValue ?? 0,
                         "USD",
                         showFinancialNumbers
                       )}
                     </td>
                     <td
                       className={`${styles.portfolio__tokenChange} ${
-                        token.change24h >= 0
+                        (token.change24h ?? 0) >= 0
                           ? styles.portfolio__tokenChange_positive
                           : styles.portfolio__tokenChange_negative
                       }`}
                     >
                       {formatPercentage(
-                        token.change24h,
+                        token.change24h ?? 0,
                         2,
                         showFinancialNumbers
                       )}
@@ -493,6 +525,139 @@ export const Portfolio: React.FC = () => {
               </tbody>
             </table>
           </div>
+        </Card>
+      )}
+
+      {!isGuest && (
+        <Card title="Transaction History">
+          <div className={styles.portfolio__transactionHeader}>
+            <div className={styles.portfolio__filterButtons}>
+              <button
+                className={`${styles.portfolio__filterBtn} ${
+                  transactionFilter === "all"
+                    ? styles.portfolio__filterBtn_active
+                    : ""
+                }`}
+                onClick={() => {
+                  setTransactionFilter("all");
+                  setTransactionPage(1);
+                }}
+              >
+                All
+              </button>
+              <button
+                className={`${styles.portfolio__filterBtn} ${
+                  transactionFilter === "sent"
+                    ? styles.portfolio__filterBtn_active
+                    : ""
+                }`}
+                onClick={() => {
+                  setTransactionFilter("sent");
+                  setTransactionPage(1);
+                }}
+              >
+                Sent
+              </button>
+              <button
+                className={`${styles.portfolio__filterBtn} ${
+                  transactionFilter === "received"
+                    ? styles.portfolio__filterBtn_active
+                    : ""
+                }`}
+                onClick={() => {
+                  setTransactionFilter("received");
+                  setTransactionPage(1);
+                }}
+              >
+                Received
+              </button>
+            </div>
+          </div>
+
+          {!transactionsData || transactionsData.data.length === 0 ? (
+            <div className={styles.portfolio__empty}>No transactions</div>
+          ) : (
+            <>
+              <div className={styles.portfolio__tableWrapper}>
+                <table className={styles.portfolio__table}>
+                  <thead>
+                    <tr className={styles.portfolio__tableHeader}>
+                      <th>Date</th>
+                      <th>Type</th>
+                      <th>Token</th>
+                      <th>Amount</th>
+                      <th>From/To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transactionsData.data.map((tx: any) => (
+                      <tr
+                        key={tx.transactionHash}
+                        className={styles.portfolio__tableRow}
+                      >
+                        <td className={styles.portfolio__txDate}>
+                          {new Date(tx.timestamp).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
+                        </td>
+                        <td
+                          className={`${styles.portfolio__txType} ${
+                            tx.type === "sent"
+                              ? styles.portfolio__txType_sent
+                              : styles.portfolio__txType_received
+                          }`}
+                        >
+                          {tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
+                        </td>
+                        <td className={styles.portfolio__txToken}>
+                          {tx.tokenSymbol}
+                        </td>
+                        <td className={styles.portfolio__txAmount}>
+                          {(
+                            Number(tx.amount) / Math.pow(10, tx.decimals)
+                          ).toFixed(4)}{" "}
+                          {tx.tokenSymbol}
+                        </td>
+                        <td className={styles.portfolio__txAddress}>
+                          {tx.type === "sent"
+                            ? tx.to.slice(0, 6) + "..." + tx.to.slice(-4)
+                            : tx.from.slice(0, 6) + "..." + tx.from.slice(-4)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {transactionsData.pagination && (
+                <div className={styles.portfolio__pagination}>
+                  <button
+                    className={styles.portfolio__paginationBtn}
+                    onClick={() =>
+                      setTransactionPage((p) => Math.max(1, p - 1))
+                    }
+                    disabled={!transactionsData.pagination.hasPrev}
+                  >
+                    Previous
+                  </button>
+                  <span className={styles.portfolio__paginationInfo}>
+                    Page {transactionsData.pagination.page} of{" "}
+                    {transactionsData.pagination.totalPages} (Total:{" "}
+                    {transactionsData.pagination.total})
+                  </span>
+                  <button
+                    className={styles.portfolio__paginationBtn}
+                    onClick={() => setTransactionPage((p) => p + 1)}
+                    disabled={!transactionsData.pagination.hasNext}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </Card>
       )}
     </div>

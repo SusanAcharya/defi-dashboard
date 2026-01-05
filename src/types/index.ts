@@ -37,6 +37,37 @@ export interface WalletToken {
 }
 
 /**
+ * Transaction interface
+ * From /api/wallet/:address/transactions endpoint
+ */
+export interface Transaction {
+  blockNumber: number;
+  transactionHash: string;
+  eventIndex: number;
+  timestamp: string;
+  from: string;
+  to: string;
+  tokenAddress: string;
+  tokenSymbol: string;
+  tokenName: string;
+  amount: string;
+  decimals: number;
+  type: 'sent' | 'received';
+}
+
+/**
+ * Pagination information for API responses
+ */
+export interface PaginationInfo {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+/**
  * User interface matching /api/wallet/:address user object
  * See API_DOCUMENTATION.md - Get Wallet Details & Balance History
  */

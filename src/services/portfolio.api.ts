@@ -24,7 +24,7 @@ export async function getPortfolio(walletAddress?: string | null): Promise<Portf
   // Total value includes both graph balance and token balance
   const totalValue =  tokenValue;
 
-  
+
 
   console.log('Calculated total portfolio value:', totalValue);
   return {
@@ -78,7 +78,7 @@ export async function getPortfolioForAllWallets(walletAddresses: string[]): Prom
 
 export async function getPortfolioChartData(
   walletAddress?: string | null,
-  timeframe: string = '30D'
+  timeframe: string = '1W'
 ): Promise<Array<{ date: string; value: number }>> {
   if (!walletAddress) {
     throw new Error('Wallet address is required');
@@ -89,7 +89,7 @@ export async function getPortfolioChartData(
     '1D': '1d',
     '7D': '1w',
     '30D': '1m',
-    '90D': '1m', // Approximate - API doesn't support 90d
+    '180D': '6m',
     '1Y': '1y',
     'ALL': 'all',
   };
@@ -100,6 +100,8 @@ export async function getPortfolioChartData(
     timeRange,
     limit: 100,
   });
+
+  console.log('Portfolio chart data response:', response);
 
   if (!response.success) {
     throw new Error('Failed to fetch chart data');

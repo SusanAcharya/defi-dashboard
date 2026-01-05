@@ -1,7 +1,10 @@
-export const formatCurrency = (value: number, currency: string = 'USD', showNumbers: boolean = true): string => {
+export const formatCurrency = (value: number | undefined, currency: string = 'USD', showNumbers: boolean = true): string => {
   if (!showNumbers) {
     // Return masked value like banks do (e.g., "••••")
     return '••••';
+  }
+  if (value === undefined || value === null || isNaN(value)) {
+    return '$0.00';
   }
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -32,9 +35,12 @@ export const formatNumber = (value: number | string, decimals: number = 2, showN
   }).format(num);
 };
 
-export const formatPercentage = (value: number, decimals: number = 2, showNumbers: boolean = true): string => {
+export const formatPercentage = (value: number | undefined, decimals: number = 2, showNumbers: boolean = true): string => {
   if (!showNumbers) {
     return '•••';
+  }
+  if (value === undefined || value === null || isNaN(value)) {
+    return '0%';
   }
   return `${value >= 0 ? '+' : ''}${value.toFixed(decimals)}%`;
 };
