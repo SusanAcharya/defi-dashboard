@@ -71,6 +71,15 @@ export const formatDateTime = (timestamp: number): string => {
 };
 
 
+// Cached divisors for performance optimization
+const divisorCache = new Map<number, bigint>();
+const getDivisor = (decimals: number): bigint => {
+  if (!divisorCache.has(decimals)) {
+    divisorCache.set(decimals, BigInt(10 ** decimals));
+  }
+  return divisorCache.get(decimals)!;
+};
+
 /**
  * Convert token balance to human-readable amount
  * @param balance Balance as string (in smallest unit, wei)
@@ -80,10 +89,11 @@ export const formatDateTime = (timestamp: number): string => {
 export const convertBalanceToTokenAmount = (balance: string | number, decimals: number): number => {
   try {
     const balanceBigInt = BigInt(balance);
-    const divisor = BigInt(10 ** decimals);
+    const divisor = getDivisor(decimals);
     const tokenAmount = Number(balanceBigInt) / Number(divisor);
     return Math.round(tokenAmount * 100) / 100;
   } catch (error) {
+    console.warn(`Failed to convert balance: ${balance} with ${decimals} decimals`);
     return 0;
   }
 };
@@ -95,19 +105,17 @@ export const convertBalanceToTokenAmount = (balance: string | number, decimals: 
  * @returns Total value in USD
  */
 export const calculateTokenPortfolioValue = (tokens: any[]): number => {
-  if (!tokens || tokens.length === 0) return 0;
+  if (!tokens?.length) return 0;
 
-  let totalValue = 0;
-
-  tokens.forEach((token) => {
-    try {
-      const usdValue = convertBalanceToTokenAmount(token.balance, token.decimals);
-      totalValue += usdValue;
-    } catch (error) {
-      console.error(`Error calculating value for token ${token.symbol}:`, error);
-    }
-  });
-
-  return Math.round(totalValue * 100) / 100;
+  return Math.round(
+    tokens.reduce((totalValue, token) => {
+      try {
+        return totalValue + convertBalanceToTokenAmount(token.balance, token.decimals);
+      } catch (error) {
+        console.warn(`Error calculating value for token ${token.symbol}:`, error);
+        return totalValue;
+      }
+    }, 0) * 100
+  ) / 100;
 };
 

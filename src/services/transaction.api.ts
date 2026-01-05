@@ -1,6 +1,22 @@
 import { apiClient } from './client';
 import { TransactionsResponse, Transaction } from '@/types/transaction';
 
+/**
+ * Helper function to filter transactions and return updated response
+ */
+const filterTransactions = (
+  response: TransactionsResponse,
+  predicate: (tx: Transaction) => boolean
+): TransactionsResponse => {
+  return {
+    ...response,
+    data: {
+      ...response.data,
+      data: response.data.data.filter(predicate),
+    },
+  };
+};
+
 export const transactionAPI = {
   /**
    * Get wallet transactions with pagination
@@ -84,17 +100,7 @@ export const transactionAPI = {
       page
     );
 
-    const sentTransactions = response.data.data.filter(
-      (tx) => tx.type === 'sent'
-    );
-
-    return {
-      ...response,
-      data: {
-        ...response.data,
-        data: sentTransactions,
-      },
-    };
+    return filterTransactions(response, (tx) => tx.type === 'sent');
   },
 
   /**
@@ -115,17 +121,7 @@ export const transactionAPI = {
       page
     );
 
-    const receivedTransactions = response.data.data.filter(
-      (tx) => tx.type === 'received'
-    );
-
-    return {
-      ...response,
-      data: {
-        ...response.data,
-        data: receivedTransactions,
-      },
-    };
+    return filterTransactions(response, (tx) => tx.type === 'received');
   },
 
   /**
@@ -148,16 +144,6 @@ export const transactionAPI = {
       page
     );
 
-    const filtered = response.data.data.filter(
-      (tx) => tx.tokenSymbol === tokenSymbol
-    );
-
-    return {
-      ...response,
-      data: {
-        ...response.data,
-        data: filtered,
-      },
-    };
+    return filterTransactions(response, (tx) => tx.tokenSymbol === tokenSymbol);
   },
 };

@@ -141,20 +141,24 @@ export const walletAPI = {
     let page = 1;
     let hasMore = true;
     const allTransactions: Transaction[] = [];
+    const limit = 100;
 
     while (hasMore) {
-      const response = await walletAPI.getTransactionHistory(address, {
-        page,
-        limit: 100,
-      });
+      try {
+        const response = await walletAPI.getTransactionHistory(address, {
+          page,
+          limit,
+        });
 
-      allTransactions.push(...response.data.data);
-      if (onProgress) {
-        onProgress(response.data.data);
+        allTransactions.push(...response.data.data);
+        onProgress?.(response.data.data);
+
+        hasMore = response.data.pagination.hasNext;
+        page++;
+      } catch (error) {
+        console.error(`Error fetching transactions page ${page}:`, error);
+        break;
       }
-
-      hasMore = response.data.pagination.hasNext;
-      page++;
     }
 
     return allTransactions;
@@ -164,16 +168,17 @@ export const walletAPI = {
    * Get subscribed wallets for a wallet address
    */
   getSubscribedWallets: async (walletAddress: string): Promise<WalletSubscription[]> => {
-    const response = await walletAPI.getWalletDetails(walletAddress);
-    const mainWalletAddress = response.data.user.walletAddress.toLowerCase();
-    const subscribed = response.data.user.subscribed;
-    
-    // Filter to return only subscribed wallets that are NOT the main wallet address
-    const uniqueSubscribed = subscribed.filter((wallet) => {
-      return wallet.walletAddress.toLowerCase() !== mainWalletAddress;
-    });
-    
-    return uniqueSubscribed;
+    try {
+      const response = await walletAPI.getWalletDetails(walletAddress);
+      const mainWallet = response.data.user.walletAddress.toLowerCase();
+      
+      return response.data.user.subscribed.filter(
+        (wallet) => wallet.walletAddress.toLowerCase() !== mainWallet
+      );
+    } catch (error) {
+      console.error('Failed to fetch subscribed wallets:', error);
+      return [];
+    }
   },
 
   /**

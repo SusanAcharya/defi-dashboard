@@ -1,79 +1,76 @@
 import { Portfolio } from '@/types';
 import { apiClient } from './client';
-import {
-  calculateTokenPortfolioValue,
-  convertBalanceToTokenAmount,
-} from '@/utils/format';
+import { calculateTokenPortfolioValue } from '@/utils/format';
 
+/**
+ * Get portfolio data for a wallet
+ * @param walletAddress - The wallet address
+ * @returns Portfolio object with calculated values
+ */
 export async function getPortfolio(walletAddress?: string | null): Promise<Portfolio> {
   if (!walletAddress) {
     throw new Error('Wallet address is required');
   }
-  const response = await apiClient.get<{ success: boolean; data: { user: any; graphData: any } }>(`/wallet/${walletAddress}`);
-  
-  if (!response.success) {
-    throw new Error('Failed to fetch portfolio');
+
+  try {
+    const response = await apiClient.get<{ success: boolean; data: { user: any; graphData: any } }>(`/wallet/${walletAddress}`);
+    
+    if (!response.success) {
+      throw new Error('Failed to fetch portfolio');
+    }
+
+    const totalValue = calculateTokenPortfolioValue(response.data.user?.tokens);
+
+    return {
+      totalValue,
+      totalAssets: totalValue,
+      totalDebt: 0, 
+      nftValue: 0,
+      protocolRewards: 0,
+      pnl24h: 0,
+      pnl24hPercent: 0,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch portfolio for ${walletAddress}:`, error);
+    throw error;
   }
-
-  // Transform API response to match Portfolio interface
-  const { user } = response.data;
-  
-  // Calculate token portfolio value from tokens using conversion functions
-  const tokenValue = user?.tokens ? calculateTokenPortfolioValue(user.tokens) : 0;
-  
-  // Total value includes both graph balance and token balance
-  const totalValue =  tokenValue;
-
-
-
-  console.log('Calculated total portfolio value:', totalValue);
-  return {
-    totalValue,
-    totalAssets: totalValue,
-    totalDebt: 0, 
-    nftValue: 0,
-    protocolRewards: 0,
-    pnl24h: 0,
-    pnl24hPercent: 0,
-  };
 }
 
+/**
+ * Get aggregated portfolio for multiple wallets
+ * @param walletAddresses - Array of wallet addresses
+ * @returns Portfolio object with aggregated values
+ */
 export async function getPortfolioForAllWallets(walletAddresses: string[]): Promise<Portfolio> {
-  if (!walletAddresses || walletAddresses.length === 0) {
+  if (!walletAddresses?.length) {
     throw new Error('At least one wallet address is required');
   }
 
-  let totalValue = 0;
-
   try {
-    // Fetch portfolio data for all wallets in parallel
-    const portfolioPromises = walletAddresses.map((address) =>
-      getPortfolio(address).catch((error) => {
-        console.error(`Error fetching portfolio for ${address}:`, error);
-        return null;
-      })
+    const portfolios = await Promise.all(
+      walletAddresses.map((address) =>
+        getPortfolio(address).catch((error) => {
+          console.error(`Failed to fetch portfolio for ${address}:`, error);
+          return null;
+        })
+      )
     );
 
-    const portfolios = await Promise.all(portfolioPromises);
+    const totalValue = portfolios.reduce((sum, portfolio) => sum + (portfolio?.totalValue || 0), 0);
 
-    // Sum all values from successful fetches
-    totalValue = portfolios.reduce((sum, portfolio) => {
-      return sum + (portfolio?.totalValue || 0);
-    }, 0);
+    return {
+      totalValue,
+      totalAssets: totalValue,
+      totalDebt: 0,
+      nftValue: 0,
+      protocolRewards: 0,
+      pnl24h: 0,
+      pnl24hPercent: 0,
+    };
   } catch (error) {
-    console.error('Error fetching portfolios for all wallets:', error);
+    console.error('Error fetching portfolios for multiple wallets:', error);
     throw error;
   }
-
-  return {
-    totalValue,
-    totalAssets: totalValue,
-    totalDebt: 0,
-    nftValue: 0,
-    protocolRewards: 0,
-    pnl24h: 0,
-    pnl24hPercent: 0,
-  };
 }
 
 export async function getPortfolioChartData(
