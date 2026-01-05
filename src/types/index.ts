@@ -3,17 +3,55 @@ export interface Wallet {
   shortAddress: string;
 }
 
+/**
+ * Matches API Token response from /api/tokens endpoint
+ * See API_DOCUMENTATION.md for details
+ */
 export interface Token {
-  id: string;
+  address: string;
   symbol: string;
   name: string;
-  balance: string;
-  usdValue: number;
-  price: number;
-  change24h: number;
+  decimals: number;
+  isNative: boolean;
+  isVerified: boolean;
+  // Optional UI properties not from API
+  id?: string;
+  balance?: string;
+  usdValue?: number;
+  price?: number;
+  change24h?: number;
   logo?: string;
-  address?: string;
   liquidity?: number;
+}
+
+/**
+ * Wallet Token with balance information
+ * From /api/wallet/:address user.tokens array
+ */
+export interface WalletToken {
+  address: string;
+  symbol: string;
+  balance: string;
+  decimals: number;
+  lastUpdated: string;
+}
+
+/**
+ * User interface matching /api/wallet/:address user object
+ * See API_DOCUMENTATION.md - Get Wallet Details & Balance History
+ */
+export interface User {
+  walletAddress: string;
+  telegramId?: string;
+  tokens: WalletToken[];
+  subscribed: Array<{
+    name: string;
+    walletAddress: string;
+  }>;
+  startBlock: number;
+  currentBlockNumber: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Portfolio {

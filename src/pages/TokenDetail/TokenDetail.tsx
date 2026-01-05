@@ -1,47 +1,66 @@
-import React, { useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { api } from '@/utils/api';
-import { formatCurrency, formatPercentage, formatAddress } from '@/utils/format';
-import { useUIStore } from '@/store/uiStore';
-import { Card, Button, Toast } from '@/components';
-import styles from './TokenDetail.module.scss';
+import React, { useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import {
+  LineChart,
+  Line,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { tokenAPI } from "@/services/token.api";
+import {
+  formatCurrency,
+  formatPercentage,
+  formatAddress,
+} from "@/utils/format";
+import { useUIStore } from "@/store/uiStore";
+import { Card, Button, Toast } from "@/components";
+import styles from "./TokenDetail.module.scss";
 
-const timeframes = ['1D', '7D', '30D', '90D', '1Y', 'ALL'];
+const timeframes = ["1D", "7D", "30D", "90D", "1Y", "ALL"];
 
 export const TokenDetail: React.FC = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
   const navigate = useNavigate();
-  const [selectedTimeframe, setSelectedTimeframe] = useState('30D');
-  const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
+  const [selectedTimeframe, setSelectedTimeframe] = useState("30D");
+  const showFinancialNumbers = useUIStore(
+    (state) => state.showFinancialNumbers
+  );
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleCloseToast = useCallback(() => {
     setShowToast(false);
   }, []);
 
-  const { data: tokens } = useQuery({
-    queryKey: ['tokens'],
-    queryFn: () => api.getTokens(),
+  const { data: tokensResponse } = useQuery({
+    queryKey: ["tokens"],
+    queryFn: () => tokenAPI.getAllTokens(),
   });
 
-  const token = tokens?.find(t => t.id === tokenId);
+  const tokens = tokensResponse?.data?.tokens || [];
+  const token = tokens?.find((t: any) => t.address === tokenId);
 
   // Mock chart data
   const chartData = Array.from({ length: 30 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - (29 - i));
     return {
-      date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
       price: (token?.price || 0) * (1 + (Math.random() - 0.5) * 0.1),
     };
   });
 
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address);
-    setToastMessage('Contract address copied to clipboard');
+    setToastMessage("Contract address copied to clipboard");
     setShowToast(true);
   };
 
@@ -51,7 +70,7 @@ export const TokenDetail: React.FC = () => {
         <Card>
           <div className={styles.tokenDetail__notFound}>
             <p>Token not found</p>
-            <Button variant="outline" onClick={() => navigate('/live-chart')}>
+            <Button variant="outline" onClick={() => navigate("/live-chart")}>
               Back to Market Prices
             </Button>
           </div>
@@ -65,14 +84,20 @@ export const TokenDetail: React.FC = () => {
       <Card title={`${token.name} (${token.symbol})`}>
         <div className={styles.tokenDetail__header}>
           <div className={styles.tokenDetail__tokenInfo}>
-            <div className={styles.tokenDetail__tokenIcon}>{token.symbol[0]}</div>
+            <div className={styles.tokenDetail__tokenIcon}>
+              {token.symbol[0]}
+            </div>
             <div className={styles.tokenDetail__tokenDetails}>
               <div className={styles.tokenDetail__tokenNameRow}>
-                <span className={styles.tokenDetail__tokenName}>{token.name}</span>
+                <span className={styles.tokenDetail__tokenName}>
+                  {token.name}
+                </span>
                 <span className={styles.tokenDetail__verified}>✓</span>
               </div>
               <div className={styles.tokenDetail__tokenSymbolRow}>
-                <span className={styles.tokenDetail__tokenSymbol}>{token.symbol}</span>
+                <span className={styles.tokenDetail__tokenSymbol}>
+                  {token.symbol}
+                </span>
                 {token.address && (
                   <>
                     <span className={styles.tokenDetail__address}>
@@ -80,7 +105,7 @@ export const TokenDetail: React.FC = () => {
                     </span>
                     <button
                       className={styles.tokenDetail__copyButton}
-                      onClick={() => handleCopyAddress(token.address || '')}
+                      onClick={() => handleCopyAddress(token.address || "")}
                       title="Copy address"
                     >
                       📋
@@ -90,25 +115,27 @@ export const TokenDetail: React.FC = () => {
               </div>
             </div>
           </div>
-          <Button variant="outline" onClick={() => navigate('/live-chart')}>
+          <Button variant="outline" onClick={() => navigate("/live-chart")}>
             ← Back
           </Button>
         </div>
 
         <div className={styles.tokenDetail__priceSection}>
           <div className={styles.tokenDetail__price}>
-            {showFinancialNumbers 
-              ? formatCurrency(token.price, 'USD', true)
-              : '••••'
-            }
+            {showFinancialNumbers
+              ? formatCurrency(token.price, "USD", true)
+              : "••••"}
           </div>
-          <div className={`${styles.tokenDetail__change} ${
-            token.change24h >= 0 ? styles.tokenDetail__change_positive : styles.tokenDetail__change_negative
-          }`}>
-            {showFinancialNumbers 
+          <div
+            className={`${styles.tokenDetail__change} ${
+              token.change24h >= 0
+                ? styles.tokenDetail__change_positive
+                : styles.tokenDetail__change_negative
+            }`}
+          >
+            {showFinancialNumbers
               ? `${formatPercentage(token.change24h, 2, true)} (24h)`
-              : '•••'
-            }
+              : "•••"}
           </div>
         </div>
 
@@ -117,7 +144,9 @@ export const TokenDetail: React.FC = () => {
             <button
               key={tf}
               className={`${styles.tokenDetail__timeframe} ${
-                selectedTimeframe === tf ? styles.tokenDetail__timeframe_active : ''
+                selectedTimeframe === tf
+                  ? styles.tokenDetail__timeframe_active
+                  : ""
               }`}
               onClick={() => setSelectedTimeframe(tf)}
             >
@@ -130,31 +159,42 @@ export const TokenDetail: React.FC = () => {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData}>
               <defs>
-                <linearGradient id="tokenAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient
+                  id="tokenAreaGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
                   <stop offset="0%" stopColor="#3c78d8" stopOpacity={0.4} />
                   <stop offset="100%" stopColor="#3c78d8" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(60, 120, 200, 0.2)" />
-              <XAxis 
-                dataKey="date" 
-                stroke="#3c78d8" 
-                style={{ fontSize: '12px' }}
-                tick={{ fill: '#b0b0c0' }}
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(60, 120, 200, 0.2)"
               />
-              <YAxis 
-                stroke="#3c78d8" 
-                style={{ fontSize: '12px' }}
-                tick={{ fill: '#b0b0c0' }}
+              <XAxis
+                dataKey="date"
+                stroke="#3c78d8"
+                style={{ fontSize: "12px" }}
+                tick={{ fill: "#b0b0c0" }}
+              />
+              <YAxis
+                stroke="#3c78d8"
+                style={{ fontSize: "12px" }}
+                tick={{ fill: "#b0b0c0" }}
               />
               <Tooltip
                 contentStyle={{
-                  background: 'rgba(26, 26, 26, 0.95)',
-                  border: '1px solid rgba(60, 120, 200, 0.5)',
-                  borderRadius: '8px',
-                  color: '#ffffff',
+                  background: "rgba(26, 26, 26, 0.95)",
+                  border: "1px solid rgba(60, 120, 200, 0.5)",
+                  borderRadius: "8px",
+                  color: "#ffffff",
                 }}
-                formatter={(value: number) => formatCurrency(value, 'USD', true)}
+                formatter={(value: number) =>
+                  formatCurrency(value, "USD", true)
+                }
               />
               <Area
                 type="monotone"
@@ -167,7 +207,7 @@ export const TokenDetail: React.FC = () => {
                 dataKey="price"
                 stroke="#3c78d8"
                 strokeWidth={3}
-                dot={{ fill: '#3c78d8', r: 4 }}
+                dot={{ fill: "#3c78d8", r: 4 }}
                 activeDot={{ r: 6 }}
               />
             </LineChart>
@@ -178,30 +218,31 @@ export const TokenDetail: React.FC = () => {
           <div className={styles.tokenDetail__stat}>
             <div className={styles.tokenDetail__statLabel}>Market Cap</div>
             <div className={styles.tokenDetail__statValue}>
-              {showFinancialNumbers 
-                ? formatCurrency(token.usdValue, 'USD', true)
-                : '••••'
-              }
+              {showFinancialNumbers
+                ? formatCurrency(token.usdValue, "USD", true)
+                : "••••"}
             </div>
           </div>
           <div className={styles.tokenDetail__stat}>
             <div className={styles.tokenDetail__statLabel}>Liquidity</div>
             <div className={styles.tokenDetail__statValue}>
-              {showFinancialNumbers 
-                ? formatCurrency(token.liquidity || 0, 'USD', true)
-                : '••••'
-              }
+              {showFinancialNumbers
+                ? formatCurrency(token.liquidity || 0, "USD", true)
+                : "••••"}
             </div>
           </div>
           <div className={styles.tokenDetail__stat}>
             <div className={styles.tokenDetail__statLabel}>24h Change</div>
-            <div className={`${styles.tokenDetail__statValue} ${
-              token.change24h >= 0 ? styles.tokenDetail__statValue_positive : styles.tokenDetail__statValue_negative
-            }`}>
-              {showFinancialNumbers 
+            <div
+              className={`${styles.tokenDetail__statValue} ${
+                token.change24h >= 0
+                  ? styles.tokenDetail__statValue_positive
+                  : styles.tokenDetail__statValue_negative
+              }`}
+            >
+              {showFinancialNumbers
                 ? formatPercentage(token.change24h, 2, true)
-                : '•••'
-              }
+                : "•••"}
             </div>
           </div>
         </div>
@@ -217,4 +258,3 @@ export const TokenDetail: React.FC = () => {
     </div>
   );
 };
-

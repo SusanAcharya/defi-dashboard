@@ -1,6 +1,5 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/utils/api";
 import { useWalletStore } from "@/store/walletStore";
 import { Card } from "../Card/Card";
 import styles from "./PortfolioExposure.module.scss";
@@ -9,10 +8,12 @@ export const PortfolioExposure: React.FC = () => {
   const { selectedWalletAddress, isGuest } = useWalletStore();
 
   // Get DeFi positions for selected wallet or combined
-  const { data: defiPositions } = useQuery({
+  const { data: defiPositions = [] } = useQuery<any[]>({
     queryKey: ["defiPositions", selectedWalletAddress],
-    queryFn: ({ queryKey }) =>
-      api.getDefiPositions(queryKey[1] as string | null),
+    queryFn: async () => {
+      // Placeholder - replace with real API when available
+      return [];
+    },
     enabled: !isGuest, // Don't fetch if guest
   });
 
@@ -23,7 +24,7 @@ export const PortfolioExposure: React.FC = () => {
         { name: "Add", value: 33.33, color: "#5a9fff" },
         { name: "Wallet", value: 33.34, color: "#ff9500" }, // Empty name for third item
       ]
-    : defiPositions?.map((pos, index) => {
+    : defiPositions?.map((pos: any, index: number) => {
         const colors = [
           "#3c78d8",
           "#5a9fff",
@@ -46,7 +47,10 @@ export const PortfolioExposure: React.FC = () => {
 
   // Only show first 5 items
   const displayData = data.slice(0, 5);
-  const totalValue = displayData.reduce((sum, item) => sum + item.value, 0);
+  const totalValue = displayData.reduce(
+    (sum: number, item: any) => sum + item.value,
+    0
+  );
 
   return (
     <Card title="PROTOCOL EXPOSURE" className={styles.portfolioExposure}>
@@ -54,7 +58,7 @@ export const PortfolioExposure: React.FC = () => {
         <span className={styles.portfolioExposure__trend}>+18.5% (30D)</span>
       </div>
       <div className={styles.portfolioExposure__list}>
-        {displayData.map((item, index) => {
+        {displayData.map((item: any, index: number) => {
           const percentage =
             totalValue > 0 ? (item.value / totalValue) * 100 : 0;
           return (

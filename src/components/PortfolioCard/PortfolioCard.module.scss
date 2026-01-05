@@ -206,7 +206,12 @@
   }
 
   &__topSection {
-    display: none; // Hidden on mobile
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-md;
+    position: relative;
+    z-index: 1;
 
     @include desktop {
       display: flex;

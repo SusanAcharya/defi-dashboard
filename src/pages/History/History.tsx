@@ -1,38 +1,68 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '@/utils/api';
-import { formatCurrency, formatAddress, formatTimestamp } from '@/utils/format';
-import { useUIStore } from '@/store/uiStore';
-import { useWalletStore } from '@/store/walletStore';
-import { Card } from '@/components';
-import styles from './History.module.scss';
+import React, { useState, useMemo, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getHistory } from "@/services/history.api";
+import { formatCurrency, formatTimestamp } from "@/utils/format";
+import { useUIStore } from "@/store/uiStore";
+import { useWalletStore } from "@/store/walletStore";
+import { Card } from "@/components";
+import styles from "./History.module.scss";
 
-const timeframes = ['7d', '30d'];
+const timeframes = ["7d", "30d"];
 
 const getActivityIcon = (type: string) => {
   switch (type) {
-    case 'swap': return '🔄';
-    case 'transfer': return '📤';
-    case 'contract': return '📋';
-    case 'airdrop': return '🎁';
-    case 'staking': return '💰';
-    case 'lending': return '🏦';
-    case 'nft': return '🖼️';
-    default: return '📝';
+    case "swap":
+      return "🔄";
+    case "transfer":
+      return "📤";
+    case "contract":
+      return "📋";
+    case "airdrop":
+      return "🎁";
+    case "staking":
+      return "💰";
+    case "lending":
+      return "🏦";
+    case "nft":
+      return "🖼️";
+    default:
+      return "📝";
   }
 };
 
 export const History: React.FC = () => {
-  const [selectedTimeframe, setSelectedTimeframe] = useState<'7d' | '30d'>('7d');
-  const [dateFrom, setDateFrom] = useState<string>('');
-  const [dateTo, setDateTo] = useState<string>('');
-  const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
-  const { isGuest } = useWalletStore();
+  const [selectedTimeframe, setSelectedTimeframe] = useState<"7d" | "30d">(
+    "7d"
+  );
+  const [dateFrom, setDateFrom] = useState<string>("");
+  const [dateTo, setDateTo] = useState<string>("");
+  const showFinancialNumbers = useUIStore(
+    (state) => state.showFinancialNumbers
+  );
+  const { isGuest, selectedWalletAddress, wallets, setSelectedWallet } =
+    useWalletStore();
 
-  const { data: history, isLoading } = useQuery({
-    queryKey: ['history', selectedTimeframe],
-    queryFn: () => api.getHistory(selectedTimeframe),
-    enabled: !isGuest, // Don't fetch if guest
+  // Auto-select first wallet if none selected
+  useEffect(() => {
+    if (!isGuest && !selectedWalletAddress && wallets.length > 0) {
+      setSelectedWallet(wallets[0].address);
+    }
+  }, [isGuest, selectedWalletAddress, wallets, setSelectedWallet]);
+
+  // Map UI timeframe to API timeRange
+  const timeRangeMap: { [key: string]: "1d" | "1w" | "1m" | "1y" | "all" } = {
+    "7d": "1w",
+    "30d": "1m",
+  };
+
+  const { data: history = [], isLoading } = useQuery({
+    queryKey: ["history", selectedWalletAddress, selectedTimeframe],
+    queryFn: () =>
+      getHistory(
+        selectedWalletAddress || "",
+        timeRangeMap[selectedTimeframe] || "1m"
+      ),
+    enabled: !isGuest && !!selectedWalletAddress, // Don't fetch if guest or no address
   });
 
   // Filter history by date range
@@ -44,7 +74,7 @@ export const History: React.FC = () => {
     return history.filter((entry) => {
       const entryDate = new Date(entry.timestamp);
       const fromDate = dateFrom ? new Date(dateFrom) : null;
-      const toDate = dateTo ? new Date(dateTo + 'T23:59:59') : null; // Include full day
+      const toDate = dateTo ? new Date(dateTo + "T23:59:59") : null; // Include full day
 
       if (fromDate && entryDate < fromDate) return false;
       if (toDate && entryDate > toDate) return false;
@@ -55,9 +85,9 @@ export const History: React.FC = () => {
   const totalGasFee = useMemo(() => {
     if (!filteredHistory) return { eth: 0, usd: 0 };
     return filteredHistory.reduce(
-      (acc, entry) => ({
-        eth: acc.eth + entry.gasFee,
-        usd: acc.usd + entry.gasFeeUSD,
+      (acc) => ({
+        eth: acc.eth + 0, // Gas fees not provided in current API
+        usd: acc.usd + 0,
       }),
       { eth: 0, usd: 0 }
     );
@@ -66,21 +96,17 @@ export const History: React.FC = () => {
   // Set default date range based on timeframe
   useEffect(() => {
     const now = new Date();
-    const days = selectedTimeframe === '7d' ? 7 : 30;
+    const days = selectedTimeframe === "7d" ? 7 : 30;
     const fromDate = new Date(now);
     fromDate.setDate(fromDate.getDate() - days);
-    
-    setDateFrom(fromDate.toISOString().split('T')[0]);
-    setDateTo(now.toISOString().split('T')[0]);
+
+    setDateFrom(fromDate.toISOString().split("T")[0]);
+    setDateTo(now.toISOString().split("T")[0]);
   }, [selectedTimeframe]);
 
   if (isLoading) {
     return <Card>Loading history...</Card>;
   }
-
-  const handleCopyAddress = (address: string) => {
-    navigator.clipboard.writeText(address);
-  };
 
   const handleCopyTxHash = (txHash: string) => {
     navigator.clipboard.writeText(txHash);
@@ -93,10 +119,13 @@ export const History: React.FC = () => {
           <div className={styles.history__totalGas}>
             <div className={styles.history__totalGasLabel}>Total Gas Fee</div>
             <div className={styles.history__totalGasValue}>
-              {showFinancialNumbers 
-                ? `${totalGasFee.eth.toFixed(6)} ETH (${formatCurrency(totalGasFee.usd, 'USD', true)})`
-                : '•••• ETH (••••)'
-              }
+              {showFinancialNumbers
+                ? `${totalGasFee.eth.toFixed(6)} ETH (${formatCurrency(
+                    totalGasFee.usd,
+                    "USD",
+                    true
+                  )})`
+                : "•••• ETH (••••)"}
             </div>
           </div>
           <div className={styles.history__filters}>
@@ -105,11 +134,13 @@ export const History: React.FC = () => {
                 <button
                   key={tf}
                   className={`${styles.history__timeframe} ${
-                    selectedTimeframe === tf ? styles.history__timeframe_active : ''
+                    selectedTimeframe === tf
+                      ? styles.history__timeframe_active
+                      : ""
                   }`}
-                  onClick={() => setSelectedTimeframe(tf as '7d' | '30d')}
+                  onClick={() => setSelectedTimeframe(tf as "7d" | "30d")}
                 >
-                  Past {tf === '7d' ? '7 Days' : 'Month'}
+                  Past {tf === "7d" ? "7 Days" : "Month"}
                 </button>
               ))}
             </div>
@@ -130,7 +161,7 @@ export const History: React.FC = () => {
                   className={styles.history__dateInput}
                   value={dateTo}
                   onChange={(e) => setDateTo(e.target.value)}
-                  max={new Date().toISOString().split('T')[0]}
+                  max={new Date().toISOString().split("T")[0]}
                 />
               </div>
             </div>
@@ -146,58 +177,51 @@ export const History: React.FC = () => {
                 <div className={styles.history__itemContent}>
                   <div className={styles.history__activity}>
                     <div className={styles.history__activityIcon}>
-                      {getActivityIcon(entry.activityType)}
+                      {getActivityIcon(entry.type)}
                     </div>
                     <div className={styles.history__activityInfo}>
-                      <div className={styles.history__activityTitle}>{entry.activity}</div>
-                      {entry.protocol && (
-                        <div className={styles.history__activityProtocol}>{entry.protocol}</div>
-                      )}
+                      <div className={styles.history__activityTitle}>
+                        {entry.title}
+                      </div>
+                      <div className={styles.history__activityProtocol}>
+                        {entry.description}
+                      </div>
                     </div>
                   </div>
                   <div className={styles.history__itemMeta}>
                     <div className={styles.history__metaItem}>
-                      <span className={styles.history__detailLabel}>Wallet</span>
-                      <button
-                        className={styles.history__address}
-                        onClick={() => handleCopyAddress(entry.wallet)}
-                        title={entry.wallet}
-                      >
-                        {formatAddress(entry.wallet, 4, 4)}
-                      </button>
-                    </div>
-                    <div className={styles.history__metaItem}>
-                      <span className={styles.history__detailLabel}>Gas Fee</span>
-                      <div className={styles.history__gasFee}>
-                        <div className={styles.history__gasFeeEth}>
-                          {showFinancialNumbers 
-                            ? `${entry.gasFee.toFixed(6)} ETH`
-                            : '•••• ETH'
-                          }
-                        </div>
-                        <div className={styles.history__gasFeeUSD}>
-                          {showFinancialNumbers 
-                            ? formatCurrency(entry.gasFeeUSD, 'USD', true)
-                            : '••••'
-                          }
-                        </div>
+                      <span className={styles.history__detailLabel}>
+                        Amount
+                      </span>
+                      <div className={styles.history__amount}>
+                        {showFinancialNumbers
+                          ? `${entry.amount?.toFixed(4) || "0"} ${
+                              entry.token || ""
+                            }`
+                          : "•••• •••"}
                       </div>
                     </div>
                     <div className={styles.history__metaItem}>
                       <span className={styles.history__detailLabel}>Time</span>
-                      <span className={styles.history__time}>{formatTimestamp(entry.timestamp)}</span>
+                      <span className={styles.history__time}>
+                        {formatTimestamp(entry.timestamp)}
+                      </span>
                     </div>
                   </div>
                   <div className={styles.history__itemRight}>
-                    <span className={`${styles.history__status} ${styles[`history__status_${entry.status}`]}`}>
-                      {entry.status}
+                    <span
+                      className={`${styles.history__status} ${
+                        styles[`history__status_completed`]
+                      }`}
+                    >
+                      Completed
                     </span>
                     <button
                       className={styles.history__viewButton}
-                      onClick={() => handleCopyTxHash(entry.txHash)}
-                      title="View on Explorer"
+                      onClick={() => handleCopyTxHash(entry.id)}
+                      title="Copy transaction hash"
                     >
-                      View
+                      Copy
                     </button>
                   </div>
                 </div>
@@ -205,10 +229,11 @@ export const History: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className={styles.history__empty}>No transaction history found</div>
+          <div className={styles.history__empty}>
+            No transaction history found
+          </div>
         )}
       </Card>
     </div>
   );
 };
-

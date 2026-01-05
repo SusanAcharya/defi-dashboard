@@ -1,6 +1,13 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Layout, AnimatedBackground } from './components';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  StarknetConfig,
+  braavos,
+  argent,
+  jsonRpcProvider,
+} from "@starknet-react/core";
+import { sepolia, mainnet } from "@starknet-react/chains";
+import { Layout, AnimatedBackground } from "./components";
 import {
   Home,
   Portfolio,
@@ -12,8 +19,8 @@ import {
   LiveChart,
   History,
   TokenDetail,
-} from './pages';
-import './styles/index.scss';
+} from "./pages";
+import "./styles/index.scss";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,27 +33,36 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <AnimatedBackground />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/wallet" element={<Wallet />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/pool/:poolId" element={<PoolDetail />} />
-            <Route path="/live-chart" element={<LiveChart />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/token/:tokenId" element={<TokenDetail />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <StarknetConfig
+      chains={[mainnet, sepolia]}
+      provider={jsonRpcProvider({
+        rpc: () => ({ nodeUrl: "https://api.mainnet.starknet.io" }),
+      })}
+      connectors={[braavos(), argent()]}
+    >
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter
+          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+        >
+          <AnimatedBackground />
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/explore" element={<Explore />} />
+              <Route path="/pool/:poolId" element={<PoolDetail />} />
+              <Route path="/live-chart" element={<LiveChart />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/token/:tokenId" element={<TokenDetail />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </StarknetConfig>
   );
 }
 
 export default App;
-

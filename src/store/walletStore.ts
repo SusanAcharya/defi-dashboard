@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { Settings, WalletNotificationSettings } from '@/types';
 
 export interface TrackedWallet {
@@ -87,14 +88,16 @@ const initialWallets: TrackedWallet[] = [
 
 const guestWallets: TrackedWallet[] = [];
 
-export const useWalletStore = create<WalletState>((set, get) => ({
-  settings: defaultSettings,
-  walletNotificationSettings: initialWallets.map(w => createDefaultWalletNotificationSettings(w.address)),
-  username: 'n00dlehead',
-  alias: 'Thug',
-  wallets: initialWallets,
-  selectedWalletAddress: null, // null = show all my wallets combined
-  isGuest: false, // Start logged in by default
+export const useWalletStore = create<WalletState>(
+  persist(
+    (set, get) => ({
+      settings: defaultSettings,
+      walletNotificationSettings: initialWallets.map(w => createDefaultWalletNotificationSettings(w.address)),
+      username: 'n00dlehead',
+      alias: 'Thug',
+      wallets: initialWallets,
+      selectedWalletAddress: null,
+      isGuest: false, // Start logged in by default
   
   updateSettings: (newSettings) => set((state) => ({
     settings: { ...state.settings, ...newSettings },
@@ -176,5 +179,29 @@ export const useWalletStore = create<WalletState>((set, get) => ({
     walletNotificationSettings: [],
     selectedWalletAddress: null,
   })),
-}));
+    }),
+    {
+      name: 'wallet-store', // key in localStorage
+      partialize: (state) => ({
+        selectedWalletAddress: state.selectedWalletAddress,
+        isGuest: state.isGuest,
+        username: state.username,
+        alias: state.alias,
+        wallets: state.wallets,
+        walletNotificationSettings: state.walletNotificationSettings,
+      }), // persist login state and wallet data
+      onRehydrateStorage: () => (state, action) => {
+        if (action === 'REHYDRATE' && state) {
+          // Ensure notification settings match wallets
+          if (state.wallets.length > 0) {
+            const walletAddresses = new Set(state.wallets.map(w => w.address));
+            state.walletNotificationSettings = state.walletNotificationSettings.filter(
+              ns => walletAddresses.has(ns.address)
+            );
+          }
+        }
+      }
+    }
+  )
+);
 

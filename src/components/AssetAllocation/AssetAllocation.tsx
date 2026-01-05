@@ -1,19 +1,29 @@
-import React, { useMemo } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '@/utils/api';
-import { useWalletStore } from '@/store/walletStore';
-import { Card } from '../Card/Card';
-import styles from './AssetAllocation.module.scss';
+import React, { useMemo } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { useQuery } from "@tanstack/react-query";
+import { useWalletStore } from "@/store/walletStore";
+import { Card } from "../Card/Card";
+import styles from "./AssetAllocation.module.scss";
 
 export const AssetAllocation: React.FC = () => {
   const { selectedWalletAddress, isGuest } = useWalletStore();
-  
+
   // Get tokens for selected wallet or combined
   const { data: tokens } = useQuery({
-    queryKey: ['tokens', selectedWalletAddress],
-    queryFn: ({ queryKey }) => api.getTokens(queryKey[1] as string | null),
-    enabled: !isGuest, // Don't fetch if guest
+    queryKey: ["tokens", selectedWalletAddress],
+    queryFn: async () => {
+      if (!selectedWalletAddress || isGuest) return [];
+      try {
+        const response = await fetch(
+          `${"http://localhost:8000/api"}/wallet/${selectedWalletAddress}`
+        );
+        const data = await response.json();
+        return data.data?.user?.tokens || [];
+      } catch {
+        return [];
+      }
+    },
+    enabled: !isGuest && !!selectedWalletAddress,
   });
 
   // Convert tokens to asset allocation data
@@ -21,95 +31,160 @@ export const AssetAllocation: React.FC = () => {
     // Guest mode: show default data
     if (isGuest) {
       return [
-        { name: 'Built', value: 33.33, percentage: 33.33, color: '#ff6347' }, // Red-orange
-        { name: 'By', value: 33.33, percentage: 33.33, color: '#228b22' }, // Dark green
-        { name: 'Gamemachine', value: 33.34, percentage: 33.34, color: '#3c78d8' }, // Orange
+        { name: "Built", value: 33.33, percentage: 33.33, color: "#ff6347" }, // Red-orange
+        { name: "By", value: 33.33, percentage: 33.33, color: "#228b22" }, // Dark green
+        {
+          name: "Gamemachine",
+          value: 33.34,
+          percentage: 33.34,
+          color: "#3c78d8",
+        }, // Orange
       ];
     }
-    
+
     if (!tokens || tokens.length === 0) {
       return [
-        { name: 'STRK', value: 48000, percentage: 40.00, color: '#ff6347' }, // Red-orange
-        { name: 'ETH', value: 36000, percentage: 30.00, color: '#228b22' }, // Dark green
-        { name: 'Stablecoins', value: 24000, percentage: 20.00, color: '#9370db' }, // Purple
-        { name: 'DeFi Tokens', value: 9600, percentage: 8.00, color: '#3c78d8' }, // Orange
-        { name: 'Other Assets', value: 2400, percentage: 2.00, color: '#4a90e2' }, // Blue
+        { name: "STRK", value: 48000, percentage: 40.0, color: "#ff6347" }, // Red-orange
+        { name: "ETH", value: 36000, percentage: 30.0, color: "#228b22" }, // Dark green
+        {
+          name: "Stablecoins",
+          value: 24000,
+          percentage: 20.0,
+          color: "#9370db",
+        }, // Purple
+        { name: "DeFi Tokens", value: 9600, percentage: 8.0, color: "#3c78d8" }, // Orange
+        {
+          name: "Other Assets",
+          value: 2400,
+          percentage: 2.0,
+          color: "#4a90e2",
+        }, // Blue
       ];
     }
 
     // Group tokens into 5 categories
-    const stablecoins = tokens.filter(t => ['USDC', 'USDT', 'DAI'].includes(t.symbol));
-    const eth = tokens.filter(t => t.symbol === 'ETH');
-    const strk = tokens.filter(t => t.symbol === 'STRK');
-    const defiTokens = tokens.filter(t => ['DEEP', 'ZKX', 'MYSTR', 'REKT'].includes(t.symbol));
-    const other = tokens.filter(t => !['USDC', 'USDT', 'DAI', 'ETH', 'STRK', 'DEEP', 'ZKX', 'MYSTR', 'REKT'].includes(t.symbol));
+    const stablecoins = tokens.filter((t: any) =>
+      ["USDC", "USDT", "DAI"].includes(t.symbol)
+    );
+    const eth = tokens.filter((t: any) => t.symbol === "ETH");
+    const strk = tokens.filter((t: any) => t.symbol === "STRK");
+    const defiTokens = tokens.filter((t: any) =>
+      ["DEEP", "ZKX", "MYSTR", "REKT"].includes(t.symbol)
+    );
+    const other = tokens.filter(
+      (t: any) =>
+        ![
+          "USDC",
+          "USDT",
+          "DAI",
+          "ETH",
+          "STRK",
+          "DEEP",
+          "ZKX",
+          "MYSTR",
+          "REKT",
+        ].includes(t.symbol)
+    );
 
-    const stablecoinsValue = stablecoins.reduce((sum, t) => sum + t.usdValue, 0);
-    const ethValue = eth.reduce((sum, t) => sum + t.usdValue, 0);
-    const strkValue = strk.reduce((sum, t) => sum + t.usdValue, 0);
-    const defiValue = defiTokens.reduce((sum, t) => sum + t.usdValue, 0);
-    const otherValue = other.reduce((sum, t) => sum + t.usdValue, 0);
-    const totalValue = stablecoinsValue + ethValue + strkValue + defiValue + otherValue;
+    const stablecoinsValue = stablecoins.reduce(
+      (sum: number, t: any) => sum + (t.usdValue || 0),
+      0
+    );
+    const ethValue = eth.reduce(
+      (sum: number, t: any) => sum + (t.usdValue || 0),
+      0
+    );
+    const strkValue = strk.reduce(
+      (sum: number, t: any) => sum + (t.usdValue || 0),
+      0
+    );
+    const defiValue = defiTokens.reduce(
+      (sum: number, t: any) => sum + (t.usdValue || 0),
+      0
+    );
+    const otherValue = other.reduce(
+      (sum: number, t: any) => sum + (t.usdValue || 0),
+      0
+    );
+    const totalValue =
+      stablecoinsValue + ethValue + strkValue + defiValue + otherValue;
 
     const result = [];
     if (strkValue > 0) {
       result.push({
-        name: 'STRK',
+        name: "STRK",
         value: strkValue,
         percentage: (strkValue / totalValue) * 100,
-        color: '#ff6347', // Red-orange
+        color: "#ff6347", // Red-orange
       });
     }
     if (ethValue > 0) {
       result.push({
-        name: 'ETH',
+        name: "ETH",
         value: ethValue,
         percentage: (ethValue / totalValue) * 100,
-        color: '#228b22', // Dark green
+        color: "#228b22", // Dark green
       });
     }
     if (stablecoinsValue > 0) {
       result.push({
-        name: 'Stablecoins',
+        name: "Stablecoins",
         value: stablecoinsValue,
         percentage: (stablecoinsValue / totalValue) * 100,
-        color: '#9370db', // Purple
+        color: "#9370db", // Purple
       });
     }
     if (defiValue > 0) {
       result.push({
-        name: 'DeFi Tokens',
+        name: "DeFi Tokens",
         value: defiValue,
         percentage: (defiValue / totalValue) * 100,
-        color: '#3c78d8', // Orange
+        color: "#3c78d8", // Orange
       });
     }
     if (otherValue > 0) {
       result.push({
-        name: 'Other Assets',
+        name: "Other Assets",
         value: otherValue,
         percentage: (otherValue / totalValue) * 100,
-        color: '#4a90e2', // Blue
+        color: "#4a90e2", // Blue
       });
     }
 
     // If no data, return default 5 items
-    return result.length > 0 ? result : [
-      { name: 'STRK', value: 48000, percentage: 40.00, color: '#ff6347' },
-      { name: 'ETH', value: 36000, percentage: 30.00, color: '#228b22' },
-      { name: 'Stablecoins', value: 24000, percentage: 20.00, color: '#9370db' },
-      { name: 'DeFi Tokens', value: 9600, percentage: 8.00, color: '#3c78d8' },
-      { name: 'Other Assets', value: 2400, percentage: 2.00, color: '#4a90e2' },
-    ];
+    return result.length > 0
+      ? result
+      : [
+          { name: "STRK", value: 48000, percentage: 40.0, color: "#ff6347" },
+          { name: "ETH", value: 36000, percentage: 30.0, color: "#228b22" },
+          {
+            name: "Stablecoins",
+            value: 24000,
+            percentage: 20.0,
+            color: "#9370db",
+          },
+          {
+            name: "DeFi Tokens",
+            value: 9600,
+            percentage: 8.0,
+            color: "#3c78d8",
+          },
+          {
+            name: "Other Assets",
+            value: 2400,
+            percentage: 2.0,
+            color: "#4a90e2",
+          },
+        ];
   }, [tokens]);
 
   return (
     <Card title="Asset Allocation" className={styles.assetAllocation}>
       <div className={styles.assetAllocation__content}>
         <div className={styles.assetAllocation__chart}>
-          <ResponsiveContainer 
-            width="100%" 
-            height={250} 
+          <ResponsiveContainer
+            width="100%"
+            height={250}
             className={styles.assetAllocation__chartContainer}
           >
             <PieChart>
@@ -127,13 +202,13 @@ export const AssetAllocation: React.FC = () => {
                 strokeWidth={2}
               >
                 {data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
+                  <Cell
+                    key={`cell-${index}`}
                     fill={entry.color}
-                    style={{ 
-                      filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer'
+                    style={{
+                      filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))",
+                      transition: "all 0.3s ease",
+                      cursor: "pointer",
                     }}
                   />
                 ))}
@@ -144,11 +219,19 @@ export const AssetAllocation: React.FC = () => {
                     const data = payload[0].payload;
                     return (
                       <div className={styles.assetAllocation__tooltip}>
-                        <div className={styles.assetAllocation__tooltipName}>{data.name}</div>
-                        <div className={styles.assetAllocation__tooltipValue}>
-                          ${data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        <div className={styles.assetAllocation__tooltipName}>
+                          {data.name}
                         </div>
-                        <div className={styles.assetAllocation__tooltipPercentage}>
+                        <div className={styles.assetAllocation__tooltipValue}>
+                          $
+                          {data.value.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}
+                        </div>
+                        <div
+                          className={styles.assetAllocation__tooltipPercentage}
+                        >
                           {data.percentage.toFixed(2)}%
                         </div>
                       </div>
@@ -163,11 +246,11 @@ export const AssetAllocation: React.FC = () => {
         <div className={styles.assetAllocation__legend}>
           {data.map((item, index) => (
             <div key={index} className={styles.assetAllocation__legendItem}>
-              <span 
+              <span
                 className={styles.assetAllocation__legendColor}
                 style={{ backgroundColor: item.color }}
               />
-              <span 
+              <span
                 className={styles.assetAllocation__legendLabel}
                 data-percentage={`${item.percentage.toFixed(2)}%`}
               >
@@ -180,4 +263,3 @@ export const AssetAllocation: React.FC = () => {
     </Card>
   );
 };
-

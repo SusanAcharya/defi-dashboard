@@ -38,13 +38,12 @@ export const PortfolioCard: React.FC = () => {
     pnl24hPercent: 0,
   };
 
-  const displayPortfolio = isGuest ? guestPortfolio : portfolio;
+  // Use guest portfolio as fallback if no data is available
+  const displayPortfolio = portfolio || guestPortfolio;
 
   if (isLoading && !isGuest) {
     return <Card className={styles.portfolioCard}>Loading...</Card>;
   }
-
-  if (!displayPortfolio) return null;
 
   return (
     <Card className={styles.portfolioCard}>
@@ -76,10 +75,14 @@ export const PortfolioCard: React.FC = () => {
             )}
           </div>
           <div className={styles.portfolioCard__networthValue}>
-            {formatCurrency(
-              displayPortfolio.totalValue,
-              "USD",
-              showFinancialNumbers
+            {isLoading && !isGuest ? (
+              <span style={{ color: "#9ca3af" }}>Loading...</span>
+            ) : (
+              formatCurrency(
+                displayPortfolio?.totalValue || 0,
+                "USD",
+                showFinancialNumbers
+              )
             )}
           </div>
           <div className={styles.portfolioCard__profitLoss}>
@@ -88,18 +91,22 @@ export const PortfolioCard: React.FC = () => {
             </div>
             <div
               className={`${styles.portfolioCard__profitLossValue} ${
-                displayPortfolio.pnl24hPercent >= 0
+                (displayPortfolio?.pnl24hPercent || 0) >= 0
                   ? styles.portfolioCard__profitLossValue_positive
                   : styles.portfolioCard__profitLossValue_negative
               }`}
             >
-              {showFinancialNumbers
-                ? formatPercentage(
-                    displayPortfolio.pnl24hPercent,
-                    2,
-                    showFinancialNumbers
-                  )
-                : "••••"}
+              {isLoading && !isGuest ? (
+                <span style={{ color: "#9ca3af" }}>--</span>
+              ) : showFinancialNumbers ? (
+                formatPercentage(
+                  displayPortfolio?.pnl24hPercent || 0,
+                  2,
+                  showFinancialNumbers
+                )
+              ) : (
+                "•••"
+              )}
             </div>
           </div>
         </div>

@@ -1,6 +1,11 @@
-import React from 'react';
-import { PortfolioCard, LatestNotifications, AssetAllocation, PortfolioExposure } from '@/components';
-import styles from './Home.module.scss';
+import React from "react";
+import {
+  PortfolioCard,
+  LatestNotifications,
+  AssetAllocation,
+  PortfolioExposure,
+} from "@/components";
+import styles from "./Home.module.scss";
 
 export const Home: React.FC = () => {
   return (
@@ -16,4 +21,3 @@ export const Home: React.FC = () => {
     </div>
   );
 };
-

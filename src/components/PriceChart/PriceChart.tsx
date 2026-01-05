@@ -1,59 +1,64 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { Card } from '../Card/Card';
-import { Toast } from '../Toast/Toast';
-import { api } from '@/utils/api';
-import { formatCurrency, formatPercentage } from '@/utils/format';
-import { useUIStore } from '@/store/uiStore';
-import { Token } from '@/types';
-import styles from './PriceChart.module.scss';
+import React, { useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Card } from "../Card/Card";
+import { Toast } from "../Toast/Toast";
+import { tokenAPI } from "@/services/token.api";
+import { formatCurrency, formatPercentage } from "@/utils/format";
+import { useUIStore } from "@/store/uiStore";
+import { Token } from "@/types";
+import styles from "./PriceChart.module.scss";
 
 const ITEMS_PER_PAGE = 20;
 
 export const PriceChart: React.FC = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<'all' | 'top-gainers'>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState<"all" | "top-gainers">("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const showFinancialNumbers = useUIStore((state) => state.showFinancialNumbers);
+  const showFinancialNumbers = useUIStore(
+    (state) => state.showFinancialNumbers
+  );
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleCloseToast = useCallback(() => {
     setShowToast(false);
   }, []);
-  
-  const { data: tokens } = useQuery({
-    queryKey: ['tokens'],
-    queryFn: () => api.getTokens(),
+
+  const { data: tokensResponse } = useQuery({
+    queryKey: ["tokens"],
+    queryFn: () => tokenAPI.getAllTokens(),
   });
+
+  const tokens = (tokensResponse?.data?.tokens || []) as Token[];
 
   // Filter and sort tokens
   const processedTokens = useMemo(() => {
     if (!tokens) return [];
-    
+
     let filtered = tokens;
-    
+
     // Apply search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(token => 
-        token.name.toLowerCase().includes(query) ||
-        token.symbol.toLowerCase().includes(query) ||
-        token.address?.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (token) =>
+          token.name.toLowerCase().includes(query) ||
+          token.symbol.toLowerCase().includes(query) ||
+          token.address?.toLowerCase().includes(query)
       );
     }
-    
+
     // Apply top gainers filter
-    if (filter === 'top-gainers') {
-      filtered = filtered.filter(token => token.change24h > 0);
-      filtered.sort((a, b) => b.change24h - a.change24h);
+    if (filter === "top-gainers") {
+      filtered = filtered.filter((token) => (token.change24h || 0) > 0);
+      filtered.sort((a, b) => (b.change24h || 0) - (a.change24h || 0));
     } else {
       // Sort by market cap (usdValue) for "all"
-      filtered.sort((a, b) => b.usdValue - a.usdValue);
+      filtered.sort((a, b) => (b.usdValue || 0) - (a.usdValue || 0));
     }
-    
+
     return filtered;
   }, [tokens, filter, searchQuery]);
 
@@ -71,7 +76,7 @@ export const PriceChart: React.FC = () => {
 
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address);
-    setToastMessage('Contract address copied to clipboard');
+    setToastMessage("Contract address copied to clipboard");
     setShowToast(true);
   };
 
@@ -94,18 +99,22 @@ export const PriceChart: React.FC = () => {
         <div className={styles.priceChart__controls}>
           <div className={styles.priceChart__filters}>
             <button
-              className={`${styles.priceChart__filter} ${filter === 'all' ? styles.priceChart__filter_active : ''}`}
+              className={`${styles.priceChart__filter} ${
+                filter === "all" ? styles.priceChart__filter_active : ""
+              }`}
               onClick={() => {
-                setFilter('all');
+                setFilter("all");
                 setCurrentPage(1);
               }}
             >
               All
             </button>
             <button
-              className={`${styles.priceChart__filter} ${filter === 'top-gainers' ? styles.priceChart__filter_active : ''}`}
+              className={`${styles.priceChart__filter} ${
+                filter === "top-gainers" ? styles.priceChart__filter_active : ""
+              }`}
               onClick={() => {
-                setFilter('top-gainers');
+                setFilter("top-gainers");
                 setCurrentPage(1);
               }}
             >
@@ -125,14 +134,14 @@ export const PriceChart: React.FC = () => {
             </button>
             <button
               className={styles.priceChart__pageButton}
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
               «
             </button>
             <button
               className={styles.priceChart__pageButton}
-              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage >= totalPages}
             >
               »
@@ -147,7 +156,7 @@ export const PriceChart: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       <div className={styles.priceChart__tableWrapper}>
         <table className={styles.priceChart__table}>
           <thead>
@@ -164,30 +173,38 @@ export const PriceChart: React.FC = () => {
             {paginatedTokens.map((token, index) => {
               const rank = (currentPage - 1) * ITEMS_PER_PAGE + index + 1;
               const liquidity = getLiquidity(token);
-              
+
               return (
-                <tr 
-                  key={token.id} 
+                <tr
+                  key={token.id || token.address}
                   className={styles.priceChart__tableRow}
-                  onClick={() => navigate(`/token/${token.id}`)}
+                  onClick={() =>
+                    navigate(`/token/${token.id || token.address}`)
+                  }
                 >
                   <td className={styles.priceChart__rank}>{rank}</td>
                   <td>
                     <div className={styles.priceChart__coin}>
-                      <div className={styles.priceChart__coinIcon}>{token.symbol[0]}</div>
+                      <div className={styles.priceChart__coinIcon}>
+                        {token.symbol[0]}
+                      </div>
                       <div className={styles.priceChart__coinInfo}>
                         <div className={styles.priceChart__coinNameRow}>
-                          <span className={styles.priceChart__coinName}>{token.name}</span>
+                          <span className={styles.priceChart__coinName}>
+                            {token.name}
+                          </span>
                           <span className={styles.priceChart__verified}>✓</span>
                         </div>
                         <div className={styles.priceChart__coinDetails}>
-                          <span className={styles.priceChart__coinSymbol}>{token.symbol}</span>
+                          <span className={styles.priceChart__coinSymbol}>
+                            {token.symbol}
+                          </span>
                           {token.address && (
                             <button
                               className={styles.priceChart__copyButton}
                               onClick={(e) => {
                                 e.stopPropagation(); // Prevent row click navigation
-                                handleCopyAddress(token.address || '');
+                                handleCopyAddress(token.address || "");
                               }}
                               aria-label="Copy address"
                               title="Copy contract address"
@@ -200,25 +217,39 @@ export const PriceChart: React.FC = () => {
                     </div>
                   </td>
                   <td className={styles.priceChart__price}>
-                    {showFinancialNumbers ? `$ ${token.price.toFixed(4)}` : '••••'}
+                    {showFinancialNumbers
+                      ? `$ ${(token.price || 0).toFixed(4)}`
+                      : "••••"}
                   </td>
-                  <td className={`${styles.priceChart__change} ${token.change24h >= 0 ? styles.priceChart__change_positive : styles.priceChart__change_negative}`}>
-                    {showFinancialNumbers 
-                      ? `${formatPercentage(token.change24h, 2, true)}${token.change24h >= 0 ? ' ↑' : ' ↓'}`
-                      : '•••'
-                    }
+                  <td
+                    className={`${styles.priceChart__change} ${
+                      (token.change24h || 0) >= 0
+                        ? styles.priceChart__change_positive
+                        : styles.priceChart__change_negative
+                    }`}
+                  >
+                    {showFinancialNumbers
+                      ? `${formatPercentage(token.change24h || 0, 2, true)}${
+                          (token.change24h || 0) >= 0 ? " ↑" : " ↓"
+                        }`
+                      : "•••"}
                   </td>
                   <td className={styles.priceChart__marketCap}>
-                    {showFinancialNumbers 
-                      ? formatCurrency(token.usdValue, 'USD', true).replace('$', '$ ')
-                      : '••••'
-                    }
+                    {showFinancialNumbers
+                      ? formatCurrency(
+                          token.usdValue || 0,
+                          "USD",
+                          true
+                        ).replace("$", "$ ")
+                      : "••••"}
                   </td>
                   <td className={styles.priceChart__liquidity}>
-                    {showFinancialNumbers 
-                      ? formatCurrency(liquidity, 'USD', true).replace('$', '$ ')
-                      : '••••'
-                    }
+                    {showFinancialNumbers
+                      ? formatCurrency(liquidity, "USD", true).replace(
+                          "$",
+                          "$ "
+                        )
+                      : "••••"}
                   </td>
                 </tr>
               );
@@ -237,4 +268,3 @@ export const PriceChart: React.FC = () => {
     </Card>
   );
 };
-

@@ -1,12 +1,14 @@
 // src/services/api/client.ts
 export class APIClient {
-  private baseURL = import.meta.env.VITE_API_URL;
+  private baseURL ='http://localhost:8000/api';
 
   async get<T>(endpoint: string, params?: Record<string, any>): Promise<T> {
     const url = new URL(`${this.baseURL}${endpoint}`);
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
-        if (value) url.searchParams.append(key, value);
+        if (value !== undefined && value !== null) {
+          url.searchParams.append(key, String(value));
+        }
       });
     }
 
@@ -15,7 +17,11 @@ export class APIClient {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || `API error: ${response.status}`);
+    }
+    
     return response.json();
   }
 
@@ -26,7 +32,11 @@ export class APIClient {
       body: JSON.stringify(data),
     });
 
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || `API error: ${response.status}`);
+    }
+    
     return response.json();
   }
 }
