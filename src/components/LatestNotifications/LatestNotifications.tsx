@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { api } from "@/utils/mock-data";
+import { getNotifications } from "@/services/notification.api";
 import { formatDateTime } from "@/utils/format";
 import { useWalletStore } from "@/store/walletStore";
 import { Card } from "../Card/Card";
@@ -24,9 +24,9 @@ export const LatestNotifications: React.FC = () => {
 
   const { data: notifications = [], isLoading } = useQuery<any[]>({
     queryKey: ["notifications", selectedWalletAddress],
-    queryFn: () => api.getNotifications(),
+    queryFn: () => getNotifications(selectedWalletAddress),
     refetchInterval: 10000, // Refetch every 10 seconds
-    enabled: !isGuest, // Don't fetch if guest
+    enabled: !isGuest && !!selectedWalletAddress, // Don't fetch if guest or no wallet
   });
 
   // Get latest 5 notifications

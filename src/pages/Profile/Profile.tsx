@@ -220,10 +220,7 @@ export const Profile: React.FC = () => {
 
       {/* Subscribed Wallets Section */}
       {subscribedWallets.length > 0 && (
-        <Card
-          title="📡 Subscribed Wallets"
-          className={styles.profile__subscribed}
-        >
+        <Card title="Subscribed Wallets" className={styles.profile__subscribed}>
           {loadingSubscribed ? (
             <div className={styles.profile__loadingState}>
               <p>Loading subscribed wallets...</p>

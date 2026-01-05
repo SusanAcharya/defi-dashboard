@@ -1,7 +1,10 @@
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/utils/mock-data";
+import { getHotBowls } from "@/services/hotBowls.api";
+import { getLiquidityPools } from "@/services/liquidityPool.api";
+import { getLendingOptions } from "@/services/lendingOptions.api";
+import { getStakingStrategies } from "@/services/getStakingStrategies.api";
 import { formatCurrency, formatPercentage } from "@/utils/format";
 import { useUIStore } from "@/store/uiStore";
 import { Card } from "@/components";
@@ -28,22 +31,22 @@ export const Explore: React.FC = () => {
 
   const { data: hotBowls } = useQuery({
     queryKey: ["hot-bowls", selectedCategory],
-    queryFn: () => api.getHotBowls(selectedCategory || undefined),
+    queryFn: () => getHotBowls(selectedCategory || undefined),
   });
 
   const { data: pools } = useQuery({
     queryKey: ["liquidity-pools"],
-    queryFn: api.getLiquidityPools,
+    queryFn: getLiquidityPools,
   });
 
   const { data: lendingOptions } = useQuery({
     queryKey: ["lending-options"],
-    queryFn: api.getLendingOptions,
+    queryFn: getLendingOptions,
   });
 
   const { data: strategies } = useQuery({
     queryKey: ["staking-strategies"],
-    queryFn: api.getStakingStrategies,
+    queryFn: getStakingStrategies,
   });
 
   const getCategoryBowls = (category: string) => {

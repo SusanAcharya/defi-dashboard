@@ -27,7 +27,7 @@ interface WalletState {
   updateWallet: (address: string, updates: Partial<TrackedWallet>) => void;
   setSelectedWallet: (address: string | null) => void;
   loginWithTelegram: () => void;
-  logout: () => void;
+  clearAllWallets: () => void;
 }
 
 const defaultSettings: Settings = {
@@ -65,39 +65,16 @@ const createDefaultWalletNotificationSettings = (address: string): WalletNotific
   notifyPendingTransactions: true,
 });
 
-const initialWallets: TrackedWallet[] = [
-  {
-    address: '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d',
-    shortAddress: '0x04...938d',
-    name: 'Main Wallet',
-    isMine: true,
-  },
-  {
-    address: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
-    shortAddress: '0x049...dc7',
-    name: 'Trading Wallet',
-    isMine: true,
-  },
-  {
-    address: '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8',
-    shortAddress: '0x053...8a8',
-    name: 'Whale Tracker',
-    isMine: false,
-  },
-];
-
-const guestWallets: TrackedWallet[] = [];
-
-export const useWalletStore = create<WalletState>(
+export const useWalletStore = create<WalletState>()(
   persist(
     (set, get) => ({
       settings: defaultSettings,
-      walletNotificationSettings: initialWallets.map(w => createDefaultWalletNotificationSettings(w.address)),
-      username: 'n00dlehead',
-      alias: 'Thug',
-      wallets: initialWallets,
+      walletNotificationSettings: [],
+      username: '',
+      alias: '',
+      wallets: [],
       selectedWalletAddress: null,
-      isGuest: false, // Start logged in by default
+      isGuest: true, // Start as guest by default
   
   updateSettings: (newSettings) => set((state) => ({
     settings: { ...state.settings, ...newSettings },
@@ -131,7 +108,8 @@ export const useWalletStore = create<WalletState>(
   addWallet: (address, name, isMine) => set((state) => {
     // Check if wallet already exists
     if (state.wallets.some(w => w.address.toLowerCase() === address.toLowerCase())) {
-      return state;
+      // Wallet exists, but still set isGuest to false (user is logging in again)
+      return { isGuest: false };
     }
     const newWallet: TrackedWallet = {
       address,
@@ -142,6 +120,7 @@ export const useWalletStore = create<WalletState>(
     // Create default notification settings for the new wallet
     const newWalletNotificationSettings = createDefaultWalletNotificationSettings(address);
     return {
+      isGuest: false, // Set logged in when wallet is added
       wallets: [...state.wallets, newWallet],
       walletNotificationSettings: [...state.walletNotificationSettings, newWalletNotificationSettings],
     };
@@ -161,21 +140,17 @@ export const useWalletStore = create<WalletState>(
   
   setSelectedWallet: (address) => set({ selectedWalletAddress: address }),
   
-  loginWithTelegram: () => set({
-    // Simulate Telegram login - in real app, this would call Telegram API
+  loginWithTelegram: () => set((state) => ({
+    // Mark user as logged in - wallet data comes from connecting wallets
     isGuest: false,
-    username: 'n00dlehead',
-    alias: 'Thug',
-    wallets: initialWallets,
-    walletNotificationSettings: initialWallets.map(w => createDefaultWalletNotificationSettings(w.address)),
-  }),
+    // Keep existing wallets and settings
+    wallets: state.wallets,
+    walletNotificationSettings: state.walletNotificationSettings,
+  })),
   
-  logout: () => set((state) => ({
+  clearAllWallets: () => set(() => ({
     isGuest: true,
-    // Keep username, alias, and profile picture the same
-    username: state.username,
-    alias: state.alias,
-    wallets: guestWallets,
+    wallets: [],
     walletNotificationSettings: [],
     selectedWalletAddress: null,
   })),

@@ -11,7 +11,9 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { api } from "@/utils/mock-data";
+import { getPoolDetail } from "@/services/poolDetail.api";
+import { getPoolTransactions } from "@/services/poolTransactions.api";
+import { getPoolChartData } from "@/services/poolChartData.api";
 import {
   formatCurrency,
   formatPercentage,
@@ -45,18 +47,18 @@ export const PoolDetail: React.FC = () => {
 
   const { data: poolDetail, isLoading } = useQuery({
     queryKey: ["pool-detail", poolId],
-    queryFn: () => api.getPoolDetail(poolId || ""),
+    queryFn: () => getPoolDetail(poolId || ""),
     enabled: !!poolId,
   });
 
   const { data: transactions } = useQuery({
     queryKey: ["pool-transactions", poolId, selectedTransactionType],
     queryFn: () =>
-      api.getPoolTransactions(
+      getPoolTransactions(
         poolId || "",
         selectedTransactionType === "All"
           ? undefined
-          : (selectedTransactionType.toLowerCase().replace(" ", "-") as any)
+          : selectedTransactionType.toLowerCase().replace(" ", "-")
       ),
     enabled: !!poolId,
   });
@@ -65,14 +67,14 @@ export const PoolDetail: React.FC = () => {
     queryKey: [
       "pool-chart",
       poolId,
-      selectedMetric.toLowerCase() as any,
+      selectedMetric.toLowerCase(),
       selectedTimeframe.toLowerCase(),
     ],
     queryFn: () =>
-      api.getPoolChartData(
+      getPoolChartData(
         poolId || "",
-        selectedMetric.toLowerCase() as any,
-        selectedTimeframe.toLowerCase() as any
+        selectedMetric.toLowerCase() as "tvl" | "volume" | "fee" | "apr",
+        selectedTimeframe.toLowerCase() as "1w" | "1m" | "1y"
       ),
     enabled: !!poolId,
   });

@@ -27,8 +27,8 @@ export const Header: React.FC = () => {
     username,
     addWallet,
     updateProfile,
-    logout,
     isGuest,
+    clearAllWallets,
   } = useWalletStore();
 
   // Add a way to check if store has been hydrated
@@ -76,7 +76,7 @@ export const Header: React.FC = () => {
     if (selectedWallet && "name" in selectedWallet) {
       return selectedWallet.name;
     }
-    return "ALL";
+    return "Main Wallet";
   };
 
   /**
@@ -208,10 +208,10 @@ export const Header: React.FC = () => {
   const handleDisconnect = async () => {
     try {
       // Call disconnect from @starknet-react/core
-      await disconnect();
+      disconnect();
 
-      // Reset store to logged out state
-      logout();
+      // Clear all wallets and set guest mode
+      clearAllWallets();
 
       // Reset local UI state
       setConnectionStep("idle");
@@ -220,8 +220,8 @@ export const Header: React.FC = () => {
 
       // Show disconnection toast
       setToastMessage({
-        message: "✓ Wallet disconnected successfully",
-        type: "success",
+        message: "Wallet disconnected. Connect a wallet to see your portfolio.",
+        type: "info",
       });
     } catch (error) {
       const errorMessage =
@@ -325,115 +325,116 @@ export const Header: React.FC = () => {
         <div className={styles.header__actions}>
           {wallets.length > 0 && (
             <div className={styles.header__walletDropdown} ref={dropdownRef}>
-              <button
-                ref={buttonRef}
-                className={styles.header__walletDropdownButton}
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
+              {wallets.length === 1 && subscribedWallets.length === 0 ? (
                 <span className={styles.header__walletDropdownText}>
                   {getSelectedWalletDisplay()}
                 </span>
-                <span className={styles.header__walletDropdownIcon}>
-                  {dropdownOpen ? "▲" : "▼"}
-                </span>
-              </button>
-              {dropdownOpen && (
-                <div
-                  ref={dropdownMenuRef}
-                  className={styles.header__walletDropdownMenu}
+              ) : (
+                <button
+                  ref={buttonRef}
+                  className={styles.header__walletDropdownButton}
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
-                  <button
-                    className={`${styles.header__walletDropdownItem} ${
-                      selectedWalletAddress === null
-                        ? styles.header__walletDropdownItem_active
-                        : ""
-                    }`}
-                    onClick={() => {
-                      setSelectedWallet(null);
-                      setDropdownOpen(false);
-                    }}
+                  <span className={styles.header__walletDropdownText}>
+                    {getSelectedWalletDisplay()}
+                  </span>
+                  <span className={styles.header__walletDropdownIcon}>
+                    {dropdownOpen ? "▲" : "▼"}
+                  </span>
+                </button>
+              )}
+              {dropdownOpen &&
+                (wallets.length > 1 || subscribedWallets.length > 0) && (
+                  <div
+                    ref={dropdownMenuRef}
+                    className={styles.header__walletDropdownMenu}
                   >
-                    <span className={styles.header__walletDropdownItemLabel}>
-                      ALL
-                    </span>
-                    <span className={styles.header__walletDropdownItemCount}>
-                      ({wallets.length})
-                    </span>
-                  </button>
-                  {wallets.map((wallet) => (
-                    <button
-                      key={wallet.address}
-                      className={`${styles.header__walletDropdownItem} ${
-                        selectedWalletAddress === wallet.address
-                          ? styles.header__walletDropdownItem_active
-                          : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedWallet(wallet.address);
-                        setDropdownOpen(false);
-                      }}
+                    <span
+                      className={`${styles.header__walletDropdownSectionTitle}`}
                     >
-                      <span className={styles.header__walletDropdownItemLabel}>
-                        {wallet.name}
-                      </span>
-                      <span
-                        className={styles.header__walletDropdownItemAddress}
+                      Main Wallet
+                    </span>
+
+                    {wallets.map((wallet) => (
+                      <button
+                        key={wallet.address}
+                        className={`${styles.header__walletDropdownItem} ${
+                          selectedWalletAddress === wallet.address
+                            ? styles.header__walletDropdownItem_active
+                            : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedWallet(wallet.address);
+                          setDropdownOpen(false);
+                        }}
                       >
-                        {formatAddress(wallet.address, 4, 4)}
-                      </span>
-                      {!wallet.isMine && (
                         <span
-                          className={styles.header__walletDropdownItemBadge}
+                          className={styles.header__walletDropdownItemLabel}
                         >
-                          Other
+                          {wallet.name}
                         </span>
-                      )}
-                    </button>
-                  ))}
-                  {subscribedWallets.length > 0 && (
-                    <>
-                      <div className={styles.header__walletDropdownDivider} />
-                      <div className={styles.header__walletDropdownSection}>
                         <span
-                          className={styles.header__walletDropdownSectionTitle}
+                          className={styles.header__walletDropdownItemAddress}
                         >
-                          Subscribed Wallets
+                          {formatAddress(wallet.address, 4, 4)}
                         </span>
-                      </div>
-                      {subscribedWallets.map((subWallet) => (
-                        <button
-                          key={subWallet.walletAddress}
-                          className={`${styles.header__walletDropdownItem} ${
-                            selectedWalletAddress === subWallet.walletAddress
-                              ? styles.header__walletDropdownItem_active
-                              : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedWallet(subWallet.walletAddress);
-                            setDropdownOpen(false);
-                          }}
-                        >
-                          <span
-                            className={styles.header__walletDropdownItemLabel}
-                          >
-                            {subWallet.name}
-                          </span>
-                          <span
-                            className={styles.header__walletDropdownItemAddress}
-                          >
-                            {formatAddress(subWallet.walletAddress, 4, 4)}
-                          </span>
+                        {!wallet.isMine && (
                           <span
                             className={styles.header__walletDropdownItemBadge}
                           >
-                            Subscribed
+                            Other
                           </span>
-                        </button>
-                      ))}
-                    </>
-                  )}
-                </div>
-              )}
+                        )}
+                      </button>
+                    ))}
+                    {subscribedWallets.length > 0 && (
+                      <>
+                        <div className={styles.header__walletDropdownDivider} />
+                        <div className={styles.header__walletDropdownSection}>
+                          <span
+                            className={
+                              styles.header__walletDropdownSectionTitle
+                            }
+                          >
+                            Subscribed Wallets
+                          </span>
+                        </div>
+                        {subscribedWallets.map((subWallet) => (
+                          <button
+                            key={subWallet.walletAddress}
+                            className={`${styles.header__walletDropdownItem} ${
+                              selectedWalletAddress === subWallet.walletAddress
+                                ? styles.header__walletDropdownItem_active
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setSelectedWallet(subWallet.walletAddress);
+                              setDropdownOpen(false);
+                            }}
+                          >
+                            <span
+                              className={styles.header__walletDropdownItemLabel}
+                            >
+                              {subWallet.name}
+                            </span>
+                            <span
+                              className={
+                                styles.header__walletDropdownItemAddress
+                              }
+                            >
+                              {formatAddress(subWallet.walletAddress, 4, 4)}
+                            </span>
+                            <span
+                              className={styles.header__walletDropdownItemBadge}
+                            >
+                              Subscribed
+                            </span>
+                          </button>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                )}
             </div>
           )}
           <button

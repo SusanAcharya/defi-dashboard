@@ -13,7 +13,6 @@ import profileImage from "@/assets/profile.png";
 import showIcon from "@/assets/icons/show.png";
 import hideIcon from "@/assets/icons/hide.png";
 import styles from "./PortfolioCard.module.scss";
-import { get } from "http";
 
 export const PortfolioCard: React.FC = () => {
   const navigate = useNavigate();

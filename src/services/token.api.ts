@@ -13,6 +13,11 @@ export interface TokenData {
   decimals: number;
   isNative: boolean;
   isVerified: boolean;
+  // Optional price-related fields (may come from price API)
+  price?: number;
+  change24h?: number;
+  usdValue?: number;
+  liquidity?: number;
 }
 
 export interface AllTokensResponse {

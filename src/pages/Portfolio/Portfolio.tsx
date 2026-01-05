@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { getPortfolio, getPortfolioChartData } from "@/services/portfolio.api";
+import { getDefiPositions } from "@/services/defiPosition.api";
 import { formatCurrency, formatPercentage } from "@/utils/format";
 import { useUIStore } from "@/store/uiStore";
 import { useWalletStore } from "@/store/walletStore";
@@ -79,14 +80,11 @@ export const Portfolio: React.FC = () => {
     enabled: !isGuest && !!selectedWalletAddress, // Don't fetch if guest or no address
   });
 
-  // Get DeFi positions - placeholder until real integration
+  // Get DeFi positions from API
   const { data: defiPositions = [] } = useQuery<any[]>({
     queryKey: ["defiPositions", selectedWalletAddress],
-    queryFn: async () => {
-      // Mock DeFi positions for now
-      return [];
-    },
-    enabled: !isGuest, // Don't fetch if guest
+    queryFn: () => getDefiPositions(selectedWalletAddress),
+    enabled: !isGuest && !!selectedWalletAddress,
   });
 
   // Get wallet transactions

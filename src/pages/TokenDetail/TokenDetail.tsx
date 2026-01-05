@@ -45,7 +45,8 @@ export const TokenDetail: React.FC = () => {
   const tokens = tokensResponse?.data?.tokens || [];
   const token = tokens?.find((t: any) => t.address === tokenId);
 
-  // Mock chart data
+  // Generate chart data - will show placeholder values if price is unavailable
+  const basePrice = token?.price || 0;
   const chartData = Array.from({ length: 30 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - (29 - i));
@@ -54,7 +55,7 @@ export const TokenDetail: React.FC = () => {
         month: "short",
         day: "numeric",
       }),
-      price: (token?.price || 0) * (1 + (Math.random() - 0.5) * 0.1),
+      price: basePrice > 0 ? basePrice * (1 + (Math.random() - 0.5) * 0.1) : 0,
     };
   });
 
@@ -123,18 +124,18 @@ export const TokenDetail: React.FC = () => {
         <div className={styles.tokenDetail__priceSection}>
           <div className={styles.tokenDetail__price}>
             {showFinancialNumbers
-              ? formatCurrency(token.price, "USD", true)
+              ? formatCurrency(token.price ?? 0, "USD", true)
               : "••••"}
           </div>
           <div
             className={`${styles.tokenDetail__change} ${
-              token.change24h >= 0
+              (token.change24h ?? 0) >= 0
                 ? styles.tokenDetail__change_positive
                 : styles.tokenDetail__change_negative
             }`}
           >
             {showFinancialNumbers
-              ? `${formatPercentage(token.change24h, 2, true)} (24h)`
+              ? `${formatPercentage(token.change24h ?? 0, 2, true)} (24h)`
               : "•••"}
           </div>
         </div>
@@ -235,13 +236,13 @@ export const TokenDetail: React.FC = () => {
             <div className={styles.tokenDetail__statLabel}>24h Change</div>
             <div
               className={`${styles.tokenDetail__statValue} ${
-                token.change24h >= 0
+                (token.change24h ?? 0) >= 0
                   ? styles.tokenDetail__statValue_positive
                   : styles.tokenDetail__statValue_negative
               }`}
             >
               {showFinancialNumbers
-                ? formatPercentage(token.change24h, 2, true)
+                ? formatPercentage(token.change24h ?? 0, 2, true)
                 : "•••"}
             </div>
           </div>

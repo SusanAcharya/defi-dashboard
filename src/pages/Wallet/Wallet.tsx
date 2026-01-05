@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDisconnect } from "@starknet-react/core";
 import { useWalletStore, TrackedWallet } from "@/store/walletStore";
 import { Card, Toast } from "@/components";
 import { formatAddress } from "@/utils/format";
@@ -8,15 +9,15 @@ import styles from "./Wallet.module.scss";
 
 export const Wallet: React.FC = () => {
   const navigate = useNavigate();
+  const { disconnect } = useDisconnect();
   const {
     wallets,
-    addWallet,
     removeWallet,
     updateWallet,
     isGuest,
     loginWithTelegram,
-    logout,
     setSelectedWallet,
+    clearAllWallets,
   } = useWalletStore();
   const [showAddForm, setShowAddForm] = useState(false);
   const [newWalletAddress, setNewWalletAddress] = useState("");
@@ -682,7 +683,18 @@ export const Wallet: React.FC = () => {
       )}
       {!isGuest && wallets.length > 0 && (
         <div className={styles.wallet__logoutSection}>
-          <button className={styles.wallet__logoutButton} onClick={logout}>
+          <button
+            className={styles.wallet__logoutButton}
+            onClick={() => {
+              disconnect();
+              clearAllWallets();
+              setSubscribedWallets([]); // Clear subscribed wallets too
+              setToastMessage(
+                "Wallet disconnected. Connect a wallet to see your portfolio."
+              );
+              setShowToast(true);
+            }}
+          >
             Disconnect Wallets
           </button>
         </div>
