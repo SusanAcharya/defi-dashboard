@@ -1,12 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  StarknetConfig,
-  braavos,
-  argent,
-  jsonRpcProvider,
-} from "@starknet-react/core";
-import { sepolia, mainnet } from "@starknet-react/chains";
 import { Layout, AnimatedBackground, TelegramConnectModal } from "./components";
 import {
   Home,
@@ -20,6 +13,7 @@ import {
   History,
   TokenDetail,
 } from "./pages";
+import { useTelegramAuth } from "./hooks/useTelegramAuth";
 import "./styles/index.scss";
 
 const queryClient = new QueryClient({
@@ -31,38 +25,53 @@ const queryClient = new QueryClient({
   },
 });
 
+function AppContent() {
+  const { loading } = useTelegramAuth();
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
+      <AnimatedBackground />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/pool/:poolId" element={<PoolDetail />} />
+          <Route path="/live-chart" element={<LiveChart />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/token/:tokenId" element={<TokenDetail />} />
+        </Routes>
+      </Layout>
+      <TelegramConnectModal />
+    </BrowserRouter>
+  );
+}
+
 function App() {
   return (
-    <StarknetConfig
-      chains={[mainnet, sepolia]}
-      provider={jsonRpcProvider({
-        rpc: () => ({ nodeUrl: "https://api.mainnet.starknet.io" }),
-      })}
-      connectors={[braavos(), argent()]}
-    >
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter
-          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-        >
-          <AnimatedBackground />
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/wallet" element={<Wallet />} />
-              <Route path="/explore" element={<Explore />} />
-              <Route path="/pool/:poolId" element={<PoolDetail />} />
-              <Route path="/live-chart" element={<LiveChart />} />
-              <Route path="/history" element={<History />} />
-              <Route path="/token/:tokenId" element={<TokenDetail />} />
-            </Routes>
-          </Layout>
-          <TelegramConnectModal />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </StarknetConfig>
+    <QueryClientProvider client={queryClient}>
+      <AppContent />
+    </QueryClientProvider>
   );
 }
 

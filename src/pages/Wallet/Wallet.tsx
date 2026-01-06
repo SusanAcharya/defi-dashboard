@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDisconnect } from "@starknet-react/core";
 import { useWalletStore, TrackedWallet } from "@/store/walletStore";
 import { Card, Toast } from "@/components";
 import { formatAddress } from "@/utils/format";
@@ -9,7 +8,6 @@ import styles from "./Wallet.module.scss";
 
 export const Wallet: React.FC = () => {
   const navigate = useNavigate();
-  const { disconnect } = useDisconnect();
   const {
     wallets,
     removeWallet,
@@ -683,12 +681,20 @@ export const Wallet: React.FC = () => {
       )}
       {!isGuest && wallets.length > 0 && (
         <div className={styles.wallet__logoutSection}>
+          <p className={styles.wallet__logoutMessage}>
+            Disconnecting will clear all your wallet data and profile
+            information from this session.
+          </p>
           <button
             className={styles.wallet__logoutButton}
             onClick={() => {
-              disconnect();
+              // Clear all user data
               clearAllWallets();
               setSubscribedWallets([]); // Clear subscribed wallets too
+
+              // Clear localStorage
+              localStorage.removeItem("telegramUserId");
+
               setToastMessage(
                 "Wallet disconnected. Connect a wallet to see your portfolio."
               );

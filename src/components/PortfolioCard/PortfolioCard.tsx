@@ -9,15 +9,13 @@ import { formatCurrency, formatPercentage } from "@/utils/format";
 import { useUIStore } from "@/store/uiStore";
 import { useWalletStore } from "@/store/walletStore";
 import { Card } from "../Card/Card";
-import profileImage from "@/assets/profile.png";
 import showIcon from "@/assets/icons/show.png";
 import hideIcon from "@/assets/icons/hide.png";
 import styles from "./PortfolioCard.module.scss";
 
 export const PortfolioCard: React.FC = () => {
   const navigate = useNavigate();
-  const { selectedWalletAddress, isGuest, username, alias, wallets } =
-    useWalletStore();
+  const { selectedWalletAddress, isGuest, alias, wallets } = useWalletStore();
 
   // Determine if we're showing all wallets or a single wallet
   const isShowingAllWallets =
@@ -137,80 +135,6 @@ export const PortfolioCard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className={`${styles.portfolioCard__topRight}`}>
-          <div className={`${styles.portfolioCard__coin}`}>🪙</div>
-        </div>
-      </div>
-
-      {/* Mobile Layout: Keep original profile and net worth */}
-      <div className={styles.portfolioCard__header}>
-        <div className={styles.portfolioCard__profile}>
-          <img
-            src={profileImage}
-            alt="Profile"
-            className={styles.portfolioCard__avatar}
-          />
-          <div className={styles.portfolioCard__info}>
-            <div className={styles.portfolioCard__usernameRow}>
-              <div className={styles.portfolioCard__username}>{username}</div>
-              {!isGuest && (
-                <button
-                  className={styles.portfolioCard__eyeButton}
-                  onClick={toggleFinancialNumbers}
-                  aria-label={
-                    showFinancialNumbers ? "Hide numbers" : "Show numbers"
-                  }
-                >
-                  <img
-                    src={showFinancialNumbers ? showIcon : hideIcon}
-                    alt={showFinancialNumbers ? "Hide numbers" : "Show numbers"}
-                    className={styles.portfolioCard__eyeIcon}
-                  />
-                </button>
-              )}
-            </div>
-            {alias && (
-              <div className={styles.portfolioCard__aliasDesktopRow}>
-                <div className={styles.portfolioCard__aliasDesktop}>
-                  Alias: {alias}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        {isGuest ? (
-          <div className={styles.portfolioCard__addWalletSectionMobile}>
-            <button
-              className={styles.portfolioCard__addWalletButton}
-              onClick={() => navigate("/wallet")}
-            >
-              Add a Wallet to start Tracking
-            </button>
-          </div>
-        ) : (
-          <div className={styles.portfolioCard__networth}>
-            <div className={styles.portfolioCard__label}>NET WORTH</div>
-            <div className={styles.portfolioCard__networthRow}>
-              <div className={styles.portfolioCard__value}>
-                {formatCurrency(
-                  displayPortfolio?.totalValue,
-                  "USD",
-                  showFinancialNumbers
-                )}
-              </div>
-              <div className={styles.portfolioCard__change}>
-                {showFinancialNumbers
-                  ? (displayPortfolio.pnl24h >= 0 ? "+" : "") +
-                    formatCurrency(
-                      Math.abs(displayPortfolio.pnl24h),
-                      "USD",
-                      showFinancialNumbers
-                    )
-                  : "••••"}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Desktop: Metrics section - only show when not guest */}

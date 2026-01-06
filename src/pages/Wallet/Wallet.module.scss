@@ -82,11 +82,25 @@
   &__logoutSection {
     margin-top: $spacing-lg;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: $spacing-md;
     align-items: center;
 
     @include mobile {
       margin-top: $spacing-md;
+      gap: $spacing-sm;
+    }
+  }
+
+  &__logoutMessage {
+    color: rgba(255, 68, 68, 0.7);
+    font-size: $font-size-sm;
+    text-align: center;
+    margin: 0;
+    line-height: 1.5;
+
+    @include mobile {
+      font-size: 0.8rem;
     }
   }
 

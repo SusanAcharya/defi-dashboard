@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAccount, useConnect } from "@starknet-react/core";
-import { useWalletStore } from "@/store/walletStore";
 
-import { Toast } from "@/components/Toast/Toast";
 import homeIcon from "@/assets/icons/home.png";
 import walletIcon from "@/assets/icons/wallet.png";
 import profileImage from "@/assets/profile.png";
@@ -31,111 +28,33 @@ const mobileNavItems = [
 export const BottomNav: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { address } = useAccount();
-  const { connect, connectors } = useConnect();
-  const { wallets } = useWalletStore();
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [toastMessage, setToastMessage] = useState<{
-    message: string;
-    type: "success" | "error" | "info" | "warning";
-  } | null>(null);
-
-  // Reset connecting state when wallet address becomes available
-  useEffect(() => {
-    if (address && isConnecting) {
-      setIsConnecting(false);
-      navigate("/profile");
-    }
-  }, [address, isConnecting, navigate]);
-
-  const handleProfileClick = async () => {
-    // If already connected, navigate to profile
-    if (address || wallets.length > 0) {
-      navigate("/profile");
-      return;
-    }
-
-    // Otherwise, trigger wallet connection
-    try {
-      setIsConnecting(true);
-      const connector = connectors[0];
-      if (!connector) {
-        setToastMessage({
-          message:
-            "No wallet connectors available. Please install Braavos or ArgentX wallet.",
-          type: "error",
-        });
-        setIsConnecting(false);
-        return;
-      }
-
-      // Trigger wallet connection - this opens the wallet modal
-      connect({ connector });
-
-      // Don't set isConnecting to false here - let the user interact with the wallet
-      // The Header's useEffect will handle the profile setup when address becomes available
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to connect wallet";
-      setToastMessage({
-        message: `Connection failed: ${errorMessage}`,
-        type: "error",
-      });
-      setIsConnecting(false);
-    }
-  };
 
   const handleNavClick = (path: string) => {
-    if (path === "/profile") {
-      handleProfileClick();
-    } else {
-      navigate(path);
-    }
+    navigate(path);
   };
 
   return (
-    <>
-      <nav className={styles.bottomNav}>
-        {mobileNavItems.map((item) => (
-          <button
-            key={item.path}
-            className={`${styles.bottomNav__item} ${
-              location.pathname === item.path
-                ? styles.bottomNav__item_active
-                : ""
-            } ${
-              item.path === "/profile" && isConnecting
-                ? styles.bottomNav__item_connecting
-                : ""
-            }`}
-            onClick={() => handleNavClick(item.path)}
-            disabled={item.path === "/profile" && isConnecting}
-          >
-            {item.iconImage ? (
-              <img
-                src={item.iconImage}
-                alt={item.label}
-                className={styles.bottomNav__iconImage}
-              />
-            ) : (
-              <span className={styles.bottomNav__icon}>{item.icon}</span>
-            )}
-            <span className={styles.bottomNav__label}>
-              {item.path === "/profile" && isConnecting
-                ? "Connecting..."
-                : item.label}
-            </span>
-          </button>
-        ))}
-      </nav>
-      {toastMessage && (
-        <Toast
-          message={toastMessage.message}
-          type={toastMessage.type}
-          duration={3000}
-          onClose={() => setToastMessage(null)}
-        />
-      )}
-    </>
+    <nav className={styles.bottomNav}>
+      {mobileNavItems.map((item) => (
+        <button
+          key={item.path}
+          className={`${styles.bottomNav__item} ${
+            location.pathname === item.path ? styles.bottomNav__item_active : ""
+          }`}
+          onClick={() => handleNavClick(item.path)}
+        >
+          {item.iconImage ? (
+            <img
+              src={item.iconImage}
+              alt={item.label}
+              className={styles.bottomNav__iconImage}
+            />
+          ) : (
+            <span className={styles.bottomNav__icon}>{item.icon}</span>
+          )}
+          <span className={styles.bottomNav__label}>{item.label}</span>
+        </button>
+      ))}
+    </nav>
   );
 };

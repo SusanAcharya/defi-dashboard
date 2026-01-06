@@ -434,5 +434,61 @@
       border: 1px solid rgba(44, 44, 68, 0.5);
     }
   }
+
+  // Telegram Section
+  &__telegram {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__telegramInfo {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  &__telegramBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm $spacing-md;
+    background: linear-gradient(135deg, #0088cc 0%, #0066aa 100%);
+    color: white;
+    border-radius: $radius-sm;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  &__telegramUser {
+    @include flex-column;
+    gap: $spacing-xs;
+    flex: 1;
+  }
+
+  &__telegramName {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    word-break: break-word;
+  }
+
+  &__telegramUsername {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    font-family: monospace;
+  }
+
+  &__telegramId {
+    font-size: $font-size-xs;
+    color: $color-text-secondary;
+    font-family: monospace;
+  }
+
+  &__telegramPremium {
+    font-size: $font-size-sm;
+    color: $color-warning;
+    font-weight: $font-weight-medium;
+  }
 }
 

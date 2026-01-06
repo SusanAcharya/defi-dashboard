@@ -1,0 +1,38 @@
+.telegramInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #0088cc 0%, #0066aa 100%);
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  
+  @media (max-width: 768px) {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge {
+  font-size: 14px;
+}
+
+.username {
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.warning {
+  font-size: 16px;
+  cursor: help;
+}
