@@ -4,6 +4,7 @@ import { useWalletStore, TrackedWallet } from "@/store/walletStore";
 import { Card, Toast } from "@/components";
 import { formatAddress } from "@/utils/format";
 import { walletAPI, WalletSubscription } from "@/services/wallet.api";
+import { authAPI } from "@/services/auth.api";
 import styles from "./Wallet.module.scss";
 
 export const Wallet: React.FC = () => {
@@ -83,7 +84,7 @@ export const Wallet: React.FC = () => {
     loadSubscribedWallets();
   }, [wallets]);
 
-  const handleAddWallet = () => {
+  const handleAddWallet = async () => {
     if (!newWalletAddress.trim() || !newWalletName.trim()) {
       setToastMessage("Please enter both wallet address and name");
       setShowToast(true);
@@ -97,51 +98,63 @@ export const Wallet: React.FC = () => {
       return;
     }
 
-    // If adding a subscribed wallet, also call the API to sync it
-    const mainWallet = wallets[0];
-    walletAPI
-      .addSubscribedWallet(
-        mainWallet.address,
-        newWalletAddress.trim(),
-        newWalletName.trim()
-      )
-      .then(() => {
-        console.log("Subscribed wallet added to backend");
+    try {
+      const walletAddress = newWalletAddress.trim();
+      const walletName = newWalletName.trim();
+
+      // Check if this is the first wallet (onboarding) or adding to existing
+      if (wallets.length === 0) {
+        // ONBOARDING FLOW: First wallet being added
+        await authAPI.onboard(walletAddress);
+        setToastMessage("Wallet onboarded successfully");
+      } else {
+        // ADD SUBSCRIPTION FLOW: Additional wallet being added
+        const mainWallet = wallets[0];
+        await authAPI.addSubscription(
+          mainWallet.address,
+          walletAddress,
+          walletName
+        );
+
         // Reload subscribed wallets
-        const loadSubscribedWallets = async () => {
-          try {
-            const subscribedList = await walletAPI.getSubscribedWallets(
-              mainWallet.address
+        try {
+          const subscribedList = await walletAPI.getSubscribedWallets(
+            mainWallet.address
+          );
+          if (subscribedList && Array.isArray(subscribedList)) {
+            const userWalletAddresses = wallets.map((w) =>
+              w.address.toLowerCase()
             );
-            if (subscribedList && Array.isArray(subscribedList)) {
-              const userWalletAddresses = wallets.map((w) =>
-                w.address.toLowerCase()
-              );
-              const filteredSubscribed = subscribedList.filter(
-                (sub) =>
-                  !userWalletAddresses.includes(sub.walletAddress.toLowerCase())
-              );
-              setSubscribedWallets(filteredSubscribed);
-            }
-          } catch (error) {
-            console.error("Error reloading subscribed wallets:", error);
+            const filteredSubscribed = subscribedList.filter(
+              (sub) =>
+                !userWalletAddresses.includes(sub.walletAddress.toLowerCase())
+            );
+            setSubscribedWallets(filteredSubscribed);
           }
-        };
-        loadSubscribedWallets();
-      })
-      .catch((error) => {
-        console.error("Error adding subscribed wallet:", error);
-        setToastMessage("Failed to sync wallet subscription");
-        setShowToast(true);
-      });
+        } catch (error) {
+          console.error("Error reloading subscribed wallets:", error);
+        }
 
-    setNewWalletAddress("");
-    setNewWalletName("");
-    setNewWalletIsMine(true);
-    setShowAddForm(false);
+        setToastMessage("Wallet subscription added successfully");
+      }
 
-    setToastMessage(`Wallet "${newWalletName.trim()}" added successfully`);
-    setShowToast(true);
+      // Add wallet to local store
+      const { addWallet } = useWalletStore.getState();
+      addWallet(walletAddress, walletName, newWalletIsMine);
+
+      // Reset form
+      setNewWalletAddress("");
+      setNewWalletName("");
+      setNewWalletIsMine(true);
+      setShowAddForm(false);
+      setShowToast(true);
+    } catch (error) {
+      console.error("Error adding wallet:", error);
+      setToastMessage(
+        error instanceof Error ? error.message : "Failed to add wallet"
+      );
+      setShowToast(true);
+    }
   };
 
   const handleCopyAddress = (address: string) => {

@@ -16,8 +16,8 @@ export const TelegramConnectModal: React.FC = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [error, setError] = useState("");
 
-  const TELEGRAM_BOT_URL = "https://t.me/KMPassBot";
-  const TELEGRAM_BOT_USERNAME = "@KMPassBot";
+  const TELEGRAM_BOT_URL = "https://t.me/test_bahadur_bot";
+  const TELEGRAM_BOT_USERNAME = "@test_bahadur_bot";
 
   const handleClose = () => {
     setTelegramConnectModalOpen(false);
