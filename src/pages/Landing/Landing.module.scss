@@ -407,9 +407,11 @@
 
     @include mobile {
       flex-direction: column;
-      padding: 100px $spacing-md $spacing-xl;
+      padding: 100px $spacing-md $spacing-2xl * 1.5;
       text-align: center;
       gap: $spacing-xl;
+      min-height: auto;
+      margin-bottom: 0;
     }
 
     &_visible {
@@ -580,7 +582,10 @@
     @include mobile {
       max-width: 100%;
       width: 100%;
-      min-height: 400px;
+      min-height: auto;
+      margin-top: $spacing-lg;
+      margin-bottom: $spacing-xl;
+      transform: none !important;
     }
   }
 
@@ -615,8 +620,9 @@
 
     @include mobile {
       width: 100%;
-      max-width: 420px;
+      max-width: 100%;
       transform: none;
+      margin-bottom: 0;
     }
   }
 
@@ -686,7 +692,8 @@
 
     @include mobile {
       grid-template-columns: 1fr;
-    padding: $spacing-md;
+      padding: $spacing-md $spacing-sm;
+      gap: $spacing-md;
     }
   }
 
@@ -702,6 +709,10 @@
       inset 0 0 30px rgba(0, 255, 170, 0.10),
       0 0 30px rgba(0, 255, 170, 0.10);
     overflow: hidden;
+
+    @include mobile {
+      min-height: 200px;
+    }
 
     &::after {
       content: '';
@@ -793,6 +804,10 @@
     flex-direction: column;
     gap: $spacing-sm;
     justify-content: center;
+
+    @include mobile {
+      gap: $spacing-xs;
+    }
   }
 
   &__intelCard {
@@ -805,6 +820,11 @@
       inset 0 1px 0 rgba(255,255,255,0.06);
     position: relative;
     overflow: hidden;
+
+    @include mobile {
+      padding: 10px 10px;
+      border-radius: 12px;
+    }
 
     &::before {
       content: '';
@@ -846,6 +866,10 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
+
+    @include mobile {
+      margin-bottom: 6px;
+    }
   }
 
   &__intelTag {
@@ -854,6 +878,11 @@
     text-transform: uppercase;
     color: rgba(255,255,255,0.65);
     font-weight: $font-weight-bold;
+
+    @include mobile {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+    }
   }
 
   &__intelTime {
@@ -861,6 +890,10 @@
     color: rgba(255,255,255,0.40);
     letter-spacing: 1px;
     text-transform: uppercase;
+
+    @include mobile {
+      font-size: 10px;
+    }
   }
 
   &__intelLine {
@@ -893,6 +926,10 @@
     font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
     font-size: 12px;
     color: rgba(255,255,255,0.72);
+
+    @include mobile {
+      font-size: 11px;
+    }
   }
 
   &__intelSub {
@@ -900,6 +937,12 @@
     font-size: 12px;
     color: rgba(255,255,255,0.48);
     line-height: 1.35;
+
+    @include mobile {
+      margin-top: 6px;
+      font-size: 11px;
+      line-height: 1.4;
+    }
   }
 
   // ==========================================
@@ -911,6 +954,11 @@
     z-index: 1;
     max-width: 1400px;
     margin: 0 auto;
+
+    @include mobile {
+      padding: $spacing-2xl $spacing-md $spacing-xl;
+      margin-top: 0;
+    }
 
     &::before {
       content: '';
@@ -928,6 +976,10 @@
       filter: blur(0.2px);
       opacity: 0.9;
       pointer-events: none;
+
+      @include mobile {
+        inset: -20px -10px auto -10px;
+      }
     }
   }
 
@@ -935,6 +987,11 @@
     text-align: center;
     margin-bottom: $spacing-2xl;
     position: relative;
+
+    @include mobile {
+      margin-bottom: $spacing-xl;
+      padding: 0 $spacing-sm;
+    }
 
     &::after {
       content: '';
@@ -946,6 +1003,11 @@
       border-radius: 2px;
       box-shadow: 0 0 22px rgba(60, 120, 216, 0.22);
       opacity: 0.75;
+
+      @include mobile {
+        width: 100px;
+        margin: $spacing-md auto 0;
+      }
     }
   }
 
@@ -993,7 +1055,8 @@
 
     @include mobile {
       grid-template-columns: 1fr;
-      gap: $spacing-md;
+      gap: $spacing-lg;
+      padding: 0 $spacing-xs;
     }
   }
 
@@ -1051,7 +1114,8 @@
     }
 
     @include mobile {
-      padding: $spacing-lg;
+      padding: $spacing-lg $spacing-md;
+      margin: 0;
     }
   }
 
@@ -1966,6 +2030,10 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
+
+    @include mobile {
+      padding: $spacing-xl $spacing-md $spacing-lg;
+    }
   }
 
   &__footerGlow {
@@ -2008,11 +2076,17 @@
     @include mobile {
       flex-direction: column;
       gap: $spacing-xl;
+      margin-bottom: $spacing-xl;
     }
   }
 
   &__footerBrand {
     max-width: 350px;
+
+    @include mobile {
+      max-width: 100%;
+      text-align: center;
+    }
   }
 
   &__footerLogoWrapper {
@@ -2067,6 +2141,10 @@
   &__footerSocials {
     display: flex;
     gap: $spacing-sm;
+
+    @include mobile {
+      justify-content: center;
+    }
   }
 
   &__footerSocialLink {
@@ -2102,8 +2180,9 @@
     gap: $spacing-2xl * 1.5;
 
     @include mobile {
-      flex-wrap: wrap;
-      gap: $spacing-xl;
+      flex-direction: column;
+      gap: $spacing-lg;
+      width: 100%;
     }
   }
 
@@ -2111,6 +2190,11 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-sm;
+
+    @include mobile {
+      width: 100%;
+      gap: $spacing-xs;
+    }
   }
 
   &__footerColumnTitle {
