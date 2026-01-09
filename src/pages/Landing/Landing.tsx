@@ -155,6 +155,25 @@ const missionPoints = [
   },
 ];
 
+const howItWorksSteps = [
+  {
+    title: 'Open Telegram',
+    text: 'Open the Telegram app and start Kompass in seconds.',
+  },
+  {
+    title: 'Add a wallet',
+    text: 'Paste any Starknet address you want to monitor.',
+  },
+  {
+    title: 'Manage alerts',
+    text: 'Choose what matters: swaps, transfers, and DeFi position changes.',
+  },
+  {
+    title: 'Get alerts',
+    text: 'Receive instant pings when wallet activity happens.',
+  },
+];
+
 const tokenTape = [
   { symbol: 'ETH', name: 'Ether', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png' },
   { symbol: 'STRK', name: 'Starknet', logo: 'https://assets.coingecko.com/coins/images/26433/small/starknet.png' },
@@ -359,16 +378,19 @@ export const Landing: React.FC = () => {
               </div>
 
               <div className={styles.landing__intelStack}>
-                <div className={styles.landing__intelCard} data-tone="danger">
+                <div className={styles.landing__intelCard} data-tone="neon">
                   <div className={styles.landing__intelHeader}>
-                    <span className={styles.landing__intelTag}>ALERT</span>
-                    <span className={styles.landing__intelTime}>NOW</span>
+                    <span className={styles.landing__intelTag}>SEARCH</span>
+                    <span className={styles.landing__intelTime}>LIVE</span>
                   </div>
-                  <div className={styles.landing__intelLine}>
-                    <span className={styles.landing__intelKey}>Health</span>
-                    <span className={styles.landing__intelValue}>1.52×</span>
+                  <div className={styles.landing__intelSearch}>
+                    <div className={styles.landing__intelSearchIcon} aria-hidden="true">⌕</div>
+                    <div className={styles.landing__intelSearchInput} aria-hidden="true">
+                      Search wallet… <span className={styles.landing__intelSearchMono}>0x157f…3988</span>
+                      <span className={styles.landing__intelCaret} aria-hidden="true" />
+                    </div>
                   </div>
-                  <div className={styles.landing__intelSub}>Add collateral to stay safe.</div>
+                  <div className={styles.landing__intelSub}>Paste any Starknet address to start tracking.</div>
                 </div>
 
                 <div className={styles.landing__intelCard} data-tone="neon">
@@ -433,7 +455,6 @@ export const Landing: React.FC = () => {
       {/* Features Section */}
       <section id="features" className={styles.landing__features}>
         <div className={`${styles.landing__sectionHeader} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
-          <span className={styles.landing__sectionBadge}>✨ Features</span>
           <h2 className={styles.landing__sectionTitle}>Everything You Need</h2>
           <p className={styles.landing__sectionSubtitle}>
             Comprehensive tools designed for the Starknet community
@@ -460,12 +481,9 @@ export const Landing: React.FC = () => {
       </section>
 
       {/* Enhanced About/Mission Section */}
-      <section id="how-it-works" className={styles.landing__about}>
-        <div className={styles.landing__aboutContainer}>
-          {/* Subtle dossier vibe */}
-      
+      <section id="mission" className={styles.landing__about}>
+        <div className={styles.landing__aboutContainer}>      
           <div className={`${styles.landing__aboutHeader} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
-            <span className={styles.landing__sectionBadge}>🎯 Our Mission</span>
             <h2 className={styles.landing__aboutTitle}>
               Bridging Users & Protocols
               <span className={styles.landing__aboutTitleHighlight}> on Starknet</span>
@@ -496,6 +514,33 @@ export const Landing: React.FC = () => {
                 <p className={styles.landing__missionDescription}>{point.description}</p>
               </div>
             ))}
+          </div>
+
+          {/* How it works (above phone demo) */}
+          <div id="how-it-works" className={styles.landing__howItWorksBlock}>
+            <h3 className={styles.landing__howItWorksTitle}>How it works</h3>
+            <p className={styles.landing__howItWorksSubtitle}>4 simple steps to automated DeFi intel.</p>
+
+            <div className={styles.landing__howItWorksRow}>
+              {howItWorksSteps.map((step, index) => (
+                <React.Fragment key={step.title}>
+                  <div
+                    className={`${styles.landing__howItWorksCard} ${styles.landing__reveal} ${styles.landing__revealUp}`}
+                    style={{ transitionDelay: `${Math.min(index, 6) * 90}ms` }}
+                    data-reveal
+                  >
+                    <div className={styles.landing__howItWorksNum}>{index + 1}</div>
+                    <div className={styles.landing__howItWorksCardTitle}>{step.title}</div>
+                    <div className={styles.landing__howItWorksCardText}>{step.text}</div>
+                  </div>
+                  {index < howItWorksSteps.length - 1 && (
+                    <div className={styles.landing__howItWorksArrow} aria-hidden="true">
+                      →
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
 
           <div className={`${styles.landing__aboutVisual} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
