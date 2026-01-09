@@ -95,6 +95,38 @@
     animation: twinkle 4s ease-in-out infinite;
   }
 
+  // Subtle compass watermark background (used in sections, not hero)
+  &__compassBg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 900px;
+    height: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+    filter: saturate(0.9);
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 32%, rgba(0,0,0,1) 60%, rgba(0,0,0,1) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 32%, rgba(0,0,0,1) 60%, rgba(0,0,0,1) 100%);
+
+    @include mobile {
+      width: 560px;
+      height: 560px;
+      opacity: 0.06;
+    }
+  }
+
+  &__compassBgImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 80px rgba(60, 120, 200, 0.12));
+  }
+
   // Noir overlays (subtle)
   &__noise {
     position: absolute;
@@ -131,9 +163,6 @@
     opacity: 0.9;
   }
 
-  // ==========================================
-  // ENHANCED HEADER
-  // ==========================================
   &__header {
     position: fixed;
     top: 0;
@@ -552,6 +581,147 @@
     }
   }
 
+  // Back-to-top button (appears after hero)
+  &__toTop {
+    position: fixed;
+    top: 92px;
+    right: 18px;
+    z-index: 120;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(90, 150, 240, 0.25);
+    background: rgba(8, 10, 14, 0.72);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: $font-weight-semibold;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow:
+      0 18px 50px rgba(0,0,0,0.5),
+      0 0 30px rgba(60, 120, 216, 0.12);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: rgba(90, 150, 240, 0.45);
+      background: rgba(8, 10, 14, 0.82);
+    }
+
+    @include mobile {
+      top: 78px;
+      right: 12px;
+      padding: 9px 12px;
+      font-size: 12px;
+    }
+  }
+
+  &__toTopIcon {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(60, 120, 216, 0.18);
+    border: 1px solid rgba(60, 120, 216, 0.22);
+    color: rgba(180, 215, 255, 0.95);
+    line-height: 1;
+  }
+
+  // Token ticker (scroll animation)
+  &__tokenTicker {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg $spacing-2xl;
+    position: relative;
+    z-index: 1;
+
+    @include mobile {
+      padding: 0 $spacing-md $spacing-xl;
+    }
+  }
+
+  &__tokenTickerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+    }
+  }
+
+  &__tokenTickerKicker {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(180, 215, 255, 0.9);
+    font-weight: $font-weight-bold;
+  }
+
+  &__tokenTickerHint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  &__tokenTickerViewport {
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(12, 14, 18, 0.60) 0%, rgba(8, 10, 14, 0.78) 100%);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    position: relative;
+  }
+
+  &__tokenTickerTrack {
+    display: flex;
+    gap: 12px;
+    padding: 14px;
+    width: max-content;
+    animation: tokenScroll 22s linear infinite;
+    will-change: transform;
+  }
+
+  &__tokenPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(60, 120, 216, 0.16);
+    background: rgba(8, 10, 14, 0.55);
+    color: rgba(255,255,255,0.9);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    white-space: nowrap;
+  }
+
+  &__tokenDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(90,150,240,0.95) 0%, rgba(45,110,220,0.95) 70%);
+    box-shadow: 0 0 18px rgba(90,150,240,0.25);
+  }
+
+  &__tokenSymbol {
+    font-weight: $font-weight-bold;
+    letter-spacing: 0.6px;
+  }
+
+  &__tokenName {
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+  }
+
   &__statValue {
     font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
@@ -824,7 +994,7 @@
     @include mobile {
       padding: 10px 10px;
       border-radius: 12px;
-    }
+  }
 
     &::before {
       content: '';
@@ -1009,6 +1179,18 @@
         margin: $spacing-md auto 0;
       }
     }
+  }
+
+  // Ensure section content stays above compass watermark
+  &__sectionHeader,
+  &__featuresGrid,
+  &__aboutHeader,
+  &__missionGrid,
+  &__aboutVisual,
+  &__ctaContent,
+  &__footerContent {
+    position: relative;
+    z-index: 1;
   }
 
   &__sectionBadge {
@@ -2525,4 +2707,9 @@
   50% { transform: translate3d(1.2%, -1.2%, 0); }
   75% { transform: translate3d(-0.8%, -0.6%, 0); }
   100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes tokenScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }

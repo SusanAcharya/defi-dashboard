@@ -65,21 +65,52 @@ const missionPoints = [
   },
 ];
 
+const tokenTape = [
+  { symbol: 'ETH', name: 'Ether' },
+  { symbol: 'STRK', name: 'Starknet' },
+  { symbol: 'USDC', name: 'USD Coin' },
+  { symbol: 'USDT', name: 'Tether' },
+  { symbol: 'wBTC', name: 'Wrapped Bitcoin' },
+  { symbol: 'DAI', name: 'Dai' },
+  { symbol: 'EKUBO', name: 'Ekubo' },
+  { symbol: 'LORDS', name: 'Realms' },
+];
+
 export const Landing: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [headerScrolled, setHeaderScrolled] = useState(false);
+  const [compassRotation, setCompassRotation] = useState(0);
+  const lastScrollY = React.useRef(0);
+  const rotationRef = React.useRef(0);
+  const rafRef = React.useRef<number | null>(null);
 
   useEffect(() => {
     setIsVisible(true);
     
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-      setHeaderScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+      setHeaderScrolled(currentScrollY > 50);
+
+      // Subtle compass rotation based on scroll direction + delta
+      const delta = currentScrollY - lastScrollY.current; // +down, -up
+      rotationRef.current += delta * 0.08; // tweak for subtlety
+      lastScrollY.current = currentScrollY;
+
+      if (rafRef.current == null) {
+        rafRef.current = window.requestAnimationFrame(() => {
+          setCompassRotation(rotationRef.current);
+          rafRef.current = null;
+        });
+      }
     };
     
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current != null) window.cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   const handleLaunchApp = () => {
@@ -92,6 +123,12 @@ export const Landing: React.FC = () => {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const showBackToTop = scrollY > 650;
+
   return (
     <div className={styles.landing}>
       {/* Animated Background */}
@@ -101,10 +138,25 @@ export const Landing: React.FC = () => {
         <div className={styles.landing__orb3} />
         <div className={styles.landing__grid} />
         <div className={styles.landing__stars} />
+        {/* Single global compass watermark (masked out of hero via CSS) */}
+        <div
+          className={styles.landing__compassBg}
+          aria-hidden="true"
+          style={{ transform: `translate(-50%, -50%) rotate(${compassRotation}deg)` }}
+        >
+          <img src={logoImage} alt="" className={styles.landing__compassBgImage} />
+        </div>
         <div className={styles.landing__noise} />
         <div className={styles.landing__scanlines} />
         <div className={styles.landing__vignette} />
       </div>
+
+      {showBackToTop && (
+        <button className={styles.landing__toTop} onClick={scrollToTop} aria-label="Back to top">
+          <span className={styles.landing__toTopIcon}>↑</span>
+          Top
+        </button>
+      )}
 
       {/* Enhanced Header */}
       <header className={`${styles.landing__header} ${headerScrolled ? styles.landing__header_scrolled : ''}`}>
@@ -254,6 +306,25 @@ export const Landing: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Token Ticker */}
+      <section className={styles.landing__tokenTicker} aria-label="Tracked tokens">
+        <div className={styles.landing__tokenTickerHeader}>
+          <span className={styles.landing__tokenTickerKicker}>Tracked tokens</span>
+          <span className={styles.landing__tokenTickerHint}>…and more Starknet assets</span>
+        </div>
+        <div className={styles.landing__tokenTickerViewport}>
+          <div className={styles.landing__tokenTickerTrack}>
+            {[...tokenTape, ...tokenTape].map((t, i) => (
+              <div key={`${t.symbol}-${i}`} className={styles.landing__tokenPill}>
+                <span className={styles.landing__tokenDot} aria-hidden="true" />
+                <span className={styles.landing__tokenSymbol}>{t.symbol}</span>
+                <span className={styles.landing__tokenName}>{t.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
