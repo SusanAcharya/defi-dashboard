@@ -35,13 +35,6 @@ const features = [
   },
 ];
 
-const stats = [
-  { value: 'Soon', label: 'Early Access' },
-  { value: 'Telegram', label: 'First Experience' },
-  { value: 'Starknet', label: 'Native Focus' },
-  { value: 'Non-custodial', label: 'Always' },
-];
-
 const missionPoints = [
   {
     icon: '🔗',
@@ -54,11 +47,6 @@ const missionPoints = [
     description: 'Instant alerts and live portfolio updates',
   },
   {
-    icon: '🔒',
-    title: 'Non-Custodial',
-    description: 'Your keys, your crypto — always',
-  },
-  {
     icon: '💎',
     title: 'Free Forever',
     description: 'No hidden fees or premium tiers',
@@ -66,14 +54,14 @@ const missionPoints = [
 ];
 
 const tokenTape = [
-  { symbol: 'ETH', name: 'Ether' },
-  { symbol: 'STRK', name: 'Starknet' },
-  { symbol: 'USDC', name: 'USD Coin' },
-  { symbol: 'USDT', name: 'Tether' },
-  { symbol: 'wBTC', name: 'Wrapped Bitcoin' },
-  { symbol: 'DAI', name: 'Dai' },
-  { symbol: 'EKUBO', name: 'Ekubo' },
-  { symbol: 'LORDS', name: 'Realms' },
+  { symbol: 'ETH', name: 'Ether', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png' },
+  { symbol: 'STRK', name: 'Starknet', logo: 'https://assets.coingecko.com/coins/images/26433/small/starknet.png' },
+  { symbol: 'USDC', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png' },
+  { symbol: 'USDT', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png' },
+  { symbol: 'wBTC', name: 'Wrapped Bitcoin', logo: 'https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png' },
+  { symbol: 'DAI', name: 'Dai', logo: 'https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png' },
+  { symbol: 'EKUBO', name: 'Ekubo', logo: 'https://assets.coingecko.com/coins/images/0/small/ekubo.png' },
+  { symbol: 'LORDS', name: 'Realms', logo: 'https://assets.coingecko.com/coins/images/0/small/lords.png' },
 ];
 
 export const Landing: React.FC = () => {
@@ -154,7 +142,6 @@ export const Landing: React.FC = () => {
       {showBackToTop && (
         <button className={styles.landing__toTop} onClick={scrollToTop} aria-label="Back to top">
           <span className={styles.landing__toTopIcon}>↑</span>
-          Top
         </button>
       )}
 
@@ -174,33 +161,16 @@ export const Landing: React.FC = () => {
               <span className={styles.landing__navLinkText}>Features</span>
               <span className={styles.landing__navLinkLine} />
             </a>
-            <a href="#about" className={styles.landing__navLink}>
-              <span className={styles.landing__navLinkText}>About</span>
+            <a href="#how-it-works" className={styles.landing__navLink}>
+              <span className={styles.landing__navLinkText}>How it works</span>
               <span className={styles.landing__navLinkLine} />
             </a>
-            <a href="https://t.me/kompass_finance_bot" target="_blank" rel="noopener noreferrer" className={styles.landing__navLink}>
-              <span className={styles.landing__navLinkText}>Community</span>
+            <a href="https://docs.kompass.finance" target="_blank" rel="noopener noreferrer" className={styles.landing__navLink}>
+              <span className={styles.landing__navLinkText}>Docs</span>
               <span className={styles.landing__navLinkLine} />
             </a>
           </nav>
           <div className={styles.landing__headerActions}>
-            <a href="https://t.me/kompass_finance_bot" target="_blank" rel="noopener noreferrer" className={styles.landing__socialIcon}>
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-              </svg>
-            </a>
-            <a href="https://x.com/kompassfinance" target="_blank" rel="noopener noreferrer" className={styles.landing__socialIcon}>
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </a>
-            <button className={styles.landing__launchButton} onClick={handleLaunchApp}>
-              <span className={styles.landing__launchButtonBg} />
-              <span className={styles.landing__launchButtonText}>
-                <span className={styles.landing__launchIcon}>🕵️</span>
-                Get Early Access
-              </span>
-            </button>
           </div>
         </div>
       </header>
@@ -209,35 +179,27 @@ export const Landing: React.FC = () => {
       <section className={`${styles.landing__hero} ${isVisible ? styles.landing__hero_visible : ''}`}>
         <div className={styles.landing__heroContent}>
           <div className={styles.landing__badge}>
-            <span className={styles.landing__badgeIcon}>⚡</span>
-            Built for Starknet
+            StarkNet Wallet Tracker
           </div>
           <h1 className={styles.landing__title}>
-            Your Complete
-            <span className={styles.landing__titleHighlight}> DeFi Command Center </span>
-            on Starknet
+            Get Notified <span className={styles.landing__titleHighlight}>Instantly</span>
           </h1>
           <p className={styles.landing__subtitle}>
-            Kompass is launching soon — a Telegram-first DeFi companion for Starknet.
-            Get instant wallet alerts, portfolio insights, and opportunity discovery from day one.
+            Track any wallet. Get instant Telegram alerts for swaps, transfers, DeFi positions, and more.
           </p>
           <div className={styles.landing__heroCTA}>
             <button className={styles.landing__primaryButton} onClick={handleLaunchApp}>
-              <span className={styles.landing__buttonIcon}>📱</span>
-              Join Telegram (Early Access)
+              <span className={styles.landing__buttonIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </span>
+              Add to Telegram
             </button>
-            <button className={styles.landing__secondaryButton} onClick={() => scrollToId('about')}>
-              <span className={styles.landing__buttonIcon}>🌐</span>
+            <button className={styles.landing__secondaryButton} onClick={() => scrollToId('how-it-works')}>
+              <span className={styles.landing__buttonIcon} aria-hidden="true">↘</span>
               See How It Works
             </button>
-          </div>
-          <div className={styles.landing__heroStats}>
-            {stats.map((stat, index) => (
-              <div key={index} className={styles.landing__stat} style={{ animationDelay: `${0.1 * index}s` }}>
-                <div className={styles.landing__statValue}>{stat.value}</div>
-                <div className={styles.landing__statLabel}>{stat.label}</div>
-              </div>
-            ))}
           </div>
         </div>
         <div className={styles.landing__heroVisual} style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
@@ -314,13 +276,24 @@ export const Landing: React.FC = () => {
       <section className={styles.landing__tokenTicker} aria-label="Tracked tokens">
         <div className={styles.landing__tokenTickerHeader}>
           <span className={styles.landing__tokenTickerKicker}>Tracked tokens</span>
-          <span className={styles.landing__tokenTickerHint}>…and more Starknet assets</span>
+          <span className={styles.landing__tokenTickerHint}>…and more.</span>
         </div>
         <div className={styles.landing__tokenTickerViewport}>
           <div className={styles.landing__tokenTickerTrack}>
             {[...tokenTape, ...tokenTape].map((t, i) => (
               <div key={`${t.symbol}-${i}`} className={styles.landing__tokenPill}>
-                <span className={styles.landing__tokenDot} aria-hidden="true" />
+                {t.logo && (
+                  <img 
+                    src={t.logo} 
+                    alt={t.symbol} 
+                    className={styles.landing__tokenLogo}
+                    onError={(e) => {
+                      // Fallback to dot if image fails to load
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                )}
+                {!t.logo && <span className={styles.landing__tokenDot} aria-hidden="true" />}
                 <span className={styles.landing__tokenSymbol}>{t.symbol}</span>
                 <span className={styles.landing__tokenName}>{t.name}</span>
               </div>
@@ -354,23 +327,14 @@ export const Landing: React.FC = () => {
       </section>
 
       {/* Enhanced About/Mission Section */}
-      <section id="about" className={styles.landing__about}>
+      <section id="how-it-works" className={styles.landing__about}>
         <div className={styles.landing__aboutBg}>
           <div className={styles.landing__aboutOrb1} />
           <div className={styles.landing__aboutOrb2} />
         </div>
         <div className={styles.landing__aboutContainer}>
           {/* Subtle dossier vibe */}
-          <div className={styles.landing__dossierOverlay} aria-hidden="true">
-            <div className={styles.landing__dossierStamp}>CONFIDENTIAL</div>
-            <div className={styles.landing__dossierMeta}>
-              <span className={styles.landing__dossierMetaKey}>CASE</span>
-              <span className={styles.landing__dossierMetaValue}>KMP-021</span>
-              <span className={styles.landing__dossierMetaDot}>•</span>
-              <span className={styles.landing__dossierMetaKey}>STATUS</span>
-              <span className={styles.landing__dossierMetaValue}>OPEN</span>
-            </div>
-          </div>
+      
           <div className={styles.landing__aboutHeader}>
             <span className={styles.landing__sectionBadge}>🎯 Our Mission</span>
             <h2 className={styles.landing__aboutTitle}>
@@ -499,7 +463,15 @@ export const Landing: React.FC = () => {
           </p>
           <div className={styles.landing__ctaButtons}>
             <button className={styles.landing__ctaPrimary} onClick={handleLaunchApp}>
-              Join Telegram — Early Access
+              <span className={styles.landing__ctaPrimaryBg} />
+              <span className={styles.landing__ctaPrimaryText}>
+                <span className={styles.landing__ctaPrimaryIcon} aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                  </svg>
+                </span>
+                Join Telegram — Early Access
+              </span>
             </button>
           </div>
         </div>
@@ -546,9 +518,9 @@ export const Landing: React.FC = () => {
                     <span className={styles.landing__footerLinkDot} />
                     Features
                   </a>
-                  <a href="#about" className={styles.landing__footerLink}>
+                  <a href="#how-it-works" className={styles.landing__footerLink}>
                     <span className={styles.landing__footerLinkDot} />
-                    About
+                    How it works
                   </a>
                   <a onClick={handleLaunchApp} className={styles.landing__footerLink}>
                     <span className={styles.landing__footerLinkDot} />
@@ -576,7 +548,7 @@ export const Landing: React.FC = () => {
               <div className={styles.landing__footerColumn}>
                 <h4 className={styles.landing__footerColumnTitle}>Resources</h4>
                 <div className={styles.landing__footerColumnLinks}>
-                  <a href="#" className={styles.landing__footerLink}>
+                  <a href="https://docs.kompass.finance" target="_blank" rel="noopener noreferrer" className={styles.landing__footerLink}>
                     <span className={styles.landing__footerLinkDot} />
                     Documentation
                   </a>
