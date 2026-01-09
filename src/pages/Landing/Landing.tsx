@@ -402,11 +402,11 @@ export const Landing: React.FC = () => {
 
       {/* Token Ticker */}
       <section className={styles.landing__tokenTicker} aria-label="Tracked tokens">
-        <div className={`${styles.landing__tokenTickerHeader} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
+        <div className={styles.landing__tokenTickerHeader}>
           <span className={styles.landing__tokenTickerKicker}>Tracked tokens</span>
           <span className={styles.landing__tokenTickerHint}>…and more.</span>
         </div>
-        <div className={`${styles.landing__tokenTickerViewport} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
+        <div className={styles.landing__tokenTickerViewport}>
           <div className={styles.landing__tokenTickerTrack}>
             {[...tokenTape, ...tokenTape].map((t, i) => (
               <div key={`${t.symbol}-${i}`} className={styles.landing__tokenPill}>
