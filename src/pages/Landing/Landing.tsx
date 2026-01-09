@@ -2,34 +2,136 @@ import React, { useEffect, useState } from 'react';
 import logoImage from '@/assets/logo.png';
 import styles from './Landing.module.scss';
 
+type IconName =
+  | 'wallet'
+  | 'bell'
+  | 'nodes'
+  | 'shield'
+  | 'chart'
+  | 'sparkles'
+  | 'plug'
+  | 'zap'
+  | 'gem';
+
+function Icon({ name }: { name: IconName }) {
+  const common = {
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.8,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true,
+    focusable: false,
+  };
+
+  switch (name) {
+    case 'wallet':
+      return (
+        <svg {...common}>
+          <path d="M3.8 7.2h14.6a1.8 1.8 0 0 1 1.8 1.8v9.2a1.8 1.8 0 0 1-1.8 1.8H5.6a1.8 1.8 0 0 1-1.8-1.8V8.4c0-.7.5-1.2 1.2-1.2Z" />
+          <path d="M3.8 9.2h10.8" />
+          <path d="M16.2 13.1h3.8" />
+          <circle cx="16.2" cy="13.1" r="1.2" />
+        </svg>
+      );
+    case 'bell':
+      return (
+        <svg {...common}>
+          <path d="M12 21a2.2 2.2 0 0 0 2.1-1.6" />
+          <path d="M18 15.2V11a6 6 0 1 0-12 0v4.2l-1.5 1.6h15L18 15.2Z" />
+        </svg>
+      );
+    case 'nodes':
+      return (
+        <svg {...common}>
+          <circle cx="6.5" cy="12" r="2" />
+          <circle cx="17.5" cy="7.5" r="2" />
+          <circle cx="17.5" cy="16.5" r="2" />
+          <path d="M8.4 11l6.9-2.7" />
+          <path d="M8.4 13l6.9 2.7" />
+        </svg>
+      );
+    case 'shield':
+      return (
+        <svg {...common}>
+          <path d="M12 2.7 19 6v6.3c0 5-3.1 8.8-7 9.9-3.9-1.1-7-4.9-7-9.9V6l7-3.3Z" />
+          <path d="M12 8v4.4" />
+          <path d="M12 16.3h.01" />
+        </svg>
+      );
+    case 'chart':
+      return (
+        <svg {...common}>
+          <path d="M4 19.5V4.5" />
+          <path d="M4 19.5h16" />
+          <path d="M7 14l3-3 3 2 5-6" />
+          <path d="M18 7v3h-3" />
+        </svg>
+      );
+    case 'sparkles':
+      return (
+        <svg {...common}>
+          <path d="M12 2.8l1.1 3.1 3.1 1.1-3.1 1.1L12 11.2l-1.1-3.1L7.8 7l3.1-1.1L12 2.8Z" />
+          <path d="M19 11.6l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" />
+          <path d="M6 13.2l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z" />
+        </svg>
+      );
+    case 'plug':
+      return (
+        <svg {...common}>
+          <path d="M9 7V4.5" />
+          <path d="M15 7V4.5" />
+          <path d="M7.5 7h9" />
+          <path d="M8.5 7v4.4a3.5 3.5 0 0 0 7 0V7" />
+          <path d="M12 14.9V21" />
+        </svg>
+      );
+    case 'zap':
+      return (
+        <svg {...common}>
+          <path d="M13 2 4.8 13H12l-1 9 8.2-11H12l1-9Z" />
+        </svg>
+      );
+    case 'gem':
+      return (
+        <svg {...common}>
+          <path d="M6.2 4.5h11.6L21 9l-9 12L3 9l3.2-4.5Z" />
+          <path d="M3 9h18" />
+          <path d="M8.2 9 12 21l3.8-12" />
+        </svg>
+      );
+  }
+}
+
 const features = [
   {
-    icon: '📊',
+    icon: 'wallet',
     title: 'Portfolio Tracking',
     description: 'Aggregate all your Starknet wallets into one unified dashboard. Track balances, DeFi positions, and NFTs in real-time.',
   },
   {
-    icon: '🔔',
+    icon: 'bell',
     title: 'Smart Alerts',
     description: 'Never miss important wallet activity. Get instant notifications for transactions, airdrops, and protocol updates.',
   },
   {
-    icon: '💰',
+    icon: 'nodes',
     title: 'DeFi Insights',
     description: 'Monitor your lending positions, LP rewards, and protocol exposure. Stay ahead with actionable analytics.',
   },
   {
-    icon: '🛡️',
+    icon: 'shield',
     title: 'Risk Management',
     description: 'Track debt ratios and get liquidation warnings. Protect your positions with customizable alert thresholds.',
   },
   {
-    icon: '📈',
+    icon: 'chart',
     title: 'Market Data',
     description: 'Access real-time price charts, token analytics, and market trends for the Starknet ecosystem.',
   },
   {
-    icon: '🎯',
+    icon: 'sparkles',
     title: 'Opportunity Discovery',
     description: 'Explore high-yield pools, lending options, and staking strategies. Find the best opportunities on Starknet.',
   },
@@ -37,17 +139,17 @@ const features = [
 
 const missionPoints = [
   {
-    icon: '🔗',
+    icon: 'plug',
     title: 'Seamless Integration',
     description: 'Deep protocol connections for real-time data',
   },
   {
-    icon: '⚡',
+    icon: 'zap',
     title: 'Lightning Fast',
     description: 'Instant alerts and live portfolio updates',
   },
   {
-    icon: '💎',
+    icon: 'gem',
     title: 'Free Forever',
     description: 'No hidden fees or premium tiers',
   },
@@ -72,6 +174,7 @@ export const Landing: React.FC = () => {
   const lastScrollY = React.useRef(0);
   const rotationRef = React.useRef(0);
   const rafRef = React.useRef<number | null>(null);
+  const revealObserverRef = React.useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     setIsVisible(true);
@@ -98,6 +201,31 @@ export const Landing: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafRef.current != null) window.cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    if (!els.length) return;
+
+    revealObserverRef.current?.disconnect();
+    revealObserverRef.current = new IntersectionObserver(
+      (entries, obs) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          el.classList.add(styles.landing__revealVisible);
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -10% 0px' }
+    );
+
+    for (const el of els) revealObserverRef.current.observe(el);
+
+    return () => {
+      revealObserverRef.current?.disconnect();
+      revealObserverRef.current = null;
     };
   }, []);
 
@@ -274,11 +402,11 @@ export const Landing: React.FC = () => {
 
       {/* Token Ticker */}
       <section className={styles.landing__tokenTicker} aria-label="Tracked tokens">
-        <div className={styles.landing__tokenTickerHeader}>
+        <div className={`${styles.landing__tokenTickerHeader} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
           <span className={styles.landing__tokenTickerKicker}>Tracked tokens</span>
           <span className={styles.landing__tokenTickerHint}>…and more.</span>
         </div>
-        <div className={styles.landing__tokenTickerViewport}>
+        <div className={`${styles.landing__tokenTickerViewport} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
           <div className={styles.landing__tokenTickerTrack}>
             {[...tokenTape, ...tokenTape].map((t, i) => (
               <div key={`${t.symbol}-${i}`} className={styles.landing__tokenPill}>
@@ -304,7 +432,7 @@ export const Landing: React.FC = () => {
 
       {/* Features Section */}
       <section id="features" className={styles.landing__features}>
-        <div className={styles.landing__sectionHeader}>
+        <div className={`${styles.landing__sectionHeader} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
           <span className={styles.landing__sectionBadge}>✨ Features</span>
           <h2 className={styles.landing__sectionTitle}>Everything You Need</h2>
           <p className={styles.landing__sectionSubtitle}>
@@ -315,10 +443,15 @@ export const Landing: React.FC = () => {
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className={styles.landing__featureCard}
-              style={{ animationDelay: `${0.1 * index}s` }}
+              className={`${styles.landing__featureCard} ${styles.landing__reveal} ${
+                index % 2 === 0 ? styles.landing__revealLeft : styles.landing__revealRight
+              }`}
+              style={{ transitionDelay: `${Math.min(index, 5) * 90}ms` }}
+              data-reveal
             >
-              <div className={styles.landing__featureIcon}>{feature.icon}</div>
+                <div className={styles.landing__featureIcon}>
+                  <Icon name={feature.icon as IconName} />
+                </div>
               <h3 className={styles.landing__featureTitle}>{feature.title}</h3>
               <p className={styles.landing__featureDescription}>{feature.description}</p>
             </div>
@@ -328,14 +461,10 @@ export const Landing: React.FC = () => {
 
       {/* Enhanced About/Mission Section */}
       <section id="how-it-works" className={styles.landing__about}>
-        <div className={styles.landing__aboutBg}>
-          <div className={styles.landing__aboutOrb1} />
-          <div className={styles.landing__aboutOrb2} />
-        </div>
         <div className={styles.landing__aboutContainer}>
           {/* Subtle dossier vibe */}
       
-          <div className={styles.landing__aboutHeader}>
+          <div className={`${styles.landing__aboutHeader} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
             <span className={styles.landing__sectionBadge}>🎯 Our Mission</span>
             <h2 className={styles.landing__aboutTitle}>
               Bridging Users & Protocols
@@ -349,9 +478,18 @@ export const Landing: React.FC = () => {
           
           <div className={styles.landing__missionGrid}>
             {missionPoints.map((point, index) => (
-              <div key={index} className={styles.landing__missionCard} style={{ animationDelay: `${0.1 * index}s` }}>
+              <div
+                key={index}
+                className={`${styles.landing__missionCard} ${styles.landing__reveal} ${
+                  index % 2 === 0 ? styles.landing__revealRight : styles.landing__revealLeft
+                }`}
+                style={{ transitionDelay: `${Math.min(index, 5) * 110}ms` }}
+                data-reveal
+              >
                 <div className={styles.landing__missionIconWrapper}>
-                  <span className={styles.landing__missionIcon}>{point.icon}</span>
+                  <span className={styles.landing__missionIcon}>
+                    <Icon name={point.icon as IconName} />
+                  </span>
                   <div className={styles.landing__missionIconGlow} />
                 </div>
                 <h3 className={styles.landing__missionTitle}>{point.title}</h3>
@@ -360,7 +498,7 @@ export const Landing: React.FC = () => {
             ))}
           </div>
 
-          <div className={styles.landing__aboutVisual}>
+          <div className={`${styles.landing__aboutVisual} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
             <div className={styles.landing__notificationDemo}>
               <div className={styles.landing__phoneFrame}>
                 <div className={styles.landing__phoneNotch} />
@@ -456,7 +594,7 @@ export const Landing: React.FC = () => {
 
       {/* CTA Section */}
       <section className={styles.landing__cta}>
-        <div className={styles.landing__ctaContent}>
+        <div className={`${styles.landing__ctaContent} ${styles.landing__reveal} ${styles.landing__revealUp}`} data-reveal>
           <h2 className={styles.landing__ctaTitle}>Get Notified on Launch</h2>
           <p className={styles.landing__ctaSubtitle}>
             Join the Telegram channel to get early access and launch updates.

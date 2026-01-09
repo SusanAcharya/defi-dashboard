@@ -1395,8 +1395,6 @@
     border-radius: 0 24px 24px 24px;
     padding: $spacing-xl;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: fadeInUp 0.6s ease-out forwards;
-    opacity: 0;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(12px) saturate(140%);
@@ -1434,7 +1432,7 @@
           rgba(90, 150, 240, 0.08) 0%,
           transparent 50%
         );
-      opacity: 0;
+    opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
       mix-blend-mode: overlay;
@@ -1474,7 +1472,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    color: rgba(185, 220, 255, 0.95);
     margin-bottom: $spacing-md;
     border-radius: 0 16px 16px 16px;
     background: 
@@ -1488,6 +1486,11 @@
       inset 0 1px 0 rgba(255,255,255,0.1);
     position: relative;
     overflow: hidden;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
 
     &::before {
       content: '';
@@ -1538,6 +1541,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
+    display: none; // keep background tint consistent with hero (global bgEffects)
   }
 
   &__aboutOrb1,
@@ -1696,8 +1700,6 @@
     padding: $spacing-xl;
     text-align: center;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: fadeInUp 0.6s ease-out forwards;
-    opacity: 0;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(12px) saturate(140%);
@@ -1771,14 +1773,29 @@
   }
 
   &__missionIcon {
-    font-size: 3rem;
-    display: block;
+    width: 56px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     z-index: 1;
     filter: drop-shadow(0 0 22px rgba(45, 110, 220, 0.22));
+    color: rgba(185, 220, 255, 0.95);
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
 
     @include mobile {
-      font-size: 2.5rem;
+      width: 52px;
+      height: 52px;
+
+      svg {
+        width: 28px;
+        height: 28px;
+      }
     }
   }
 
@@ -1815,6 +1832,50 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  // ==========================================
+  // SCROLL REVEAL ANIMATIONS
+  // ==========================================
+  &__reveal {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    transition:
+      opacity 700ms ease,
+      transform 800ms cubic-bezier(0.2, 0.9, 0.2, 1),
+      filter 800ms ease;
+    will-change: opacity, transform;
+    filter: blur(1px);
+  }
+
+  &__revealLeft {
+    transform: translate3d(-22px, 10px, 0);
+  }
+
+  &__revealRight {
+    transform: translate3d(22px, 10px, 0);
+  }
+
+  &__revealUp {
+    transform: translate3d(0, 22px, 0);
+  }
+
+  &__revealVisible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__reveal,
+    &__revealLeft,
+    &__revealRight,
+    &__revealUp {
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+      filter: none !important;
+    }
   }
 
   &__notificationDemo {
