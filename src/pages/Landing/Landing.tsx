@@ -205,7 +205,7 @@ export const Landing: React.FC = () => {
 
       // Subtle compass rotation based on scroll direction + delta
       const delta = currentScrollY - lastScrollY.current; // +down, -up
-      rotationRef.current += delta * 0.08; // tweak for subtlety
+      rotationRef.current += delta * 0.10; // tweak for subtlety
       lastScrollY.current = currentScrollY;
 
       if (rafRef.current == null) {
