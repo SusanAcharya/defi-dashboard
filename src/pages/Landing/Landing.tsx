@@ -747,19 +747,6 @@ export const Landing: React.FC = () => {
               </div>
             </div>
           </div>
-          
-          <div className={styles.landing__footerDivider} />
-          
-          <div className={styles.landing__footerBottom}>
-            <p className={styles.landing__footerCopyright}>
-              © 2025 Kompass Finance. All rights reserved.
-            </p>
-            <div className={styles.landing__footerBuiltWith}>
-              <span>Built with</span>
-              <span className={styles.landing__footerHeart}>❤️</span>
-              <span>for the Starknet ecosystem</span>
-            </div>
-          </div>
         </div>
       </footer>
     </div>
