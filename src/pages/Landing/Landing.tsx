@@ -312,10 +312,6 @@ export const Landing: React.FC = () => {
               <span className={styles.landing__navLinkText}>How it works</span>
               <span className={styles.landing__navLinkLine} />
             </a>
-            <a href="https://docs.kompass.finance" target="_blank" rel="noopener noreferrer" className={styles.landing__navLink}>
-              <span className={styles.landing__navLinkText}>Docs</span>
-              <span className={styles.landing__navLinkLine} />
-            </a>
           </nav>
           <div className={styles.landing__headerActions}>
           </div>
