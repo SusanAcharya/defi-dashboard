@@ -1,16 +1,30 @@
-# Kompass Finance
+# Kompass Finance - Telegram Bot
 
-Kompass Finance is a StarkNet wallet intelligence dashboard that provides real-time analytics and insights for your cryptocurrency portfolio. The application offers a comprehensive view of your wallet activity, token holdings, and market data with a modern, glassmorphic design.
+Welcome to **Kompass Finance**, your StarkNet wallet intelligence companion! 🧭
 
-## What It Does
+## What We Do
 
-Kompass Finance helps you:
+Kompass Finance is a Telegram bot that helps you track and monitor any StarkNet wallet in real-time. Get instant notifications for:
 
-- **Track Your Portfolio**: Monitor your token holdings, asset allocation, and portfolio performance with interactive charts and visualizations
-- **Stay Informed**: Receive real-time notifications about wallet activity, transactions, and important updates
-- **Explore Opportunities**: Discover liquidity pools, lending options, and staking strategies across the StarkNet ecosystem
-- **Analyze Performance**: View detailed portfolio charts, exposure metrics, and historical data to make informed decisions
-- **Manage Wallets**: Connect and manage multiple wallets, view transaction history, and track your activity over time
-- **Daily Engagement**: Participate in daily check-ins to maintain streaks and track your engagement
+- **Swaps & Transfers** - Never miss a transaction
+- **DeFi Positions** - Monitor your lending, liquidity pools, and protocol interactions
+- **Wallet Activity** - Stay updated on all wallet movements and changes
+- **Portfolio Tracking** - Keep an eye on balances and token holdings
 
-The dashboard features a dark theme with orange/yellow accents, liquid glass styling effects, and a responsive design that works seamlessly on both desktop and mobile devices.
+Simply add a wallet address and customize your alerts. We'll notify you instantly via Telegram whenever something happens.
+
+## Coming Soon 🚀
+
+We're constantly building and expanding. Here's what's on the roadmap:
+
+- **More Protocols** - Expanded support for additional DeFi protocols and dApps
+- **Opportunity Discovery** - Find high-yield pools, lending opportunities, and staking strategies
+- **Staking** - Track and manage your staking positions
+- **Sending** - Execute transactions directly from the bot
+- **Live Market Charts** - Real-time price charts and market analytics
+- **Mini-Games** - Engage with fun, interactive features
+- And much more!
+
+---
+
+**Ready to get started?** Add the bot to your Telegram and start tracking your wallets today!

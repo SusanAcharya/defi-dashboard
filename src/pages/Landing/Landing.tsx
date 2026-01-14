@@ -279,7 +279,7 @@ export const Landing: React.FC = () => {
           aria-hidden="true"
           style={{ transform: `translate(-50%, -50%) rotate(${compassRotation}deg)` }}
         >
-          <img src={logoImage} alt="" className={styles.landing__compassBgImage} />
+          <img src={logoImage} alt="Kompass Finance Logo" className={styles.landing__compassBgImage} />
         </div>
         <div className={styles.landing__noise} />
         <div className={styles.landing__scanlines} />
